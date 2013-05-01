@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Helpers
 {
-    internal static class StringHelper
+    public static class StringHelper
     {
         public static bool NotNullNotEmpty(this string str)
         {

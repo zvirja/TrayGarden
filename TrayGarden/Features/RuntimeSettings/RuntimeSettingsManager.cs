@@ -12,15 +12,25 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Features.RuntimeSettings
 {
-    public class RuntimeSettingsManager : IRequireInitialization
+    public class RuntimeSettingsManager : IRequireInitialization, IFeatureRuntimeSettings
     {
         protected static object _lock = new object();
 
         protected ISettingsStorage SettingsStorage { get; set; }
         protected IContainer RootContainer { get; set; }
+        protected ISettingsBox RootBox { get; set; }
 
         protected Timer TimerForAutosave { get; set; }
         public int AutoSaveInterval { get; set; }
+        public virtual ISettingsBox SystemSettings
+        {
+            get { return RootBox.GetSubBox("system"); }
+        }
+
+        public virtual ISettingsBox OtherSettings
+        {
+            get { return RootBox.GetSubBox("other"); }
+        }
 
 
         public virtual bool SaveNow()
@@ -34,7 +44,7 @@ namespace TrayGarden.Features.RuntimeSettings
             SettingsStorage = HatcherGuide<ISettingsStorage>.Instance;
             SettingsStorage.LoadSettings();
             RootContainer = SettingsStorage.GetRootContainer();
-
+            RootBox = GetRootBox(RootContainer);
             var autosaveInterval = AutoSaveInterval;
             if (autosaveInterval > 0)
             {
@@ -55,6 +65,19 @@ namespace TrayGarden.Features.RuntimeSettings
             {
                 return SettingsStorage.SaveSettings();
             }
+        }
+
+        protected virtual ISettingsBox GetRootBox(IContainer container)
+        {
+            var rootBox = new ContainerBasedSettingsBox();
+            rootBox.Initialize(container);
+            rootBox.OnSaving += RootBoxSave;
+            return rootBox;
+        }
+
+        protected virtual void RootBoxSave()
+        {
+            SaveSettingsInternal();
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace TrayGarden.Configuration
 {
-    internal class SectionHandler : System.Configuration.ConfigurationSection
+    public class SectionHandler : System.Configuration.ConfigurationSection
     {
         public XmlDocument XmlRepresentation { get; set; }
 

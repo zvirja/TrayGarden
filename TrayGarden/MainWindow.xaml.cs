@@ -17,6 +17,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 using TrayGarden.Configuration;
+using TrayGarden.Features.Contracts;
 using TrayGarden.Features.RuntimeSettings;
 using TrayGarden.Features.RuntimeSettings.Provider;
 using TrayGarden.Helpers;
@@ -92,14 +93,9 @@ namespace TrayGarden
              * 
              */
 
-            var pipelineManager = HatcherGuide<IPipelineManager>.Instance;
-            var sa = new SomeArgs()
-                {
-                    Name = "myName"
-                };
-            pipelineManager.InvokePipeline("simple", sa);
-
-            var mm = sa.Result.ToString();
+            var runtimeManager = HatcherGuide<IFeatureRuntimeSettings>.Instance;
+            var value = runtimeManager.SystemSettings.GetSubBox("V1")["first"];
+            runtimeManager.SaveNow();
             int a = 19;
         }
     }

@@ -61,13 +61,7 @@ namespace TrayGarden.TypesHatcher
             string instanceConfigurationPath = mapping.InstanceConfigurationPath;
             if (instanceConfigurationPath.IsNullOrEmpty())
                 return false;
-            object instantiatedObject = ModernFactory.Instance.GetObject(instanceConfigurationPath);
-            if (instantiatedObject == null)
-                return false;
-            if (!interfaceType.IsInstanceOfType(instantiatedObject))
-                return false;
-            egg.InitializeByValues(instanceConfigurationPath, interfaceType, isSingleton,
-                                   instantiatedObject);
+            egg.InitializeByValues(instanceConfigurationPath, interfaceType, isSingleton);
             return true;
         }
 

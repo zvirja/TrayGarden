@@ -16,19 +16,39 @@ namespace TrayGarden.TypesHatcher
         public bool IsSingleton { get; protected set; }
         public Type KeyInterface { get; protected set; }
         protected bool SupportQuickInstantiation { get; set; }
+        protected bool IsInitialized { get; set; }
+        protected bool Erroneous { get; set; }
 
 
-        public void InitializeByValues(string instanceConfigurationNodePath, Type keyInterface, bool isSingleton,
-                                       object instance)
+        public void InitializeByValues(string instanceConfigurationNodePath, Type keyInterface, bool isSingleton)
         {
             KeyInterface = keyInterface;
             IsSingleton = isSingleton;
-            Instance = instance;
+            Instance = null;
             InstanceConfigurationNodePath = instanceConfigurationNodePath;
-            SupportQuickInstantiation = instance is IPrototype;
+            SupportQuickInstantiation = false;
         }
 
-        protected virtual object ResolveNewObject()
+        protected virtual void LateInitialization()
+        {
+            if (IsInitialized)
+                return;
+            IsInitialized = true;
+            Instance = CreateNewObject();
+            if (Instance == null)
+            {
+                Erroneous = true;
+                return;
+            }
+            if(!KeyInterface.IsInstanceOfType(Instance))
+            {
+                Erroneous = true;
+                return;
+            }
+            SupportQuickInstantiation = Instance is IPrototype;
+        }
+
+        protected virtual object ResolveInstance()
         {
             if (IsSingleton)
                 return Instance;
@@ -44,9 +64,11 @@ namespace TrayGarden.TypesHatcher
 
         public virtual object GetInstance()
         {
-            if (IsSingleton)
-                return Instance;
-            return ResolveNewObject();
+            if (!IsInitialized)
+                LateInitialization();
+            if (Erroneous)
+                return null;
+            return ResolveInstance();
         }
 
         public virtual object CreateNewInializedInstance()
@@ -56,6 +78,10 @@ namespace TrayGarden.TypesHatcher
 
         public object GetNewInstance()
         {
+            if (!IsInitialized)
+                LateInitialization();
+            if (Erroneous)
+                return null;
             if (!IsSingleton)
                 return CreateNewObject();
             return null;

@@ -36,7 +36,7 @@ namespace TrayGarden.Features.RuntimeSettings.Provider
         {
             if (Settings.ContainsKey(name))
                 return Settings[name];
-            return string.Empty;
+            return null;
         }
 
         public virtual void SetStringSetting(string name, string value)

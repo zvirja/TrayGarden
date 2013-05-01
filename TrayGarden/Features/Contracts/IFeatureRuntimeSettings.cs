@@ -1,6 +1,12 @@
-﻿namespace TrayGarden.Features.Contracts
+﻿using TrayGarden.Features.RuntimeSettings;
+
+namespace TrayGarden.Features.Contracts
 {
-    internal interface IFeatureRuntimeSettings
+    public interface IFeatureRuntimeSettings
     {
+        ISettingsBox SystemSettings { get; }
+        ISettingsBox OtherSettings { get; }
+        bool SaveNow();
     }
+
 }
