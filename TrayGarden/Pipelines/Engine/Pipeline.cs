@@ -39,8 +39,9 @@ namespace TrayGarden.Pipelines.Engine
                 return;
             foreach (object processorObject in ProcessorObjects)
             {
-                var processor = new Processor(processorObject, ArgumentType);
-                Processors.Add(processor);
+                var processor = new Processor();
+                if (processor.Initialize(processorObject, ArgumentType))
+                    Processors.Add(processor);
             }
         }
     }
