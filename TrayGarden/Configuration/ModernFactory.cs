@@ -184,7 +184,7 @@ namespace TrayGarden.Configuration
             {
                 if (configurationNode == null)
                     return null;
-                string typeStrValue = GetAttributeValue(configurationNode, "type");
+                string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
                 if (typeStrValue.IsNullOrEmpty())
                     return null;
                 Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
@@ -213,7 +213,7 @@ namespace TrayGarden.Configuration
                 return null;
             }
             var isPrototype = instance is IPrototype;
-            var isSingletone = GetAttributeValue(configurationNode, "singletone").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
+            var isSingletone = XmlHelper.GetAttributeValue(configurationNode, "singletone").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
             var objectInfo = new ObjectInfo(instance, configurationNode, isSingletone, isPrototype);
             ObjectInfosCache[configurationNode] = objectInfo;
             return objectInfo;
@@ -272,8 +272,8 @@ namespace TrayGarden.Configuration
             XmlNodeList settingNodes = settingsParentNode.ChildNodes;
             foreach (XmlNode settingNode in settingNodes)
             {
-                var name = GetAttributeValue(settingNode, "name");
-                var value = GetAttributeValue(settingNode, "value");
+                var name = XmlHelper.GetAttributeValue(settingNode, "name");
+                var value = XmlHelper.GetAttributeValue(settingNode, "value");
                 if (name.NotNullNotEmpty() && value.NotNullNotEmpty())
                     Settings[name] = value;
             }
