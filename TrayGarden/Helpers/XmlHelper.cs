@@ -60,6 +60,16 @@ namespace TrayGarden.Helpers
             return prefix + "/" + nodePath;
         }
 
+        public static string GetAttributeValue(XmlNode node, string attributeName)
+        {
+            if (node == null || node.Attributes == null)
+                return string.Empty;
+            var attribute = node.Attributes[attributeName];
+            if (attribute == null)
+                return string.Empty;
+            return attribute.Value;
+        }
+
         #endregion
 
         #region Instance helpers
@@ -104,6 +114,11 @@ namespace TrayGarden.Helpers
         public virtual XmlNode SmartlySelectSingleNode(string xpath)
         {
             return SmartlySelectSingleNode(ParentNode, xpath);
+        }
+
+        public virtual string GetAttributeValue(string attributeName)
+        {
+            return GetAttributeValue(ParentNode, attributeName);
         }
 
         #endregion

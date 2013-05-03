@@ -237,19 +237,9 @@ namespace TrayGarden.Configuration
             return CreateInstanceInternal(objectInfo.ConfigurationNode);
         }
 
-        protected virtual string GetAttributeValue(XmlNode node, string attributeName)
-        {
-            if (node == null || node.Attributes == null)
-                return string.Empty;
-            var attribute = node.Attributes[attributeName];
-            if (attribute == null)
-                return string.Empty;
-            return attribute.Value;
-        }
-
         protected virtual string GetHintValue(XmlNode configurationNode)
         {
-            return GetAttributeValue(configurationNode, "hint");
+            return XmlHelper.GetAttributeValue(configurationNode, "hint");
         }
 
         protected virtual void AssignContent(XmlNode configurationNode, object instance)
