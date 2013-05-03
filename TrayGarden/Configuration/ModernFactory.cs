@@ -20,6 +20,7 @@ namespace TrayGarden.Configuration
         protected Dictionary<string, string> Settings;
         protected Dictionary<object, ObjectInfo> ObjectInfosCache { get; set; }
         protected ParcerResolver ParcerResolver { get; set; }
+        protected ContentAssignersResolver ContentAssignersResolver { get; set; }
 
         public XmlDocument XmlConfiguration { get; protected set; }
 
@@ -104,10 +105,13 @@ namespace TrayGarden.Configuration
 
         #endregion
 
+        #region Public methods
+
         public ModernFactory()
         {
             ObjectInfosCache = new Dictionary<object, ObjectInfo>();
             ParcerResolver = new ParcerResolver(this);
+            ContentAssignersResolver = new ContentAssignersResolver();
         }
 
         public virtual object GetObject(string configurationPath)
@@ -155,6 +159,9 @@ namespace TrayGarden.Configuration
             return defaultValue;
         }
 
+        #endregion
+
+
         protected virtual object GetObjectFromPathInternal(string configurationPath, bool allowSingletone)
         {
             if (ObjectInfosCache.ContainsKey(configurationPath))
@@ -177,9 +184,6 @@ namespace TrayGarden.Configuration
             {
                 if (configurationNode == null)
                     return null;
-                /*string hint = GetHintValue(configuraionNode);
-                if (!hint.IsNullOrEmpty() && hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
-                    return null;*/
                 string typeStrValue = GetAttributeValue(configurationNode, "type");
                 if (typeStrValue.IsNullOrEmpty())
                     return null;
@@ -188,9 +192,6 @@ namespace TrayGarden.Configuration
                     return null;
                 object instance = Activator.CreateInstance(typeObj);
                 AssignContent(configurationNode, instance);
-                /*var needInitializationInstance = instance as IRequireInitialization;
-                if (needInitializationInstance != null)
-                    needInitializationInstance.Initialize();*/
                 return instance;
             }
             catch
@@ -226,7 +227,7 @@ namespace TrayGarden.Configuration
                 return allowSingletone ? objectInfo.Instance : null;
             if (objectInfo.IsPrototype)
                 return ((IPrototype)objectInfo.Instance).CreateNewInializedInstance();
-            //The first instance is always assigned. So we can use it for one time.s
+            //The first instance is always assigned. So we can use it for one time.
             if (objectInfo.Instance != null)
             {
                 object instance = objectInfo.Instance;
@@ -257,8 +258,6 @@ namespace TrayGarden.Configuration
             foreach (XmlNode contentNode in configurationNode.ChildNodes)
             {
                 var hint = GetHintValue(contentNode);
-                /*if (hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
-                    continue;*/
                 var contentAssigner = ResolveContentAssigner(hint);
                 contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
             }
@@ -271,15 +270,7 @@ namespace TrayGarden.Configuration
 
         protected virtual IContentAssigner ResolveContentAssigner(string hint)
         {
-            switch (hint)
-            {
-                case "raw":
-                    return MethodAssigner.Instance;
-                case "list":
-                    return ListAssigner.Instance;
-                default:
-                    return SimpleAssigner.Instance;
-            }
+            return ContentAssignersResolver.GetAssigner(hint);
         }
 
         protected virtual void InitializeSettings()

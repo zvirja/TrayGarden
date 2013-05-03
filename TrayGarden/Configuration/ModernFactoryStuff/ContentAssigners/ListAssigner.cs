@@ -7,43 +7,66 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
     public class ListAssigner : IContentAssigner
     {
-        public static IContentAssigner Instance { get; protected set; }
-
-        static ListAssigner()
-        {
-            Instance = new ListAssigner();
-        }
-
         public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType,
                                           Func<Type, IParcer> valueParcerResolver)
         {
-            var nodeName = contentNode.Name;
-            XmlNodeList innerNodes = contentNode.ChildNodes;
-            if (innerNodes.Count == 0)
+            XmlNodeList listContentNodes = GetListContentNodes(contentNode);
+            if (listContentNodes.Count == 0)
                 return;
-            var property = instanceType.GetProperty(nodeName);
-            if (property == null)
+            IList list = GetListObject(contentNode, instance, instanceType);
+            if (list == null)
                 return;
-            if (!property.CanRead)
+            AssignContentToList(list, listContentNodes,valueParcerResolver);
+        }
+
+        protected virtual void AssignContentToList(IList list, XmlNodeList contentNodes, Func<Type, IParcer> valueParcerResolver)
+        {
+            if (list == null)
                 return;
-            var listObj = property.GetValue(instance, null) as IList;
-            if (listObj == null)
+            var listGenericArgument = GetListGenericArgumentType(list.GetType());
+            if (listGenericArgument == null)
                 return;
-            var listGenericArgument = listObj.GetType().GetGenericArguments()[0];
             IParcer parcer = valueParcerResolver(listGenericArgument);
             if (parcer == null)
                 return;
-            foreach (XmlNode innerNode in innerNodes)
+            foreach (XmlNode contentNode in contentNodes)
             {
-                object contentValue = parcer.ParceNodeValue(innerNode.FirstChild);
+                object contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
                 if (contentValue == null)
-                    contentValue = parcer.ParceNodeValue(innerNode);
+                    contentValue = parcer.ParceNodeValue(contentNode);
                 if (contentValue == null)
                     continue;
                 if (!listGenericArgument.IsInstanceOfType(contentValue))
                     continue;
-                listObj.Add(contentValue);
+                list.Add(contentValue);
             }
         }
+
+        protected virtual XmlNodeList GetListContentNodes(XmlNode contentNode)
+        {
+            return contentNode.ChildNodes;
+        }
+
+        protected virtual Type GetListGenericArgumentType(Type listType)
+        {
+            var genericArguments = listType.GetGenericArguments();
+            if (genericArguments.Length != 1)
+                return null;
+            return genericArguments[0];
+        }
+
+        protected virtual IList GetListObject(XmlNode contentNode, object instance,Type instanceType)
+        {
+            var nodeName = contentNode.Name;
+            var property = instanceType.GetProperty(nodeName);
+            if (property == null)
+                return null;
+            if (!property.CanRead)
+                return null;
+            var listObj = property.GetValue(instance, null) as IList;
+            return listObj;
+        }
+
+
     }
 }

@@ -63,9 +63,12 @@
     <Compile Include="Configuration\IRequireInitialization.cs" />
     <Compile Include="Configuration\IPrototype.cs" />
     <Compile Include="Configuration\ModernFactory.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\AddListAssigner.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\ContentAssignersResolver.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\IContentAssigner.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\ListAssigner.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\MethodAssigner.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\NewListAssigner.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ObjectInfo.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\Parcers\BoolParcer.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\Parcers\IntParcer.cs" />

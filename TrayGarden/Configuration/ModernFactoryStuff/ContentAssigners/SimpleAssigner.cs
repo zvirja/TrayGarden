@@ -6,13 +6,6 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
     public class SimpleAssigner : IContentAssigner
     {
-        public static IContentAssigner Instance { get; protected set; }
-
-        static SimpleAssigner()
-        {
-            Instance = new SimpleAssigner();
-        }
-
         public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType,
                                           Func<Type, IParcer> valueParcerResolver)
         {

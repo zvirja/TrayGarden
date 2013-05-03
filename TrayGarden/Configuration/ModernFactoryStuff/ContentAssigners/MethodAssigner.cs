@@ -27,12 +27,5 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 return;
             methodInfo.Invoke(instance, new[] {contentValue});
         }
-
-        public static IContentAssigner Instance { get; protected set; }
-
-        static MethodAssigner()
-        {
-            Instance = new MethodAssigner();
-        }
     }
 }
