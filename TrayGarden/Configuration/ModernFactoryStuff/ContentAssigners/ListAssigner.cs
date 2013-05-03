@@ -111,13 +111,13 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             if (itemsNode.ChildNodes.Count == 0 || templatesParentNode.ChildNodes.Count == 0)
                 return result;
             string defaultTemplateXPath = XmlHelper.GetAttributeValue(itemsNode, "templateXPath");
+            if (defaultTemplateXPath.IsNullOrEmpty())
+                defaultTemplateXPath = "*";
             foreach (XmlNode itemNode in itemsNode.ChildNodes)
             {
                 string itemTemplateXPath = XmlHelper.GetAttributeValue(itemNode, "templateXPath");
                 if (itemTemplateXPath.IsNullOrEmpty())
                     itemTemplateXPath = defaultTemplateXPath;
-                if (itemTemplateXPath.IsNullOrEmpty())
-                    itemTemplateXPath = "*";
                 XmlNode currentTemplateNode = GetTemplateByXPath(templatesParentNode, itemTemplateXPath);
                 var keyValuePairs = ExtractAllKeyValues(itemNode);
                 var resultItemNode = GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs, itemNode);
