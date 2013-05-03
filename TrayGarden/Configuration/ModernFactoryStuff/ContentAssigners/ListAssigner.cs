@@ -3,7 +3,7 @@ using System.Collections;
 using System.Xml;
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff
+namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
     public class ListAssigner : IContentAssigner
     {

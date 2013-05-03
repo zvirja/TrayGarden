@@ -10,7 +10,7 @@ namespace TrayGarden.TypesHatcher
     public class HatcherManager : IRequireInitialization
     {
         protected static readonly Lazy<HatcherManager> Instance =
-            new Lazy<HatcherManager>(() => ModernFactory.Instance.GetObject<HatcherManager>("typeHatcherManager"));
+            new Lazy<HatcherManager>(() => Factory.Instance.GetObject<HatcherManager>("typeHatcherManager"));
 
         public static HatcherManager Actual
         {

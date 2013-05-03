@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using TrayGarden.Configuration.ModernFactoryStuff;
+using TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners;
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 using TrayGarden.Helpers;
 using TrayGarden.Resources;
@@ -17,7 +18,8 @@ namespace TrayGarden.Configuration
         protected static object _lock = new object();
         protected const string SettingsNodePath = "trayGarden/settings";
         protected Dictionary<string, string> Settings;
-        protected Dictionary<object, ObjectInfo> ObjectInfosCache = new Dictionary<object,ObjectInfo>();
+        protected Dictionary<object, ObjectInfo> ObjectInfosCache { get; set; }
+        protected ParcerResolver ParcerResolver { get; set; }
 
         public XmlDocument XmlConfiguration { get; protected set; }
 
@@ -102,12 +104,17 @@ namespace TrayGarden.Configuration
 
         #endregion
 
+        public ModernFactory()
+        {
+            ObjectInfosCache = new Dictionary<object, ObjectInfo>();
+            ParcerResolver = new ParcerResolver(this);
+        }
+
         public virtual object GetObject(string configurationPath)
         {
             return GetObjectFromPathInternal(configurationPath, true);
         }
 
-        //TODO remove deprecated
         public virtual object GetObject(XmlNode configurationNode)
         {
             return GetObjectFromNodeInternal(configurationNode, true);
@@ -219,6 +226,7 @@ namespace TrayGarden.Configuration
                 return allowSingletone ? objectInfo.Instance : null;
             if (objectInfo.IsPrototype)
                 return ((IPrototype)objectInfo.Instance).CreateNewInializedInstance();
+            //The first instance is always assigned. So we can use it for one time.s
             if (objectInfo.Instance != null)
             {
                 object instance = objectInfo.Instance;
@@ -252,13 +260,13 @@ namespace TrayGarden.Configuration
                 /*if (hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
                     continue;*/
                 var contentAssigner = ResolveContentAssigner(hint);
-                contentAssigner.AssignContent(contentNode, instance, instanceType, ValueParcerResolver);
+                contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
             }
         }
 
-        private IParcer ValueParcerResolver(Type type)
+        private IParcer GetValueParcer(Type type)
         {
-            //TODO from Parcers namespace
+            return ParcerResolver.GetParcer(type);
         }
 
         protected virtual IContentAssigner ResolveContentAssigner(string hint)

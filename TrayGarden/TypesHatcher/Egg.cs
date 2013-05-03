@@ -59,7 +59,7 @@ namespace TrayGarden.TypesHatcher
         {
             if (SupportQuickInstantiation)
                 return ((IPrototype) Instance).CreateNewInializedInstance();
-            return ModernFactory.Instance.GetObject(InstanceConfigurationNodePath);
+            return Factory.Instance.GetObject(InstanceConfigurationNodePath);
         }
 
         public virtual object GetInstance()
