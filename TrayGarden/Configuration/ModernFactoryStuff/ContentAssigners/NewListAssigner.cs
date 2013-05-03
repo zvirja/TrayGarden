@@ -15,7 +15,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             if (!property.CanWrite)
                 return null;
             var propertyType = property.PropertyType;
-            if (!propertyType.IsSubclassOf(typeof (IList)))
+            if (!typeof(IList).IsAssignableFrom(propertyType))
                 return null;
             var listArgumentType = base.GetListGenericArgumentType(property.PropertyType);
             var listType = typeof (List<>).MakeGenericType(new[] {listArgumentType});

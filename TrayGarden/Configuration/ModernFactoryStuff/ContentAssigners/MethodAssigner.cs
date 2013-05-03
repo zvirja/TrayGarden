@@ -85,7 +85,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
         {
             try
             {
-                methodInfo.Invoke(null, args);
+                methodInfo.Invoke(instance, args);
             }
             catch
             {}

@@ -93,9 +93,9 @@ namespace TrayGarden
              * 
              */
 
-            var runtimeManager = HatcherGuide<IFeatureRuntimeSettings>.Instance;
-            var value = runtimeManager.SystemSettings.GetSubBox("V1")["first"];
-            runtimeManager.SaveNow();
+
+            var mock = Factory.Instance.GetObject<MockType>("mock");
+
             int a = 19;
         }
     }

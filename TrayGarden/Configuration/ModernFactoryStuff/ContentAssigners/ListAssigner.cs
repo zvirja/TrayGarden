@@ -97,9 +97,9 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             contentNode.AppendChild(itemsResolved);
             foreach (XmlNode newResolvedItem in newResolvedItems)
             {
-                contentNode.AppendChild(newResolvedItem);
+                itemsResolved.AppendChild(newResolvedItem);
             }
-            return contentNode.ChildNodes;
+            return itemsResolved.ChildNodes;
         }
 
         protected virtual List<XmlNode> ResolveContentNodesFromTemplate(XmlNode contentNode)
@@ -110,20 +110,17 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             Debug.Assert(itemsNode != null && templatesParentNode != null);
             if (itemsNode.ChildNodes.Count == 0 || templatesParentNode.ChildNodes.Count == 0)
                 return result;
-            string defaultTemplate = XmlHelper.GetAttributeValue(templatesParentNode, "templateXPath");
+            string defaultTemplateXPath = XmlHelper.GetAttributeValue(itemsNode, "templateXPath");
             foreach (XmlNode itemNode in itemsNode.ChildNodes)
             {
-                string itemTemplate = XmlHelper.GetAttributeValue(itemNode, "templateXPath");
-                if (itemTemplate.IsNullOrEmpty())
-                    itemTemplate = defaultTemplate;
-                if (itemTemplate.IsNullOrEmpty())
-                {
-                    result.Add(itemNode);
-                    continue;
-                }
-                XmlNode currentTemplateNode = GetTemplateByXPath(templatesParentNode, itemTemplate);
+                string itemTemplateXPath = XmlHelper.GetAttributeValue(itemNode, "templateXPath");
+                if (itemTemplateXPath.IsNullOrEmpty())
+                    itemTemplateXPath = defaultTemplateXPath;
+                if (itemTemplateXPath.IsNullOrEmpty())
+                    itemTemplateXPath = "*";
+                XmlNode currentTemplateNode = GetTemplateByXPath(templatesParentNode, itemTemplateXPath);
                 var keyValuePairs = ExtractAllKeyValues(itemNode);
-                var resultItemNode = GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs);
+                var resultItemNode = GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs, itemNode);
                 if(resultItemNode != null)
                     result.Add(resultItemNode);
             }
@@ -142,30 +139,34 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             {
                 foreach (XmlAttribute attribute in itemNode.Attributes)
                 {
-                    Debug.Assert(!result.ContainsKey(attribute.Name));
+                    /*Debug.Assert(!result.ContainsKey(attribute.Name));*/
                     result[attribute.Name] = attribute.Value;
                 }
             }
             foreach (XmlNode innerNode in itemNode.ChildNodes)
             {
-                Debug.Assert(!result.ContainsKey(innerNode.Name));
+                /*Debug.Assert(!result.ContainsKey(innerNode.Name));*/
                 result[innerNode.Name] = innerNode.InnerText;
             }
             return result;
         }
 
-        protected virtual XmlNode GetItemNodeFromTemplate(XmlNode templateNode, Dictionary<string, string> variableValues)
+        protected virtual XmlNode GetItemNodeFromTemplate(XmlNode templateNode, Dictionary<string, string> variableValues, XmlNode originalItemNode)
         {
             //work with template node clone
             var templateClone = templateNode.CloneNode(true);
             var itemNode = templateClone.FirstChild;
             Debug.Assert(itemNode != null);
-            SubstituteVariablesInItemNode(itemNode,variableValues);
+            SubstituteVariablesInItemNode(itemNode, variableValues, originalItemNode);
             return itemNode;
         }
 
-        protected virtual void SubstituteVariablesInItemNode(XmlNode itemNode, Dictionary<string, string> variableValues)
+        protected virtual void SubstituteVariablesInItemNode(XmlNode itemNode, Dictionary<string, string> variableValues, XmlNode originalItemNode)
         {
+            if (itemNode.Name.Equals("templates", StringComparison.OrdinalIgnoreCase))
+                return;
+            if (CheckAndInsertSubtree(itemNode, originalItemNode))
+                return;
             var varName = ExtractVariableNameFromNodeValue(itemNode);
             if (varName != null)
                 itemNode.Value = variableValues.ContainsKey(varName) ? variableValues[varName] : string.Empty;
@@ -178,7 +179,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                     xmlAttribute.Value = variableValues.ContainsKey(variableName) ? variableValues[variableName] : string.Empty;
                 }
             foreach (XmlNode childNode in itemNode.ChildNodes)
-                SubstituteVariablesInItemNode(childNode, variableValues);
+                SubstituteVariablesInItemNode(childNode, variableValues, originalItemNode);
         }
 
         protected virtual string ExtractVariableNameFromNodeValue(XmlNode node)
@@ -193,6 +194,21 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             if (nodeValue.Length < 3)
                 return null;
             return nodeValue.Substring(1, nodeValue.Length - 2);
+        }
+
+        protected bool CheckAndInsertSubtree(XmlNode currentNode, XmlNode originalItemNode)
+        {
+            string xpathfromAttributeName = "xpathfrom";
+            var xpathFrom = XmlHelper.GetAttributeValue(currentNode, xpathfromAttributeName);
+            if (xpathFrom.IsNullOrEmpty())
+                return false;
+            currentNode.Attributes.Remove(currentNode.Attributes[xpathfromAttributeName]);
+            var nodesFromXPath = originalItemNode.SelectNodes(xpathFrom);
+            if (nodesFromXPath == null)
+                return true;
+            foreach (XmlNode node in nodesFromXPath)
+                currentNode.AppendChild(node.Clone());
+            return true;
         }
 
         #endregion

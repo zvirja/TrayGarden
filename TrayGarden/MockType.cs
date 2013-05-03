@@ -19,6 +19,8 @@ namespace TrayGarden
         public List<string> StrList { get; set; }
         public List<MockType> ObjList { get; set; }
 
+        public List<MockType> NullList { get; set; }
+
         public string Calculated { get; set; }
 
         public void Initialize()
@@ -44,10 +46,18 @@ namespace TrayGarden
             Calculated += str;
         }
 
-        public bool MethodObj(object obj)
+        public bool Method1(string someValue, object obj)
         {
-            Calculated += obj.ToString();
+            Calculated += string.Format("{{{0} - {1}}}", someValue, obj.ToString());
             return true;
         }
+
+        public bool Method2(int someValue,object obj)
+        {
+            Calculated += string.Format("{{int{0} - {1}}}",someValue,obj.ToString());
+            return true;
+        }
+
+
     }
 }
