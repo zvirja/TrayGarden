@@ -57,19 +57,25 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuration\Factory.cs" />
+    <Compile Include="Configuration\IFactory.cs" />
+    <Compile Include="Configuration\IObjectFactory.cs" />
     <Compile Include="Configuration\IRequireInitialization.cs" />
     <Compile Include="Configuration\IPrototype.cs" />
     <Compile Include="Configuration\ModernFactory.cs" />
-    <Compile Include="Configuration\ModernFactoryStuff\BoolParcer.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\IContentAssigner.cs" />
-    <Compile Include="Configuration\ModernFactoryStuff\IntParcer.cs" />
-    <Compile Include="Configuration\ModernFactoryStuff\IParcer.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ListAssigner.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\MethodAssigner.cs" />
-    <Compile Include="Configuration\ModernFactoryStuff\ObjectParcer.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\ObjectInfo.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\BoolParcer.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\IntParcer.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\IParcer.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\ObjectParcer.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\ParcerResolver.cs" />
+    <Compile Include="Configuration\ModernFactoryStuff\Parcers\StringParcer.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\SimpleAssigner.cs" />
-    <Compile Include="Configuration\ModernFactoryStuff\StringParcer.cs" />
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="Configuration\SimpleObjectFactory.cs" />
     <Compile Include="Features\RuntimeSettings\ISettingsBox.cs" />
     <Compile Include="Features\RuntimeSettings\Provider\ISettingsStorage.cs" />
     <Compile Include="Features\RuntimeSettings\ContainerBasedSettingsBox.cs" />

@@ -1,14 +1,20 @@
 ﻿using System.Xml;
+using System.Collections.Generic;
 
 namespace TrayGarden.Configuration.ModernFactoryStuff
 {
     public class BoolParcer : IParcer
     {
-        public static IParcer Instance { get; protected set; }
+        protected static Dictionary<ModernFactory, IParcer> Parcers { get; set; }
 
-        static BoolParcer()
+        public static BoolParcer()
         {
-            Instance = new BoolParcer();
+            Parcers = new Dictionary<ModernFactory, IParcer>();
+        }
+
+        public static IParcer GetParcer(ModernFactory factoryInstance)
+        {
+            if(
         }
 
         public virtual object ParceNodeValue(XmlNode nodeValue)

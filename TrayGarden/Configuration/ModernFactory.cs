@@ -10,16 +10,17 @@ using TrayGarden.Resources;
 
 namespace TrayGarden.Configuration
 {
-    public class ModernFactory
+    public class ModernFactory: IFactory
     {
         protected static ModernFactory _actualFactory;
         protected static object _lock = new object();
         protected const string SettingsNodePath = "trayGarden/settings";
         protected Dictionary<string, string> Settings;
+        protected Dictionary<object, ObjectInfo> ObjectInfosCache = new Dictionary<object,ObjectInfo>();
 
         public XmlDocument XmlConfiguration { get; protected set; }
 
-        public static ModernFactory Instance
+        public static ModernFactory ActualInstance
         {
             get
             {
@@ -102,13 +103,18 @@ namespace TrayGarden.Configuration
 
         public virtual object GetObject(string configurationPath)
         {
-            var configurationNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, configurationPath);
-            return GetInstanceInternal(configurationNode);
+            return GetObjectFromPathInternal(configurationPath, true);
         }
 
+        //TODO remove deprecated
         public virtual object GetObject(XmlNode configurationNode)
         {
-            return GetInstanceInternal(configurationNode);
+            return GetObjectFromNodeInternal(configurationNode, true);
+        }
+
+        public virtual object GetPurelyNewObject(string configurationPath)
+        {
+            return GetObjectFromPathInternal(configurationPath, false);
         }
 
         public virtual T GetObject<T>(string configurationPath) where T : class
@@ -116,10 +122,15 @@ namespace TrayGarden.Configuration
             return GetObject(configurationPath) as T;
         }
 
-        public virtual T GetObject<T>(XmlNode configurationNode) where T : class
+        public virtual T GetPurelyNewObject<T>(string configurationPath) where T : class
+        {
+            return GetPurelyNewObject(configurationPath) as T;
+        }
+
+        /*public virtual T GetObject<T>(XmlNode configurationNode) where T : class
         {
             return GetObject(configurationNode) as T;
-        }
+        }*/
 
         public virtual string GetStringSetting(string settingName, string defaultValue)
         {
@@ -136,38 +147,99 @@ namespace TrayGarden.Configuration
             return defaultValue;
         }
 
-        protected virtual object GetInstanceInternal(XmlNode configuraionNode)
+        protected virtual object GetObjectFromPathInternal(string configurationPath, bool allowSingletone)
         {
-            if (configuraionNode == null)
-                return null;
-            string hint = getHintValue(configuraionNode);
-            if (!hint.IsNullOrEmpty() && hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
-                return null;
-            XmlAttribute typeAttribute = configuraionNode.Attributes["type"];
-            if (typeAttribute == null)
-                return null;
-            string typeStrValue = typeAttribute.Value;
-            if (typeStrValue.IsNullOrEmpty())
-                return null;
-            Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
-            if (typeObj == null)
-                return null;
-            object instance = Activator.CreateInstance(typeObj);
-            AssignContent(configuraionNode, instance);
-            var needInitializationInstance = instance as IRequireInitialization;
-            if (needInitializationInstance != null)
-                needInitializationInstance.Initialize();
-            return instance;
+            if (ObjectInfosCache.ContainsKey(configurationPath))
+                return GetObjectFromObjectInfo(ObjectInfosCache[configurationPath], allowSingletone);
+            var configurationNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, configurationPath);
+            var newObjectInfo = GetObjectInfoFromNode(configurationNode);
+            ObjectInfosCache[configurationPath] = newObjectInfo;
+            return GetObjectFromObjectInfo(newObjectInfo, allowSingletone);
         }
 
-        protected virtual string getHintValue(XmlNode configurationNode)
+        protected virtual object GetObjectFromNodeInternal(XmlNode configurationNode, bool allowSingletone)
         {
-            if (configurationNode == null || configurationNode.Attributes == null)
+            var newObjectInfo = GetObjectInfoFromNode(configurationNode);
+            return GetObjectFromObjectInfo(newObjectInfo, allowSingletone);
+        }
+
+        protected virtual object CreateInstanceInternal(XmlNode configurationNode)
+        {
+            try
+            {
+                if (configurationNode == null)
+                    return null;
+                /*string hint = GetHintValue(configuraionNode);
+                if (!hint.IsNullOrEmpty() && hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
+                    return null;*/
+                string typeStrValue = GetAttributeValue(configurationNode, "type");
+                if (typeStrValue.IsNullOrEmpty())
+                    return null;
+                Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
+                if (typeObj == null)
+                    return null;
+                object instance = Activator.CreateInstance(typeObj);
+                AssignContent(configurationNode, instance);
+                /*var needInitializationInstance = instance as IRequireInitialization;
+                if (needInitializationInstance != null)
+                    needInitializationInstance.Initialize();*/
+                return instance;
+            }
+            catch
+            {
+                return null;
+            }
+        }
+
+        protected virtual ObjectInfo GetObjectInfoFromNode(XmlNode configurationNode)
+        {
+            if (configurationNode == null)
+                return null;
+            if (ObjectInfosCache.ContainsKey(configurationNode))
+                return ObjectInfosCache[configurationNode];
+            object instance = CreateInstanceInternal(configurationNode);
+            if (instance == null)
+            {
+                ObjectInfosCache[configurationNode] = null;
+                return null;
+            }
+            var isPrototype = instance is IPrototype;
+            var isSingletone = GetAttributeValue(configurationNode, "singletone").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
+            var objectInfo = new ObjectInfo(instance, configurationNode, isSingletone, isPrototype);
+            ObjectInfosCache[configurationNode] = objectInfo;
+            return objectInfo;
+        }
+
+        protected virtual object GetObjectFromObjectInfo(ObjectInfo objectInfo, bool allowSingletone)
+        {
+            if (objectInfo == null)
+                return null;
+            if (objectInfo.IsSingletone)
+                return allowSingletone ? objectInfo.Instance : null;
+            if (objectInfo.IsPrototype)
+                return ((IPrototype)objectInfo.Instance).CreateNewInializedInstance();
+            if (objectInfo.Instance != null)
+            {
+                object instance = objectInfo.Instance;
+                objectInfo.Instance = null;
+                return instance;
+            }
+            return CreateInstanceInternal(objectInfo.ConfigurationNode);
+        }
+
+        protected virtual string GetAttributeValue(XmlNode node, string attributeName)
+        {
+            if (node == null || node.Attributes == null)
                 return string.Empty;
-            var hintAttribute = configurationNode.Attributes["hint"];
-            if (hintAttribute == null)
+            var attribute = node.Attributes[attributeName];
+            if (attribute == null)
                 return string.Empty;
-            return hintAttribute.Value;
+            return attribute.Value;
+        }
+
+        protected virtual string GetHintValue(XmlNode configurationNode)
+        {
+            return GetAttributeValue(configurationNode, "hint");
         }
 
         protected virtual void AssignContent(XmlNode configurationNode, object instance)
@@ -175,9 +247,9 @@ namespace TrayGarden.Configuration
             Type instanceType = instance.GetType();
             foreach (XmlNode contentNode in configurationNode.ChildNodes)
             {
-                var hint = getHintValue(contentNode);
-                if (hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
-                    continue;
+                var hint = GetHintValue(contentNode);
+                /*if (hint.Equals("skip", StringComparison.OrdinalIgnoreCase))
+                    continue;*/
                 var contentAssigner = ResolveContentAssigner(hint);
                 contentAssigner.AssignContent(contentNode, instance, instanceType, ValueParcerResolver);
             }
@@ -185,13 +257,7 @@ namespace TrayGarden.Configuration
 
         private IParcer ValueParcerResolver(Type type)
         {
-            if (type == typeof (string))
-                return StringParcer.Instance;
-            if (type == typeof (bool))
-                return BoolParcer.Instance;
-            if (type == typeof (int))
-                return IntParcer.Instance;
-            return ObjectParcer.Instance;
+            //TODO from Parcers namespace
         }
 
         protected virtual IContentAssigner ResolveContentAssigner(string hint)
@@ -214,15 +280,12 @@ namespace TrayGarden.Configuration
             if (settingsParentNode == null)
                 return;
             XmlNodeList settingNodes = settingsParentNode.ChildNodes;
-            if (settingNodes.Count == 0)
-                return;
             foreach (XmlNode settingNode in settingNodes)
             {
-                var nameAttribute = settingNode.Attributes["name"];
-                var valueAttribute = settingNode.Attributes["value"];
-                if (nameAttribute == null || valueAttribute == null)
-                    continue;
-                Settings[nameAttribute.Value] = valueAttribute.Value;
+                var name = GetAttributeValue(settingNode, "name");
+                var value = GetAttributeValue(settingNode, "value");
+                if (name.NotNullNotEmpty() && value.NotNullNotEmpty())
+                    Settings[name] = value;
             }
         }
     }

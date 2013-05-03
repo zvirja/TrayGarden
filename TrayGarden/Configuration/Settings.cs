@@ -10,7 +10,7 @@ namespace TrayGarden.Configuration
     {
         public static string ApplicationDataFolderName
         {
-            get { return ModernFactory.Instance.GetStringSetting("ApplicationData.FolderName", "TrayGarden"); }
+            get { return Factory.Instance.GetStringSetting("ApplicationData.FolderName", "TrayGarden"); }
         }
     }
 }
