@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using TrayGarden.Configuration.ModernFactoryStuff;
+using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 using TrayGarden.Helpers;
 using TrayGarden.Resources;
 

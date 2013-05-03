@@ -1,6 +1,6 @@
 ﻿using System.Xml;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff
+namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
 {
     public interface IParcer
     {

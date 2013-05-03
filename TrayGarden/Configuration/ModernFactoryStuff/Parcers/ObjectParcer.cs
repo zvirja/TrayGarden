@@ -1,21 +1,21 @@
 ﻿using System.Xml;
+using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 
 namespace TrayGarden.Configuration.ModernFactoryStuff
 {
     public class ObjectParcer : IParcer
     {
-        public static IParcer Instance { get; protected set; }
 
-        static ObjectParcer()
+        protected ModernFactory ModernFactoryInstance { get; set; }
+
+        public ObjectParcer(ModernFactory modernFactoryInstance)
         {
-            Instance = new ObjectParcer();
+            ModernFactoryInstance = modernFactoryInstance;
         }
-
 
         public virtual object ParceNodeValue(XmlNode nodeValue)
         {
-            //TODO SOMEHOW REMOVE DEPENDENCE FROM MODERN FACTORY
-            var instance = ModernFactory.ActualInstance.GetObject(nodeValue);
+            var instance = ModernFactoryInstance.GetObject(nodeValue);
             return instance;
         }
     }
