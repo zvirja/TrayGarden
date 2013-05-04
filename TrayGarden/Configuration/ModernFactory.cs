@@ -161,7 +161,7 @@ namespace TrayGarden.Configuration
 
         #endregion
 
-
+        #region ObjectInfo abstraction
         protected virtual object GetObjectFromPathInternal(string configurationPath, bool allowSingletone)
         {
             if (ObjectInfosCache.ContainsKey(configurationPath))
@@ -176,31 +176,6 @@ namespace TrayGarden.Configuration
         {
             var newObjectInfo = GetObjectInfoFromNode(configurationNode);
             return GetObjectFromObjectInfo(newObjectInfo, allowSingletone);
-        }
-
-        protected virtual object CreateInstanceInternal(XmlNode configurationNode)
-        {
-            try
-            {
-                if (configurationNode == null)
-                    return null;
-                var specialInstance = CreateSpecialObject(configurationNode);
-                if (specialInstance != null)
-                    return specialInstance;
-                string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
-                if (typeStrValue.IsNullOrEmpty())
-                    return null;
-                Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
-                if (typeObj == null)
-                    return null;
-                object instance = Activator.CreateInstance(typeObj);
-                AssignContent(configurationNode, instance);
-                return instance;
-            }
-            catch
-            {
-                return null;
-            }
         }
 
         protected virtual ObjectInfo GetObjectInfoFromNode(XmlNode configurationNode)
@@ -241,9 +216,31 @@ namespace TrayGarden.Configuration
             return CreateInstanceInternal(objectInfo.ConfigurationNode);
         }
 
-        protected virtual string GetHintValue(XmlNode configurationNode)
+        #endregion
+
+        protected virtual object CreateInstanceInternal(XmlNode configurationNode)
         {
-            return XmlHelper.GetAttributeValue(configurationNode, "hint");
+            try
+            {
+                if (configurationNode == null)
+                    return null;
+                var specialInstance = CreateSpecialObject(configurationNode);
+                if (specialInstance != null)
+                    return specialInstance;
+                string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
+                if (typeStrValue.IsNullOrEmpty())
+                    return null;
+                Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
+                if (typeObj == null)
+                    return null;
+                object instance = Activator.CreateInstance(typeObj);
+                AssignContent(configurationNode, instance);
+                return instance;
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         protected virtual void AssignContent(XmlNode configurationNode, object instance)
@@ -257,6 +254,12 @@ namespace TrayGarden.Configuration
             }
         }
 
+        protected virtual string GetHintValue(XmlNode configurationNode)
+        {
+            return XmlHelper.GetAttributeValue(configurationNode, "hint");
+        }
+
+        #region Value parcers and content assigners
         private IParcer GetValueParcer(Type type)
         {
             return ParcerResolver.GetParcer(type);
@@ -273,7 +276,10 @@ namespace TrayGarden.Configuration
             return ContentAssignersResolver.GetDirectAssigner(hint);
         }
 
-       protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode)
+        #endregion
+
+        #region Special object functionality
+        protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode)
         {
             if (!IsSpecialObject(objectConfigurationNode))
                 return null;
@@ -316,6 +322,9 @@ namespace TrayGarden.Configuration
             return Activator.CreateInstance(listGeneric);
         }
 
+        #endregion
+
+        #region Settings
         protected virtual void InitializeSettings()
         {
             Settings = new Dictionary<string, string>();
@@ -331,6 +340,8 @@ namespace TrayGarden.Configuration
                     Settings[name] = value;
             }
         }
+
+        #endregion
 
     }
 }
