@@ -6,42 +6,36 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
 {
-    public class Pipeline : IRequireInitialization, IPipeline
+    public class Pipeline : IPipeline
     {
-        public virtual Type ArgumentType { get; set; }
-        public virtual string ArgumentTypeStr { get; set; }
-        public virtual string Name { get; set; }
-        public virtual List<object> ProcessorObjects { get; set; }
+        public virtual Type ArgumentType { get; protected set; }
+        public virtual string Name { get; protected set; }
         protected virtual List<Processor> Processors { get; set; }
+        protected bool Initialized { get; set; }
 
-        public Pipeline()
+        public virtual void Initialize(string argumentTypeStr,string name,List<Processor> processors )
         {
-            ProcessorObjects = new List<object>();
-            Processors = new List<Processor>();
+            if (processors == null) throw new ArgumentNullException("processors");
+            if (argumentTypeStr.IsNullOrEmpty()) throw new ArgumentNullException("argumentTypeStr");
+            if (name.IsNullOrEmpty()) throw new ArgumentNullException("name");
+            Name = name;
+            if (ArgumentType == null)
+                ArgumentType = ReflectionHelper.ResolveType(argumentTypeStr);
+            if (ArgumentType == null)
+                throw new Exception("Pipeline. Argument type invalid");
+            Processors = processors;
+            Initialized = true;
         }
-
 
         public virtual void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs
         {
+            if(!Initialized)
+                throw new NonInitializedException();
             foreach (Processor processor in Processors)
             {
                 processor.Invoke(argument);
                 if (argument.Aborted)
                     break;
-            }
-        }
-
-        public virtual void Initialize()
-        {
-            if (ArgumentType == null)
-                ArgumentType = ReflectionHelper.ResolveType(ArgumentTypeStr);
-            if (ArgumentType == null)
-                return;
-            foreach (object processorObject in ProcessorObjects)
-            {
-                var processor = new Processor();
-                if (processor.Initialize(processorObject, ArgumentType))
-                    Processors.Add(processor);
             }
         }
     }

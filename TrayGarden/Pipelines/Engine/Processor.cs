@@ -8,13 +8,26 @@ namespace TrayGarden.Pipelines.Engine
     public class Processor
     {
         protected Delegate Invoker { get; set; }
+        protected bool Initialized { get; set; }
 
-        public virtual bool Initialize(object processorObject, Type argumentType)
+        public virtual bool Initialize(object processorObject, string argumentTypeStr)
         {
+            var argumentType = ReflectionHelper.ResolveType(argumentTypeStr);
             Invoker = ResolveInvoker(processorObject, argumentType);
             if (Invoker == null)
                 return false;
+            Initialized = true;
             return true;
+        }
+
+        public virtual void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs
+        {
+            if (!Initialized)
+                throw new NonInitializedException();
+            if (Invoker == null)
+                return;
+            var castedInvoker = (Action<TArgumentType>)Invoker;
+            castedInvoker(argument);
         }
 
         protected virtual Delegate ResolveInvoker(object processorObject, Type argumentType)
@@ -38,12 +51,6 @@ namespace TrayGarden.Pipelines.Engine
             return firstParamType == argumentType;
         }
 
-        public virtual void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs
-        {
-            if (Invoker == null)
-                return;
-            var castedInvoker = (Action<TArgumentType>) Invoker;
-            castedInvoker(argument);
-        }
+
     }
 }

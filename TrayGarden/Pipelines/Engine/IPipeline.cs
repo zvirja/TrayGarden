@@ -4,8 +4,8 @@ namespace TrayGarden.Pipelines.Engine
 {
     public interface IPipeline
     {
-        Type ArgumentType { get; set; }
-        string Name { get; set; }
+        Type ArgumentType { get; }
+        string Name { get; }
         void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs;
     }
 }
