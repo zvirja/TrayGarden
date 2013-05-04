@@ -260,7 +260,7 @@ namespace TrayGarden.Configuration
 
         protected virtual IContentAssigner ResolveContentAssigner(string hint)
         {
-            return ContentAssignersResolver.GetAssigner(hint);
+            return ContentAssignersResolver.GetPropertyAssigner(hint);
         }
 
         protected virtual void InitializeSettings()

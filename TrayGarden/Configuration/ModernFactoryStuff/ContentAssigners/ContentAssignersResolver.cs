@@ -14,17 +14,29 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             Assigners = new Dictionary<string, IContentAssigner>();
         }
 
-        public virtual IContentAssigner GetAssigner(string hintValue)
+        public virtual IContentAssigner GetPropertyAssigner(string hintValue)
         {
             var uppercased = hintValue.ToUpperInvariant();
-            if (Assigners.ContainsKey(uppercased))
-                return Assigners[uppercased];
-            IContentAssigner assigner = ResolveAssigner(uppercased);
-            Assigners[uppercased] = assigner;
+            var key = "P:" + uppercased;
+            if (Assigners.ContainsKey(key))
+                return Assigners[key];
+            IContentAssigner assigner = ResolvePropertyAssigner(uppercased);
+            Assigners[key] = assigner;
             return assigner;
         }
 
-        protected virtual IContentAssigner ResolveAssigner(string hintValue)
+        public virtual IContentAssigner GetDirectAssigner(string hintValue)
+        {
+            var uppercased = hintValue.ToUpperInvariant();
+            var key = "D:" + uppercased;
+            if (Assigners.ContainsKey(key))
+                return Assigners[key];
+            IContentAssigner assigner = ResolveDirectAssigner(uppercased);
+            Assigners[key] = assigner;
+            return assigner;
+        }
+
+        protected virtual IContentAssigner ResolvePropertyAssigner(string hintValue)
         {
             switch (hintValue)
             {
@@ -32,10 +44,19 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                     return new MethodAssigner();
                 case "ADDLIST":
                     return new AddListAssigner();
+                default:
+                    return new SimpleAssigner();
+            }
+        }
+
+        protected virtual IContentAssigner ResolveDirectAssigner(string hintValue)
+        {
+            switch (hintValue)
+            {
                 case "NEWLIST":
                     return new NewListAssigner();
                 default:
-                    return new SimpleAssigner();
+                    return null;
             }
         }
 
