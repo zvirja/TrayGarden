@@ -83,6 +83,7 @@
     <Compile Include="Features\RuntimeSettings\Provider\ISettingsStorage.cs" />
     <Compile Include="Features\RuntimeSettings\ContainerBasedSettingsBox.cs" />
     <Compile Include="MockType.cs" />
+    <Compile Include="NonInitializedException.cs" />
     <Compile Include="Pipelines\Engine\IPipeline.cs" />
     <Compile Include="Pipelines\Engine\IPipelineManager.cs" />
     <Compile Include="Resources\AssemblySource.cs" />
