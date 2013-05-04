@@ -54,7 +54,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             switch (hintValue)
             {
                 case "NEWLIST":
-                    return new NewListAssigner();
+                    return new NewListDirectAssigner();
                 default:
                     return null;
             }

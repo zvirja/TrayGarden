@@ -184,6 +184,9 @@ namespace TrayGarden.Configuration
             {
                 if (configurationNode == null)
                     return null;
+                var specialInstance = CreateSpecialObject(configurationNode);
+                if (specialInstance != null)
+                    return specialInstance;
                 string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
                 if (typeStrValue.IsNullOrEmpty())
                     return null;
@@ -206,6 +209,7 @@ namespace TrayGarden.Configuration
                 return null;
             if (ObjectInfosCache.ContainsKey(configurationNode))
                 return ObjectInfosCache[configurationNode];
+
             object instance = CreateInstanceInternal(configurationNode);
             if (instance == null)
             {
@@ -248,7 +252,7 @@ namespace TrayGarden.Configuration
             foreach (XmlNode contentNode in configurationNode.ChildNodes)
             {
                 var hint = GetHintValue(contentNode);
-                var contentAssigner = ResolveContentAssigner(hint);
+                var contentAssigner = ResolvePropertyContentAssigner(hint);
                 contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
             }
         }
@@ -258,9 +262,58 @@ namespace TrayGarden.Configuration
             return ParcerResolver.GetParcer(type);
         }
 
-        protected virtual IContentAssigner ResolveContentAssigner(string hint)
+        protected virtual IContentAssigner ResolvePropertyContentAssigner(string hint)
         {
             return ContentAssignersResolver.GetPropertyAssigner(hint);
+        }
+
+
+        protected virtual IContentAssigner ResolveDirectContentAssigner(string hint)
+        {
+            return ContentAssignersResolver.GetDirectAssigner(hint);
+        }
+
+       protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode)
+        {
+            if (!IsSpecialObject(objectConfigurationNode))
+                return null;
+            var typeAttribValue = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
+            var specialPrefix = typeAttribValue.Substring(0,
+                                                          typeAttribValue.IndexOf(":",
+                                                                                  StringComparison.OrdinalIgnoreCase));
+            object objectInstance = CreateSpecialObjectInstance(objectConfigurationNode, specialPrefix);
+            if (objectInstance == null)
+                return null;
+            var contentAssigner = ResolveDirectContentAssigner(specialPrefix);
+            if(contentAssigner != null)
+                contentAssigner.AssignContent(objectConfigurationNode,objectInstance,objectInstance.GetType(),GetValueParcer);
+            return objectInstance;
+        }
+
+        protected virtual bool IsSpecialObject(XmlNode objectConfigurationNode)
+        {
+            var type = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
+            if (type.Contains(":"))
+                return true;
+            return false;
+        }
+
+        protected virtual object CreateSpecialObjectInstance(XmlNode objectConfigurationNode,string specialPrefix)
+        {
+            if (specialPrefix.ToUpperInvariant().Equals("NEWLIST"))
+                return CreateSpecialNewList(objectConfigurationNode);
+            return null;
+        }
+
+        protected virtual object CreateSpecialNewList(XmlNode objectConfigurationNode)
+        {
+            var typeStr = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
+            typeStr = typeStr.Substring(typeStr.IndexOf(":",StringComparison.OrdinalIgnoreCase)+1);
+            var type = ReflectionHelper.ResolveType(typeStr);
+            if (type == null)
+                return null;
+            var listGeneric = typeof (List<>).MakeGenericType(new Type[] {type});
+            return Activator.CreateInstance(listGeneric);
         }
 
         protected virtual void InitializeSettings()
@@ -278,5 +331,6 @@ namespace TrayGarden.Configuration
                     Settings[name] = value;
             }
         }
+
     }
 }
