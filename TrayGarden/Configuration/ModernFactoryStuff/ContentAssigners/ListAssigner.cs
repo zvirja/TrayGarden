@@ -163,20 +163,21 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 
         protected virtual void SubstituteVariablesInItemNode(XmlNode itemNode, Dictionary<string, string> variableValues, XmlNode originalItemNode)
         {
-            if (itemNode.Name.Equals("templates", StringComparison.OrdinalIgnoreCase))
-                return;
+            /*if (itemNode.Name.Equals("templates", StringComparison.OrdinalIgnoreCase))
+                return;*/
             if (CheckAndInsertSubtree(itemNode, originalItemNode))
                 return;
             var varName = ExtractVariableNameFromNodeValue(itemNode);
-            if (varName != null)
-                itemNode.Value = variableValues.ContainsKey(varName) ? variableValues[varName] : string.Empty;
+            if (varName != null && variableValues.ContainsKey(varName))
+                itemNode.Value = variableValues[varName];
             if (itemNode.Attributes != null)
                 foreach (XmlAttribute xmlAttribute in itemNode.Attributes)
                 {
                     var variableName = ExtractVariableNameFromNodeValue(xmlAttribute);
                     if (variableName.IsNullOrEmpty())
                         continue;
-                    xmlAttribute.Value = variableValues.ContainsKey(variableName) ? variableValues[variableName] : string.Empty;
+                    if (variableValues.ContainsKey(variableName))
+                    xmlAttribute.Value = variableValues[variableName];
                 }
             foreach (XmlNode childNode in itemNode.ChildNodes)
                 SubstituteVariablesInItemNode(childNode, variableValues, originalItemNode);
