@@ -11,14 +11,14 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
         {
             var objectFactoryInstance = instance as ModernFactory.ObjectFactory;
             if (objectFactoryInstance == null)
-                return;
+                throw new Exception("Unexpected value");
             var contentNodeClone = contentNode.Clone();
             var typeAttribute = contentNodeClone.Attributes["type"];
             if (typeAttribute == null)
-                return;
+                throw new Exception("Unexpected value");
             var indexOfColon = typeAttribute.Value.IndexOf(":");
             if (indexOfColon == -1)
-                return;
+                throw new Exception("Unexpected value");
             var newTypeValue = typeAttribute.Value.Substring(indexOfColon + 1);
             typeAttribute.Value = newTypeValue;
             objectFactoryInstance.Initialize(contentNodeClone);

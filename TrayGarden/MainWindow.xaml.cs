@@ -103,6 +103,13 @@ namespace TrayGarden
 
             //var str = resm.GetStringResource("qq","NO");
 
+            var sa = new SomeArgs { Name = "Pfff" };
+            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("simple", sa);
+
+            var rs = sa.Result;
+
+            int a = 10;
+
         }
     }
 }

@@ -28,10 +28,10 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                                                    Func<Type, IParcer> valueParcerResolver)
         {
             if (list == null)
-                return;
+                throw new ArgumentNullException("list");
             var listGenericArgument = GetListGenericArgumentType(list.GetType());
             if (listGenericArgument == null)
-                return;
+                throw new Exception("Unexpected value");
             IParcer parcer = valueParcerResolver(listGenericArgument);
             if (parcer == null)
                 return;
@@ -52,7 +52,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
         {
             var genericArguments = listType.GetGenericArguments();
             if (genericArguments.Length != 1)
-                return null;
+                throw new Exception("Unexpected value");
             return genericArguments[0];
         }
 

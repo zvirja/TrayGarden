@@ -251,9 +251,15 @@ namespace TrayGarden.Configuration
             Type instanceType = instance.GetType();
             foreach (XmlNode contentNode in configurationNode.ChildNodes)
             {
-                var hint = GetHintValue(contentNode);
-                var contentAssigner = ResolvePropertyContentAssigner(hint);
-                contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
+                try
+                {
+                    var hint = GetHintValue(contentNode);
+                    var contentAssigner = ResolvePropertyContentAssigner(hint);
+                    contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
+                }
+                catch
+                {
+                }
             }
         }
 
