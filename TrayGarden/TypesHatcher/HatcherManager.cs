@@ -52,7 +52,7 @@ namespace TrayGarden.TypesHatcher
 
         protected virtual bool TryInitializeFromMapping(IMapping mapping, Egg egg)
         {
-            bool isSingleton = mapping.IsSingletone;
+            bool isSingleton = mapping.IsSingleton;
             Type interfaceType = mapping.InterfaceType;
             if (interfaceType == null)
                 return false;

@@ -8,17 +8,17 @@ namespace TrayGarden.Configuration.ModernFactoryStuff
 {
     public class ObjectInfo
     {
-        public bool IsSingletone { get; set; }
+        public bool IsSingleton { get; set; }
         public bool IsPrototype { get; set; }
         public XmlNode ConfigurationNode { get; set; }
         public object Instance { get; set; }
 
-        public ObjectInfo(object instance, XmlNode configurationNode,bool isSingletone,bool isPrototype)
+        public ObjectInfo(object instance, XmlNode configurationNode,bool isSingleton,bool isPrototype)
         {
             this.Instance = instance;
             this.ConfigurationNode = configurationNode;
             this.IsPrototype = isPrototype;
-            this.IsSingletone = isSingletone;
+            this.IsSingleton = isSingleton;
         }
     }
 }

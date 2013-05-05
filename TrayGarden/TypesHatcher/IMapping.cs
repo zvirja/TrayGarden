@@ -5,7 +5,7 @@ namespace TrayGarden.TypesHatcher
 {
     public interface IMapping
     {
-        bool IsSingletone { get; }
+        bool IsSingleton { get; }
         Type InterfaceType { get; }
         string InstanceConfigurationPath { get; }
     }

@@ -12,7 +12,7 @@ namespace TrayGarden.TypesHatcher
     {
         public string InterfaceTypeStr { get; set; }
         public string InstanceConfigurationPath { get; set; }
-        public bool IsSingletone { get; set; }
+        public bool IsSingleton { get; set; }
 
         public Type InterfaceType { get; protected set; }
 
