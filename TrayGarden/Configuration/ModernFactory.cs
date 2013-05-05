@@ -47,6 +47,7 @@ namespace TrayGarden.Configuration
             var xmlConfiguration = ResolveConfiguration();
             var factoryInstance = GetModernFactoryInstance(xmlConfiguration, "trayGarden/modernFactory");
             CleanupXmlNodeTree(xmlConfiguration);
+            SubstituteReferences(xmlConfiguration, xmlConfiguration);
             factoryInstance.XmlConfiguration = xmlConfiguration;
             return factoryInstance;
         }
@@ -75,6 +76,26 @@ namespace TrayGarden.Configuration
                     node.RemoveChild(innerNode);
                 else
                     CleanupXmlNodeTree(innerNode);
+            }
+        }
+
+        protected static void SubstituteReferences(XmlNode currentNode, XmlNode allConnfiguration)
+        {
+            if (currentNode.Attributes != null && currentNode.Attributes["ref"] != null && currentNode.Attributes["ref"].Value.NotNullNotEmpty())
+            {
+                var xpath = currentNode.Attributes["ref"].Value;
+                var sourceNode = XmlHelper.SmartlySelectSingleNode(allConnfiguration, xpath);
+                if (sourceNode != null)
+                {
+                    currentNode.ParentNode.ReplaceChild(sourceNode.Clone(), currentNode);
+                }
+            }
+            else
+            {
+                foreach (XmlNode innerNode in currentNode.ChildNodes)
+                {
+                    SubstituteReferences(innerNode, allConnfiguration);
+                }
             }
         }
 
