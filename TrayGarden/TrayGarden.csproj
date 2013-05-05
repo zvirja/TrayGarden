@@ -60,8 +60,7 @@
     <Compile Include="Configuration\Factory.cs" />
     <Compile Include="Configuration\IFactory.cs" />
     <Compile Include="Configuration\IObjectFactory.cs" />
-    <Compile Include="Configuration\IRequireInitialization.cs" />
-    <Compile Include="Configuration\IPrototype.cs" />
+    <Compile Include="Configuration\ISupportPrototyping.cs" />
     <Compile Include="Configuration\ModernFactory.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\AddListAssigner.cs" />
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\ContentAssignersResolver.cs" />

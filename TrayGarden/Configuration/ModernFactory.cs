@@ -191,7 +191,7 @@ namespace TrayGarden.Configuration
                 ObjectInfosCache[configurationNode] = null;
                 return null;
             }
-            var isPrototype = instance is IPrototype;
+            var isPrototype = instance is ISupportPrototyping;
             var isSingleton = makeSingleton  || XmlHelper.GetAttributeValue(configurationNode, "singleton").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
             var objectInfo = new ObjectInfo(instance, configurationNode, isSingleton, isPrototype);
             ObjectInfosCache[configurationNode] = objectInfo;
@@ -205,7 +205,7 @@ namespace TrayGarden.Configuration
             if (objectInfo.IsSingleton)
                 return allowSingleton ? objectInfo.Instance : null;
             if (objectInfo.IsPrototype)
-                return ((IPrototype)objectInfo.Instance).CreateNewInializedInstance();
+                return ((ISupportPrototyping)objectInfo.Instance).CreateNewInializedInstance();
             //The first instance is always assigned. So we can use it for one time.
             if (objectInfo.Instance != null)
             {

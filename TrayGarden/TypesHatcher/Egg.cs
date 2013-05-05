@@ -8,7 +8,7 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.TypesHatcher
 {
-    public class Egg : IPrototype
+    public class Egg : ISupportPrototyping
     {
         protected string InstanceConfigurationNodePath { get; set; }
 
@@ -45,7 +45,7 @@ namespace TrayGarden.TypesHatcher
                 Erroneous = true;
                 return;
             }
-            SupportQuickInstantiation = Instance is IPrototype;
+            SupportQuickInstantiation = Instance is ISupportPrototyping;
         }
 
         protected virtual object ResolveInstance()
@@ -58,7 +58,7 @@ namespace TrayGarden.TypesHatcher
         protected virtual object CreateNewObject()
         {
             if (SupportQuickInstantiation)
-                return ((IPrototype) Instance).CreateNewInializedInstance();
+                return ((ISupportPrototyping) Instance).CreateNewInializedInstance();
             return Factory.Instance.GetObject(InstanceConfigurationNodePath);
         }
 

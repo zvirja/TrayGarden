@@ -5,8 +5,8 @@ using System.Text;
 
 namespace TrayGarden.Configuration
 {
-    public interface IRequireInitialization
+    public interface ISupportPrototyping
     {
-        void Initialize();
+        object CreateNewInializedInstance();
     }
 }

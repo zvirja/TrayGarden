@@ -5,7 +5,7 @@ using TrayGarden.Configuration;
 
 namespace TrayGarden.Features.RuntimeSettings.Provider
 {
-    public class Container : IContainer, IPrototype
+    public class Container : IContainer, ISupportPrototyping
     {
         protected Dictionary<string, string> Settings { get; set; }
         protected Dictionary<string, IContainer> InnerContainers { get; set; }

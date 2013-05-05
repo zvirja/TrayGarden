@@ -6,7 +6,7 @@ using TrayGarden.Configuration;
 
 namespace TrayGarden
 {
-    public class MockType : IRequireInitialization
+    public class MockType 
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
