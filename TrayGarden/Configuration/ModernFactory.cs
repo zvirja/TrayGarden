@@ -184,15 +184,15 @@ namespace TrayGarden.Configuration
                 return null;
             if (ObjectInfosCache.ContainsKey(configurationNode))
                 return ObjectInfosCache[configurationNode];
-
-            object instance = CreateInstanceInternal(configurationNode);
+            bool makeSingletone;
+            object instance = CreateInstanceInternal(configurationNode, out makeSingletone);
             if (instance == null)
             {
                 ObjectInfosCache[configurationNode] = null;
                 return null;
             }
             var isPrototype = instance is IPrototype;
-            var isSingletone = XmlHelper.GetAttributeValue(configurationNode, "singletone").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
+            var isSingletone = makeSingletone  || XmlHelper.GetAttributeValue(configurationNode, "singletone").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
             var objectInfo = new ObjectInfo(instance, configurationNode, isSingletone, isPrototype);
             ObjectInfosCache[configurationNode] = objectInfo;
             return objectInfo;
@@ -213,18 +213,21 @@ namespace TrayGarden.Configuration
                 objectInfo.Instance = null;
                 return instance;
             }
-            return CreateInstanceInternal(objectInfo.ConfigurationNode);
+            bool makeSingletone;
+            return CreateInstanceInternal(objectInfo.ConfigurationNode, out makeSingletone);
         }
 
         #endregion
 
-        protected virtual object CreateInstanceInternal(XmlNode configurationNode)
+        #region Object instance creation & content assigning
+        protected virtual object CreateInstanceInternal(XmlNode configurationNode, out bool makeSingletone)
         {
+            makeSingletone = false;
             try
             {
                 if (configurationNode == null)
                     return null;
-                var specialInstance = CreateSpecialObject(configurationNode);
+                var specialInstance = CreateSpecialObject(configurationNode, out makeSingletone);
                 if (specialInstance != null)
                     return specialInstance;
                 string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
@@ -258,6 +261,7 @@ namespace TrayGarden.Configuration
         {
             return XmlHelper.GetAttributeValue(configurationNode, "hint");
         }
+        #endregion
 
         #region Value parcers and content assigners
         private IParcer GetValueParcer(Type type)
@@ -279,15 +283,16 @@ namespace TrayGarden.Configuration
         #endregion
 
         #region Special object functionality
-        protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode)
+        protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode, out bool makeSingletone)
         {
+            makeSingletone = false;
             if (!IsSpecialObject(objectConfigurationNode))
                 return null;
             var typeAttribValue = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
             var specialPrefix = typeAttribValue.Substring(0,
                                                           typeAttribValue.IndexOf(":",
                                                                                   StringComparison.OrdinalIgnoreCase));
-            object objectInstance = CreateSpecialObjectInstance(objectConfigurationNode, specialPrefix);
+            object objectInstance = CreateSpecialObjectInstance(objectConfigurationNode, specialPrefix, out makeSingletone);
             if (objectInstance == null)
                 return null;
             var contentAssigner = ResolveDirectContentAssigner(specialPrefix);
@@ -304,15 +309,17 @@ namespace TrayGarden.Configuration
             return false;
         }
 
-        protected virtual object CreateSpecialObjectInstance(XmlNode objectConfigurationNode,string specialPrefix)
+        protected virtual object CreateSpecialObjectInstance(XmlNode objectConfigurationNode, string specialPrefix, out bool makeSingletone)
         {
+            makeSingletone = false;
             if (specialPrefix.ToUpperInvariant().Equals("NEWLIST"))
-                return CreateSpecialNewList(objectConfigurationNode);
+                return CreateSpecialNewList(objectConfigurationNode, out makeSingletone);
             return null;
         }
 
-        protected virtual object CreateSpecialNewList(XmlNode objectConfigurationNode)
+        protected virtual object CreateSpecialNewList(XmlNode objectConfigurationNode, out bool makeSingletone)
         {
+            makeSingletone = false;
             var typeStr = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
             typeStr = typeStr.Substring(typeStr.IndexOf(":",StringComparison.OrdinalIgnoreCase)+1);
             var type = ReflectionHelper.ResolveType(typeStr);
