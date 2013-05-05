@@ -314,6 +314,8 @@ namespace TrayGarden.Configuration
             makeSingleton = false;
             if (specialPrefix.ToUpperInvariant().Equals("NEWLIST"))
                 return CreateSpecialNewList(objectConfigurationNode, out makeSingleton);
+            if (specialPrefix.ToUpperInvariant().Equals("OBJECTFACTORY"))
+                return CreateSpecialObjectFactory(objectConfigurationNode, out makeSingleton);
             return null;
         }
 
@@ -327,6 +329,12 @@ namespace TrayGarden.Configuration
                 return null;
             var listGeneric = typeof (List<>).MakeGenericType(new Type[] {type});
             return Activator.CreateInstance(listGeneric);
+        }
+
+        protected virtual object CreateSpecialObjectFactory(XmlNode objectConfigurationNode, out bool makeSingleton)
+        {
+            makeSingleton = true;
+            return new ObjectFactory(this);
         }
 
         #endregion
@@ -345,6 +353,34 @@ namespace TrayGarden.Configuration
                 var value = XmlHelper.GetAttributeValue(settingNode, "value");
                 if (name.NotNullNotEmpty() && value.NotNullNotEmpty())
                     Settings[name] = value;
+            }
+        }
+
+        #endregion
+
+        #region Object Factory class
+        public class ObjectFactory : IObjectFactory
+        {
+            protected ObjectInfo objectInfo { get; set; }
+            protected ModernFactory modernFactoryInstance { get; set; }
+
+            public ObjectFactory(ModernFactory modernFactory)
+            {
+                modernFactoryInstance = modernFactoryInstance;
+            }
+
+            public void Initialize(XmlNode instanceConfigurationNode)
+            {
+                objectInfo = modernFactoryInstance.GetObjectInfoFromNode(instanceConfigurationNode);
+            }
+
+            public virtual object GetObject()
+            {
+                return modernFactoryInstance.GetObjectFromObjectInfo(objectInfo, true);
+            }
+            public virtual object GetPurelyNewObject()
+            {
+                return modernFactoryInstance.GetObjectFromObjectInfo(objectInfo, false);
             }
         }
 

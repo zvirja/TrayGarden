@@ -55,6 +55,8 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             {
                 case "NEWLIST":
                     return new NewListDirectAssigner();
+                case "OBJECTFACTORY":
+                    return new ObjectFactoryAssigner();
                 default:
                     return null;
             }
