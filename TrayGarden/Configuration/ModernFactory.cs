@@ -366,7 +366,7 @@ namespace TrayGarden.Configuration
 
             public ObjectFactory(ModernFactory modernFactory)
             {
-                modernFactoryInstance = modernFactoryInstance;
+                modernFactoryInstance = modernFactory;
             }
 
             public void Initialize(XmlNode instanceConfigurationNode)

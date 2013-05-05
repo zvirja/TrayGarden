@@ -99,11 +99,10 @@ namespace TrayGarden
             //mock.InvokePipeline("simple", sa);
             //var res = sa.Result;
 
-            var resm = Factory.Instance.GetObject<IResourcesManager>("resourceManager");
+            //var resm = Factory.Instance.GetObject<IResourcesManager>("resourceManager");
 
-            var str = resm.GetStringResource("qq","NO");
+            //var str = resm.GetStringResource("qq","NO");
 
-            int a = 19;
         }
     }
 }

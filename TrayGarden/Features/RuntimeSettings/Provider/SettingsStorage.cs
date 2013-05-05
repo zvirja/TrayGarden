@@ -18,12 +18,20 @@ namespace TrayGarden.Features.RuntimeSettings.Provider
         public virtual string FileName { get; set; }
 
         public virtual bool UseLocalFolder { get; set; }
+        protected IObjectFactory ContainerFactory { get; set; }
 
 
         public SettingsStorage()
         {
             FileName = "runtimeSettings.xml";
             UseLocalFolder = true;
+        }
+
+        public void Initialize(IObjectFactory containerFactory)
+        {
+            if (containerFactory == null)
+                throw new ArgumentNullException("containerFactory");
+            ContainerFactory = containerFactory;
         }
 
 
@@ -72,7 +80,7 @@ namespace TrayGarden.Features.RuntimeSettings.Provider
             Dictionary<string, string> settings = rootBucket.Settings.ToDictionary(settingPair => settingPair.Key,
                                                                                    settingPair => settingPair.Value);
             var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
-            var newContainer = HatcherGuide<IContainer>.CreateNewInstance();
+            var newContainer = ContainerFactory.GetPurelyNewObject() as IContainer;
             newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
             return newContainer;
         }
