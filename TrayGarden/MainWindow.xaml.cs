@@ -94,10 +94,14 @@ namespace TrayGarden
              */
 
 
-            var mock = Factory.Instance.GetObject<IPipelineManager>("pipelineManager");
-            var sa = new SomeArgs {Name = "Pfff"};
-            mock.InvokePipeline("simple", sa);
-            var res = sa.Result;
+            //var mock = Factory.Instance.GetObject<IPipelineManager>("pipelineManager");
+            //var sa = new SomeArgs {Name = "Pfff"};
+            //mock.InvokePipeline("simple", sa);
+            //var res = sa.Result;
+
+            var resm = Factory.Instance.GetObject<IResourcesManager>("resourceManager");
+
+            var str = resm.GetStringResource("qq","NO");
 
             int a = 19;
         }

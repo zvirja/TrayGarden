@@ -9,15 +9,17 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
 {
-    public class AssemblySource : IRequireInitialization, ISource
+    public class AssemblySource : ISource
     {
-        public string ResourcePath { get; set; }
-        public string AssemblyName { get; set; }
+        protected string ResourcePath { get; set; }
+        protected string AssemblyName { get; set; }
 
         public ResourceManager Source { get; protected set; }
 
-        public virtual void Initialize()
+        public virtual void Initialize(string assemblyName, string resourcePath)
         {
+            AssemblyName = assemblyName;
+            ResourcePath = resourcePath;
             var assembly = ResolveAssembly(AssemblyName);
             if (assembly != null)
                 Source = new ResourceManager(ResourcePath, assembly);

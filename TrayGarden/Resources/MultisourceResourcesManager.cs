@@ -10,10 +10,9 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
 {
-    public class MultisourceResourcesManager : IRequireInitialization, IResourcesManager
+    public class MultisourceResourcesManager : IResourcesManager
     {
         protected static object Lock = new object();
-        protected List<ResourceManager> ResolvedSources { get; set; }
         protected Dictionary<string, string> StringsResourceCache { get; set; }
         protected Dictionary<string, Icon> IconsResourceCache { get; set; }
 
@@ -25,25 +24,21 @@ namespace TrayGarden.Resources
             StringsResourceCache = new Dictionary<string, string>();
             IconsResourceCache = new Dictionary<string, Icon>();
             Sources = new List<ISource>();
-            ResolvedSources = new List<ResourceManager>();
         }
 
-        public virtual void Initialize()
-        {
-            foreach (ISource source in Sources)
-            {
-                var sourceManager = source.Source;
-                if (sourceManager != null)
-                    ResolvedSources.Add(sourceManager);
-            }
-        }
 
         protected virtual T ResolveFromResources<T>(Func<ResourceManager, T> resolver, T defaultValue) where T : class
         {
-            var sourcesToRemove = new List<ResourceManager>();
+            var sourcesToRemove = new List<ISource>();
             T resolvedValue = null;
-            foreach (ResourceManager resourceSource in ResolvedSources)
+            foreach (ISource source in Sources)
             {
+                var resourceSource = source.Source;
+                if (resourceSource == null)
+                {
+                    sourcesToRemove.Add(source);
+                    continue;
+                }
                 try
                 {
                     resolvedValue = resolver(resourceSource);
@@ -52,7 +47,7 @@ namespace TrayGarden.Resources
                 }
                 catch (MissingManifestResourceException)
                 {
-                    sourcesToRemove.Add(resourceSource);
+                    sourcesToRemove.Add(source);
                 }
             }
 
@@ -60,7 +55,7 @@ namespace TrayGarden.Resources
             {
                 foreach (var source in sourcesToRemove)
                 {
-                    ResolvedSources.Remove(source);
+                    Sources.Remove(source);
                 }
             }
 
