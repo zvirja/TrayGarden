@@ -17,6 +17,7 @@ namespace TrayGarden.TypesHatcher
             get { return Instance.Value; }
         }
 
+        protected bool Initialized { get; set; }
         protected Dictionary<Type, IObjectFactory> Mappings { get; set; }
 
         //protected IObjectFactory EggFactory { get; set; }
@@ -41,6 +42,7 @@ namespace TrayGarden.TypesHatcher
                 //if (resolvedEgg != null)
                 //    Eggs.Add(resolvedEgg.KeyInterface, resolvedEgg);
             }
+            Initialized = true;
         }
 
         protected virtual bool ValidateMapping(IMapping mapping)
@@ -80,6 +82,8 @@ namespace TrayGarden.TypesHatcher
 
         public virtual object GetObjectByType(Type keyInterface)
         {
+            if (!Initialized)
+                throw new NonInitializedException();
             if (Mappings.ContainsKey(keyInterface))
                 return Mappings[keyInterface].GetObject();
             return null;
@@ -87,6 +91,8 @@ namespace TrayGarden.TypesHatcher
 
         public virtual object GetNewObjectByType(Type keyInterface)
         {
+            if (!Initialized)
+                throw new NonInitializedException();
             if (Mappings.ContainsKey(keyInterface))
                 return Mappings[keyInterface].GetPurelyNewObject();
             return null;
