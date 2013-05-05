@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Xml;
+using TrayGarden.Configuration;
 
 namespace TrayGarden.TypesHatcher
 {
     public interface IMapping
     {
-        bool IsSingleton { get; }
         Type InterfaceType { get; }
-        string InstanceConfigurationPath { get; }
+        IObjectFactory ObjectFactory { get; }
     }
 }

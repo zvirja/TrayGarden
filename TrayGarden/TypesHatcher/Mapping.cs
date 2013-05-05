@@ -8,19 +8,19 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.TypesHatcher
 {
-    public class Mapping : IMapping, IRequireInitialization
+    public class Mapping : IMapping
     {
-        public string InterfaceTypeStr { get; set; }
-        public string InstanceConfigurationPath { get; set; }
-        public bool IsSingleton { get; set; }
-
+        public IObjectFactory ObjectFactory { get; protected set; }
         public Type InterfaceType { get; protected set; }
 
-
-        public virtual void Initialize()
+        public virtual void Initialize(string interfaceType, IObjectFactory objectFactory)
         {
-            if (InterfaceTypeStr.NotNullNotEmpty())
-                InterfaceType = ReflectionHelper.ResolveType(InterfaceTypeStr);
+            if (interfaceType.IsNullOrEmpty())
+                throw new ArgumentNullException("interfaceType");
+            if (objectFactory == null)
+                throw new ArgumentNullException("objectFactory");
+            InterfaceType = ReflectionHelper.ResolveType(interfaceType);
+            ObjectFactory = objectFactory;
         }
     }
 }

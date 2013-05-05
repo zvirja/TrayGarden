@@ -7,7 +7,7 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.TypesHatcher
 {
-    public class HatcherManager : IRequireInitialization
+    public class HatcherManager
     {
         protected static readonly Lazy<HatcherManager> Instance =
             new Lazy<HatcherManager>(() => Factory.Instance.GetObject<HatcherManager>("typeHatcherManager"));
@@ -17,34 +17,47 @@ namespace TrayGarden.TypesHatcher
             get { return Instance.Value; }
         }
 
-        protected Dictionary<Type, Egg> Eggs { get; set; }
+        protected Dictionary<Type, IObjectFactory> Mappings { get; set; }
 
-        public List<IMapping> Mappings { get; set; }
-        public IPrototype EggPrototype { get; set; }
+        //protected IObjectFactory EggFactory { get; set; }
 
         public HatcherManager()
         {
-            Mappings = new List<IMapping>();
-            Eggs = new Dictionary<Type, Egg>();
+            Mappings = new Dictionary<Type, IObjectFactory>();
         }
 
-        public virtual void Initialize()
+        public virtual void Initialize(List<IMapping> mappings)
         {
-            var eggPrototype = EggPrototype;
-            if (eggPrototype == null)
-                return;
-            foreach (IMapping mapping in Mappings)
+           // if (eggFactory == null)
+               // throw new ArgumentNullException("eggFactory");
+            if (mappings == null)
+                throw new ArgumentNullException("mappings");
+           // EggFactory = eggFactory;
+            foreach (IMapping mapping in mappings)
             {
-                var resolvedEgg = ResolveEgg(mapping, eggPrototype);
-                if (resolvedEgg != null)
-                    Eggs.Add(resolvedEgg.KeyInterface, resolvedEgg);
+                if (ValidateMapping(mapping))
+                    Mappings.Add(mapping.InterfaceType, mapping.ObjectFactory);
+                //var resolvedEgg = ResolveEgg(mapping, eggFactory);
+                //if (resolvedEgg != null)
+                //    Eggs.Add(resolvedEgg.KeyInterface, resolvedEgg);
             }
         }
 
-
-        protected virtual Egg ResolveEgg(IMapping mapping, IPrototype eggPrototype)
+        protected virtual bool ValidateMapping(IMapping mapping)
         {
-            var newEgg = (Egg) eggPrototype.CreateNewInializedInstance();
+            Type interfaceType = mapping.InterfaceType;
+            if (interfaceType == null)
+                return false;
+            if (!interfaceType.IsInterface)
+                return false;
+            if (mapping.ObjectFactory == null)
+                return false;
+            return true;
+        }
+
+        /*protected virtual Egg ResolveEgg(IMapping mapping, IObjectFactory eggFactory)
+        {
+            var newEgg = (Egg)eggFactory.GetPurelyNewObject();
             if (TryInitializeFromMapping(mapping, newEgg))
                 return newEgg;
             return null;
@@ -52,7 +65,6 @@ namespace TrayGarden.TypesHatcher
 
         protected virtual bool TryInitializeFromMapping(IMapping mapping, Egg egg)
         {
-            bool isSingleton = mapping.IsSingleton;
             Type interfaceType = mapping.InterfaceType;
             if (interfaceType == null)
                 return false;
@@ -63,20 +75,20 @@ namespace TrayGarden.TypesHatcher
                 return false;
             egg.InitializeByValues(instanceConfigurationPath, interfaceType, isSingleton);
             return true;
-        }
+        }*/
 
 
         public virtual object GetObjectByType(Type keyInterface)
         {
-            if (Eggs.ContainsKey(keyInterface))
-                return Eggs[keyInterface].GetInstance();
+            if (Mappings.ContainsKey(keyInterface))
+                return Mappings[keyInterface].GetObject();
             return null;
         }
 
         public virtual object GetNewObjectByType(Type keyInterface)
         {
-            if (Eggs.ContainsKey(keyInterface))
-                return Eggs[keyInterface].GetNewInstance();
+            if (Mappings.ContainsKey(keyInterface))
+                return Mappings[keyInterface].GetPurelyNewObject();
             return null;
         }
     }
