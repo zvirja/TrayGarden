@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Timers;
-using TrayGarden.Features.RuntimeSettings;
+using JetBrains.Annotations;
 using TrayGarden.RuntimeSettings.Provider;
 
 namespace TrayGarden.RuntimeSettings
 {
+    [UsedImplicitly]
     public class RuntimeSettingsManagerManager : IRuntimeSettingsManager
     {
-        protected static object _lock = new object();
+        protected static readonly object _lock = new object();
 
         protected ISettingsStorage SettingsStorage { get; set; }
         protected IContainer RootContainer { get; set; }
@@ -32,7 +33,7 @@ namespace TrayGarden.RuntimeSettings
             return SaveSettingsInternal();
         }
 
-
+        [UsedImplicitly]
         public virtual void Initialize(ISettingsStorage settingsStorage)
         {
             if (settingsStorage == null)

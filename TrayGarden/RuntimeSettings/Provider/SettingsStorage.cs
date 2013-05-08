@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Xml.Serialization;
+using JetBrains.Annotations;
 using TrayGarden.Configuration;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.RuntimeSettings.Provider
 {
+    [UsedImplicitly]
     public class SettingsStorage : ISettingsStorage
     {
         protected IContainer ResolvedRootContainer { get; set; }
@@ -24,6 +26,7 @@ namespace TrayGarden.RuntimeSettings.Provider
             UseLocalFolder = true;
         }
 
+        [UsedImplicitly]
         public void Initialize(IObjectFactory containerFactory)
         {
             if (containerFactory == null)

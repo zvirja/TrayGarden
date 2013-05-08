@@ -1,15 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Resources;
-using System.Text;
-using System.Xml;
-using TrayGarden.Configuration;
+using JetBrains.Annotations;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
 {
+    [UsedImplicitly]
     public class MultisourceResourcesManager : IResourcesManager
     {
         protected static object Lock = new object();

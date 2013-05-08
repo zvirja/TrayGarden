@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Reflection;
-using System.Xml;
+using JetBrains.Annotations;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
 {
+    [UsedImplicitly]
     public class Processor
     {
         protected Delegate Invoker { get; set; }
         protected bool Initialized { get; set; }
 
+        [UsedImplicitly]
         public virtual bool Initialize(object processorObject, string argumentTypeStr)
         {
             var argumentType = ReflectionHelper.ResolveType(argumentTypeStr);

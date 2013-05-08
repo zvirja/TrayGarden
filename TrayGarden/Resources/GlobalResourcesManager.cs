@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Drawing;
+using JetBrains.Annotations;
 
 namespace TrayGarden.Resources
 {
-    internal class GlobalResourcesManager
+    [UsedImplicitly]
+    public class GlobalResourcesManager
     {
         public static Icon GetIconByName(string name)
         {

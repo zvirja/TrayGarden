@@ -4,11 +4,13 @@ using System.Linq;
 using System.Reflection;
 using System.Resources;
 using System.Text;
+using JetBrains.Annotations;
 using TrayGarden.Configuration;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
 {
+    [UsedImplicitly]
     public class AssemblySource : ISource
     {
         protected string ResourcePath { get; set; }
@@ -16,6 +18,7 @@ namespace TrayGarden.Resources
 
         public ResourceManager Source { get; protected set; }
 
+        [UsedImplicitly]
         public virtual void Initialize(string assemblyName, string resourcePath)
         {
             AssemblyName = assemblyName;

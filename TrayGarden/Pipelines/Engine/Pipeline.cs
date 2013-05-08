@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml;
-using TrayGarden.Configuration;
+using JetBrains.Annotations;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
 {
+    [UsedImplicitly]
     public class Pipeline : IPipeline
     {
         public virtual Type ArgumentType { get; protected set; }
@@ -13,6 +13,7 @@ namespace TrayGarden.Pipelines.Engine
         protected virtual List<Processor> Processors { get; set; }
         protected bool Initialized { get; set; }
 
+        [UsedImplicitly]
         public virtual void Initialize(string argumentTypeStr,string name,List<Processor> processors )
         {
             if (processors == null) throw new ArgumentNullException("processors");

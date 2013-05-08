@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using JetBrains.Annotations;
 using TrayGarden.Configuration;
 
 namespace TrayGarden.RuntimeSettings.Provider
 {
+    [UsedImplicitly]
     public class Container : IContainer, ISupportPrototyping
     {
         protected Dictionary<string, string> Settings { get; set; }
@@ -22,7 +24,7 @@ namespace TrayGarden.RuntimeSettings.Provider
         public virtual void InitializeFromCollections(string name, Dictionary<string, string> settings,
                                                       IEnumerable<IContainer> subcontainers)
         {
-            this.Name = name;
+            Name = name;
             foreach (KeyValuePair<string, string> stringStringPair in settings)
                 Settings.Add(stringStringPair.Key, stringStringPair.Value);
             foreach (IContainer subcontainer in subcontainers)
