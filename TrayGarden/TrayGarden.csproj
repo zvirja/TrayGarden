@@ -79,6 +79,15 @@
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\SimpleAssigner.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\SimpleObjectFactory.cs" />
+    <Compile Include="Plants\IGardenbed.cs" />
+    <Compile Include="Plants\IPlant.cs" />
+    <Compile Include="Plants\Pipeline\CreateInstance.cs" />
+    <Compile Include="Plants\Pipeline\Initialize.cs" />
+    <Compile Include="Plants\Pipeline\InitializePlantPipeline.cs" />
+    <Compile Include="Plants\Pipeline\InitializePlantArgs.cs" />
+    <Compile Include="Plants\Plant.cs" />
+    <Compile Include="Helpers\ReharperAnnotations.cs" />
+    <Compile Include="Plants\Gardenbed.cs" />
     <Compile Include="RuntimeSettings\ISettingsBox.cs" />
     <Compile Include="RuntimeSettings\Provider\ISettingsStorage.cs" />
     <Compile Include="RuntimeSettings\ContainerBasedSettingsBox.cs" />
