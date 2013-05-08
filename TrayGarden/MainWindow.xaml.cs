@@ -17,10 +17,10 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 using TrayGarden.Configuration;
-using TrayGarden.Features.RuntimeSettings;
 using TrayGarden.Helpers;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Pipelines.Simple;
+using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.TypesHatcher;
 
@@ -101,10 +101,20 @@ namespace TrayGarden
 
             //var str = resm.GetStringResource("qq","NO");
 
-            var sa = new SomeArgs { Name = "Pfff" };
-            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("simple", sa);
+            /* var sa = new SomeArgs { Name = "Pfff" };
+             HatcherGuide<IPipelineManager>.Instance.InvokePipeline("simple", sa);
 
-            var rs = sa.Result;
+             var rs = sa.Result;*/
+
+
+            var gardenbed = HatcherGuide<IGardenbed>.Instance;
+            var firstPlant = gardenbed.GetAllPlants().FirstOrDefault();
+            var key = "empty";
+            firstPlant.PutLuggage(key,new object());
+
+            var contains = firstPlant.HasLuggage(key);
+            var luggage = firstPlant.GetLuggage(key);
+
 
             int a = 10;
 
