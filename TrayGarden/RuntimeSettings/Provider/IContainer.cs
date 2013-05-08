@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace TrayGarden.Features.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider
 {
     public interface IContainer
     {

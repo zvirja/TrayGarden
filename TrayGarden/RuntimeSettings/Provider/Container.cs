@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using TrayGarden.Configuration;
 
-namespace TrayGarden.Features.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider
 {
     public class Container : IContainer, ISupportPrototyping
     {

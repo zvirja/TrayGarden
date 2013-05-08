@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TrayGarden.Features.RuntimeSettings
+namespace TrayGarden.RuntimeSettings
 {
     public interface ISettingsBox
     {

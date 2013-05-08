@@ -1,18 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Timers;
-using System.Xml;
-using TrayGarden.Configuration;
-using TrayGarden.Features.Contracts;
-using TrayGarden.Features.RuntimeSettings.Provider;
-using TrayGarden.Helpers;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Features.RuntimeSettings;
+using TrayGarden.RuntimeSettings.Provider;
 
-namespace TrayGarden.Features.RuntimeSettings
+namespace TrayGarden.RuntimeSettings
 {
-    public class RuntimeSettingsManager : IFeatureRuntimeSettings
+    public class RuntimeSettingsManagerManager : IRuntimeSettingsManager
     {
         protected static object _lock = new object();
 

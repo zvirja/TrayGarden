@@ -1,11 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using TrayGarden.Features.RuntimeSettings.Provider;
+using TrayGarden.RuntimeSettings.Provider;
 
-namespace TrayGarden.Features.RuntimeSettings
+namespace TrayGarden.RuntimeSettings
 {
     public class ContainerBasedSettingsBox : ISettingsBox
     {

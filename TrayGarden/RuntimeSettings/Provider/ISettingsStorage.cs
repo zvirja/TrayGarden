@@ -1,4 +1,4 @@
-﻿namespace TrayGarden.Features.RuntimeSettings.Provider
+﻿namespace TrayGarden.RuntimeSettings.Provider
 {
     public interface ISettingsStorage
     {

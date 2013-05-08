@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Xml.Serialization;
 
-namespace TrayGarden.Features.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider
 {
     [Serializable]
     [XmlRoot(ElementName = "bucket")]

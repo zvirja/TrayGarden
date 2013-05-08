@@ -2,14 +2,11 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Text;
-using System.Xml;
 using System.Xml.Serialization;
 using TrayGarden.Configuration;
 using TrayGarden.Helpers;
-using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Features.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider
 {
     public class SettingsStorage : ISettingsStorage
     {
