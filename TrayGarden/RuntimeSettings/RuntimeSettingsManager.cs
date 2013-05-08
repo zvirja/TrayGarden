@@ -6,7 +6,7 @@ using TrayGarden.RuntimeSettings.Provider;
 namespace TrayGarden.RuntimeSettings
 {
     [UsedImplicitly]
-    public class RuntimeSettingsManagerManager : IRuntimeSettingsManager
+    public class RuntimeSettingsManager : IRuntimeSettingsManager
     {
         protected static readonly object _lock = new object();
 
