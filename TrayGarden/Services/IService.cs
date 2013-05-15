@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using TrayGarden.Plants;
+﻿using TrayGarden.Plants;
 
-namespace TrayGarden
+namespace TrayGarden.Services
 {
     public interface IService
     {
         void InitializePlant(IPlant plant);
+        void InformInitializeStage();
+        void InformDisplayStage();
+        void InformClosingStage();
     }
 }
