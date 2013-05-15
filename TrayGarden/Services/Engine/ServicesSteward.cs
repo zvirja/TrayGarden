@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using TrayGarden.Plants;
+using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.Engine
 {
@@ -22,21 +23,14 @@ namespace TrayGarden.Services.Engine
             Initialized = true;
         }
 
-
-        public virtual void AquaintPlantWithServices(IPlant plant)
-        {
-            AssertInitialized();
-            foreach (IService service in Services)
-            {
-                service.InitializePlant(plant);
-            }
-        }
-
         public virtual void InformInitializeStage()
         {
             AssertInitialized();
             foreach (IService service in Services)
                 service.InformInitializeStage();
+            var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+            foreach (IPlant plant in plants)
+                AquaintPlantWithServices(plant);
         }
 
         public virtual void InformDisplayStage()
@@ -51,6 +45,14 @@ namespace TrayGarden.Services.Engine
             AssertInitialized();
             foreach (IService service in Services)
                 service.InformClosingStage();
+        }
+
+        protected virtual void AquaintPlantWithServices(IPlant plant)
+        {
+            foreach (IService service in Services)
+            {
+                service.InitializePlant(plant);
+            }
         }
 
         protected virtual void AssertInitialized()
