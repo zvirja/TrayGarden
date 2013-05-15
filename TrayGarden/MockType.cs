@@ -12,7 +12,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon
+    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -86,6 +86,25 @@ namespace TrayGarden
         public void SetIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
         {
             NotifyIconChangerClient = notifyIconChangerClient;
+        }
+
+        public List<ToolStripMenuItem> GetStripsToAdd()
+        {
+            var items = new List<ToolStripMenuItem>();
+            var item = new ToolStripMenuItem("something", null, OnClick);
+            items.Add(item);
+            item = new ToolStripMenuItem("something1", null, OnClick);
+
+            items.Add(item);
+            item = new ToolStripMenuItem("something1", null, OnClick);
+
+            items.Add(item);
+            return items;
+        }
+
+        private void OnClick(object sender, EventArgs eventArgs)
+        {
+            NotifyIconChangerClient.SetIcon(HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockAction", null));
         }
     }
 }
