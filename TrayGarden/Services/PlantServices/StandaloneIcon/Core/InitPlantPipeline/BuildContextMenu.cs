@@ -14,11 +14,11 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         [UsedImplicitly]
         public virtual void Process(InitPlantSIArgs args)
         {
-            var contextMenu = new ContextMenuStrip();
+            var contextMenu = args.SIBox.NotifyIcon.ContextMenuStrip ?? new ContextMenuStrip();
             var asContextMenuExtendable = args.Plant.Workhorse as IExtendContextMenu;
             if (asContextMenuExtendable != null)
                 DrawInstanceSpecificContextMenu(contextMenu, asContextMenuExtendable);
-            DrawInstanceIndependentContextMenu(contextMenu,args);
+            DrawInstanceIndependentContextMenu(contextMenu, args);
             args.SIBox.NotifyIcon.ContextMenuStrip = contextMenu;
         }
 
