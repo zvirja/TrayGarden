@@ -4,7 +4,7 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Services.FleaMarket.IconChanger
 {
-    public interface INotifyIconChanger
+    public interface INotifyIconChangerClient
     {
         void SetIcon(Icon newIcon, int msTimeout);
         void SetIcon(Icon newIcon);

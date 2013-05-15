@@ -4,11 +4,9 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Services.FleaMarket.IconChanger
 {
-    public interface INotifyIconChangerMaster
+    public interface INotifyIconChangerMaster:INotifyIconChangerClient
     {
         int DefaultDelayMsec { get; set; }
         void Initialize([NotNull] NotifyIcon operableNIcon);
-        void SetIcon(Icon newIcon, int msTimeout);
-        void SetIcon(Icon newIcon);
     }
 }
