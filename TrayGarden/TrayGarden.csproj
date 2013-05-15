@@ -40,6 +40,7 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Drawing.Design" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -79,6 +80,8 @@
     <Compile Include="Configuration\ModernFactoryStuff\ContentAssigners\SimpleAssigner.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\SimpleObjectFactory.cs" />
+    <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
+    <Compile Include="Services\IService.cs" />
     <Compile Include="Plants\IGardenbed.cs" />
     <Compile Include="Plants\IPlant.cs" />
     <Compile Include="Plants\Pipeline\CreateInstance.cs" />
@@ -98,6 +101,25 @@
     <Compile Include="Resources\AssemblySource.cs" />
     <Compile Include="Resources\IResourcesManager.cs" />
     <Compile Include="Resources\ISource.cs" />
+    <Compile Include="Services\Engine\IServicesSteward.cs" />
+    <Compile Include="Services\Engine\ServicesSteward.cs" />
+    <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerClient.cs" />
+    <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerMaster.cs" />
+    <Compile Include="Services\FleaMarket\IconChanger\NotifyIconChanger.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\AssignIconModifier.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\CreateNotifyIcon.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\CreateSIPlantBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ResolveSettingsBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\InitPlantSIArgs.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\InitPlantSIPipeline.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\StandaloneIconPlantBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\StandaloneIconService.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IAdvancedStandaloneIcon.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IExtendContextMenu.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\INeedToModifyIcon.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IStandaloneIcon.cs" />
     <Compile Include="TypesHatcher\HatcherGuide.cs" />
     <Compile Include="TypesHatcher\HatcherManager.cs" />
     <Compile Include="RuntimeSettings\IRuntimeSettingsManager.cs" />
@@ -165,6 +187,12 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mockIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\mockAction.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
