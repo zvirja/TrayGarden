@@ -9,7 +9,7 @@ using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {
     [UsedImplicitly]
-    public class BuildNIContextMenu
+    public class BuildContextMenu
     {
         [UsedImplicitly]
         public virtual void Process(InitPlantSIArgs args)

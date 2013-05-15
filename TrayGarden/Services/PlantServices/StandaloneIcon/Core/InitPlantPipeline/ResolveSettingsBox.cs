@@ -2,14 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
+using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {
-    public class CreateSIPlantBox
+    [UsedImplicitly]
+    public class ResolveSettingsBox
     {
+        [UsedImplicitly]
         public virtual void Process(InitPlantSIArgs args)
         {
-            args.SIBox = new StandaloneIconPlantBox();
+            ISettingsBox settingsBox = args.SIBox.Plant.MySettingsBox.GetSubBox("StandaloneIconService");
+            args.SIBox.SettingsBox = settingsBox;
         }
     }
 }
