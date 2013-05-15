@@ -7,5 +7,8 @@ namespace TrayGarden.Services.Engine
     {
         List<IService> Services { get; set; }
         void AquaintPlantWithServices(IPlant plant);
+        void InformInitializeStage();
+        void InformDisplayStage();
+        void InformClosingStage();
     }
 }
