@@ -24,10 +24,10 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 
         protected virtual void DrawInstanceSpecificContextMenu(ContextMenuStrip contextMenu, IExtendContextMenu workInstance)
         {
-            List<ToolStripItem> contextMenuStrips = workInstance.GetStripsToAdd();
+            List<ToolStripMenuItem> contextMenuStrips = workInstance.GetStripsToAdd();
             if (contextMenuStrips == null || contextMenuStrips.Count == 0)
                 return;
-            foreach (ToolStripItem contextMenuStrip in contextMenuStrips)
+            foreach (ToolStripMenuItem contextMenuStrip in contextMenuStrips)
                 contextMenu.Items.Add(contextMenuStrip);
             contextMenu.Items.Add("-");
         }

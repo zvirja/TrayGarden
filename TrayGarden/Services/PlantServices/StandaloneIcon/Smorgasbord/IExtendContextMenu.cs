@@ -8,6 +8,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord
 {
     public interface IExtendContextMenu
     {
-        List<ToolStripItem> GetStripsToAdd();
+        List<ToolStripMenuItem> GetStripsToAdd();
     }
 }
