@@ -22,6 +22,8 @@ using TrayGarden.Pipelines.Engine;
 using TrayGarden.Pipelines.Simple;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
+using TrayGarden.Services.Engine;
+using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
@@ -107,14 +109,22 @@ namespace TrayGarden
              var rs = sa.Result;*/
 
 
-            var gardenbed = HatcherGuide<IGardenbed>.Instance;
+            /*var gardenbed = HatcherGuide<IGardenbed>.Instance;
             var firstPlant = gardenbed.GetAllPlants().FirstOrDefault();
             var key = "empty";
             firstPlant.PutLuggage(key,new object());
 
             var contains = firstPlant.HasLuggage(key);
-            var luggage = firstPlant.GetLuggage(key);
+            var luggage = firstPlant.GetLuggage(key);*/
 
+            var servicesSteward = HatcherGuide<IServicesSteward>.Instance;
+            servicesSteward.InformInitializeStage();
+            servicesSteward.InformDisplayStage();
+
+            var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
+            plant.IsEnabled = true;
+
+           // servicesSteward.InformClosingStage();
 
             int a = 10;
 

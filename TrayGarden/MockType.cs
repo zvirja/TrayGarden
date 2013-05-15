@@ -1,12 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows.Forms;
 using TrayGarden.Configuration;
+using TrayGarden.Resources;
+using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
+using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType 
+    public class MockType : IStandaloneIcon, INeedToModifyIcon
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -27,6 +33,8 @@ namespace TrayGarden
         {
             Initialized = true;
         }
+
+        private INotifyIconChangerClient NotifyIconChangerClient;
 
         public MockType()
         {
@@ -59,5 +67,25 @@ namespace TrayGarden
         }
 
 
+        public bool GetIconInfo(out string title, out Icon icon, out MouseEventHandler iconClickHandler)
+        {
+            title = "Hello world";
+            icon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockIcon", null);
+            iconClickHandler = IconClickHandler;
+            return true;
+        }
+
+        private void IconClickHandler(object sender, MouseEventArgs mouseEventArgs)
+        {
+            if (mouseEventArgs.Button == MouseButtons.Left)
+            {
+                NotifyIconChangerClient.SetIcon(HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockAction",null));
+            }
+        }
+
+        public void SetIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+        {
+            NotifyIconChangerClient = notifyIconChangerClient;
+        }
     }
 }
