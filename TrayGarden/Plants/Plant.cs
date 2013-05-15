@@ -32,8 +32,8 @@ namespace TrayGarden.Plants
             {
                 if (!IsInitialized)
                     throw new NonInitializedException();
-                OnEnabledChanged(this, value);
                 MySettingsBox.SetBool("enabled", value);
+                OnEnabledChanged(this, value);
             }
         }
 
