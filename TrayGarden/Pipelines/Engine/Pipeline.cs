@@ -34,9 +34,16 @@ namespace TrayGarden.Pipelines.Engine
                 throw new NonInitializedException();
             foreach (Processor processor in Processors)
             {
-                processor.Invoke(argument);
-                if (argument.Aborted)
+                try
+                {
+                    processor.Invoke(argument);
+                    if (argument.Aborted)
+                        break;
+                }
+                catch (Exception e)
+                {
                     break;
+                }
             }
         }
     }
