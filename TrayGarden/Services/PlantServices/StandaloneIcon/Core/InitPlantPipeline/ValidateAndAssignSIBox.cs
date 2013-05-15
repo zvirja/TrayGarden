@@ -25,8 +25,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         {
             if (box == null)
                 return false;
-            if (box.SettingsBox == null)
-                return false;
             if (box.NotifyIcon == null)
                 return false;
             return true;
