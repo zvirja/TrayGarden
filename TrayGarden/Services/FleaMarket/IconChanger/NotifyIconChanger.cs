@@ -50,6 +50,8 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
 
         protected virtual void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
         {
+            if (newIcon == null || backIcon == null)
+                return;
             if (_currentUpdateIconTask != null && !_currentUpdateIconTask.IsCompleted)
                 _currentCancellationTokenSource.Cancel();
             _currentCancellationTokenSource = new CancellationTokenSource();
