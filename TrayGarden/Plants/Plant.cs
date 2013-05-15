@@ -16,6 +16,10 @@ namespace TrayGarden.Plants
         public string ID { get; protected set; }
         public ISettingsBox MySettingsBox { get; protected set; }
 
+        public event PlantEnabledChangedEvent EnabledChanged;
+
+       
+
         public bool IsEnabled
         {
             get
@@ -28,6 +32,7 @@ namespace TrayGarden.Plants
             {
                 if (!IsInitialized)
                     throw new NonInitializedException();
+                OnEnabledChanged(this, value);
                 MySettingsBox.SetBool("enabled", value);
             }
         }
@@ -73,5 +78,10 @@ namespace TrayGarden.Plants
             Cloakroom[name] = luggage;
         }
 
+        protected virtual void OnEnabledChanged(IPlant plant, bool newValue)
+        {
+            PlantEnabledChangedEvent handler = EnabledChanged;
+            if (handler != null) handler(plant, newValue);
+        }
     }
 }

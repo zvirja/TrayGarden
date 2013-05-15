@@ -10,6 +10,7 @@ namespace TrayGarden.Plants
         string ID { get; }
         ISettingsBox MySettingsBox { get; }
         bool IsEnabled { get; set; }
+        event PlantEnabledChangedEvent EnabledChanged;
 
         void Initialize(object workhorse, string id, ISettingsBox mySettingsBox);
 
