@@ -4,11 +4,13 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using System.Windows.Media;
 using JetBrains.Annotations;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.TypesHatcher;
+using Color = System.Drawing.Color;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 {
@@ -48,10 +50,21 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
             Icon iconResource = resourceManager.GetIconResource(IconResourceName, null);
             if (iconResource != null)
                 return iconResource;
+
+            
+            return GenerateIcon();
+        }
+
+        protected virtual Icon GenerateIcon()
+        {
             var newIcon = new Bitmap(32, 32);
+            var rand = new Random();
+            for (int i = 0; i < 500; i++)
+                newIcon.SetPixel(rand.Next(31), rand.Next(31), Color.YellowGreen);
+            for (int i = 0; i < 250; i++)
+                newIcon.SetPixel(rand.Next(31), rand.Next(31), Color.Tomato);
             IntPtr iconHandle = newIcon.GetHicon();
-            iconResource = Icon.FromHandle(iconHandle);
-            return iconResource;
+            return Icon.FromHandle(iconHandle);
         }
 
         protected virtual void GlobalNotifyIcon_MouseClick(object sender, MouseEventArgs e)
