@@ -83,6 +83,36 @@ namespace TrayGarden.Resources {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        internal static System.Drawing.Icon gardenIconV3 {
+            get {
+                object obj = ResourceManager.GetObject("gardenIconV3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon gardenIconV4 {
+            get {
+                object obj = ResourceManager.GetObject("gardenIconV4", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        internal static System.Drawing.Icon gardenIconV5 {
+            get {
+                object obj = ResourceManager.GetObject("gardenIconV5", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         internal static System.Drawing.Icon mockAction {
             get {
                 object obj = ResourceManager.GetObject("mockAction", resourceCulture);
