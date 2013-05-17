@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+using TrayGarden.Services.FleaMarket.IconChanger;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord
 {
-    public interface IExtendsGlobalMenu
+    public interface IChangesGlobalIcon
     {
-        bool GetMenuStripItemData(out string text, out Icon icon, out EventHandler clickHandler);
+        void SetGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
     }
 }

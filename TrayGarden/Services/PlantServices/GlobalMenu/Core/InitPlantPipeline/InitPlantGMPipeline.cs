@@ -1,19 +1,19 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
+using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
-    public static class InitPlantSIPipeline
+    public static class InitPlantGMPipeline
     {
-        public static void Run(IPlant plant, string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
+        public static InitPlantGMArgs Run(IPlant plant, string luggageName, INotifyIconChangerClient globalNotifyIconChanger)
         {
-            var args = new InitPlantSIArgs(plant, luggageName, closeComponentClick, exitGardenClick);
-            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("standaloneIconServiceInitPlant",args);
+            var args = new InitPlantGMArgs(plant, luggageName,globalNotifyIconChanger);
+            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("globalMenuServiceInitPlant",args);
+            return args;
         }
     }
 }

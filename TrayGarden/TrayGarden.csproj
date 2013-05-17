@@ -106,6 +106,18 @@
     <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerClient.cs" />
     <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerMaster.cs" />
     <Compile Include="Services\FleaMarket\IconChanger\NotifyIconChanger.cs" />
+    <Compile Include="Services\PlantServiceBase.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuPlantBox.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\BindPlantBoxToPlant.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreateContextMenuStrip.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreateSettingsBox.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreatePlantBox.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\ProvideWithIconChanger.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IChangesGlobalIcon.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IExtendsGlobalMenu.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\AssignIconModifier.cs" />
@@ -193,6 +205,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mockAction.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gardenIcon.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\gardenIconv2.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
