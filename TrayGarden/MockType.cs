@@ -7,12 +7,13 @@ using System.Windows.Forms;
 using TrayGarden.Configuration;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu
+    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -105,6 +106,21 @@ namespace TrayGarden
         private void OnClick(object sender, EventArgs eventArgs)
         {
             NotifyIconChangerClient.SetIcon(HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockAction", null));
+        }
+
+        public bool GetMenuStripItemData(out string text, out Icon icon, out EventHandler clickHandler)
+        {
+            text = "Hello world";
+            icon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockIcon", null);
+            clickHandler = (sender, args) => v2Changer.SetIcon(HatcherGuide<IResourcesManager>.Instance.GetIconResource("mockAction", null));
+            return true;
+        }
+
+
+        private INotifyIconChangerClient v2Changer;
+        public void SetGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+        {
+            v2Changer = notifyIconChangerClient;
         }
     }
 }
