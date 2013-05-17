@@ -36,6 +36,7 @@ namespace TrayGarden
         public MainWindow()
         {
             InitializeComponent();
+            Closing += MainWindow_Closing;
 
             /*
             var bucket = new Bucket(){Name = "Parent"};
@@ -129,5 +130,12 @@ namespace TrayGarden
             int a = 10;
 
         }
+
+        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
+        }
+
+        
     }
 }
