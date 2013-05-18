@@ -118,6 +118,8 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\ProvideWithIconChanger.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IChangesGlobalIcon.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IExtendsGlobalMenu.cs" />
+    <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigService.cs" />
+    <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\AssignIconModifier.cs" />
