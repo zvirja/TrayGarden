@@ -6,7 +6,9 @@ using System.Text;
 using System.Windows.Forms;
 using TrayGarden.Configuration;
 using TrayGarden.Resources;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.CustomSettings.Smorgasbord;
 using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
 using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
@@ -14,7 +16,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig
+    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage 
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -130,6 +132,13 @@ namespace TrayGarden
             modConfig = moduleConfiguration;
             var mainSection = modConfig.GetSection("trayGarden");
             int a = 19;
+        }
+
+
+        
+        public void SetCustomSettingsStorage(ISettingsBox settingsStorage)
+        {
+            int a = 10;
         }
     }
 }
