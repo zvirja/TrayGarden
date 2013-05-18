@@ -7,7 +7,7 @@ namespace TrayGarden.Plants
     {
         void Initialize(List<object> workhorses);
 
-        List<IPlantInternal> GetAllPlants();
-        List<IPlantInternal> GetEnabledPlants();
+        List<IPlantEx> GetAllPlants();
+        List<IPlantEx> GetEnabledPlants();
     }
 }

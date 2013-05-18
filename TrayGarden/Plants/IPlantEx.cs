@@ -4,7 +4,7 @@ using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Plants
 {
-    public interface IPlantInternal
+    public interface IPlantEx
     {
         object Workhorse { get; set; }
         string ID { get; }

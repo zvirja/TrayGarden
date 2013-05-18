@@ -14,12 +14,12 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
     {
         public virtual string LuggageName { get; private set; }
 
-        protected virtual void ProvidePlantWithConfig(IPlantInternal plantInternal)
+        protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)
         {
-            var asExpected = plantInternal.Workhorse as IGiveMeMyAppConfig;
+            var asExpected = plantEx.Workhorse as IGiveMeMyAppConfig;
             if (asExpected == null)
                 return;
-            var assemblyLocation = plantInternal.Workhorse.GetType().Assembly.Location;
+            var assemblyLocation = plantEx.Workhorse.GetType().Assembly.Location;
             System.Configuration.Configuration assemblyConfiguration = null;
             try
             {
@@ -33,9 +33,9 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
         }
 
         
-        public virtual void InitializePlant(IPlantInternal plantInternal)
+        public virtual void InitializePlant(IPlantEx plantEx)
         {
-            ProvidePlantWithConfig(plantInternal);
+            ProvidePlantWithConfig(plantEx);
         }
 
         public virtual void InformInitializeStage()

@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         [UsedImplicitly]
         public virtual void Process(InitPlantSIArgs args)
         {
-            var asIconModifyRequirer = args.PlantInternal.Workhorse as INeedToModifyIcon;
+            var asIconModifyRequirer = args.PlantEx.Workhorse as INeedToModifyIcon;
             if (asIconModifyRequirer == null)
                 return;
             AssignIconModifierToRequirer(args, asIconModifyRequirer);

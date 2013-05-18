@@ -11,8 +11,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         public virtual void Process(InitPlantGMArgs args)
         {
             GlobalMenuPlantBox globalMenuPlantBox = args.GMBox;
-            globalMenuPlantBox.RelatedPlantInternal = args.PlantInternal;
-            globalMenuPlantBox.RelatedPlantInternal.PutLuggage(args.LuggageName,globalMenuPlantBox);
+            globalMenuPlantBox.RelatedPlantEx = args.PlantEx;
+            globalMenuPlantBox.RelatedPlantEx.PutLuggage(args.LuggageName,globalMenuPlantBox);
         }
     }
 }

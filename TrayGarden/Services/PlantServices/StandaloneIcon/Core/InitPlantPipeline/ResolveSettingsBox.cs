@@ -13,7 +13,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         [UsedImplicitly]
         public virtual void Process(InitPlantSIArgs args)
         {
-            ISettingsBox settingsBox = args.SIBox.PlantInternal.MySettingsBox.GetSubBox("StandaloneIconService");
+            ISettingsBox settingsBox = args.SIBox.PlantEx.MySettingsBox.GetSubBox("StandaloneIconService");
             args.SIBox.SettingsBox = settingsBox;
         }
     }

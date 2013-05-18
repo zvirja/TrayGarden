@@ -5,5 +5,5 @@ using System.Text;
 
 namespace TrayGarden.Plants
 {
-    public delegate void PlantEnabledChangedEvent(IPlantInternal plantInternal, bool newValue);
+    public delegate void PlantEnabledChangedEvent(IPlantEx plantEx, bool newValue);
 }

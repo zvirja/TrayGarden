@@ -83,7 +83,7 @@
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Plants\IGardenbed.cs" />
-    <Compile Include="Plants\IPlant.cs" />
+    <Compile Include="Plants\IPlantInternal.cs" />
     <Compile Include="Plants\Pipeline\CreateInstance.cs" />
     <Compile Include="Plants\Pipeline\Initialize.cs" />
     <Compile Include="Plants\Pipeline\InitializePlantPipeline.cs" />

@@ -12,21 +12,21 @@ namespace TrayGarden.Services
         public string LuggageName { get; set; }
 
 
-        protected TPlantLuggageType GetPlantLuggage(IPlantInternal plantInternal)
+        protected TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
         {
-            if (!plantInternal.HasLuggage(LuggageName))
+            if (!plantEx.HasLuggage(LuggageName))
                 return null;
-            return plantInternal.GetLuggage<TPlantLuggageType>(LuggageName);
+            return plantEx.GetLuggage<TPlantLuggageType>(LuggageName);
         }
 
-        protected virtual void PlantOnEnabledChanged(IPlantInternal plantInternal, bool newValue)
+        protected virtual void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
         {
 
         }
 
-        public virtual void InitializePlant(IPlantInternal plantInternal)
+        public virtual void InitializePlant(IPlantEx plantEx)
         {
-            plantInternal.EnabledChanged += PlantOnEnabledChanged;
+            plantEx.EnabledChanged += PlantOnEnabledChanged;
         }
 
         public virtual void InformInitializeStage()

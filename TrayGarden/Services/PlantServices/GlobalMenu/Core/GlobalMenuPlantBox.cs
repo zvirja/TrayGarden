@@ -7,7 +7,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     public class GlobalMenuPlantBox
     {
         public ISettingsBox SettingsBox { get; set; }
-        public IPlantInternal RelatedPlantInternal { get; set; }
+        public IPlantEx RelatedPlantEx { get; set; }
         public ToolStripMenuItem ToolStripMenuItem { get; set; }
 
         public virtual bool IsEnabled
@@ -22,7 +22,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
         public virtual void FixVisibility()
         {
-            if (RelatedPlantInternal.IsEnabled)
+            if (RelatedPlantEx.IsEnabled)
                 ToolStripMenuItem.Visible = IsEnabled;
             else
                 ToolStripMenuItem.Visible = false;

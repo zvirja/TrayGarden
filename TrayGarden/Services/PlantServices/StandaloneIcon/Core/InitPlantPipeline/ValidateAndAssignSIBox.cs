@@ -17,8 +17,8 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
                 args.Abort();
                 return;
             }
-            args.SIBox.PlantInternal = args.PlantInternal;
-            args.PlantInternal.PutLuggage(args.LuggageName,args.SIBox);
+            args.SIBox.PlantEx = args.PlantEx;
+            args.PlantEx.PutLuggage(args.LuggageName,args.SIBox);
         }
 
         protected virtual bool IsSIBoxValid(StandaloneIconPlantBox box)

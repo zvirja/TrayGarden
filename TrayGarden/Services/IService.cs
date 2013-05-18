@@ -6,7 +6,7 @@ namespace TrayGarden.Services
     {
         string LuggageName { get; }
 
-        void InitializePlant(IPlantInternal plantInternal);
+        void InitializePlant(IPlantEx plantEx);
         void InformInitializeStage();
         void InformDisplayStage();
         void InformClosingStage();

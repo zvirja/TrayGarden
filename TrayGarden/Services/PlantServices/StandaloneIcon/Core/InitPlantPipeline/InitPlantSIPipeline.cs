@@ -10,9 +10,9 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 {
     public static class InitPlantSIPipeline
     {
-        public static void Run(IPlantInternal plantInternal, string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
+        public static void Run(IPlantEx plantEx, string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
         {
-            var args = new InitPlantSIArgs(plantInternal, luggageName, closeComponentClick, exitGardenClick);
+            var args = new InitPlantSIArgs(plantEx, luggageName, closeComponentClick, exitGardenClick);
             HatcherGuide<IPipelineManager>.Instance.InvokePipeline("standaloneIconServiceInitPlant",args);
         }
     }

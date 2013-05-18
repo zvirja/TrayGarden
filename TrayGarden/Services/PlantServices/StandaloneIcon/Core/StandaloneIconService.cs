@@ -18,9 +18,9 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
         }
 
 
-        protected virtual void InitializePlantFromPipeline(IPlantInternal plantInternal)
+        protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
         {
-            InitPlantSIPipeline.Run(plantInternal, LuggageName, CloseComponentClick, ExitGardenClick);
+            InitPlantSIPipeline.Run(plantEx, LuggageName, CloseComponentClick, ExitGardenClick);
         }
 
         protected void ExitGardenClick(object sender, EventArgs eventArgs)
@@ -39,27 +39,27 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
             siBox.IsEnabled = false;
         }
 
-        protected override void PlantOnEnabledChanged(IPlantInternal plantInternal, bool newValue)
+        protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
         {
-            var siBox = GetPlantLuggage(plantInternal);
+            var siBox = GetPlantLuggage(plantEx);
             if (siBox != null)
                 siBox.FixNIVisibility();
         }
 
         
         
-        public override void InitializePlant(IPlantInternal plantInternal)
+        public override void InitializePlant(IPlantEx plantEx)
         {
-            base.InitializePlant(plantInternal);
-            InitializePlantFromPipeline(plantInternal);
+            base.InitializePlant(plantEx);
+            InitializePlantFromPipeline(plantEx);
         }
         
 
        public override void InformDisplayStage()
         {
            base.InformDisplayStage();
-            List<IPlantInternal> enabledPlants = HatcherGuide<IGardenbed>.Instance.GetEnabledPlants();
-            foreach (IPlantInternal enabledPlant in enabledPlants)
+            List<IPlantEx> enabledPlants = HatcherGuide<IGardenbed>.Instance.GetEnabledPlants();
+            foreach (IPlantEx enabledPlant in enabledPlants)
             {
                 var siBox = GetPlantLuggage(enabledPlant);
                 if (siBox == null)
@@ -71,8 +71,8 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
         public override void InformClosingStage()
         {
             base.InformClosingStage();
-            List<IPlantInternal> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-            foreach (IPlantInternal plant in allPlants)
+            List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+            foreach (IPlantEx plant in allPlants)
             {
                 var siBox = GetPlantLuggage(plant);
                 if(siBox != null)
