@@ -12,33 +12,29 @@ namespace TrayGarden.Plants
     [UsedImplicitly]
     public class PlantEx : IPlantEx
     {
+
+        protected Dictionary<string, object> Cloakroom { get; set; }
+        protected bool Initialized { get; set; }
+
         public object Workhorse { get; set; }
         public string ID { get; protected set; }
         public ISettingsBox MySettingsBox { get; protected set; }
-
         public event PlantEnabledChangedEvent EnabledChanged;
-
-       
 
         public bool IsEnabled
         {
             get
             {
-                if (!IsInitialized)
-                    throw new NonInitializedException();
+                AssertInitialized();
                 return MySettingsBox.GetBool("enabled", false);
             }
             set
             {
-                if (!IsInitialized)
-                    throw new NonInitializedException();
+                AssertInitialized();
                 MySettingsBox.SetBool("enabled", value);
                 OnEnabledChanged(this, value);
             }
         }
-
-        protected Dictionary<string, object> Cloakroom { get; set; }
-        protected bool IsInitialized { get; set; }
 
         public PlantEx()
         {
@@ -53,16 +49,18 @@ namespace TrayGarden.Plants
             Workhorse = workhorse;
             ID = id;
             MySettingsBox = mySettingsBox;
-            IsInitialized = true;
+            Initialized = true;
         }
 
         public virtual bool HasLuggage(string name)
         {
+            AssertInitialized();
             return Cloakroom.ContainsKey(name);
         }
 
         public virtual object GetLuggage(string name)
         {
+            AssertInitialized();
             if (!Cloakroom.ContainsKey(name))
                 return null;
             return Cloakroom[name];
@@ -70,11 +68,13 @@ namespace TrayGarden.Plants
 
         public virtual T GetLuggage<T>(string name) where T : class
         {
+            AssertInitialized();
             return GetLuggage(name) as T;
         }
 
         public virtual void PutLuggage(string name, object luggage)
         {
+            AssertInitialized();
             Cloakroom[name] = luggage;
         }
 
@@ -82,6 +82,12 @@ namespace TrayGarden.Plants
         {
             PlantEnabledChangedEvent handler = EnabledChanged;
             if (handler != null) handler(plantEx, newValue);
+        }
+        
+        protected virtual void AssertInitialized()
+        {
+            if(!Initialized)
+                throw new NonInitializedException();
         }
     }
 }

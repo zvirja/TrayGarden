@@ -83,12 +83,12 @@
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Plants\IGardenbed.cs" />
-    <Compile Include="Plants\IPlantInternal.cs" />
+    <Compile Include="Plants\IPlantEx.cs" />
     <Compile Include="Plants\Pipeline\CreateInstance.cs" />
     <Compile Include="Plants\Pipeline\Initialize.cs" />
     <Compile Include="Plants\Pipeline\InitializePlantPipeline.cs" />
     <Compile Include="Plants\Pipeline\InitializePlantArgs.cs" />
-    <Compile Include="Plants\PlantInternal.cs" />
+    <Compile Include="Plants\PlantEx.cs" />
     <Compile Include="Helpers\ReharperAnnotations.cs" />
     <Compile Include="Plants\Gardenbed.cs" />
     <Compile Include="RuntimeSettings\ISettingsBox.cs" />

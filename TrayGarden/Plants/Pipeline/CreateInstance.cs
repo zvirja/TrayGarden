@@ -12,7 +12,7 @@ namespace TrayGarden.Plants.Pipeline
         [UsedImplicitly]
         public virtual void Process(InitializePlantArgs args)
         {
-            var newPlant = new PlantExEx();
+            var newPlant = new PlantEx();
             args.ResolvedPlantEx = newPlant;
         }
 
