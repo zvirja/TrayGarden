@@ -107,6 +107,9 @@
     <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerMaster.cs" />
     <Compile Include="Services\FleaMarket\IconChanger\NotifyIconChanger.cs" />
     <Compile Include="Services\PlantServiceBase.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverPlantBox.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverService.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Smorgasbord\IAskClipboardEvents.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsService.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Smorgasbord\ISetCustomSettingsStorage.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
@@ -203,8 +206,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
-    <Folder Include="Services\PlantServices\ClipboardObserver\Core\" />
-    <Folder Include="Services\PlantServices\ClipboardObserver\Smorgasbord\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mockIcon.ico" />
