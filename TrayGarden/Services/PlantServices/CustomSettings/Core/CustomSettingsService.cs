@@ -19,18 +19,18 @@ namespace TrayGarden.Services.PlantServices.CustomSettings.Core
             LuggageName = "CustomSettingsService";
         }
 
-        protected virtual void SetCustomSettingsBox(IPlant plant)
+        protected virtual void SetCustomSettingsBox(IPlantInternal plantInternal)
         {
-            var asExpected = plant.Workhorse as ISetCustomSettingsStorage;
+            var asExpected = plantInternal.Workhorse as ISetCustomSettingsStorage;
             if (asExpected == null)
                 return;
-            ISettingsBox settingsBox = plant.MySettingsBox.GetSubBox(LuggageName);
+            ISettingsBox settingsBox = plantInternal.MySettingsBox.GetSubBox(LuggageName);
             asExpected.SetCustomSettingsStorage(settingsBox);
         }
 
-        public virtual void InitializePlant(IPlant plant)
+        public virtual void InitializePlant(IPlantInternal plantInternal)
         {
-            SetCustomSettingsBox(plant);
+            SetCustomSettingsBox(plantInternal);
         }
 
         public virtual void InformInitializeStage()

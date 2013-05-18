@@ -88,7 +88,7 @@
     <Compile Include="Plants\Pipeline\Initialize.cs" />
     <Compile Include="Plants\Pipeline\InitializePlantPipeline.cs" />
     <Compile Include="Plants\Pipeline\InitializePlantArgs.cs" />
-    <Compile Include="Plants\Plant.cs" />
+    <Compile Include="Plants\PlantInternal.cs" />
     <Compile Include="Helpers\ReharperAnnotations.cs" />
     <Compile Include="Plants\Gardenbed.cs" />
     <Compile Include="RuntimeSettings\ISettingsBox.cs" />
@@ -203,6 +203,8 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="bin\" />
+    <Folder Include="Services\PlantServices\ClipboardObserver\Core\" />
+    <Folder Include="Services\PlantServices\ClipboardObserver\Smorgasbord\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mockIcon.ico" />

@@ -12,19 +12,19 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
     public class InitPlantGMArgs:PipelineArgs
     {
         public string LuggageName { get; set; }
-        public IPlant Plant { get; protected set; }
+        public IPlantInternal PlantInternal { get; protected set; }
         public INotifyIconChangerClient GlobalNotifyIconChanger { get; set; }
 
         public GlobalMenuPlantBox GMBox { get; set; }
 
 
-        public InitPlantGMArgs([NotNull] IPlant plant, [NotNull] string luggageName,
+        public InitPlantGMArgs([NotNull] IPlantInternal plantInternal, [NotNull] string luggageName,
                                [NotNull] INotifyIconChangerClient globalNotifyIconChanger)
         {
-            if (plant == null) throw new ArgumentNullException("plant");
+            if (plantInternal == null) throw new ArgumentNullException("plantInternal");
             if (luggageName == null) throw new ArgumentNullException("luggageName");
             if (globalNotifyIconChanger == null) throw new ArgumentNullException("globalNotifyIconChanger");
-            Plant = plant;
+            PlantInternal = plantInternal;
             LuggageName = luggageName;
             GlobalNotifyIconChanger = globalNotifyIconChanger;
         }

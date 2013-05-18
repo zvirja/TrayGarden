@@ -10,11 +10,11 @@ namespace TrayGarden.Plants.Pipeline
 {
     public static class InitializePlantPipeline
     {
-        public static IPlant Run(object plantWorkhorse,ISettingsBox rootSettingsBox)
+        public static IPlantInternal Run(object plantWorkhorse,ISettingsBox rootSettingsBox)
         {
             var args = new InitializePlantArgs(plantWorkhorse,rootSettingsBox);
             HatcherGuide<IPipelineManager>.Instance.InvokePipeline("initializePlant",args);
-            return args.ResolvedPlant;
+            return args.ResolvedPlantInternal;
         }
     }
 }

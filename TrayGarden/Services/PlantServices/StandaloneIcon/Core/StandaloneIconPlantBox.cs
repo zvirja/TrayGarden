@@ -12,7 +12,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
     {
         public ISettingsBox SettingsBox { get; set; }
         public NotifyIcon NotifyIcon { get; set; }
-        public IPlant Plant { get; set; }
+        public IPlantInternal PlantInternal { get; set; }
 
         public virtual bool IsEnabled
         {
@@ -26,7 +26,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 
         public virtual void FixNIVisibility()
         {
-            if (Plant.IsEnabled)
+            if (PlantInternal.IsEnabled)
                 NotifyIcon.Visible = IsEnabled;
             else
                 NotifyIcon.Visible = false;

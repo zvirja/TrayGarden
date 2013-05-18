@@ -10,7 +10,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         [UsedImplicitly]
         public virtual void Process(InitPlantGMArgs args)
         {
-            var settingsBox = args.Plant.MySettingsBox.GetSubBox("GlobalMenuService");
+            var settingsBox = args.PlantInternal.MySettingsBox.GetSubBox("GlobalMenuService");
             args.GMBox.SettingsBox = settingsBox;
         }
     }

@@ -27,7 +27,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 
         protected virtual void ResolveISimple(InitPlantSIArgs args)
         {
-            var asSimple = args.Plant.Workhorse as IStandaloneIcon;
+            var asSimple = args.PlantInternal.Workhorse as IStandaloneIcon;
             if (asSimple == null)
                 return;
             string niTitle;
@@ -47,7 +47,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 
         protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
         {
-            var asAdvanced = args.Plant.Workhorse as IAdvancedStandaloneIcon;
+            var asAdvanced = args.PlantInternal.Workhorse as IAdvancedStandaloneIcon;
             if (asAdvanced != null)
             {
                 args.SIBox.NotifyIcon = asAdvanced.GetNotifyIcon();

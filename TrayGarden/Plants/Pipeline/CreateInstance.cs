@@ -12,8 +12,8 @@ namespace TrayGarden.Plants.Pipeline
         [UsedImplicitly]
         public virtual void Process(InitializePlantArgs args)
         {
-            var newPlant = new Plant();
-            args.ResolvedPlant = newPlant;
+            var newPlant = new PlantInternalInternal();
+            args.ResolvedPlantInternal = newPlant;
         }
 
     }

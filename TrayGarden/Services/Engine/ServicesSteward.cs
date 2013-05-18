@@ -36,7 +36,7 @@ namespace TrayGarden.Services.Engine
                     //TODO IMPLEMENT LOGGING HERE
                 }
             var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-            foreach (IPlant plant in plants)
+            foreach (IPlantInternal plant in plants)
                     AquaintPlantWithServices(plant);
         }
 
@@ -68,13 +68,13 @@ namespace TrayGarden.Services.Engine
                 }
         }
 
-        protected virtual void AquaintPlantWithServices(IPlant plant)
+        protected virtual void AquaintPlantWithServices(IPlantInternal plantInternal)
         {
             foreach (IService service in Services)
             {
                 try
                 {
-                    service.InitializePlant(plant);
+                    service.InitializePlant(plantInternal);
                 }
                 catch (Exception e)
                 {

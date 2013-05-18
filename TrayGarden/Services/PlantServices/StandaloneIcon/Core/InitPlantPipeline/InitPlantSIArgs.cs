@@ -13,14 +13,14 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         public string LuggageName { get; set; }
         public EventHandler CloseComponentClick { get; set; }
         public EventHandler ExitGardenClick { get; set; }
-        public IPlant Plant { get; protected set; }
+        public IPlantInternal PlantInternal { get; protected set; }
         public StandaloneIconPlantBox SIBox { get; set; }
 
-        public InitPlantSIArgs([NotNull] IPlant plant, [NotNull] string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
+        public InitPlantSIArgs([NotNull] IPlantInternal plantInternal, [NotNull] string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
         {
-            if (plant == null) throw new ArgumentNullException("plant");
+            if (plantInternal == null) throw new ArgumentNullException("plantInternal");
             if (luggageName == null) throw new ArgumentNullException("luggageName");
-            Plant = plant;
+            PlantInternal = plantInternal;
             LuggageName = luggageName;
             CloseComponentClick = closeComponentClick;
             ExitGardenClick = exitGardenClick;

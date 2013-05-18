@@ -78,16 +78,16 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
             //TODO IMPLEMENT LATER
         }
 
-        protected virtual void InitializePlantFromPipeline(IPlant plant)
+        protected virtual void InitializePlantFromPipeline(IPlantInternal plantInternal)
         {
             INotifyIconChangerMaster globalNotifyIconChanger = HatcherGuide<INotifyIconChangerMaster>.CreateNewInstance();
             globalNotifyIconChanger.Initialize(GlobalNotifyIcon);
-            InitPlantPipeline.InitPlantGMPipeline.Run(plant, LuggageName, globalNotifyIconChanger);
+            InitPlantPipeline.InitPlantGMPipeline.Run(plantInternal, LuggageName, globalNotifyIconChanger);
         }
 
-        protected override void PlantOnEnabledChanged(IPlant plant, bool newValue)
+        protected override void PlantOnEnabledChanged(IPlantInternal plantInternal, bool newValue)
         {
-            GlobalMenuPlantBox plantBox = GetPlantLuggage(plant);
+            GlobalMenuPlantBox plantBox = GetPlantLuggage(plantInternal);
             if (plantBox != null)
                 plantBox.IsEnabled = newValue;
         }
@@ -135,10 +135,10 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         #region Public methods
 
 
-        public override void InitializePlant(IPlant plant)
+        public override void InitializePlant(IPlantInternal plantInternal)
         {
-            base.InitializePlant(plant);
-            InitializePlantFromPipeline(plant);
+            base.InitializePlant(plantInternal);
+            InitializePlantFromPipeline(plantInternal);
         }
 
         public override void InformInitializeStage()
@@ -151,8 +151,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         {
             base.InformDisplayStage();
             var plantBoxes = new List<GlobalMenuPlantBox>();
-            List<IPlant> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-            foreach (IPlant plant in allPlants)
+            List<IPlantInternal> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+            foreach (IPlantInternal plant in allPlants)
             {
                 GlobalMenuPlantBox luggage = GetPlantLuggage(plant);
                 if (luggage == null)

@@ -16,7 +16,7 @@ namespace TrayGarden.Plants.Pipeline
         {
             string id = args.PlantWorkhorse.GetType().FullName;
             ISettingsBox plantSettingsBox = args.RootSettingsBox.GetSubBox(id);
-            args.ResolvedPlant.Initialize(args.PlantWorkhorse, id, plantSettingsBox);
+            args.ResolvedPlantInternal.Initialize(args.PlantWorkhorse, id, plantSettingsBox);
         }
 
 

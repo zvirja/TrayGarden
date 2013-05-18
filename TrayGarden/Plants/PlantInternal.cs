@@ -10,7 +10,7 @@ using TrayGarden.Helpers;
 namespace TrayGarden.Plants
 {
     [UsedImplicitly]
-    public class Plant : IPlant
+    public class PlantInternalInternal : IPlantInternal
     {
         public object Workhorse { get; set; }
         public string ID { get; protected set; }
@@ -40,7 +40,7 @@ namespace TrayGarden.Plants
         protected Dictionary<string, object> Cloakroom { get; set; }
         protected bool IsInitialized { get; set; }
 
-        public Plant()
+        public PlantInternalInternal()
         {
             Cloakroom = new Dictionary<string, object>();
         }
@@ -78,10 +78,10 @@ namespace TrayGarden.Plants
             Cloakroom[name] = luggage;
         }
 
-        protected virtual void OnEnabledChanged(IPlant plant, bool newValue)
+        protected virtual void OnEnabledChanged(IPlantInternal plantInternal, bool newValue)
         {
             PlantEnabledChangedEvent handler = EnabledChanged;
-            if (handler != null) handler(plant, newValue);
+            if (handler != null) handler(plantInternal, newValue);
         }
     }
 }

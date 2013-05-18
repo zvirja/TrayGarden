@@ -10,7 +10,7 @@ namespace TrayGarden.Plants.Pipeline
     public class InitializePlantArgs:PipelineArgs
     {
         public object PlantWorkhorse { get; protected set; }
-        public IPlant ResolvedPlant { get; set; }
+        public IPlantInternal ResolvedPlantInternal { get; set; }
         public ISettingsBox RootSettingsBox { get; protected set; }
 
         public InitializePlantArgs(object plantWorkhorse, ISettingsBox rootSettingsBox)

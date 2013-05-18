@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         [UsedImplicitly]
         public virtual void Process(InitPlantGMArgs args)
         {
-            var asExpected = args.Plant.Workhorse as IExtendsGlobalMenu;
+            var asExpected = args.PlantInternal.Workhorse as IExtendsGlobalMenu;
             if (asExpected == null)
             {
                 args.Abort();

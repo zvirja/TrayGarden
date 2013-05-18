@@ -11,7 +11,7 @@ namespace TrayGarden.Plants
 {
     public class Gardenbed : IGardenbed
     {
-        protected Dictionary<string, IPlant> Plants { get; set; }
+        protected Dictionary<string, IPlantInternal> Plants { get; set; }
         protected ISettingsBox MySettingsBox { get; set; }
         protected ISettingsBox RootPlantsSettingsBox
         {
@@ -21,7 +21,7 @@ namespace TrayGarden.Plants
 
         public Gardenbed()
         {
-            Plants = new Dictionary<string, IPlant>();
+            Plants = new Dictionary<string, IPlantInternal>();
         }
 
         [UsedImplicitly]
@@ -31,24 +31,24 @@ namespace TrayGarden.Plants
             MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
             foreach (object workhorse in workhorses)
             {
-                IPlant resolvedPlant = ResolveIPlant(workhorse);
-                if (resolvedPlant != null)
-                    Plants.Add(resolvedPlant.ID, resolvedPlant);
+                IPlantInternal resolvedPlantInternal = ResolveIPlant(workhorse);
+                if (resolvedPlantInternal != null)
+                    Plants.Add(resolvedPlantInternal.ID, resolvedPlantInternal);
             }
             HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow();
         }
 
-        public virtual List<IPlant> GetAllPlants()
+        public virtual List<IPlantInternal> GetAllPlants()
         {
             return Plants.Select(x => x.Value).ToList();
         }
 
-        public virtual List<IPlant> GetEnabledPlants()
+        public virtual List<IPlantInternal> GetEnabledPlants()
         {
             return Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
         }
 
-        protected virtual IPlant ResolveIPlant(object workhorse)
+        protected virtual IPlantInternal ResolveIPlant(object workhorse)
         {
             var newPlant = InitializePlantPipeline.Run(workhorse, RootPlantsSettingsBox);
             return newPlant;
