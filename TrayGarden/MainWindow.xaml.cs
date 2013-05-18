@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -125,7 +126,7 @@ namespace TrayGarden
             var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
             plant.IsEnabled = true;
 
-           // servicesSteward.InformClosingStage();
+            // servicesSteward.InformClosingStage();
 
             int a = 10;
 

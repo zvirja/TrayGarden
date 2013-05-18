@@ -8,12 +8,13 @@ using TrayGarden.Configuration;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
+using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon
+    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -121,6 +122,14 @@ namespace TrayGarden
         public void SetGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
         {
             v2Changer = notifyIconChangerClient;
+        }
+
+        private System.Configuration.Configuration modConfig;
+        public void SetModuleConfiguration(System.Configuration.Configuration moduleConfiguration)
+        {
+            modConfig = moduleConfiguration;
+            var mainSection = modConfig.GetSection("trayGarden");
+            int a = 19;
         }
     }
 }
