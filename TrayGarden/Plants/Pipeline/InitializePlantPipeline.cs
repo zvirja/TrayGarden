@@ -8,7 +8,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Plants.Pipeline
 {
-    public static class InitializePlantPipeline
+    public static class InitializePlantExPipeline
     {
         public static IPlantEx Run(object plantWorkhorse,ISettingsBox rootSettingsBox)
         {
