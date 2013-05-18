@@ -145,4 +145,10 @@
   <data name="gardenIconV5" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>gardenIconV5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="configureV1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>configureV1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="exitIconV1" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>exitIconV1.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
 </root>

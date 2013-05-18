@@ -27,13 +27,21 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         }
 
         public string IconText { get; set; }
-        public string IconResourceName { get; set; }
+        public string TrayIconResourceName { get; set; }
+        public string ConfigureIconResourceName { get; set; }
+        public string ExitIconResourceName { get; set; }
+        public bool BoldMainMenuEntries { get; set; }
+        public bool ItalicMainMenuEntries { get; set; }
 
         public GlobalMenuService()
         {
             IconText = "Tray Garden";
             LuggageName = "GlobalMenuService";
-            IconResourceName = "gardenIconV2";
+            TrayIconResourceName = "gardenIconV1";
+            ConfigureIconResourceName = "configureV1";
+            ExitIconResourceName = "exitIconV1";
+            BoldMainMenuEntries = true;
+            ItalicMainMenuEntries = true;
         }
        
        protected virtual void CreateNotifyIcon()
@@ -47,11 +55,9 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         protected virtual Icon GetIcon()
         {
             IResourcesManager resourceManager = HatcherGuide<IResourcesManager>.Instance;
-            Icon iconResource = resourceManager.GetIconResource(IconResourceName, null);
+            Icon iconResource = resourceManager.GetIconResource(TrayIconResourceName, null);
             if (iconResource != null)
                 return iconResource;
-
-            
             return GenerateIcon();
         }
 
@@ -105,14 +111,32 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
         {
             var configureItem = contextMenuStrip.Items.Add("Configure");
+            Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ConfigureIconResourceName, null);
+            if (iconResource != null)
+                configureItem.Image = iconResource.ToBitmap();
+            configureItem.Font = new Font(configureItem.Font, GetMainMenuEntriesStyle());
             configureItem.Click += ConfigureContextItemOnClick;
             contextMenuStrip.Items.Add("-");
+        }
+
+        protected virtual FontStyle GetMainMenuEntriesStyle()
+        {
+            FontStyle result = 0;
+            if(BoldMainMenuEntries)
+                result |=FontStyle.Bold;
+            if(ItalicMainMenuEntries)
+                result |=FontStyle.Italic;
+            return result;
         }
 
         protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
         {
             contextMenuStrip.Items.Add("-");
             var exitItem = contextMenuStrip.Items.Add("Exit Garden");
+            Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
+            if (iconResource != null)
+                exitItem.Image = iconResource.ToBitmap();
+            exitItem.Font = new Font(exitItem.Font, GetMainMenuEntriesStyle());
             exitItem.Click += ExitContextItemOnClick;
         }
 

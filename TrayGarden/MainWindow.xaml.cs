@@ -130,21 +130,13 @@ namespace TrayGarden
 
             // servicesSteward.InformClosingStage();
 
-            var timer = new Timer()
-                {
-                    Interval = 2000,
-                    Enabled = true
-                };
-            timer.Tick += timer_Tick;
+           
 
             int a = 10;
 
         }
 
-        void timer_Tick(object sender, EventArgs e)
-        {
-            Clipboard.SetText(new Random().Next().ToString());
-        }
+       
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
