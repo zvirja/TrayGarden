@@ -8,6 +8,7 @@ using TrayGarden.Configuration;
 using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.ClipboardObserver.Smorgasbord;
 using TrayGarden.Services.PlantServices.CustomSettings.Smorgasbord;
 using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
 using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
@@ -16,7 +17,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage 
+    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage, IAskClipboardEvents
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -137,6 +138,11 @@ namespace TrayGarden
 
         
         public void SetCustomSettingsStorage(ISettingsBox settingsStorage)
+        {
+            int a = 10;
+        }
+
+        public void OnClipboardTextChanged(string newClipboardValue)
         {
             int a = 10;
         }

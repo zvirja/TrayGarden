@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Forms;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -26,6 +27,7 @@ using TrayGarden.Resources;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.TypesHatcher;
+using Clipboard = System.Windows.Clipboard;
 
 namespace TrayGarden
 {
@@ -128,8 +130,20 @@ namespace TrayGarden
 
             // servicesSteward.InformClosingStage();
 
+            var timer = new Timer()
+                {
+                    Interval = 2000,
+                    Enabled = true
+                };
+            timer.Tick += timer_Tick;
+
             int a = 10;
 
+        }
+
+        void timer_Tick(object sender, EventArgs e)
+        {
+            Clipboard.SetText(new Random().Next().ToString());
         }
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
