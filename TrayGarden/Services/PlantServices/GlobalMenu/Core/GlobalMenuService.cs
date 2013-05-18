@@ -96,15 +96,24 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         protected virtual void BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
         {
             var contextMenuStrip = new ContextMenuStrip();
+            BuildContextMenuPrefix(contextMenuStrip);
+            EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
+            BuildContextMenuSuffix(contextMenuStrip);
+            GlobalNotifyIcon.ContextMenuStrip = contextMenuStrip;
+        }
+
+        protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
+        {
             var configureItem = contextMenuStrip.Items.Add("Configure");
             configureItem.Click += ConfigureContextItemOnClick;
             contextMenuStrip.Items.Add("-");
-            EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
+        }
+
+        protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
+        {
             contextMenuStrip.Items.Add("-");
             var exitItem = contextMenuStrip.Items.Add("Exit Garden");
             exitItem.Click += ExitContextItemOnClick;
-
-            GlobalNotifyIcon.ContextMenuStrip = contextMenuStrip;
         }
 
         protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
