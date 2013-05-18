@@ -27,31 +27,59 @@ namespace TrayGarden.Services.Engine
         {
             AssertInitialized();
             foreach (IService service in Services)
-                service.InformInitializeStage();
+                try
+                {
+                    service.InformInitializeStage();
+                }
+                catch
+                {
+                    //TODO IMPLEMENT LOGGING HERE
+                }
             var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
             foreach (IPlant plant in plants)
-                AquaintPlantWithServices(plant);
+                    AquaintPlantWithServices(plant);
         }
 
         public virtual void InformDisplayStage()
         {
             AssertInitialized();
             foreach (IService service in Services)
-                service.InformDisplayStage();
+                try
+                {
+                    service.InformDisplayStage();
+                }
+                catch
+                {
+                    //TODO IMPLEMENT LOGGING HERE
+                }
         }
 
         public virtual void InformClosingStage()
         {
             AssertInitialized();
             foreach (IService service in Services)
-                service.InformClosingStage();
+                try
+                {
+                    service.InformClosingStage();
+                }
+                catch (Exception e)
+                {
+                    //TODO IMPLEMENT LOGGING HERE
+                }
         }
 
         protected virtual void AquaintPlantWithServices(IPlant plant)
         {
             foreach (IService service in Services)
             {
-                service.InitializePlant(plant);
+                try
+                {
+                    service.InitializePlant(plant);
+                }
+                catch (Exception e)
+                {
+                    //TODO IMPLEMENT LOGGING HERE
+                }
             }
         }
 
