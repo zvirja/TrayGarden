@@ -107,6 +107,8 @@
     <Compile Include="Services\FleaMarket\IconChanger\INotifyIconChangerMaster.cs" />
     <Compile Include="Services\FleaMarket\IconChanger\NotifyIconChanger.cs" />
     <Compile Include="Services\PlantServiceBase.cs" />
+    <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsService.cs" />
+    <Compile Include="Services\PlantServices\CustomSettings\Smorgasbord\ISetCustomSettingsStorage.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuPlantBox.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\BindPlantBoxToPlant.cs" />
