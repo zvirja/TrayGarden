@@ -18,7 +18,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IPlant,IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage, IAskClipboardEvents
+    public class MockType : IPlant,IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IStoreCustomSettingsStorage, IAskClipboardEvents
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -89,7 +89,7 @@ namespace TrayGarden
             }
         }
 
-        public void SetIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+        public void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
         {
             NotifyIconChangerClient = notifyIconChangerClient;
         }
@@ -123,13 +123,13 @@ namespace TrayGarden
 
 
         private INotifyIconChangerClient v2Changer;
-        public void SetGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+        public void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
         {
             v2Changer = notifyIconChangerClient;
         }
 
         private System.Configuration.Configuration modConfig;
-        public void SetModuleConfiguration(System.Configuration.Configuration moduleConfiguration)
+        public void StoreModuleConfiguration(System.Configuration.Configuration moduleConfiguration)
         {
             modConfig = moduleConfiguration;
             var mainSection = modConfig.GetSection("trayGarden");
@@ -138,7 +138,7 @@ namespace TrayGarden
 
 
         
-        public void SetCustomSettingsStorage(ISettingsBox settingsStorage)
+        public void StoreCustomSettingsStorage(ISettingsBox settingsStorage)
         {
             int a = 10;
         }
