@@ -6,8 +6,8 @@ using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.CustomSettings.Smorgasbord
 {
-    public interface ISetCustomSettingsStorage
+    public interface IStoreCustomSettingsStorage
     {
-        void SetCustomSettingsStorage(ISettingsBox settingsStorage);
+        void StoreCustomSettingsStorage(ISettingsBox settingsStorage);
     }
 }

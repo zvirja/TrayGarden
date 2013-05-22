@@ -7,6 +7,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord
 {
     public interface IChangesGlobalIcon
     {
-        void SetGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
+        void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
     }
 }

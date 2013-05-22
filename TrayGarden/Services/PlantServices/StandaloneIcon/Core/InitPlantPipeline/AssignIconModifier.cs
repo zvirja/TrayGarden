@@ -25,7 +25,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         {
             INotifyIconChangerMaster iconChanger = HatcherGuide<INotifyIconChangerMaster>.CreateNewInstance();
             iconChanger.Initialize(args.SIBox.NotifyIcon);
-            iconRequirer.SetIconChangingAssignee(iconChanger);
+            iconRequirer.StoreIconChangingAssignee(iconChanger);
         }
     }
 }

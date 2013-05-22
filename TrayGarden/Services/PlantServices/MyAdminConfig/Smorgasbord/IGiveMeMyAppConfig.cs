@@ -8,6 +8,6 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord
 {
     public interface IGiveMeMyAppConfig
     {
-        void SetModuleConfiguration(System.Configuration.Configuration moduleConfiguration);
+        void StoreModuleConfiguration(System.Configuration.Configuration moduleConfiguration);
     }
 }

@@ -8,6 +8,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord
 {
     public interface INeedToModifyIcon
     {
-        void SetIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
+        void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
     }
 }

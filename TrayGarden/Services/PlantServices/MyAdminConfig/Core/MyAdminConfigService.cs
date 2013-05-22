@@ -29,7 +29,7 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
             {
             }
             if(assemblyConfiguration != null)
-                asExpected.SetModuleConfiguration(assemblyConfiguration);
+                asExpected.StoreModuleConfiguration(assemblyConfiguration);
         }
 
         
