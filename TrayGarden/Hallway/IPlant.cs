@@ -10,5 +10,7 @@ namespace TrayGarden.Hallway
     /// </summary>
     public interface IPlant
     {
+        string HumanSupportingName { get; }
+        string Description { get; }
     }
 }
