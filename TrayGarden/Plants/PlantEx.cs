@@ -84,6 +84,12 @@ namespace TrayGarden.Plants
             Cloakroom[name] = luggage;
         }
 
+        public T GetFirstWorkhorseOfType<T>()
+        {
+            return (T)Workhorses.FirstOrDefault(x => x is T);
+        }
+
+
         protected virtual void OnEnabledChanged(IPlantEx plantEx, bool newValue)
         {
             PlantEnabledChangedEvent handler = EnabledChanged;

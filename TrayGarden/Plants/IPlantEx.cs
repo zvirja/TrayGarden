@@ -21,5 +21,7 @@ namespace TrayGarden.Plants
         T GetLuggage<T>(string name) where T : class;
         void PutLuggage(string name, object luggage);
 
+        T GetFirstWorkhorseOfType<T>();
+
     }
 }
