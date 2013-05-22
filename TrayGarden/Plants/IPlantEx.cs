@@ -1,18 +1,20 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
+using TrayGarden.Hallway;
 using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Plants
 {
     public interface IPlantEx
     {
-        object Workhorse { get; set; }
+        List<object> Workhorses { get; }
+        IPlant Plant { get; }
         string ID { get; }
         ISettingsBox MySettingsBox { get; }
         bool IsEnabled { get; set; }
         event PlantEnabledChangedEvent EnabledChanged;
 
-        void Initialize(object workhorse, string id, ISettingsBox mySettingsBox);
+        void Initialize(IPlant plant,List<object> workhorses, string id, ISettingsBox mySettingsBox);
 
         bool HasLuggage(string name);
         object GetLuggage(string name);

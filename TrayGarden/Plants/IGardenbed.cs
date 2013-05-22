@@ -5,7 +5,7 @@ namespace TrayGarden.Plants
 {
     public interface IGardenbed
     {
-        void Initialize(List<object> workhorses);
+        void Initialize(List<object> plants);
 
         List<IPlantEx> GetAllPlants();
         List<IPlantEx> GetEnabledPlants();

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Hallway;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.RuntimeSettings.Provider;
 using TrayGarden.Helpers;
@@ -16,7 +17,8 @@ namespace TrayGarden.Plants
         protected Dictionary<string, object> Cloakroom { get; set; }
         protected bool Initialized { get; set; }
 
-        public object Workhorse { get; set; }
+        public List<object> Workhorses { get;protected set; }
+        public IPlant Plant { get; protected set; }
         public string ID { get; protected set; }
         public ISettingsBox MySettingsBox { get; protected set; }
         public event PlantEnabledChangedEvent EnabledChanged;
@@ -41,12 +43,16 @@ namespace TrayGarden.Plants
             Cloakroom = new Dictionary<string, object>();
         }
 
-        public virtual void Initialize(object workhorse, string id, ISettingsBox mySettingsBox)
+
+        public virtual void Initialize([NotNull] IPlant plant, [NotNull] List<object> workhorses, string id,
+                                       [NotNull] ISettingsBox mySettingsBox)
         {
-            if (workhorse == null) throw new ArgumentNullException("workhorse");
-            if (mySettingsBox == null) throw new ArgumentNullException("mySettingsStorage");
+            if (plant == null) throw new ArgumentNullException("plant");
+            if (workhorses == null) throw new ArgumentNullException("workhorses");
+            if (mySettingsBox == null) throw new ArgumentNullException("mySettingsBox");
             if (id.IsNullOrEmpty()) throw new ArgumentNullException("id");
-            Workhorse = workhorse;
+            Workhorses = workhorses;
+            Plant = plant;
             ID = id;
             MySettingsBox = mySettingsBox;
             Initialized = true;

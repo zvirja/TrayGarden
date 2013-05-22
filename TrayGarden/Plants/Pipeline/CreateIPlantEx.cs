@@ -12,9 +12,19 @@ namespace TrayGarden.Plants.Pipeline
         [UsedImplicitly]
         public virtual void Process(InitializePlantArgs args)
         {
-            var newPlant = new PlantEx();
-            args.ResolvedPlantEx = newPlant;
+            var plantEx = new PlantEx();
+            try
+            {
+                plantEx.Initialize(args.IPlantObject,args.Workhorses,args.PlantID,args.PlantSettingsBox);
+                args.ResolvedPlantEx = plantEx;
+            }
+            catch (Exception ex)
+            {
+                //TODO implement logging
+            }
         }
+
+
 
     }
 }

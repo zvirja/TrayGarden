@@ -26,13 +26,13 @@ namespace TrayGarden.Plants
         }
 
         [UsedImplicitly]
-        public virtual void Initialize([NotNull] List<object> workhorses)
+        public virtual void Initialize([NotNull] List<object> plants)
         {
-            if (workhorses == null) throw new ArgumentNullException("workhorses");
+            if (plants == null) throw new ArgumentNullException("plants");
             MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
-            foreach (object workhorse in workhorses)
+            foreach (object plant in plants)
             {
-                IPlantEx resolvedPlantEx = ResolveIPlant(workhorse);
+                IPlantEx resolvedPlantEx = ResolveIPlantEx(plant);
                 if (resolvedPlantEx != null)
                     Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
             }
@@ -52,9 +52,9 @@ namespace TrayGarden.Plants
             return Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
         }
 
-        protected virtual IPlantEx ResolveIPlant(object workhorse)
+        protected virtual IPlantEx ResolveIPlantEx(object plant)
         {
-            var newPlant = InitializePlantExPipeline.Run(workhorse, RootPlantsSettingsBox);
+            var newPlant = InitializePlantExPipeline.Run(plant, RootPlantsSettingsBox);
             return newPlant;
         }
 

@@ -12,7 +12,7 @@ namespace TrayGarden.Plants.Pipeline
         [UsedImplicitly]
         public virtual void Process(InitializePlantArgs args)
         {
-            
+            args.PlantSettingsBox = args.RootSettingsBox.GetSubBox(args.PlantID);
         }
 
 
