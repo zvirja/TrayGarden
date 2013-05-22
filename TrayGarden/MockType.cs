@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using TrayGarden.Configuration;
+using TrayGarden.Hallway;
 using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
@@ -17,7 +18,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage, IAskClipboardEvents
+    public class MockType : IPlant,IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, ISetCustomSettingsStorage, IAskClipboardEvents
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
