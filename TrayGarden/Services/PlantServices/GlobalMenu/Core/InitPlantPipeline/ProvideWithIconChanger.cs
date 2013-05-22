@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         [UsedImplicitly]
         public virtual void Process(InitPlantGMArgs args)
         {
-            var asExpected = args.PlantEx.Workhorse as IChangesGlobalIcon;
+            var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IChangesGlobalIcon>();
             if (asExpected == null)
             {
                 return;

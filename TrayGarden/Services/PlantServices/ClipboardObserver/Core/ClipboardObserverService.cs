@@ -72,7 +72,7 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 
         protected virtual void InitializePlantWithLuggage(IPlantEx plant)
         {
-            var asExpected = plant.Workhorse as IAskClipboardEvents;
+            var asExpected = plant.GetFirstWorkhorseOfType<IAskClipboardEvents>();
             if (asExpected == null)
                 return;
             IsNeedInService = true;

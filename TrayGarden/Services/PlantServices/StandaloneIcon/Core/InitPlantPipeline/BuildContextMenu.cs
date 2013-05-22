@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         public virtual void Process(InitPlantSIArgs args)
         {
             var contextMenu = args.SIBox.NotifyIcon.ContextMenuStrip ?? new ContextMenuStrip();
-            var asContextMenuExtendable = args.PlantEx.Workhorse as IExtendContextMenu;
+            var asContextMenuExtendable = args.PlantEx.GetFirstWorkhorseOfType<IExtendContextMenu>();
             if (asContextMenuExtendable != null)
                 DrawInstanceSpecificContextMenu(contextMenu, asContextMenuExtendable);
             DrawInstanceIndependentContextMenu(contextMenu, args);

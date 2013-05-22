@@ -16,10 +16,10 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
 
         protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)
         {
-            var asExpected = plantEx.Workhorse as IGiveMeMyAppConfig;
+            var asExpected = plantEx.GetFirstWorkhorseOfType<IGiveMeMyAppConfig>();
             if (asExpected == null)
                 return;
-            var assemblyLocation = plantEx.Workhorse.GetType().Assembly.Location;
+            var assemblyLocation = plantEx.Plant.GetType().Assembly.Location;
             System.Configuration.Configuration assemblyConfiguration = null;
             try
             {

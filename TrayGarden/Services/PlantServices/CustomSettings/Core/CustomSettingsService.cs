@@ -21,7 +21,7 @@ namespace TrayGarden.Services.PlantServices.CustomSettings.Core
 
         protected virtual void SetCustomSettingsBox(IPlantEx plantEx)
         {
-            var asExpected = plantEx.Workhorse as ISetCustomSettingsStorage;
+            var asExpected = plantEx.GetFirstWorkhorseOfType<ISetCustomSettingsStorage>();
             if (asExpected == null)
                 return;
             ISettingsBox settingsBox = plantEx.MySettingsBox.GetSubBox(LuggageName);
