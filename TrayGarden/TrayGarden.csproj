@@ -144,6 +144,12 @@
     <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IExtendContextMenu.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\INeedToModifyIcon.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IStandaloneIcon.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\IUserSetting.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\IUserSettingChange.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\IUserSettingsBridge.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\IUserSettingsMetadataBuilder.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingValuesChanged.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Smorgasbord\IUserConfiguration.cs" />
     <Compile Include="TypesHatcher\HatcherGuide.cs" />
     <Compile Include="TypesHatcher\HatcherManager.cs" />
     <Compile Include="RuntimeSettings\IRuntimeSettingsManager.cs" />
