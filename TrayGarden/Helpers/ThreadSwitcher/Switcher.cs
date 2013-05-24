@@ -18,7 +18,7 @@ namespace TrayGarden.Helpers.ThreadSwitcher
             StackRawSwitcher<TSwitchValue>.Enter(newValue);
         }
 
-        public void Dispose()
+        public virtual void Dispose()
         {
             StackRawSwitcher<TSwitchValue>.Exit();
         }
