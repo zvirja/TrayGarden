@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using TrayGarden.Plants;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.Engine
@@ -26,46 +27,55 @@ namespace TrayGarden.Services.Engine
         public virtual void InformInitializeStage()
         {
             AssertInitialized();
-            foreach (IService service in Services)
-                try
-                {
-                    service.InformInitializeStage();
-                }
-                catch
-                {
-                    //TODO IMPLEMENT LOGGING HERE
-                }
-            var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-            foreach (IPlantEx plant in plants)
+            using (new BulkSettingsUpdate())
+            {
+                foreach (IService service in Services)
+                    try
+                    {
+                        service.InformInitializeStage();
+                    }
+                    catch
+                    {
+                        //TODO IMPLEMENT LOGGING HERE
+                    }
+                var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+                foreach (IPlantEx plant in plants)
                     AquaintPlantWithServices(plant);
+            }
         }
 
         public virtual void InformDisplayStage()
         {
             AssertInitialized();
-            foreach (IService service in Services)
-                try
-                {
-                    service.InformDisplayStage();
-                }
-                catch
-                {
-                    //TODO IMPLEMENT LOGGING HERE
-                }
+            using (new BulkSettingsUpdate())
+            {
+                foreach (IService service in Services)
+                    try
+                    {
+                        service.InformDisplayStage();
+                    }
+                    catch
+                    {
+                        //TODO IMPLEMENT LOGGING HERE
+                    }
+            }
         }
 
         public virtual void InformClosingStage()
         {
             AssertInitialized();
-            foreach (IService service in Services)
-                try
-                {
-                    service.InformClosingStage();
-                }
-                catch (Exception e)
-                {
-                    //TODO IMPLEMENT LOGGING HERE
-                }
+            using (new BulkSettingsUpdate())
+            {
+                foreach (IService service in Services)
+                    try
+                    {
+                        service.InformClosingStage();
+                    }
+                    catch (Exception e)
+                    {
+                        //TODO IMPLEMENT LOGGING HERE
+                    }
+            }
         }
 
         protected virtual void AquaintPlantWithServices(IPlantEx plantEx)
