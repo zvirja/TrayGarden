@@ -26,7 +26,12 @@ namespace TrayGarden.RuntimeSettings
         public virtual string this[string settingName]
         {
             get { return UnderlyingContainer.GetStringSetting(settingName); }
-            set { UnderlyingContainer.SetStringSetting(settingName, value); }
+            set
+            {
+                UnderlyingContainer.SetStringSetting(settingName, value);
+                if(BulkSettingsUpdate.CurrentValue != BulkUpdateState.Enabled)
+                    Save();
+            }
         }
 
         public virtual string GetString(string settingName, string fallbackValue)

@@ -58,6 +58,8 @@ namespace TrayGarden.RuntimeSettings
 
         protected virtual bool SaveSettingsInternal()
         {
+            if (BulkSettingsUpdate.CurrentValue == BulkUpdateState.Enabled)
+                return true;
             lock (_lock)
             {
                 return SettingsStorage.SaveSettings();
