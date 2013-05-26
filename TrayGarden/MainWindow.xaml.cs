@@ -5,6 +5,7 @@ using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -20,12 +21,15 @@ using System.Xml;
 using System.Xml.Serialization;
 using TrayGarden.Configuration;
 using TrayGarden.Helpers;
+using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Pipelines.Simple;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies;
+using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies.Switchers;
 using TrayGarden.TypesHatcher;
 using Clipboard = System.Windows.Clipboard;
 
@@ -128,15 +132,17 @@ namespace TrayGarden
             var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
             plant.IsEnabled = true;
 
+
+
             // servicesSteward.InformClosingStage();
 
-           
+            int a = 19;
 
-            int a = 10;
 
         }
 
-       
+    
+
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -144,5 +150,12 @@ namespace TrayGarden
         }
 
         
+    }
+
+    class IntSv:Switcher<int>
+    {
+        public IntSv(int newValue) : base(newValue)
+        {
+        }
     }
 }

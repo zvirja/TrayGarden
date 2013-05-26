@@ -18,7 +18,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-    public class MockType : IPlant,IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IStoreCustomSettingsStorage, IAskClipboardEvents
+    public class MockType : IPlant,IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IStoreCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation
     {
         public bool Initialized { get; set; }
         public int IntValue { get; set; }
@@ -150,5 +150,13 @@ namespace TrayGarden
 
         public string HumanSupportingName { get; private set; }
         public string Description { get; private set; }
+
+        public List<object> GetServiceDelegates()
+        {
+            return new List<object>
+                {
+                    new MockTypeUserConfig()
+                };
+        }
     }
 }
