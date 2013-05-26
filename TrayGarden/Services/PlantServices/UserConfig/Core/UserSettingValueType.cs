@@ -1,4 +1,4 @@
-﻿namespace TrayGarden.Services.PlantServices.UserConfig.Core
+﻿namespace TrayGarden.Services.PlantServices.UserConfig.Core.Stuff
 {
     public enum UserSettingValueType
     {
