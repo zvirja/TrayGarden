@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
     public interface IUserSetting
     {
@@ -12,12 +9,12 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         string StringValue { get; set; }
         string StringOptionValue { get; set; }
 
-
-
         /// <summary>
         /// Leave a way to extend service. By default this value always is null.
         /// </summary>
         string CustomTypeValue { get; set; }
+
+        string Name { get; }
 
         UserSettingValueType ValueType { get; }
         IUserSettingMetadata Metadata { get; }

@@ -1,26 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using TrayGarden.RuntimeSettings;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
     public interface IUserSettingMaster:IUserSetting
     {
-        UserSettingValueType ValueType { get; }
-
-        bool Initialize(UserSettingValueType valueType, object defaultValue, object additionalInfo);
-
-        bool SetIntValue(int value);
-        bool SetBoolValue(bool value);
-        bool SetStringValue(string value);
-        bool SetStringOptionValue(string value);
-
-        /// <summary>
-        /// Leave a way to extend service. By default this value always returns false.
-        /// </summary>
-        bool SetCustomTypeValue(string value);
-
-        
+        void Initialize(IUserSettingMetadata metadata, ISettingsBox containerSettingsBox);
+        event UserSettingValueChanged Changed;
     }
 }

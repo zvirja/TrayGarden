@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using System.Collections.Generic;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Stuff
 {
     public delegate void UserSettingValuesChanged(List<IUserSettingChange> changes);
 }

@@ -192,7 +192,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         public override void InformClosingStage()
         {
             base.InformClosingStage();
-            GlobalNotifyIcon.Dispose();
+            if(GlobalNotifyIcon != null)
+                GlobalNotifyIcon.Dispose();
         }
 
         #endregion

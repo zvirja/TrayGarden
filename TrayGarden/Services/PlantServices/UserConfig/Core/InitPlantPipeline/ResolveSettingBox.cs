@@ -14,7 +14,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
         public string SettingBoxName { get; set; }
 
         [UsedImplicitly]
-        public void Process(InitPlantUCPipelineArg args)
+        public virtual void Process(InitPlantUCPipelineArg args)
         {
             args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(GetSettingName());
         }

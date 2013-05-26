@@ -15,6 +15,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
             args.Workhorse.StoreUserSettingsBridge(args.Bridge);
         }
 
-       
     }
 }

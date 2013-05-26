@@ -1,13 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using JetBrains.Annotations;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
     public interface IUserSettingChange
     {
         IUserSetting NewUserSetting { get; }
+
+        [CanBeNull]
         IUserSetting OldUserSetting { get; }
     }
 }

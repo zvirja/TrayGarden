@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
-using TrayGarden.Configuration;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
     public interface IUserSettingsMetadataBuilder
     {
@@ -27,11 +26,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         void DeclareCustomTypeSetting(string type, string settingName, string defaultValue, object parameters);
         
 
-
-    }
-
-    public interface IUserSettingsMetadataBuilderMaster : IUserSettingsMetadataBuilder
-    {
 
     }
 }

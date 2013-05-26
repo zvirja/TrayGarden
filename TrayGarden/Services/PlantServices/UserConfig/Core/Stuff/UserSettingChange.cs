@@ -1,6 +1,6 @@
 ﻿using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Stuff
 {
     public struct UserSettingChange : IUserSettingChange
     {
@@ -10,7 +10,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
             OldUserSetting = oldUserSetting;
         }
 
-        public IUserSetting NewUserSetting { get; protected set; }
-        public IUserSetting OldUserSetting { get; protected set; }
+        public IUserSetting NewUserSetting { get; private set; }
+        public IUserSetting OldUserSetting { get; private set; }
     }
 }

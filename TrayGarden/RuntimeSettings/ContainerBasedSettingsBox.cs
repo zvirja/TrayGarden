@@ -48,9 +48,7 @@ namespace TrayGarden.RuntimeSettings
         public virtual int GetInt(string settingName, int fallbackValue)
         {
             int value;
-            if (int.TryParse(this[settingName], out value))
-                return value;
-            return fallbackValue;
+            return TryGetInt(settingName, out value) ? value : fallbackValue;
         }
 
         public virtual void SetInt(string settingName, int value)
@@ -61,14 +59,26 @@ namespace TrayGarden.RuntimeSettings
         public virtual bool GetBool(string settingName, bool fallbackValue)
         {
             bool value;
-            if (bool.TryParse(this[settingName], out value))
-                return value;
-            return fallbackValue;
+            return TryGetBool(settingName, out value) ? value : fallbackValue;
         }
 
         public virtual void SetBool(string settingName, bool value)
         {
             this[settingName] = value.ToString(CultureInfo.InvariantCulture);
+        }
+
+        public virtual bool TryGetBool(string settingName, out bool value)
+        {
+            if (bool.TryParse(this[settingName], out value))
+                return true;
+            return false;
+        }
+
+        public virtual bool TryGetInt(string settingName, out int value)
+        {
+            if (int.TryParse(this[settingName], out value))
+                return true;
+            return false;
         }
 
         public virtual ISettingsBox GetSubBox(string boxName)

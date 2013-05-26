@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using JetBrains.Annotations;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies.Switchers;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.UserConfig
+namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
+    [UsedImplicitly]
     public class UserConfigService : PlantServiceBase<UserConfigServicePlantBox>
     {
 

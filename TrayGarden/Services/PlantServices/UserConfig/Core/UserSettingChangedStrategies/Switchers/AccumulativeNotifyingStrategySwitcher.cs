@@ -10,7 +10,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedSt
     public class AccumulativeNotifyingStrategySwitcher : NotifyingStrategySwitcher
     {
         public AccumulativeNotifyingStrategySwitcher()
-            : base(new ImpatientNotifyingStrategy())
+            : base(new AccumulativeNotifyingStrategy())
         {
 
         }

@@ -37,6 +37,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
         {
             IUserSettingMaster settingObj = GetNewUserSettingObj();
             settingObj.Initialize(settingMetadata,box);
+            return settingObj;
         }
     }
 }
