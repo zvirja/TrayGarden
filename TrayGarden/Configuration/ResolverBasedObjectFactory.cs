@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.Configuration
 {
@@ -20,6 +21,7 @@ namespace TrayGarden.Configuration
         {
             if (GetInstanceResolver != null)
                 return GetInstanceResolver();
+            Log.Warn("ResolverBasedObjectFactory GetObject() null returned", this);
             return null;
         }
 
@@ -27,6 +29,7 @@ namespace TrayGarden.Configuration
         {
             if (GetPurelyNewInstanceResolver != null)
                 return GetPurelyNewInstanceResolver();
+            Log.Warn("ResolverBasedObjectFactory GetPurelyNewObject() null returned", this);
             return null;
         }
     }
