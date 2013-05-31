@@ -25,24 +25,25 @@ namespace TrayGarden.Diagnostics
             }
         }
 
-        public static void IsNotNull(object @object, string message, bool isError = true)
+        public static void IsNotNull(object @object, string message)
         {
             if (@object == null)
             {
-                throw (isError ? new InvalidOperationException(message) : new Exception(message));
+                throw  new Exception(message);
             }
         }
 
-        public static void IsNotNullOrEmpty(string condition, string message, bool isError = true)
+        public static void IsNotNullOrEmpty(string condition, string message)
         {
-            IsTrue(!string.IsNullOrEmpty(condition), message, isError);
+            IsTrue(!string.IsNullOrEmpty(condition), message);
         }
 
-        public static void IsTrue(bool condition, string message, bool isError = true)
+
+        public static void IsTrue(bool condition, string message)
         {
             if (!condition)
             {
-                throw (isError ? new InvalidOperationException(message) : new Exception(message));
+                throw new Exception(message);
             }
         }
     }
