@@ -16,5 +16,11 @@ namespace TrayGarden.Helpers
         {
             return string.IsNullOrEmpty(str);
         }
+
+        public static string FormatWith(this string format, params object[] @params)
+        {
+            return string.Format(format, @params);
+        }
+
     }
 }

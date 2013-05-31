@@ -35,6 +35,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="log4net">
+      <HintPath>..\..\..\..\..\Downloads\log4net-1.2.11-bin-newkey\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -81,8 +84,12 @@
     <Compile Include="Configuration\ResolverBasedObjectFactory.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\SimpleObjectFactory.cs" />
+    <Compile Include="Diagnostics\Assert.cs" />
+    <Compile Include="Diagnostics\Log.cs" />
+    <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
     <Compile Include="Hallway\IPlant.cs" />
     <Compile Include="Hallway\IServicesDelegation.cs" />
+    <Compile Include="Helpers\AppConfigHelper.cs" />
     <Compile Include="Helpers\ThreadContext.cs" />
     <Compile Include="Helpers\ThreadSwitcher\StackRawSwitcher.cs" />
     <Compile Include="Helpers\ThreadSwitcher\Switcher.cs" />
