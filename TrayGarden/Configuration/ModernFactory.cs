@@ -4,15 +4,17 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using JetBrains.Annotations;
 using TrayGarden.Configuration.ModernFactoryStuff;
 using TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners;
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Resources;
 
 namespace TrayGarden.Configuration
 {
-    public class ModernFactory: IFactory
+    public class ModernFactory : IFactory
     {
         protected static ModernFactory _actualFactory;
         protected static object _lock = new object();
@@ -104,23 +106,30 @@ namespace TrayGarden.Configuration
         {
             var mainSection = ConfigurationManager.GetSection("trayGarden") as SectionHandler;
             if (mainSection != null)
+            {
+                Log.Info("ModernFactory from AppConfig resolved", typeof(ModernFactory));
                 return mainSection.XmlRepresentation;
+            }
             var embeddedConfiguration = GetEmbeddedConfiguration();
+            Log.Info("ModernFactory from AppConfig resolved", typeof(ModernFactory));
             return embeddedConfiguration;
         }
 
         protected static XmlDocument GetEmbeddedConfiguration()
         {
             var document = new XmlDocument();
-            document.LoadXml(GlobalResourcesManager.GetStringByName("XmlConfiguration"));
+            string embeddedConfigValue = GlobalResourcesManager.GetStringByName("XmlConfiguration");
+            Assert.IsNotNullOrEmpty(embeddedConfigValue, "Embedded configuration is empty");
+            document.LoadXml(embeddedConfigValue);
             return document;
         }
 
         protected static ModernFactory GetModernFactoryInstance(XmlDocument document, string nodePath)
         {
             XmlNode factoryNode = document.SelectSingleNode(nodePath);
+            Assert.IsNotNull(factoryNode, "Factory node ({0}) in configuration wasn't found".FormatWith(nodePath));
             var type = factoryNode.Attributes["type"].Value;
-            var instance = (ModernFactory) Activator.CreateInstance(Type.GetType(type));
+            var instance = (ModernFactory)Activator.CreateInstance(Type.GetType(type));
             return instance;
         }
 
@@ -133,31 +142,49 @@ namespace TrayGarden.Configuration
             ObjectInfosCache = new Dictionary<object, ObjectInfo>();
             ParcerResolver = new ParcerResolver(this);
             ContentAssignersResolver = new ContentAssignersResolver();
+            Log.Debug("Modern factory object created", this);
         }
 
-        public virtual object GetObject(string configurationPath)
+        public virtual object GetObject([NotNull] string configurationPath)
         {
+            Assert.ArgumentNotNull(configurationPath, "configurationPath");
             return GetObjectFromPathInternal(configurationPath, true);
         }
 
-        public virtual object GetObject(XmlNode configurationNode)
+        public virtual object GetObject([NotNull] XmlNode configurationNode)
         {
+            Assert.ArgumentNotNull(configurationNode, "configurationNode");
             return GetObjectFromNodeInternal(configurationNode, true);
         }
 
-        public virtual object GetPurelyNewObject(string configurationPath)
+        public virtual object GetPurelyNewObject([NotNull] string configurationPath)
         {
+            Assert.ArgumentNotNull(configurationPath, "configurationPath");
             return GetObjectFromPathInternal(configurationPath, false);
         }
 
-        public virtual T GetObject<T>(string configurationPath) where T : class
+        public virtual T GetObject<T>([NotNull] string configurationPath) where T : class
         {
-            return GetObject(configurationPath) as T;
+            Assert.ArgumentNotNull(configurationPath, "configurationPath");
+            var result = GetObject(configurationPath);
+            var castedResult = result as T;
+            if (result != null && castedResult == null)
+                Log.Warn(
+                    "GetObject(). Type, specified in config differs from required type. path:{0}, specified type:{1}, required type:{2}"
+                        .FormatWith(configurationPath, result.GetType().FullName, typeof(T).FullName), this);
+            return castedResult;
         }
 
-        public virtual T GetPurelyNewObject<T>(string configurationPath) where T : class
+        public virtual T GetPurelyNewObject<T>([NotNull] string configurationPath) where T : class
         {
-            return GetPurelyNewObject(configurationPath) as T;
+            Assert.ArgumentNotNull(configurationPath, "configurationPath");
+            var result = GetPurelyNewObject(configurationPath);
+            var castedResult = result as T;
+            if (result != null && castedResult == null)
+                Log.Warn(
+                    "GetPurelyNewObject(). Type, specified in config differs from required type. path:{0}, specified type:{1}, required type:{2}"
+                        .FormatWith(configurationPath, result.GetType().FullName, typeof(T).FullName), this);
+            return castedResult;
         }
 
         /*public virtual T GetObject<T>(XmlNode configurationNode) where T : class
@@ -165,8 +192,9 @@ namespace TrayGarden.Configuration
             return GetObject(configurationNode) as T;
         }*/
 
-        public virtual string GetStringSetting(string settingName, string defaultValue)
+        public virtual string GetStringSetting([NotNull] string settingName, string defaultValue)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             if (Settings == null)
             {
                 lock (_lock)
@@ -213,7 +241,7 @@ namespace TrayGarden.Configuration
                 return null;
             }
             var isPrototype = instance is ISupportPrototyping;
-            var isSingleton = makeSingleton  || XmlHelper.GetAttributeValue(configurationNode, "singleton").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
+            var isSingleton = makeSingleton || XmlHelper.GetAttributeValue(configurationNode, "singleton").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
             var objectInfo = new ObjectInfo(instance, configurationNode, isSingleton, isPrototype);
             ObjectInfosCache[configurationNode] = objectInfo;
             return objectInfo;
@@ -252,17 +280,18 @@ namespace TrayGarden.Configuration
                 if (specialInstance != null)
                     return specialInstance;
                 string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
-                if (typeStrValue.IsNullOrEmpty())
-                    return null;
+                Assert.IsNotNullOrEmpty(typeStrValue, "Type shouldn't be null");
                 Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
-                if (typeObj == null)
-                    return null;
+                Assert.IsNotNull(typeObj, "Type is invalid");
                 object instance = Activator.CreateInstance(typeObj);
                 AssignContent(configurationNode, instance);
                 return instance;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error(
+                    "Expception during instance creation. ConfigurationNodeName: {0}".FormatWith(configurationNode.Name),
+                    this, ex);
                 return null;
             }
         }
@@ -280,6 +309,9 @@ namespace TrayGarden.Configuration
                 }
                 catch
                 {
+                    Log.Warn(
+                        "Unable to assign content node. instance type:{0}, node name:{1}".FormatWith(
+                            instance.GetType().FullName, contentNode.Name), this);
                 }
             }
         }
@@ -323,8 +355,8 @@ namespace TrayGarden.Configuration
             if (objectInstance == null)
                 return null;
             var contentAssigner = ResolveDirectContentAssigner(specialPrefix);
-            if(contentAssigner != null)
-                contentAssigner.AssignContent(objectConfigurationNode,objectInstance,objectInstance.GetType(),GetValueParcer);
+            if (contentAssigner != null)
+                contentAssigner.AssignContent(objectConfigurationNode, objectInstance, objectInstance.GetType(), GetValueParcer);
             return objectInstance;
         }
 
@@ -343,6 +375,7 @@ namespace TrayGarden.Configuration
                 return CreateSpecialNewList(objectConfigurationNode, out makeSingleton);
             if (specialPrefix.ToUpperInvariant().Equals("OBJECTFACTORY"))
                 return CreateSpecialObjectFactory(objectConfigurationNode, out makeSingleton);
+            Log.Warn("Unknown special prefix: {0}".FormatWith(specialPrefix), this);
             return null;
         }
 
@@ -350,11 +383,11 @@ namespace TrayGarden.Configuration
         {
             makeSingleton = false;
             string typeStr = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
-            typeStr = typeStr.Substring(typeStr.IndexOf(":",StringComparison.OrdinalIgnoreCase)+1);
+            typeStr = typeStr.Substring(typeStr.IndexOf(":", StringComparison.OrdinalIgnoreCase) + 1);
             Type type = ReflectionHelper.ResolveType(typeStr);
             if (type == null)
                 return null;
-            var listGeneric = typeof (List<>).MakeGenericType(new Type[] {type});
+            var listGeneric = typeof(List<>).MakeGenericType(new Type[] { type });
             return Activator.CreateInstance(listGeneric);
         }
 
@@ -372,7 +405,10 @@ namespace TrayGarden.Configuration
             Settings = new Dictionary<string, string>();
             var settingsParentNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, SettingsNodePath);
             if (settingsParentNode == null)
+            {
+                Log.Warn("Unable to find settings node. Node path:{0}".FormatWith(SettingsNodePath), this);
                 return;
+            }
             XmlNodeList settingNodes = settingsParentNode.ChildNodes;
             foreach (XmlNode settingNode in settingNodes)
             {
