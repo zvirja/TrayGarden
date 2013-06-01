@@ -24,7 +24,7 @@ namespace TrayGarden.Helpers.ThreadSwitcher
         {
             Stack<TSwitchValue> stack = GetStack(false);
             if (stack == null || stack.Count == 0)
-                throw new InvalidOperationException("The stack is empty"); ;
+                throw new InvalidOperationException("The stack is empty");
             stack.Pop();
         }
 

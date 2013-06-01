@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants.Pipeline;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
@@ -28,7 +29,7 @@ namespace TrayGarden.Plants
         [UsedImplicitly]
         public virtual void Initialize([NotNull] List<object> plants)
         {
-            if (plants == null) throw new ArgumentNullException("plants");
+            Assert.ArgumentNotNull(plants, "plants");
             MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
             foreach (object plant in plants)
             {
@@ -61,7 +62,7 @@ namespace TrayGarden.Plants
         protected virtual void AssertInitialized()
         {
             if(!Initialized)
-                throw new NonInitializedException(); ;
+                throw new NonInitializedException();
         }
 
     }

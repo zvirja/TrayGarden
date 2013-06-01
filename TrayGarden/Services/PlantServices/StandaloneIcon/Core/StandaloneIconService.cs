@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 using TrayGarden.TypesHatcher;
@@ -26,16 +27,15 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
         protected void ExitGardenClick(object sender, EventArgs eventArgs)
         {
             throw new NotImplementedException();
+            //TODO implement later
         }
 
         protected void CloseComponentClick(object sender, EventArgs eventArgs)
         {
             var toolStrip = sender as ToolStripItem;
-            if (toolStrip == null)
-                return;
+            Assert.IsNotNull(toolStrip, "ToolStripItem expected");
             var siBox = toolStrip.Tag as StandaloneIconPlantBox;
-            if (siBox == null)
-                return;
+            Assert.IsNotNull(siBox, "StandaloneIconPlantBox expected");
             siBox.IsEnabled = false;
         }
 
@@ -46,18 +46,18 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
                 siBox.FixNIVisibility();
         }
 
-        
-        
+
+
         public override void InitializePlant(IPlantEx plantEx)
         {
             base.InitializePlant(plantEx);
             InitializePlantFromPipeline(plantEx);
         }
-        
 
-       public override void InformDisplayStage()
+
+        public override void InformDisplayStage()
         {
-           base.InformDisplayStage();
+            base.InformDisplayStage();
             List<IPlantEx> enabledPlants = HatcherGuide<IGardenbed>.Instance.GetEnabledPlants();
             foreach (IPlantEx enabledPlant in enabledPlants)
             {
@@ -75,7 +75,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
             foreach (IPlantEx plant in allPlants)
             {
                 var siBox = GetPlantLuggage(plant);
-                if(siBox != null)
+                if (siBox != null)
                     siBox.NotifyIcon.Dispose();
             }
         }

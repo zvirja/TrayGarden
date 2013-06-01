@@ -5,6 +5,7 @@ using System.Linq;
 using System.Xml.Serialization;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.RuntimeSettings.Provider
@@ -22,15 +23,14 @@ namespace TrayGarden.RuntimeSettings.Provider
 
         public SettingsStorage()
         {
-            FileName = "runtimeSettings.xml";
+            FileName = "RuntimeSettings.xml";
             UseLocalFolder = true;
         }
 
         [UsedImplicitly]
         public void Initialize(IObjectFactory containerFactory)
         {
-            if (containerFactory == null)
-                throw new ArgumentNullException("containerFactory");
+            Assert.ArgumentNotNull(containerFactory, "containerFactory");
             ContainerFactory = containerFactory;
         }
 
@@ -72,6 +72,7 @@ namespace TrayGarden.RuntimeSettings.Provider
             }
             if (folderName.IsNullOrEmpty())
                 folderName = Directory.GetCurrentDirectory();
+            Assert.IsNotNullOrEmpty(folderName, "Folder name shouldn't be unresolved");
             return Path.Combine(folderName, FileName);
         }
 
@@ -81,6 +82,7 @@ namespace TrayGarden.RuntimeSettings.Provider
                                                                                    settingPair => settingPair.Value);
             var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
             var newContainer = ContainerFactory.GetPurelyNewObject() as IContainer;
+            Assert.IsNotNull(newContainer,"Wrong container factory");
             newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
             return newContainer;
         }
@@ -115,9 +117,10 @@ namespace TrayGarden.RuntimeSettings.Provider
                     return resultObject;
                 }
             }
-            catch
+            catch(Exception ex)
             {
                 File.Delete(fileName);
+                Log.Warn("Failed to deserialize setting storage file {0}".FormatWith(fileName),this,ex);
                 return null;
             }
         }
@@ -138,8 +141,9 @@ namespace TrayGarden.RuntimeSettings.Provider
                 }
                 return true;
             }
-            catch
+            catch (Exception ex)
             {
+                Log.Error("Failed to save settings to file", this, ex);
                 return false;
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Xml;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
@@ -18,9 +19,10 @@ namespace TrayGarden.Pipelines.Engine
             PipelinesInternal = new Dictionary<string, IPipeline>();
         }
 
+        [UsedImplicitly]
         public virtual void Initialize(IEnumerable<IPipeline> pipelines)
         {
-            if (pipelines == null) throw new ArgumentNullException("pipelines");
+            Assert.ArgumentNotNull(pipelines, "pipelines");
             PipelinesInternal = new Dictionary<string, IPipeline>();
             foreach (IPipeline pipeline in pipelines)
             {

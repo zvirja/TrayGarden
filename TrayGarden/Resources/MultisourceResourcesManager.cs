@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Resources;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
@@ -47,6 +48,10 @@ namespace TrayGarden.Resources
                 {
                     sourcesToRemove.Add(source);
                 }
+                catch (Exception ex)
+                {
+                    Log.Error("Can't read resource!");
+                }
             }
 
             if (sourcesToRemove.Count > 0)
@@ -54,6 +59,7 @@ namespace TrayGarden.Resources
                 foreach (var source in sourcesToRemove)
                 {
                     Sources.Remove(source);
+                    Log.Info("Resource source was removed: {0}".FormatWith(source.Source.BaseName), this);
                 }
             }
 

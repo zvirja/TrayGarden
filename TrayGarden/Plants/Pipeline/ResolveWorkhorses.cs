@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Hallway;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.Plants.Pipeline
 {
@@ -20,6 +22,7 @@ namespace TrayGarden.Plants.Pipeline
                 List<object> workhorseCandidates = asExpected.GetServiceDelegates();
                 if (workhorseCandidates != null)
                     workhorses.AddRange(workhorseCandidates);
+                Log.Debug("Plant {0} supports service delegation".FormatWith(args.PlantObject.GetType().FullName), this);
             }
             args.Workhorses = workhorses;
         }

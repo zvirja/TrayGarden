@@ -90,6 +90,7 @@ namespace TrayGarden.RuntimeSettings.Provider
             Settings[name] = value;
         }
 
+
         #endregion
 
     }

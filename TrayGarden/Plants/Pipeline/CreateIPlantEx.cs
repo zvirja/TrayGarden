@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.Plants.Pipeline
 {
@@ -20,7 +21,7 @@ namespace TrayGarden.Plants.Pipeline
             }
             catch (Exception ex)
             {
-                //TODO implement logging
+                Log.Error("Can't initialize PlantEx", this, ex);
             }
         }
 

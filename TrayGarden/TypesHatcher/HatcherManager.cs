@@ -2,11 +2,14 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Xml;
+using JetBrains.Annotations;
 using TrayGarden.Configuration;
 using TrayGarden.Helpers;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.TypesHatcher
 {
+    [UsedImplicitly]
     public class HatcherManager
     {
         protected static readonly Lazy<HatcherManager> Instance =
@@ -20,27 +23,23 @@ namespace TrayGarden.TypesHatcher
         protected bool Initialized { get; set; }
         protected Dictionary<Type, IObjectFactory> Mappings { get; set; }
 
-        //protected IObjectFactory EggFactory { get; set; }
-
         public HatcherManager()
         {
             Mappings = new Dictionary<Type, IObjectFactory>();
         }
 
+        [UsedImplicitly]
         public virtual void Initialize(List<IMapping> mappings)
         {
-           // if (eggFactory == null)
-               // throw new ArgumentNullException("eggFactory");
-            if (mappings == null)
-                throw new ArgumentNullException("mappings");
-           // EggFactory = eggFactory;
+            Assert.ArgumentNotNull(mappings, "mappings");
             foreach (IMapping mapping in mappings)
             {
                 if (ValidateMapping(mapping))
                     Mappings.Add(mapping.InterfaceType, mapping.ObjectFactory);
-                //var resolvedEgg = ResolveEgg(mapping, eggFactory);
-                //if (resolvedEgg != null)
-                //    Eggs.Add(resolvedEgg.KeyInterface, resolvedEgg);
+                else
+                {
+                    Log.Warn("Cannot validate mapping '{0}' for Hatcher".FormatWith(mapping.ToString()), this);
+                }
             }
             Initialized = true;
         }
@@ -57,35 +56,13 @@ namespace TrayGarden.TypesHatcher
             return true;
         }
 
-        /*protected virtual Egg ResolveEgg(IMapping mapping, IObjectFactory eggFactory)
-        {
-            var newEgg = (Egg)eggFactory.GetPurelyNewObject();
-            if (TryInitializeFromMapping(mapping, newEgg))
-                return newEgg;
-            return null;
-        }
-
-        protected virtual bool TryInitializeFromMapping(IMapping mapping, Egg egg)
-        {
-            Type interfaceType = mapping.InterfaceType;
-            if (interfaceType == null)
-                return false;
-            if (!interfaceType.IsInterface)
-                return false;
-            string instanceConfigurationPath = mapping.InstanceConfigurationPath;
-            if (instanceConfigurationPath.IsNullOrEmpty())
-                return false;
-            egg.InitializeByValues(instanceConfigurationPath, interfaceType, isSingleton);
-            return true;
-        }*/
-
-
         public virtual object GetObjectByType(Type keyInterface)
         {
             if (!Initialized)
                 throw new NonInitializedException();
             if (Mappings.ContainsKey(keyInterface))
                 return Mappings[keyInterface].GetObject();
+            Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
             return null;
         }
 
@@ -95,6 +72,7 @@ namespace TrayGarden.TypesHatcher
                 throw new NonInitializedException();
             if (Mappings.ContainsKey(keyInterface))
                 return Mappings[keyInterface].GetPurelyNewObject();
+            Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
             return null;
         }
     }

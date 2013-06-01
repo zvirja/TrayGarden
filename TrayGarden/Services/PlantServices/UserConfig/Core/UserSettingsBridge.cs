@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using JetBrains.Annotations;
 using System.Linq;
+using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies;
@@ -26,8 +27,8 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         public virtual void Initialize([NotNull] IEnumerable<IUserSettingMaster> userSettings,
                                        [NotNull] IUserSettingChangedStrategy defaultNotifyingStrategy)
         {
-            if (userSettings == null) throw new ArgumentNullException("userSettings");
-            if (defaultNotifyingStrategy == null) throw new ArgumentNullException("defaultNotifyingStrategy");
+            Assert.ArgumentNotNull(userSettings, "userSettings");
+            Assert.ArgumentNotNull(defaultNotifyingStrategy, "defaultNotifyingStrategy");
             DefaultNotifyingStrategy = defaultNotifyingStrategy;
             var userSettingsDictionary = new Dictionary<string, IUserSetting>();
             foreach (IUserSettingMaster userSetting in userSettings)

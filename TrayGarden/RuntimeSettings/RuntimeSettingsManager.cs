@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Timers;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.RuntimeSettings.Provider;
 
 namespace TrayGarden.RuntimeSettings
@@ -36,8 +37,7 @@ namespace TrayGarden.RuntimeSettings
         [UsedImplicitly]
         public virtual void Initialize(ISettingsStorage settingsStorage)
         {
-            if (settingsStorage == null)
-                throw new ArgumentNullException("settingsStorage");
+            Assert.ArgumentNotNull(settingsStorage, "settingsStorage");
             SettingsStorage = settingsStorage;
             SettingsStorage.LoadSettings();
             RootContainer = SettingsStorage.GetRootContainer();

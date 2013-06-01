@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Hallway;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.RuntimeSettings.Provider;
@@ -44,13 +45,13 @@ namespace TrayGarden.Plants
         }
 
 
-        public virtual void Initialize([NotNull] IPlant plant, [NotNull] List<object> workhorses, string id,
+        public virtual void Initialize([NotNull] IPlant plant, [NotNull] List<object> workhorses, [NotNull] string id,
                                        [NotNull] ISettingsBox mySettingsBox)
         {
-            if (plant == null) throw new ArgumentNullException("plant");
-            if (workhorses == null) throw new ArgumentNullException("workhorses");
-            if (mySettingsBox == null) throw new ArgumentNullException("mySettingsBox");
-            if (id.IsNullOrEmpty()) throw new ArgumentNullException("id");
+            Assert.ArgumentNotNull(plant, "plant");
+            Assert.ArgumentNotNull(workhorses, "workhorses");
+            Assert.ArgumentNotNullOrEmpty(id, "id");
+            Assert.ArgumentNotNull(mySettingsBox, "mySettingsBox");
             Workhorses = workhorses;
             Plant = plant;
             ID = id;

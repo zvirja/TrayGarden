@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Xml;
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 using TrayGarden.Helpers;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
@@ -27,8 +28,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
         protected virtual void AssignContentToList(IList list, XmlNodeList contentNodes,
                                                    Func<Type, IParcer> valueParcerResolver)
         {
-            if (list == null)
-                throw new ArgumentNullException("list");
+            Assert.ArgumentNotNull(list, "list");
             var listGenericArgument = GetListGenericArgumentType(list.GetType());
             if (listGenericArgument == null)
                 throw new Exception("Unexpected value");

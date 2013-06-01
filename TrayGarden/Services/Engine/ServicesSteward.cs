@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.Services.Engine
 {
@@ -19,7 +21,7 @@ namespace TrayGarden.Services.Engine
         [UsedImplicitly]
         public void Initialize([NotNull] List<IService> services)
         {
-            if (services == null) throw new ArgumentNullException("services");
+            Assert.ArgumentNotNull(services, "services");
             Services = services;
             Initialized = true;
         }
@@ -30,14 +32,16 @@ namespace TrayGarden.Services.Engine
             using (new BulkSettingsUpdate())
             {
                 foreach (IService service in Services)
+                {
                     try
                     {
                         service.InformInitializeStage();
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        //TODO IMPLEMENT LOGGING HERE
+                        Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), this, ex);
                     }
+                }
                 var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
                 foreach (IPlantEx plant in plants)
                     AquaintPlantWithServices(plant);
@@ -54,9 +58,10 @@ namespace TrayGarden.Services.Engine
                     {
                         service.InformDisplayStage();
                     }
-                    catch
+                    catch(Exception ex)
                     {
-                        //TODO IMPLEMENT LOGGING HERE
+                        Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), this, ex);
+
                     }
             }
         }
@@ -71,9 +76,10 @@ namespace TrayGarden.Services.Engine
                     {
                         service.InformClosingStage();
                     }
-                    catch (Exception e)
+                    catch (Exception ex)
                     {
-                        //TODO IMPLEMENT LOGGING HERE
+                        Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), this, ex);
+
                     }
             }
         }
@@ -86,9 +92,9 @@ namespace TrayGarden.Services.Engine
                 {
                     service.InitializePlant(plantEx);
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    //TODO IMPLEMENT LOGGING HERE
+                    Log.Error("Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName,service.GetType().FullName), this, ex);
                 }
             }
         }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using System.Linq;
@@ -25,20 +26,22 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         [UsedImplicitly]
         public virtual void Initialize([NotNull] IObjectFactory metadataInstanceFactory)
         {
-            if (metadataInstanceFactory == null) throw new ArgumentNullException("metadataInstanceFactory");
+            Assert.ArgumentNotNull(metadataInstanceFactory, "metadataInstanceFactory");
             MetadataInstanceFactory = metadataInstanceFactory;
             Initialized = true;
         }
 
         public virtual void DeclareIntSetting([NotNull] string settingName, int defaultValue)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             AssertInitialized();
             if (settingName.IsNullOrEmpty()) throw new ArgumentException("settingName");
             DeclareSettingMetadata(settingName, UserSettingValueType.Int, defaultValue.ToString(CultureInfo.InvariantCulture), null);
         }
 
-        public virtual void DeclareBoolSetting(string settingName, bool defaultValue)
+        public virtual void DeclareBoolSetting([NotNull] string settingName, bool defaultValue)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             AssertInitialized();
             if (settingName.IsNullOrEmpty()) throw new ArgumentException("settingName");
             DeclareSettingMetadata(settingName, UserSettingValueType.Bool, defaultValue.ToString(CultureInfo.InvariantCulture), null);
@@ -47,6 +50,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
 
         public virtual void DeclareStringSetting(string settingName, string defaultValue)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             AssertInitialized();
             if (settingName.IsNullOrEmpty()) throw new ArgumentException("settingName");
             DeclareSettingMetadata(settingName, UserSettingValueType.String, defaultValue, null);
@@ -54,17 +58,17 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
 
         public virtual void DeclareStringOptionSetting(string settingName, [NotNull] List<string> options, string defaultValue)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             AssertInitialized();
-            if (settingName.IsNullOrEmpty()) throw new ArgumentException("settingName");
             if (options == null || options.Count == 0) throw new ArgumentException("options");
             DeclareSettingMetadata(settingName, UserSettingValueType.StringOption, defaultValue.ToString(CultureInfo.InvariantCulture), options);
         }
 
-        public virtual void DeclareCustomTypeSetting(string type, string settingName, string defaultValue, object parameters)
+        public virtual void DeclareCustomTypeSetting([NotNull] string type, [NotNull] string settingName, string defaultValue, object parameters)
         {
+            Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
+            Assert.ArgumentNotNullOrEmpty(type, "type");
             AssertInitialized();
-            if (type.IsNullOrEmpty()) throw new ArgumentException("type");
-            if (settingName.IsNullOrEmpty()) throw new ArgumentException("settingName");
             DeclareSettingMetadata(settingName, UserSettingValueType.StringOption, defaultValue.ToString(CultureInfo.InvariantCulture), new[] { type, parameters });
         }
 
@@ -84,10 +88,11 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
             if (this.SettingsMetadata.ContainsKey(name))
                 throw new ArgumentException("The setting with same name already exists");
             var settingMetadata = MetadataInstanceFactory.GetPurelyNewObject() as IUserSettingMetadataMaster;
-            if (settingMetadata == null)
-                return;
+            Assert.IsNotNull(settingMetadata,"Metadata instance factory returns wrong objects");
             settingMetadata.Initialize(name, valueType, defaultValue, additionalParams);
             SettingsMetadata.Add(name, settingMetadata);
         }
+
+        
     }
 }

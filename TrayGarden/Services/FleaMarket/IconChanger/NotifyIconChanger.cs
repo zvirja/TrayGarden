@@ -7,6 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.Services.FleaMarket.IconChanger
 {
@@ -29,20 +30,22 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
 
         public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
         {
-            if (operableNIcon == null) throw new ArgumentNullException("operableNIcon");
+            Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
             OperableNIcon = operableNIcon;
             BackIcon = OperableNIcon.Icon;
             Initialized = true;
         }
 
-        public virtual void SetIcon(Icon newIcon, int msTimeout)
+        public virtual void SetIcon([NotNull] Icon newIcon, int msTimeout)
         {
+            Assert.ArgumentNotNull(newIcon, "newIcon");
             AssertInitialized();
             SetIconInternal(newIcon, BackIcon, msTimeout);
         }
 
-        public virtual void SetIcon(Icon newIcon)
+        public virtual void SetIcon([NotNull] Icon newIcon)
         {
+            Assert.ArgumentNotNull(newIcon, "newIcon");
             AssertInitialized();
             SetIcon(newIcon,DefaultDelayMsec);
         }

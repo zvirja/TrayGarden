@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 using TrayGarden.Helpers;
 
@@ -34,9 +35,15 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
             Icon niIcon;
             MouseEventHandler niClickHandler;
             if (!asSimple.GetIconInfo(out niTitle, out niIcon, out niClickHandler))
+            {
+                Log.Warn("Plant inherints StandaloneIcon contract, but wouldn't like return notify icon",this);
                 return;
+            }
             if (niTitle.IsNullOrEmpty() || niIcon == null || niClickHandler == null)
+            {
+                Log.Warn("Plant inherints StandaloneIcon contract, but return wrong data", this);
                 return;
+            }
             var notifyIcon = new NotifyIcon();
             notifyIcon.Visible = false;
             notifyIcon.Text = niTitle;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
@@ -14,16 +15,16 @@ namespace TrayGarden.Pipelines.Engine
         protected bool Initialized { get; set; }
 
         [UsedImplicitly]
-        public virtual void Initialize(string argumentTypeStr,string name,List<Processor> processors )
+        public virtual void Initialize([NotNull] string argumentTypeStr, [NotNull] string name,List<Processor> processors )
         {
-            if (processors == null) throw new ArgumentNullException("processors");
-            if (argumentTypeStr.IsNullOrEmpty()) throw new ArgumentNullException("argumentTypeStr");
-            if (name.IsNullOrEmpty()) throw new ArgumentNullException("name");
+            Assert.ArgumentNotNull(argumentTypeStr, "argumentTypeStr");
+            Assert.ArgumentNotNull(name, "name");
+            Assert.ArgumentNotNull(processors, "processors");
             Name = name;
             if (ArgumentType == null)
                 ArgumentType = ReflectionHelper.ResolveType(argumentTypeStr);
             if (ArgumentType == null)
-                throw new Exception("Pipeline. Argument type invalid");
+                throw new Exception("Pipeline {0}. Argument type invalid".FormatWith(name));
             Processors = processors;
             Initialized = true;
         }
@@ -42,9 +43,19 @@ namespace TrayGarden.Pipelines.Engine
                 }
                 catch (Exception e)
                 {
+                    Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()));
                     break;
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return Initialized
+                       ? "Processor {0}. ArgumentType: {1}, number of processors {2}".FormatWith(Name,
+                                                                                                 ArgumentType.FullName,
+                                                                                                 Processors.Count)
+                       : base.ToString();
         }
     }
 }

@@ -6,6 +6,7 @@ using System.Resources;
 using System.Text;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Resources
@@ -19,8 +20,10 @@ namespace TrayGarden.Resources
         public ResourceManager Source { get; protected set; }
 
         [UsedImplicitly]
-        public virtual void Initialize(string assemblyName, string resourcePath)
+        public virtual void Initialize([NotNull] string assemblyName, [NotNull] string resourcePath)
         {
+            Assert.ArgumentNotNullOrEmpty(assemblyName, "assemblyName");
+            Assert.ArgumentNotNullOrEmpty(resourcePath, "resourcePath");
             AssemblyName = assemblyName;
             ResourcePath = resourcePath;
             var assembly = ResolveAssembly(AssemblyName);
@@ -42,9 +45,9 @@ namespace TrayGarden.Resources
                 {
                     assembly = AppDomain.CurrentDomain.Load(assemblyName);
                 }
-                catch
+                catch(Exception ex)
                 {
-                    return null;
+                    Log.Warn("Can't load assembly {0}".FormatWith(assemblyName), this, ex);
                 }
             }
             return assembly;

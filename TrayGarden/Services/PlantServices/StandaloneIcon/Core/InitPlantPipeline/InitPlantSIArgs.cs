@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 
@@ -18,8 +19,8 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 
         public InitPlantSIArgs([NotNull] IPlantEx plantEx, [NotNull] string luggageName, EventHandler closeComponentClick, EventHandler exitGardenClick)
         {
-            if (plantEx == null) throw new ArgumentNullException("plantEx");
-            if (luggageName == null) throw new ArgumentNullException("luggageName");
+            Assert.ArgumentNotNull(plantEx, "plantEx");
+            Assert.ArgumentNotNullOrEmpty(luggageName, "luggageName");
             PlantEx = plantEx;
             LuggageName = luggageName;
             CloseComponentClick = closeComponentClick;

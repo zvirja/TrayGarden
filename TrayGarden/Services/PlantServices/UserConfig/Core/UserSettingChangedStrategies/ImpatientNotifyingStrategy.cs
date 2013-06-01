@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
@@ -10,10 +11,11 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedSt
     public class ImpatientNotifyingStrategy : IUserSettingChangedStrategy
     {
 
-        public virtual void NotifySettingChanged(IUserSetting before, IUserSetting after,
+        public virtual void NotifySettingChanged(IUserSetting before, [NotNull] IUserSetting after,
                                                  [NotNull] IUserSettingsBridgeMaster originator)
         {
-            if (originator == null) throw new ArgumentNullException("originator");
+            Assert.ArgumentNotNull(after, "after");
+            Assert.ArgumentNotNull(originator, "originator");
             originator.RaiseSettingsChangedEvent(new List<IUserSettingChange>{GetChange(before,after)});
         }
 

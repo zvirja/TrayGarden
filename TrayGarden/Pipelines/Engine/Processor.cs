@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Pipelines.Engine
@@ -12,12 +13,18 @@ namespace TrayGarden.Pipelines.Engine
         protected bool Initialized { get; set; }
 
         [UsedImplicitly]
-        public virtual bool Initialize(object processorObject, string argumentTypeStr)
+        public virtual bool Initialize([NotNull] object processorObject, [NotNull] string argumentTypeStr)
         {
+            Assert.ArgumentNotNull(processorObject, "processorObject");
+            Assert.ArgumentNotNullOrEmpty(argumentTypeStr, "argumentTypeStr");
             var argumentType = ReflectionHelper.ResolveType(argumentTypeStr);
+            Assert.IsNotNull(argumentType, "Processor initialization: Invalid type {0}".FormatWith(argumentTypeStr));
             Invoker = ResolveInvoker(processorObject, argumentType);
             if (Invoker == null)
+            {
+                Log.Warn("Can't initialize processor {0}".FormatWith(processorObject.GetType().FullName), this);
                 return false;
+            }
             Initialized = true;
             return true;
         }
@@ -37,9 +44,14 @@ namespace TrayGarden.Pipelines.Engine
             Type processorObjType = processorObject.GetType();
             MethodInfo processMethod = processorObjType.GetMethod("Process");
             if (!ValidateProcessorObj(processMethod, argumentType))
+            {
+                Log.Warn(
+                    "The processor object {0} doesn't contain valid process method{{Process({1}) expected }}".FormatWith
+                        (processMethod.GetType().FullName, argumentType.FullName), this);
                 return null;
-            Type generalProcessInvokerType = typeof (Action<>);
-            Type specificProcessInvokerType = generalProcessInvokerType.MakeGenericType(new[] {argumentType});
+            }
+            Type generalProcessInvokerType = typeof(Action<>);
+            Type specificProcessInvokerType = generalProcessInvokerType.MakeGenericType(new[] { argumentType });
             Delegate invoker = Delegate.CreateDelegate(specificProcessInvokerType, processorObject, processMethod);
             return invoker;
         }
@@ -53,6 +65,9 @@ namespace TrayGarden.Pipelines.Engine
             return firstParamType == argumentType;
         }
 
-
+        public override string ToString()
+        {
+            return !Initialized ? base.ToString() : "Processor. Executable type: {0}".FormatWith(Invoker.Target.GetType().FullName);
+        }
     }
 }

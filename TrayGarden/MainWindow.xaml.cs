@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -20,6 +21,7 @@ using System.Windows.Shapes;
 using System.Xml;
 using System.Xml.Serialization;
 using TrayGarden.Configuration;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.Pipelines.Engine;
@@ -31,6 +33,7 @@ using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies.Switchers;
 using TrayGarden.TypesHatcher;
+using log4net.Appender;
 using Clipboard = System.Windows.Clipboard;
 
 namespace TrayGarden
@@ -132,7 +135,9 @@ namespace TrayGarden
             var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
             plant.IsEnabled = true;
 
+          //  Log.Info("Test info", this);
 
+           // RuntimeHelpers.PrepareMethod(typeof (FileAppender).GetMethod("ActivateOptions").MethodHandle);
 
             // servicesSteward.InformClosingStage();
 
@@ -147,6 +152,7 @@ namespace TrayGarden
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
             HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
+
         }
 
         
