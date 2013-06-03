@@ -93,7 +93,12 @@
     <Compile Include="Helpers\ThreadContext.cs" />
     <Compile Include="Helpers\ThreadSwitcher\StackRawSwitcher.cs" />
     <Compile Include="Helpers\ThreadSwitcher\Switcher.cs" />
+    <Compile Include="LifeCycle\LifecycleObserver.cs" />
     <Compile Include="MockTypeUserConfig.cs" />
+    <Compile Include="Pipelines\Shutdown\ShutdownArgs.cs" />
+    <Compile Include="Pipelines\Shutdown\ShutdownPipeline.cs" />
+    <Compile Include="Pipelines\Startup\StartupArgs.cs" />
+    <Compile Include="Pipelines\Startup\StartupPipeline.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantSettingBox.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantID.cs" />
     <Compile Include="Plants\Pipeline\ResolveWorkhorses.cs" />
@@ -209,8 +214,6 @@
     <Compile Include="Pipelines\Engine\PipelineArgs.cs" />
     <Compile Include="Pipelines\Engine\Processor.cs" />
     <Compile Include="Pipelines\Engine\PipelineManager.cs" />
-    <Compile Include="Pipelines\Simple\SomeArgs.cs" />
-    <Compile Include="Pipelines\Simple\SomeProcessor.cs" />
     <Compile Include="Resources\MultisourceResourcesManager.cs" />
     <Compile Include="TypesHatcher\IMapping.cs" />
     <Compile Include="TypesHatcher\Mapping.cs" />

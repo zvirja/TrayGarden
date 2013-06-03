@@ -8,8 +8,8 @@ namespace TrayGarden.Pipelines.Startup
     {
         public static void Run()
         {
-            var args = new StartupPipeline();
-            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("startup", args);
+            var args = new StartupArgs();
+            HatcherGuide<IPipelineManager>.Instance.InvokePipelineUnmaskedExceptions("startup", args);
         }
     }
 }
