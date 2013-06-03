@@ -1,11 +1,9 @@
 ﻿using System.Xml;
-using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff
+namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
 {
     public class ObjectParcer : IParcer
     {
-
         protected ModernFactory ModernFactoryInstance { get; set; }
 
         public ObjectParcer(ModernFactory modernFactoryInstance)

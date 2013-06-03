@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Xml;
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
+using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using System.Linq;
 
@@ -18,7 +19,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 return;
             Type[] methodArgTypes = methodInfo.GetParameters().Select(x => x.ParameterType).ToArray();
             object[] methodArgs = GetArgValues(contentNode, methodArgTypes, valueParcerResolver);
-            InvokeMethod(methodInfo,methodArgs,instance);
+            InvokeMethod(methodInfo, methodArgs, instance);
         }
 
         protected virtual MethodInfo ResolveMethodInfo(XmlNode contentNode, object instance, Type instanceType)
@@ -53,7 +54,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             string argTypes = XmlHelper.GetAttributeValue(contentNode, "argTypes");
             if (argTypes.IsNullOrEmpty())
                 return null;
-            string[] typesStrArray = argTypes.Split(new string[] {"|"}, StringSplitOptions.None);
+            string[] typesStrArray = argTypes.Split(new string[] { "|" }, StringSplitOptions.None);
             var types = new List<Type>();
             foreach (string typeStr in typesStrArray)
             {
@@ -87,8 +88,10 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             {
                 methodInfo.Invoke(instance, args);
             }
-            catch
-            {}
+            catch (Exception ex)
+            {
+                Log.Error("Can't properly assign content by method call. Instance: {0}, Method: {1}, Params: {2}".FormatWith(instance, methodInfo.Name, string.Join(",", args.Select(x => x ?? "null"))), this, ex);
+            }
         }
     }
 }

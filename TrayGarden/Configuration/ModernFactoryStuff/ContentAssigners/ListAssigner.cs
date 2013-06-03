@@ -37,14 +37,21 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 return;
             foreach (XmlNode contentNode in contentNodes)
             {
-                object contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
-                if (contentValue == null)
-                    contentValue = parcer.ParceNodeValue(contentNode);
-                if (contentValue == null)
-                    continue;
-                if (!listGenericArgument.IsInstanceOfType(contentValue))
-                    continue;
-                list.Add(contentValue);
+                try
+                {
+                    object contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
+                    if (contentValue == null)
+                        contentValue = parcer.ParceNodeValue(contentNode);
+                    if (contentValue == null)
+                        continue;
+                    if (!listGenericArgument.IsInstanceOfType(contentValue))
+                        continue;
+                    list.Add(contentValue);
+                }
+                catch (Exception ex)
+                {
+                    Log.Error("Can't parce node value", this, ex);
+                }
             }
         }
 

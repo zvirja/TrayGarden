@@ -280,8 +280,12 @@ namespace TrayGarden.Configuration
                 if (specialInstance != null)
                     return specialInstance;
                 string typeStrValue = XmlHelper.GetAttributeValue(configurationNode, "type");
-                Assert.IsNotNullOrEmpty(typeStrValue, "Type shouldn't be null");
+                if (typeStrValue.IsNullOrEmpty())
+                    return null;
+                //Assert.IsNotNullOrEmpty(typeStrValue, "Type shouldn't be null");
                 Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
+                if (typeObj == null)
+                    return null;
                 Assert.IsNotNull(typeObj, "Type is invalid");
                 object instance = Activator.CreateInstance(typeObj);
                 AssignContent(configurationNode, instance);
