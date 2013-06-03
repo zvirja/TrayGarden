@@ -37,16 +37,40 @@ namespace TrayGarden.Pipelines.Engine
             return string.Format("{0}&&{1}", pipelineName, pipelineArgumentType);
         }
 
-        public virtual void InvokePipeline<TArgumentType>(string pipelineName, TArgumentType argument)
+        public virtual void InvokePipeline<TArgumentType>([NotNull] string pipelineName,
+                                                          [NotNull] TArgumentType argument)
             where TArgumentType : PipelineArgs
         {
-            if(!Initialized)
+            Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
+            Assert.ArgumentNotNull(argument, "argument");
+            if (!Initialized)
                 throw new NonInitializedException();
-            string key = GetPipelineKey(pipelineName, argument.GetType());
-            if (!PipelinesInternal.ContainsKey(key))
+            IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
+            if (pipeline == null)
                 return;
+            pipeline.Invoke(argument, true);
+        }
+
+        public virtual void InvokePipelineUnmaskedExceptions<TArgumentType>([NotNull] string pipelineName,
+                                                                            [NotNull] TArgumentType argument)
+            where TArgumentType : PipelineArgs
+        {
+            Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
+            Assert.ArgumentNotNull(argument, "argument");
+            if (!Initialized)
+                throw new NonInitializedException();
+            IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
+            Assert.IsNotNull(pipeline, "Can't resolve pipeline {0}".FormatWith(pipelineName));
+            pipeline.Invoke(argument, false);
+        }
+
+        protected virtual IPipeline ResolvePipeline(string pipelineName, Type argumentType)
+        {
+            string key = GetPipelineKey(pipelineName, argumentType);
+            if (!PipelinesInternal.ContainsKey(key))
+                return null;
             IPipeline pipeline = PipelinesInternal[key];
-            pipeline.Invoke(argument);
+            return pipeline;
         }
     }
 }

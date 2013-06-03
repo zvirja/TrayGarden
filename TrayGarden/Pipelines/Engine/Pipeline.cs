@@ -15,7 +15,7 @@ namespace TrayGarden.Pipelines.Engine
         protected bool Initialized { get; set; }
 
         [UsedImplicitly]
-        public virtual void Initialize([NotNull] string argumentTypeStr, [NotNull] string name,List<Processor> processors )
+        public virtual void Initialize([NotNull] string argumentTypeStr, [NotNull] string name, List<Processor> processors)
         {
             Assert.ArgumentNotNull(argumentTypeStr, "argumentTypeStr");
             Assert.ArgumentNotNull(name, "name");
@@ -29,9 +29,10 @@ namespace TrayGarden.Pipelines.Engine
             Initialized = true;
         }
 
-        public virtual void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs
+        public virtual void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions)
+            where TArgumentType : PipelineArgs
         {
-            if(!Initialized)
+            if (!Initialized)
                 throw new NonInitializedException();
             foreach (Processor processor in Processors)
             {
@@ -43,8 +44,10 @@ namespace TrayGarden.Pipelines.Engine
                 }
                 catch (Exception e)
                 {
-                    Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()));
-                    break;
+                    Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()),this);
+                    if (maskExceptions)
+                        break;
+                    throw;
                 }
             }
         }
