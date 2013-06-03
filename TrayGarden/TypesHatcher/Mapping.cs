@@ -10,11 +10,13 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.TypesHatcher
 {
+    [UsedImplicitly]
     public class Mapping : IMapping
     {
         public IObjectFactory ObjectFactory { get; protected set; }
         public Type InterfaceType { get; protected set; }
 
+        [UsedImplicitly]
         public virtual void Initialize([NotNull] string interfaceType, IObjectFactory objectFactory)
         {
             Assert.ArgumentNotNullOrEmpty(interfaceType, "interfaceType");
