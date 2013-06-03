@@ -25,7 +25,6 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.Pipelines.Engine;
-using TrayGarden.Pipelines.Simple;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.Engine;
