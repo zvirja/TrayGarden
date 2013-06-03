@@ -22,6 +22,7 @@ namespace TrayGarden.TypesHatcher
             Assert.ArgumentNotNullOrEmpty(interfaceType, "interfaceType");
             Assert.ArgumentNotNull(objectFactory, "objectFactory");
             InterfaceType = ReflectionHelper.ResolveType(interfaceType);
+            Assert.IsNotNull(InterfaceType,"Interface type is incorrect");
             ObjectFactory = objectFactory;
         }
 
