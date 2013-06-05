@@ -13,12 +13,12 @@ namespace TrayGarden.Diagnostics
     {
         static Log()
         {
-           //var pp =  SecurityContextProvider.DefaultProvider.CreateSecurityContext(new object());
+            //var pp =  SecurityContextProvider.DefaultProvider.CreateSecurityContext(new object());
 
             XmlConfigurator.Configure();
         }
 
-        public static void Debug(string message, Type type = null)
+        public static void Debug(string message, Type type)
         {
             Assert.ArgumentNotNull(message, "message");
             ILog logger = LogManager.GetLogger(type ?? typeof(Log));
@@ -49,7 +49,7 @@ namespace TrayGarden.Diagnostics
             Info(message, contextObject != null ? contextObject.GetType() : null);
         }
 
-        public static void Warn(string message, Type ownerType = null, Exception exception = null)
+        public static void Warn(string message, Type ownerType, Exception exception = null)
         {
             if (string.IsNullOrEmpty(message))
             {
@@ -73,12 +73,12 @@ namespace TrayGarden.Diagnostics
             }
         }
 
-        public static void Warn(string message, object contextObject = null, Exception exception = null)
+        public static void Warn(string message, object contextObject, Exception exception = null)
         {
             Warn(message, contextObject != null ? contextObject.GetType() : null, exception);
         }
 
-        public static void Error(string message, Type ownerType, Exception exception = null)
+        public static void Error(string message, Exception exception, Type ownerType)
         {
             Assert.ArgumentNotNull(message, "message");
             Assert.ArgumentNotNull(ownerType, "ownerType");
@@ -104,9 +104,9 @@ namespace TrayGarden.Diagnostics
             }
         }
 
-        public static void Error(string message, object contextObject = null, Exception exception = null)
+        public static void Error(string message, Exception exception, object contextObject)
         {
-            Error(message, contextObject != null ? contextObject.GetType() : null, exception);
+            Error(message, exception,contextObject != null ? contextObject.GetType() : null);
         }
 
     }
