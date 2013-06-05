@@ -21,7 +21,7 @@ namespace TrayGarden.Plants.Pipeline
             }
             catch (Exception ex)
             {
-                Log.Error("Can't initialize PlantEx", this, ex);
+                Log.Error("Can't initialize PlantEx", ex, this);
             }
         }
 

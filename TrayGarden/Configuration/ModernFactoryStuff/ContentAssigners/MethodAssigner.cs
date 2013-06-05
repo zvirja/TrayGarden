@@ -90,7 +90,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             }
             catch (Exception ex)
             {
-                Log.Error("Can't properly assign content by method call. Instance: {0}, Method: {1}, Params: {2}".FormatWith(instance, methodInfo.Name, string.Join(",", args.Select(x => x ?? "null"))), this, ex);
+                Log.Error("Can't properly assign content by method call. Instance: {0}, Method: {1}, Params: {2}".FormatWith(instance, methodInfo.Name, string.Join(",", args.Select(x => x ?? "null"))), ex, this);
             }
         }
     }

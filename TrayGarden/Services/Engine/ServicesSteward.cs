@@ -37,9 +37,9 @@ namespace TrayGarden.Services.Engine
                     {
                         service.InformInitializeStage();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), this, ex);
+                        Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), ex, this);
                     }
                 }
                 var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
@@ -58,9 +58,9 @@ namespace TrayGarden.Services.Engine
                     {
                         service.InformDisplayStage();
                     }
-                    catch(Exception ex)
+                    catch (Exception ex)
                     {
-                        Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), this, ex);
+                        Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), ex, this);
 
                     }
             }
@@ -78,7 +78,7 @@ namespace TrayGarden.Services.Engine
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), this, ex);
+                        Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), ex, this);
 
                     }
             }
@@ -94,7 +94,7 @@ namespace TrayGarden.Services.Engine
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName,service.GetType().FullName), this, ex);
+                    Log.Error("Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName, service.GetType().FullName), ex, this);
                 }
             }
         }

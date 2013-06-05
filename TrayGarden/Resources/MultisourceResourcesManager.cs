@@ -50,7 +50,7 @@ namespace TrayGarden.Resources
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("Can't read resource!");
+                    Log.Error("Can't read resource!", ex, this);
                 }
             }
 

@@ -32,6 +32,7 @@ using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies.Switchers;
 using TrayGarden.TypesHatcher;
+using TrayGarden.UI;
 using log4net.Appender;
 using Clipboard = System.Windows.Clipboard;
 
@@ -127,12 +128,12 @@ namespace TrayGarden
             var contains = firstPlant.HasLuggage(key);
             var luggage = firstPlant.GetLuggage(key);*/
 
-            var servicesSteward = HatcherGuide<IServicesSteward>.Instance;
+            /*var servicesSteward = HatcherGuide<IServicesSteward>.Instance;
             servicesSteward.InformInitializeStage();
             servicesSteward.InformDisplayStage();
 
             var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
-            plant.IsEnabled = true;
+            plant.IsEnabled = true;*/
 
           //  Log.Info("Test info", this);
 
@@ -140,6 +141,8 @@ namespace TrayGarden
 
             // servicesSteward.InformClosingStage();
 
+
+            HatcherGuide<IUIManager>.Instance.OKMessageBox("Bye","Bye");
             int a = 19;
 
 

@@ -42,9 +42,9 @@ namespace TrayGarden.Pipelines.Engine
                     if (argument.Aborted)
                         break;
                 }
-                catch (Exception e)
+                catch (Exception ex)
                 {
-                    Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()),this);
+                    Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()), ex, this);
                     if (maskExceptions)
                         break;
                     throw;

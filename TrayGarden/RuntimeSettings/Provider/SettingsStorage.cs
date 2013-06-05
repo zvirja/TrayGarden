@@ -82,7 +82,7 @@ namespace TrayGarden.RuntimeSettings.Provider
                                                                                    settingPair => settingPair.Value);
             var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
             var newContainer = ContainerFactory.GetPurelyNewObject() as IContainer;
-            Assert.IsNotNull(newContainer,"Wrong container factory");
+            Assert.IsNotNull(newContainer, "Wrong container factory");
             newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
             return newContainer;
         }
@@ -117,10 +117,10 @@ namespace TrayGarden.RuntimeSettings.Provider
                     return resultObject;
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 File.Delete(fileName);
-                Log.Warn("Failed to deserialize setting storage file {0}".FormatWith(fileName),this,ex);
+                Log.Warn("Failed to deserialize setting storage file {0}".FormatWith(fileName), this, ex);
                 return null;
             }
         }
@@ -143,14 +143,14 @@ namespace TrayGarden.RuntimeSettings.Provider
             }
             catch (Exception ex)
             {
-                Log.Error("Failed to save settings to file", this, ex);
+                Log.Error("Failed to save settings to file", ex, this);
                 return false;
             }
         }
 
         protected virtual XmlSerializer GetBucketXmlSerializer()
         {
-            return new XmlSerializer(typeof (Bucket));
+            return new XmlSerializer(typeof(Bucket));
         }
     }
 }

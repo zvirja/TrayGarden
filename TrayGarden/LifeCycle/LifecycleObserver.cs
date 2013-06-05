@@ -33,22 +33,21 @@ namespace TrayGarden.LifeCycle
             }
             catch (Exception ex)
             {
-                Log.Error("Error at startup", this, ex);
+                Log.Error("Error at startup", ex, this);
                 Application.Current.Shutdown(1);
             }
-            throw new Exception("for test");
         }
 
         void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Log.Error("Unhandled exception was raised. Application will be closed", typeof (Application), e.Exception);
+            Log.Error("Unhandled exception was raised. Application will be closed", e.Exception, typeof(Application));
             e.Handled = true;
             Application.Current.Shutdown(1);
         }
 
         protected virtual void ApplicationExit(object sender, ExitEventArgs e)
         {
-            if(e.ApplicationExitCode == 0)
+            if (e.ApplicationExitCode == 0)
                 ShutdownPipeline.Run();
         }
 

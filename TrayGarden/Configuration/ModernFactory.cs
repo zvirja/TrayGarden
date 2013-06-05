@@ -227,10 +227,9 @@ namespace TrayGarden.Configuration
             return GetObjectFromObjectInfo(newObjectInfo, allowSingleton);
         }
 
-        protected virtual ObjectInfo GetObjectInfoFromNode(XmlNode configurationNode)
+        protected virtual ObjectInfo GetObjectInfoFromNode([NotNull] XmlNode configurationNode)
         {
-            if (configurationNode == null)
-                return null;
+            Assert.ArgumentNotNull(configurationNode, "configurationNode");
             if (ObjectInfosCache.ContainsKey(configurationNode))
                 return ObjectInfosCache[configurationNode];
             bool makeSingleton;
@@ -269,13 +268,12 @@ namespace TrayGarden.Configuration
         #endregion
 
         #region Object instance creation & content assigning
-        protected virtual object CreateInstanceInternal(XmlNode configurationNode, out bool makeSingleton)
+        protected virtual object CreateInstanceInternal([NotNull] XmlNode configurationNode, out bool makeSingleton)
         {
             makeSingleton = false;
+            Assert.ArgumentNotNull(configurationNode, "configurationNode");
             try
             {
-                if (configurationNode == null)
-                    return null;
                 var specialInstance = CreateSpecialObject(configurationNode, out makeSingleton);
                 if (specialInstance != null)
                     return specialInstance;
@@ -284,9 +282,7 @@ namespace TrayGarden.Configuration
                     return null;
                 //Assert.IsNotNullOrEmpty(typeStrValue, "Type shouldn't be null");
                 Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
-                if (typeObj == null)
-                    return null;
-                Assert.IsNotNull(typeObj, "Type is invalid");
+                Assert.IsNotNull(typeObj, "The {0} isn't a valid type".FormatWith(typeStrValue));
                 object instance = Activator.CreateInstance(typeObj);
                 AssignContent(configurationNode, instance);
                 return instance;
@@ -295,7 +291,7 @@ namespace TrayGarden.Configuration
             {
                 Log.Error(
                     "Expception during instance creation. ConfigurationNodeName: {0}".FormatWith(configurationNode.Name),
-                    this, ex);
+                     ex, this);
                 return null;
             }
         }

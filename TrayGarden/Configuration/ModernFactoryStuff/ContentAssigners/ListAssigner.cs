@@ -39,7 +39,9 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             {
                 try
                 {
-                    object contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
+                    object contentValue = null;
+                    if(contentNode.FirstChild != null)
+                        contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
                     if (contentValue == null)
                         contentValue = parcer.ParceNodeValue(contentNode);
                     if (contentValue == null)
@@ -50,7 +52,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("Can't parce node value", this, ex);
+                    Log.Error("Can't parce node value", ex,this);
                 }
             }
         }
