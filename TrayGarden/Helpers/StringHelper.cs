@@ -22,5 +22,10 @@ namespace TrayGarden.Helpers
             return string.Format(format, @params);
         }
 
+        public static string GetValueOrDefault(this string str, string defaultValue)
+        {
+            return str.NotNullNotEmpty() ? str : defaultValue;
+        }
+
     }
 }
