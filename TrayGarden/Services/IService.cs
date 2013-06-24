@@ -10,5 +10,7 @@ namespace TrayGarden.Services
         void InformInitializeStage();
         void InformDisplayStage();
         void InformClosingStage();
+
+        bool IsAvailableForPlant(IPlantEx plantEx);
     }
 }

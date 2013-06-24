@@ -12,7 +12,7 @@ namespace TrayGarden.Services
         public string LuggageName { get; set; }
 
 
-        protected TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
+        public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
         {
             if (!plantEx.HasLuggage(LuggageName))
                 return null;
@@ -44,7 +44,9 @@ namespace TrayGarden.Services
             
         }
 
-        
-
+        public virtual bool IsAvailableForPlant(IPlantEx plantEx)
+        {
+            return GetPlantLuggage(plantEx) != null;
+        }
     }
 }
