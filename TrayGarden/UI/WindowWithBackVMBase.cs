@@ -16,12 +16,22 @@ namespace TrayGarden.UI
     /// <summary>
     /// ViewModel for Window with back
     /// </summary>
-    public class WindowWithBackVMBase : INotifyPropertyChanged
+    public class WindowWithBackVMBase : INotifyPropertyChanged, IDisposable
     {
-
-        
-
         protected static bool CommandsEnabledByDefault = true;
+
+        protected delegate void GoAheadWithBackInvokable(WindowWithBackState newState);
+
+        protected static event GoAheadWithBackInvokable GoAheadTargets;
+
+        public static void GoAheadWithBackIfPossible(WindowWithBackState newState)
+        {
+            if (GoAheadTargets != null)
+                GoAheadTargets(newState);
+        }
+
+
+
 
         protected RelayCommand _backCommand;
         protected ObservableCollection<ActionCommandVM> _helpActions;
@@ -51,13 +61,17 @@ namespace TrayGarden.UI
 
         public WindowWithBackVMBase()
         {
+
             _backCommand = new RelayCommand(BackExecute, false);
             _helpActions = new ObservableCollection<ActionCommandVM>();
             _helpActions.CollectionChanged += HelpActions_CollectionChanged;
             _copyrightTitle = "Zvirja Inc (c)";
             _steps = new Stack<WindowWithBackState>();
             //_steps.Push(new WindowWithBackState("Tray garden", "Welcome!", "Home", null, null, null));
-            _steps.Push(new WindowWithBackState("Tray garden", "Welcome!", "Home",null,new ActionCommandVM(new RelayCommand(ExtraActionExecute,true), "Extra action"), null));
+            //_steps.Push(new WindowWithBackState("Tray garden", "Welcome!", "Home",null,new ActionCommandVM(new RelayCommand(ExtraActionExecute,true), "Extra action"), null));
+
+            GoAheadTargets += GoAheadWithBack;
+
         }
 
 
@@ -165,16 +179,36 @@ namespace TrayGarden.UI
 
         public virtual void ReplaceInitialState(WindowWithBackState newHomeState)
         {
-            Steps.Clear();
+            ClearStepsStackWithDisposing();
             Steps.Push(newHomeState);
             CanBack = false;
             NotifyPublicVisibleChanged();
+        }
+
+        public virtual void Dispose()
+        {
+            GoAheadTargets -= GoAheadWithBack;
+            ClearStepsStackWithDisposing();
+        }
+
+        protected virtual void ClearStepsStackWithDisposing()
+        {
+            while (Steps.Count > 0)
+            {
+                WindowWithBackState currentStep = Steps.Pop();
+                var currentStepContentVM = currentStep.ContentVM as IDisposable;
+                if (currentStepContentVM != null)
+                    currentStepContentVM.Dispose();
+            }
         }
 
 
         protected virtual void BackExecute(object o)
         {
             Assert.IsTrue(Steps.Count > 0,"Steps stack is corrupted. Can't be less than 1");
+            var contentVMtoDestroy = ContentVM as IDisposable;
+            if(contentVMtoDestroy != null)
+                contentVMtoDestroy.Dispose();
             Steps.Pop();
             CanBack = Steps.Count > 1;
             if (CanBack)
@@ -186,7 +220,7 @@ namespace TrayGarden.UI
 
 
 
-        protected virtual void ExtraActionExecute(object o)
+       /* protected virtual void ExtraActionExecute(object o)
         {
             //TODO REMOVE LATER
             var newStep = new WindowWithBackState("Tray garden - Custom state", "Custom state", "config", null, null,
@@ -195,7 +229,7 @@ namespace TrayGarden.UI
             newStep.StateSpecificHelpActions.Add(new ActionCommandVM(rc, "Hey Command"));
             newStep.StateSpecificHelpActions.Add(new ActionCommandVM(rc, "Hey Command"));
             GoAheadWithBack(newStep);
-        }
+        }*/
 
         protected virtual void GoAheadWithBack(WindowWithBackState newState)
         {
@@ -222,5 +256,6 @@ namespace TrayGarden.UI
             OnPropertyChanged("HelpActions");
         }
 
+        
     }
 }

@@ -10,14 +10,14 @@ using TrayGarden.Helpers;
 
 namespace TrayGarden.UI.WindowWithBackStuff
 {
-    public class ViewModelToViewMapping : IViewModelToViewMapping
+    public class ViewModelToViewMappingFactoryBased : IViewModelToViewMapping
     {
         protected IObjectFactory ControlFactory { get; set; }
         protected bool Initialized { get; set; }
 
         public Type AcceptableViewModelType { get; protected set; }
 
-        public ViewModelToViewMapping()
+        public ViewModelToViewMappingFactoryBased()
         {
             Initialized = false;
         }
@@ -42,10 +42,13 @@ namespace TrayGarden.UI.WindowWithBackStuff
         }
 
 
-        public virtual Control GetControl()
+        public virtual Control GetControl(object contextVM)
         {
             AssertInitialized();
-            return (Control)ControlFactory.GetPurelyNewObject();
+            var control = ControlFactory.GetPurelyNewObject() as Control;
+            Assert.IsNotNull(control,"Returned value is not Control or is null");
+            control.DataContext = contextVM;
+            return control;
         }
 
 

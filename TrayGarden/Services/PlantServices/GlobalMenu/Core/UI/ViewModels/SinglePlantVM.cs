@@ -5,24 +5,30 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
+using TrayGarden.Plants;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
     public class SinglePlantVM: INotifyPropertyChanged
     {
-        private bool _isEnabled;
-        private string _name;
-        private string _description;
-        private ObservableCollection<ServiceForPlantVMBase> _servicesVM;
+        protected string _name;
+        protected string _description;
+        protected ObservableCollection<ServiceForPlantVMBase> _servicesVM;
+
+        public IPlantEx UnderlyingPlant { get; set; }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
+
+        [UsedImplicitly]
         public bool IsEnabled
         {
-            get { return _isEnabled; }
+            get { return UnderlyingPlant!=null?UnderlyingPlant.IsEnabled:false; }
             set
             {
-                if (value.Equals(_isEnabled)) return;
-                _isEnabled = value;
+                UnderlyingPlant.IsEnabled = value;
                 OnPropertyChanged("IsEnabled");
             }
         }
@@ -58,6 +64,25 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
                 _servicesVM = value;
                 OnPropertyChanged("ServicesVM");
             }
+        }
+
+        public SinglePlantVM()
+        {
+            ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
+        }
+
+        public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
+        {
+            Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
+            UnderlyingPlant = underlyingPlant;
+            Name = underlyingPlant.Plant.HumanSupportingName.GetValueOrDefault("<unspecified name>");
+            Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
+            underlyingPlant.EnabledChanged += UnderlyingPlant_EnabledChanged;
+        }
+
+        protected virtual void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+        {
+            OnPropertyChanged("ServicesVM");
         }
 
 

@@ -5,7 +5,8 @@ using System.Text;
 
 namespace TrayGarden.UI.Common
 {
-    class IDataTemplateSelector
+    public interface IDataTemplateSelector
     {
+        System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container);
     }
 }

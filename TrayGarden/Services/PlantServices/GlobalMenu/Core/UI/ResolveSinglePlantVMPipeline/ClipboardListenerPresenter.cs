@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
@@ -22,13 +23,17 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
         {
             var vm = new ServiceForPlantWithEnablingVM(ServiceName, ServiceDescription);
             vm.IsEnabledChanged += ViewModel_IsEnabledChanged;
-            vm.Luggage = serviceInstance.GetPlantLuggage(plantEx);
+            var plantBox = serviceInstance.GetPlantLuggage(plantEx);
+            vm.Luggage = plantBox;
+            vm.IsEnabled = plantBox.IsEnabled;
             return vm;
         }
 
         public static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
         {
-            throw new NotImplementedException();
+            var expectedLuggage = sender.Luggage as ClipboardObserverPlantBox;
+            Assert.IsNotNull(expectedLuggage, "Luggage is null or wrong type");
+            expectedLuggage.IsEnabled = newValue;
         }
     }
 }

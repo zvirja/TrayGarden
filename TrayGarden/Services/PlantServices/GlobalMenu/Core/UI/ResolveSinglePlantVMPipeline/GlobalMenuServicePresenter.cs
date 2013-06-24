@@ -14,11 +14,13 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
         public GlobalMenuServicePresenter()
         {
             ServiceName = "Embedding to global menu";
+            ServiceDescription =
+               "If service is enabled, plant is enabled to embed its row to global menu.";
         }
 
         protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)
         {
-            return new ServiceForPlantWithEnablingVM();
+            return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, serviceInstance.GetPlantLuggage(plantEx));
         }
     }
 }

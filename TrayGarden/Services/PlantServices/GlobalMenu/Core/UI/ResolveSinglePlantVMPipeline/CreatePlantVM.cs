@@ -14,6 +14,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
         public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
         {
             args.PlantVM = new SinglePlantVM();
+            args.PlantVM.InitPlantVMWithPlantEx(args.PlantEx);
         }
     }
 }

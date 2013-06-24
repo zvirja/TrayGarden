@@ -5,7 +5,7 @@ namespace TrayGarden.UI.WindowWithBackStuff
 {
     public interface IViewModelToViewMapping
     {
-        Type ViewModelType { get; set; }
-        Control GetControl();
+        Type AcceptableViewModelType { get; }
+        Control GetControl(object contextVM);
     }
 }

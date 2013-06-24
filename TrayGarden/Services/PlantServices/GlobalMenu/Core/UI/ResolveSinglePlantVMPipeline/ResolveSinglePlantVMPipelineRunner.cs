@@ -1,11 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using TrayGarden.Pipelines.Engine;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolvePlantsConfigVMPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
 {
-    public class ResolvePlantsConfigVMPipelineRunner
+    public class ResolveSinglePlantVMPipelineRunner
     {
+        public static SinglePlantVM Run(ResolveSinglePlantVMPipelineArgs args)
+        {
+            HatcherGuide<IPipelineManager>.Instance.InvokePipeline("resolveSinglePlantVM",args);
+            return !args.Aborted ? args.PlantVM : null;
+        }
     }
 }

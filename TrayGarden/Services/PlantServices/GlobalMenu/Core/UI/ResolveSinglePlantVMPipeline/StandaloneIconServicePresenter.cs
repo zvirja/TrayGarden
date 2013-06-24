@@ -14,11 +14,16 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 {
     public class StandaloneIconServicePresenter:ServicePresenterBase<StandaloneIconService>
     {
-        public string ServiceName { get; set; }
+        public StandaloneIconServicePresenter()
+        {
+            ServiceName = "Standalone tray icon";
+            ServiceDescription =
+                "If service is enabled, plant is enabled to show the standalone icon in the system tray.";
+        }
 
         protected override ServiceForPlantVMBase GetServiceVM(StandaloneIconService serviceInstance, IPlantEx plantEx)
         {
-            return base.GetServiceVM(serviceInstance, plantEx);
+            return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, serviceInstance.GetPlantLuggage(plantEx));
         }
         
     }

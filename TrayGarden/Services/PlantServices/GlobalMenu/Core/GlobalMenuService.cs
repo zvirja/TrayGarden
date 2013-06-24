@@ -3,14 +3,20 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Windows;
 using System.Windows.Forms;
 using System.Windows.Media;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline;
 using TrayGarden.TypesHatcher;
+using TrayGarden.UI;
+using Application = System.Windows.Application;
 using Color = System.Drawing.Color;
+using FontStyle = System.Drawing.FontStyle;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 {
@@ -81,7 +87,19 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
         protected virtual void OpenConfigurationWindow()
         {
-            //TODO IMPLEMENT LATER
+            WindowWithBackVMBase mainWindowVM = GetMainVMPipelineRunner.Run(new GetMainVMPipelineArgs());
+            if (mainWindowVM == null)
+            {
+                HatcherGuide<IUIManager>.Instance.OKMessageBox("Plant configuration",
+                                                               "We was unable to resolve main View Model. Please provide log files to developer",
+                                                               MessageBoxImage.Error);
+            }
+            else
+            {
+                var windowWithBack = HatcherGuide<IWindowWithBack>.Instance;
+                Assert.IsNotNull(windowWithBack,"Window with back wasn't resolved");
+                windowWithBack.PrepareAndShow(mainWindowVM);
+            }
         }
 
         protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
@@ -94,8 +112,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
         {
             GlobalMenuPlantBox plantBox = GetPlantLuggage(plantEx);
-            if (plantBox != null)
-                plantBox.IsEnabled = newValue;
+            plantBox.FixVisibility();
         }
 
 
@@ -148,7 +165,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
         protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)
         {
-            //TODO IMPLEMENT LATER
+            Application.Current.Shutdown();
         }
 
         protected virtual void ConfigureContextItemOnClick(object sender, EventArgs eventArgs)

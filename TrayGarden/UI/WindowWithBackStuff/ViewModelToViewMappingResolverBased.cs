@@ -8,7 +8,7 @@ namespace TrayGarden.UI.WindowWithBackStuff
     public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
     {
         protected Type _acceptableViewModelType;
-        protected Func<Control> _resoler;
+        protected Func<object,Control> _resoler;
 
         public virtual Type AcceptableViewModelType
         {
@@ -16,14 +16,14 @@ namespace TrayGarden.UI.WindowWithBackStuff
             protected set { _acceptableViewModelType = value; }
         }
 
-        protected Func<Control> Resoler
+        protected Func<object,Control> Resoler
         {
             get { return _resoler; }
             set { _resoler = value; }
         }
 
         public ViewModelToViewMappingResolverBased([NotNull] Type acceptableViewModelType,
-                                                   [NotNull] Func<Control> resolver)
+                                                   [NotNull] Func<object, Control> resolver)
 
         {
             Assert.ArgumentNotNull(acceptableViewModelType, "acceptableViewModelType");
@@ -34,9 +34,9 @@ namespace TrayGarden.UI.WindowWithBackStuff
 
 
 
-        public virtual Control GetControl()
+        public virtual Control GetControl(object contextVM)
         {
-            return Resoler();
+            return Resoler(contextVM);
         }
     }
 }

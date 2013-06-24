@@ -8,7 +8,7 @@ using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
 {
-    public class PipelineRunner
+    public class GetMainVMPipelineRunner
     {
         public static WindowWithBackVMBase Run(GetMainVMPipelineArgs args)
         {

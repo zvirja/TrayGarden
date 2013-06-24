@@ -1,12 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
+using TrayGarden.Plants;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolvePlantsConfigVMPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
 {
-    public class ResolvePlantsConfigVMPipelineArgs:PipelineArgs
+    public class ResolveSinglePlantVMPipelineArgs: PipelineArgs
     {
+        public SinglePlantVM PlantVM { get; set; }
+        public IPlantEx PlantEx { get; set; }
+
+        public ResolveSinglePlantVMPipelineArgs([NotNull] IPlantEx plantEx)
+        {
+            Assert.ArgumentNotNull(plantEx, "plantEx");
+            PlantEx = plantEx;
+        }
     }
 }

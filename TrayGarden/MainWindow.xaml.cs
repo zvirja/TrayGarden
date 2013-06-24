@@ -153,7 +153,7 @@ namespace TrayGarden
 
         void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-            HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
+           // HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
 
         }
 

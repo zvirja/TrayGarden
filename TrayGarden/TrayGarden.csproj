@@ -97,6 +97,9 @@
     <Compile Include="MockTypeUserConfig.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownArgs.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownPipeline.cs" />
+    <Compile Include="Pipelines\Shutdown\PlantServicesInformClose.cs" />
+    <Compile Include="Pipelines\Startup\PlantServicesInformDisplay.cs" />
+    <Compile Include="Pipelines\Startup\PlantServicesInformInit.cs" />
     <Compile Include="Pipelines\Startup\StartupArgs.cs" />
     <Compile Include="Pipelines\Startup\StartupPipeline.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantSettingBox.cs" />
@@ -134,6 +137,7 @@
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverService.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Smorgasbord\IAskClipboardEvents.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsService.cs" />
+    <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsServicePlantBox.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Smorgasbord\ISetCustomSettingsStorage.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuPlantBox.cs" />
@@ -144,9 +148,45 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\ProvideWithIconChanger.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\ResolvePlantsConfigVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\InitializeFirstStep.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineArgs.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineRunner.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\CreateViewModel.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ClipboardListenerPresenter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\UserSettingServicePresenter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\GlobalMenuServiceIconChangePresenter.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\GlobalMenuServicePresenter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ServicePresenterBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\StandaloneIconServicePresenter.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\CreatePlantVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ResolveSinglePlantVMPipelineArgs.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ResolveSinglePlantVMPipelineRunner.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\Stuff\ServiceForPlantDataTemplateSelector.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\Stuff\ServiceForPlantDataTemplateSelectorProxy.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\ServiceForPlantWithEnablingVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\PlantsConfigVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\SinglePlantVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\ServiceForPlantActionPerformVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\ServiceForPlantVMBase.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ViewModels\ServiceForPlantWithEnablingPlantBoxBasedVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\Views\PlantConfig.xaml.cs">
+      <DependentUpon>PlantConfig.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IChangesGlobalIcon.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IExtendsGlobalMenu.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigService.cs" />
+    <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigServicePlantBox.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
@@ -199,6 +239,7 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingValueType.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Smorgasbord\IUserConfiguration.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigService.cs" />
+    <Compile Include="Services\ServicePlantBoxBase.cs" />
     <Compile Include="TypesHatcher\HatcherGuide.cs" />
     <Compile Include="TypesHatcher\HatcherManager.cs" />
     <Compile Include="RuntimeSettings\IRuntimeSettingsManager.cs" />
@@ -217,6 +258,22 @@
     <Compile Include="Resources\MultisourceResourcesManager.cs" />
     <Compile Include="TypesHatcher\IMapping.cs" />
     <Compile Include="TypesHatcher\Mapping.cs" />
+    <Compile Include="UI\Common\IDataTemplateSelector.cs" />
+    <Compile Include="UI\IUIManager.cs" />
+    <Compile Include="UI\IWindowWithBack.cs" />
+    <Compile Include="UI\UIManager.cs" />
+    <Compile Include="UI\WindowWithBack.xaml.cs">
+      <DependentUpon>WindowWithBack.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\WindowWithBackStuff\ActionCommandVM.cs" />
+    <Compile Include="UI\WindowWithBackStuff\IContentValueConverterMappingsSource.cs" />
+    <Compile Include="UI\WindowWithBackStuff\IViewModelToViewMapping.cs" />
+    <Compile Include="UI\WindowWithBackStuff\MappingsBasedContentValueConverter.cs" />
+    <Compile Include="UI\WindowWithBackStuff\RelayCommand.cs" />
+    <Compile Include="UI\WindowWithBackStuff\ViewModelToViewMappingFactoryBased.cs" />
+    <Compile Include="UI\WindowWithBackStuff\ViewModelToViewMappingResolverBased.cs" />
+    <Compile Include="UI\WindowWithBackStuff\WindowWithBackState.cs" />
+    <Compile Include="UI\WindowWithBackVMBase.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -232,6 +289,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Services\PlantServices\GlobalMenu\Core\UI\Views\PlantConfig.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\WindowWithBack.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
