@@ -20,7 +20,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             IList list = GetListObject(contentNode, instance, instanceType);
             if (list == null)
                 return;
-            AssignContentToList(list, listContentNodes,valueParcerResolver);
+            AssignContentToList(list, listContentNodes, valueParcerResolver);
         }
 
         #region List functionality
@@ -40,7 +40,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 try
                 {
                     object contentValue = null;
-                    if(contentNode.FirstChild != null)
+                    if (contentNode.FirstChild != null)
                         contentValue = parcer.ParceNodeValue(contentNode.FirstChild);
                     if (contentValue == null)
                         contentValue = parcer.ParceNodeValue(contentNode);
@@ -52,7 +52,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 }
                 catch (Exception ex)
                 {
-                    Log.Error("Can't parce node value", ex,this);
+                    Log.Error("Can't parce node value", ex, this);
                 }
             }
         }
@@ -84,7 +84,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 
         protected virtual XmlNodeList GetListContentNodes(XmlNode contentNode)
         {
-            if(!SupportTemplating(contentNode))
+            if (!SupportTemplating(contentNode))
                 return contentNode.ChildNodes;
             return GetTemplateBasedContentNodes(contentNode);
         }
@@ -130,7 +130,7 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 XmlNode currentTemplateNode = GetTemplateByXPath(templatesParentNode, itemTemplateXPath);
                 var keyValuePairs = ExtractAllKeyValues(itemNode);
                 var resultItemNode = GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs, itemNode);
-                if(resultItemNode != null)
+                if (resultItemNode != null)
                     result.Add(resultItemNode);
             }
             return result;
@@ -176,23 +176,23 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
                 return;*/
             if (CheckAndInsertSubtree(itemNode, originalItemNode))
                 return;
-            var varName = ExtractVariableNameFromNodeValue(itemNode);
+            var varName = ExtractVariableNameFromNodeValueStrong(itemNode);
             if (varName != null && variableValues.ContainsKey(varName))
                 itemNode.Value = variableValues[varName];
             if (itemNode.Attributes != null)
                 foreach (XmlAttribute xmlAttribute in itemNode.Attributes)
                 {
-                    var variableName = ExtractVariableNameFromNodeValue(xmlAttribute);
+                    var variableName = ExtractVariableNameFromNodeValueSoft(xmlAttribute);
                     if (variableName.IsNullOrEmpty())
                         continue;
                     if (variableValues.ContainsKey(variableName))
-                    xmlAttribute.Value = variableValues[variableName];
+                        xmlAttribute.Value = xmlAttribute.Value.Replace("{" + variableName + "}", variableValues[variableName]);
                 }
             foreach (XmlNode childNode in itemNode.ChildNodes)
                 SubstituteVariablesInItemNode(childNode, variableValues, originalItemNode);
         }
 
-        protected virtual string ExtractVariableNameFromNodeValue(XmlNode node)
+        protected virtual string ExtractVariableNameFromNodeValueStrong(XmlNode node)
         {
             if (node == null)
                 return null;
@@ -204,6 +204,24 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
             if (nodeValue.Length < 3)
                 return null;
             return nodeValue.Substring(1, nodeValue.Length - 2);
+        }
+
+        protected virtual string ExtractVariableNameFromNodeValueSoft(XmlNode node)
+        {
+            if (node == null)
+                return null;
+            var nodeValue = node.Value;
+            if (nodeValue.IsNullOrEmpty())
+                return null;
+            var startIndex = nodeValue.IndexOf("{", System.StringComparison.Ordinal);
+            var endIndex = nodeValue.LastIndexOf("}", System.StringComparison.Ordinal);
+
+            if (startIndex < 0 || endIndex < 0 || endIndex < startIndex)
+                return null;
+            if (nodeValue.Length < 3)
+                return null;
+            var retValue = nodeValue.Substring(startIndex + 1, endIndex - startIndex-1);
+            return retValue;
         }
 
         protected bool CheckAndInsertSubtree(XmlNode currentNode, XmlNode originalItemNode)
