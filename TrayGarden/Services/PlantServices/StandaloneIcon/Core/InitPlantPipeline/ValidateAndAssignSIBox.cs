@@ -17,7 +17,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
                 args.Abort();
                 return;
             }
-            args.SIBox.PlantEx = args.PlantEx;
+            args.SIBox.RelatedPlantEx = args.PlantEx;
             args.PlantEx.PutLuggage(args.LuggageName,args.SIBox);
         }
 

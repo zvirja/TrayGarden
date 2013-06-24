@@ -5,14 +5,14 @@ using TrayGarden.Services.PlantServices.ClipboardObserver.Smorgasbord;
 
 namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {
-    public class ClipboardObserverPlantBox
+    public class ClipboardObserverPlantBox:ServicePlantBoxBase
     {
-        public IPlantEx RelatedPlant { get; set; }
         public IAskClipboardEvents EventsHungry { get; set; }
         
         public virtual void InformNewClipboardValue(string newClipboardValue)
         {
-            Task.Factory.StartNew(() => EventsHungry.OnClipboardTextChanged(newClipboardValue));
+            if(IsEnabled)
+                Task.Factory.StartNew(() => EventsHungry.OnClipboardTextChanged(newClipboardValue));
         }
     }
 }

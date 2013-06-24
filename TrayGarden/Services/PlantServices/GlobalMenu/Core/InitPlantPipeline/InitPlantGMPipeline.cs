@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
     public static class InitPlantGMPipeline
     {
-        public static InitPlantGMArgs Run(IPlantEx plantEx, string luggageName, INotifyIconChangerClient globalNotifyIconChanger)
+        public static InitPlantGMArgs Run(IPlantEx plantEx, string luggageName, INotifyIconChangerMaster globalNotifyIconChanger)
         {
             var args = new InitPlantGMArgs(plantEx, luggageName,globalNotifyIconChanger);
             HatcherGuide<IPipelineManager>.Instance.InvokePipeline("globalMenuServiceInitPlant",args);

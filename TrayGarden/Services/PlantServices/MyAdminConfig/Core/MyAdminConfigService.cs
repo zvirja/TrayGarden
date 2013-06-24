@@ -4,15 +4,20 @@ using System.Configuration;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
 {
     [UsedImplicitly]
-    public class MyAdminConfigService:IService
+    public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBox>
     {
-        public virtual string LuggageName { get; private set; }
+        public MyAdminConfigService()
+        {
+            LuggageName = "MyAdminConfigService";
+        }
 
         protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)
         {
@@ -25,32 +30,22 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
             {
                 assemblyConfiguration = ConfigurationManager.OpenExeConfiguration(assemblyLocation);
             }
-            catch
+            catch(Exception ex)
             {
+                Log.Warn("Unable to open admin config for {0}".FormatWith(assemblyLocation), this, ex);
             }
             if(assemblyConfiguration != null)
+            {
                 asExpected.StoreModuleConfiguration(assemblyConfiguration);
+                plantEx.PutLuggage(LuggageName,new MyAdminConfigServicePlantBox());
+            }
         }
 
         
-        public virtual void InitializePlant(IPlantEx plantEx)
+        public override void InitializePlant(IPlantEx plantEx)
         {
             ProvidePlantWithConfig(plantEx);
         }
 
-        public virtual void InformInitializeStage()
-        {
-           
-        }
-
-        public virtual void InformDisplayStage()
-        {
-            
-        }
-
-        public virtual void InformClosingStage()
-        {
-            
-        }
     }
 }

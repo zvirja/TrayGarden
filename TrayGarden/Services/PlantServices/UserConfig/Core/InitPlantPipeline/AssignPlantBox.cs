@@ -19,7 +19,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
         protected virtual UserConfigServicePlantBox CreatePlantBox(InitPlantUCPipelineArg args)
         {
             var plantBox = new UserConfigServicePlantBox();
-            plantBox.PlantEx = args.RelatedPlant;
+            plantBox.RelatedPlantEx = args.RelatedPlant;
             plantBox.SettingsBox = args.SettingBox;
             plantBox.SettingsBridge = args.Bridge;
             return plantBox;

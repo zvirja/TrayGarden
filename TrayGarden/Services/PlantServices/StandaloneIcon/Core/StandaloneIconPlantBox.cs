@@ -8,25 +8,24 @@ using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 {
-    public class StandaloneIconPlantBox
+    public class StandaloneIconPlantBox : ServicePlantBoxBase
     {
-        public ISettingsBox SettingsBox { get; set; }
         public NotifyIcon NotifyIcon { get; set; }
-        public IPlantEx PlantEx { get; set; }
 
-        public virtual bool IsEnabled
+        public StandaloneIconPlantBox()
         {
-            get { return SettingsBox.GetBool("enabled", true); }
-            set
-            {
-                SettingsBox.SetBool("enabled", value);
-                FixNIVisibility();
-            }
+            base.IsEnabledChanged += StandaloneIconPlantBox_IsEnabledChanged;
         }
+
+        protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
+        {
+            FixNIVisibility();
+        }
+
 
         public virtual void FixNIVisibility()
         {
-            if (PlantEx.IsEnabled)
+            if (RelatedPlantEx.IsEnabled)
                 NotifyIcon.Visible = IsEnabled;
             else
                 NotifyIcon.Visible = false;

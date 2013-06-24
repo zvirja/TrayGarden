@@ -12,6 +12,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         {
             GlobalMenuPlantBox globalMenuPlantBox = args.GMBox;
             globalMenuPlantBox.RelatedPlantEx = args.PlantEx;
+            globalMenuPlantBox.GlobalNotifyIconChanger = args.GlobalNotifyIconChanger;            
             globalMenuPlantBox.RelatedPlantEx.PutLuggage(args.LuggageName,globalMenuPlantBox);
         }
     }

@@ -79,7 +79,8 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
             var clipboardObserverPlantBox = new ClipboardObserverPlantBox
                 {
                     EventsHungry = asExpected,
-                    RelatedPlant = plant
+                    RelatedPlantEx = plant,
+                    SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
                 };
             plant.PutLuggage(LuggageName, clipboardObserverPlantBox);
         }

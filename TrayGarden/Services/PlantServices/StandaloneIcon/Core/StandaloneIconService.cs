@@ -7,6 +7,7 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 using TrayGarden.TypesHatcher;
+using Application = System.Windows.Application;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 {
@@ -26,8 +27,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 
         protected void ExitGardenClick(object sender, EventArgs eventArgs)
         {
-            throw new NotImplementedException();
-            //TODO implement later
+            Application.Current.Shutdown();
         }
 
         protected void CloseComponentClick(object sender, EventArgs eventArgs)

@@ -2,6 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.FleaMarket.IconChanger;
@@ -13,17 +14,17 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
     {
         public string LuggageName { get; set; }
         public IPlantEx PlantEx { get; protected set; }
-        public INotifyIconChangerClient GlobalNotifyIconChanger { get; set; }
+        public INotifyIconChangerMaster GlobalNotifyIconChanger { get; set; }
 
         public GlobalMenuPlantBox GMBox { get; set; }
 
 
         public InitPlantGMArgs([NotNull] IPlantEx plantEx, [NotNull] string luggageName,
-                               [NotNull] INotifyIconChangerClient globalNotifyIconChanger)
+                               [NotNull] INotifyIconChangerMaster globalNotifyIconChanger)
         {
-            if (plantEx == null) throw new ArgumentNullException("plantEx");
-            if (luggageName == null) throw new ArgumentNullException("luggageName");
-            if (globalNotifyIconChanger == null) throw new ArgumentNullException("globalNotifyIconChanger");
+            Assert.ArgumentNotNull(plantEx, "plantEx");
+            Assert.ArgumentNotNull(luggageName, "luggageName");
+            Assert.ArgumentNotNull(globalNotifyIconChanger, "globalNotifyIconChanger");
             PlantEx = plantEx;
             LuggageName = luggageName;
             GlobalNotifyIconChanger = globalNotifyIconChanger;
