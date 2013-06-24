@@ -21,11 +21,13 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
         protected CancellationTokenSource _currentCancellationTokenSource;
         protected Icon BackIcon { get; set; }
 
+        public bool IsEnabled { get; set; }
         public int DefaultDelayMsec { get; set; }
 
         public NotifyIconChanger()
         {
             DefaultDelayMsec = 400;
+            IsEnabled = true;
         }
 
         public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
@@ -40,6 +42,8 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
         {
             Assert.ArgumentNotNull(newIcon, "newIcon");
             AssertInitialized();
+            if (!IsEnabled)
+                return;
             SetIconInternal(newIcon, BackIcon, msTimeout);
         }
 
@@ -47,6 +51,8 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
         {
             Assert.ArgumentNotNull(newIcon, "newIcon");
             AssertInitialized();
+            if (!IsEnabled)
+                return;
             SetIcon(newIcon,DefaultDelayMsec);
         }
         
