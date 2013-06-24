@@ -40,7 +40,7 @@ namespace TrayGarden.LifeCycle
 
         void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
-            Log.Error("Unhandled exception was raised. Application will be closed", e.Exception, typeof(Application));
+            Log.Error("Thrown exception wasn't catched. Application will be closed", e.Exception, typeof(Application));
             e.Handled = true;
             Application.Current.Shutdown(1);
         }
