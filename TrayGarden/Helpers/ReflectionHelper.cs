@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Helpers
 {
-    public class ReflectionHelper
+    public static class ReflectionHelper
     {
         public static Type ResolveType(string typeName)
         {

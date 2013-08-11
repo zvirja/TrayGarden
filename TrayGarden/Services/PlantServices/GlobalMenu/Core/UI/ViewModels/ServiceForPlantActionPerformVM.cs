@@ -1,11 +1,13 @@
-﻿using System.Windows.Input;
+﻿using System;
+using System.Windows.Input;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
     public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
     {
-        private ICommand _performServiceAction;
+        protected ICommand _performServiceAction;
         public ICommand PerformServiceAction
         {
             get { return _performServiceAction; }
@@ -17,10 +19,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
             }
         }
 
-        public ServiceForPlantActionPerformVM([NotNull] string serviceName, [NotNull] string description) : base(serviceName, description)
+        public ServiceForPlantActionPerformVM([NotNull] string serviceName, [NotNull] string description,
+                                              [NotNull] ICommand action) : base(serviceName, description)
         {
+            Assert.ArgumentNotNull(action, "action");
+            _performServiceAction = action;
         }
-
-
     }
 }

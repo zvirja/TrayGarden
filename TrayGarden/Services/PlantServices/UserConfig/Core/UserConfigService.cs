@@ -14,8 +14,9 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     {
 
         public UserConfigService()
+            : base("User Config", "UserConfigService")
         {
-            LuggageName = "UserConfigService";
+            ServiceDescription = "Service provides plant with user-configurable settings. These settings may be configured through UI.";
         }
         public override void InitializePlant(IPlantEx plantEx)
         {

@@ -6,6 +6,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
     public interface IUserSettingMaster:IUserSetting
     {
         void Initialize(IUserSettingMetadata metadata, ISettingsBox containerSettingsBox);
-        event UserSettingValueChanged Changed;
     }
 }

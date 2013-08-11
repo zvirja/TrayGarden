@@ -5,12 +5,13 @@ using System.Text;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
+using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
 {
-    public class GetMainVMPipelineRunner
+    public static class GetMainVMPipelineRunner
     {
-        public static WindowWithBackVMBase Run(GetMainVMPipelineArgs args)
+        public static WindowWithBackVM Run(GetMainVMPipelineArgs args)
         {
             HatcherGuide<IPipelineManager>.Instance.InvokePipeline("globalMenuResolveMainVM", args);
             return !args.Aborted ? args.ResultVM : null;

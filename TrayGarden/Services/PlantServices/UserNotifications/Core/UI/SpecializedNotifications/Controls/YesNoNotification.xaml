@@ -1,0 +1,117 @@
+﻿<UserControl x:Class="TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls.YesNoNotification"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:converters="clr-namespace:TrayGarden.UI.Common.Converters"
+             xmlns:viewModes="clr-namespace:TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="270" d:DataContext="{d:DesignInstance viewModes:YesNoNotificationVM}">
+    
+    <UserControl.Resources>       
+        <converters:ChainCombiningConverter x:Key="TextPresentToVisibility">
+            <converters:ChainCombiningConverter.ConventerChain>
+                <converters:StringHasValueToBoolConverter />
+                <converters:BooleanToVisibilityConverter DefaultNonVisibleVisibility="Collapsed" />
+            </converters:ChainCombiningConverter.ConventerChain>
+        </converters:ChainCombiningConverter>
+
+        <converters:ChainCombiningConverter x:Key="ImageSourcePresentToVisibility">
+            <converters:ChainCombiningConverter.ConventerChain>
+                <converters:IsNotNullConverter />
+                <converters:BooleanToVisibilityConverter DefaultNonVisibleVisibility="Collapsed" />
+            </converters:ChainCombiningConverter.ConventerChain>
+        </converters:ChainCombiningConverter>
+
+        <Style x:Key="HeaderText" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=HeaderTextOptions.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=HeaderTextOptions.VerticalAlignment}" />
+            <Setter Property="TextAlignment" Value="{Binding Path=HeaderTextOptions.TextAlignment}"/>
+            <Setter Property="FontSize" Value="{Binding Path=HeaderTextOptions.Size}" />
+            <Setter Property="FontStyle" Value="{Binding Path=HeaderTextOptions.Style}" />
+            <Setter Property="FontWeight" Value="{Binding Path=HeaderTextOptions.Weight}" />
+            <Setter Property="Foreground" Value="{Binding Path=HeaderTextOptions.Brush}" />
+            <Setter Property="Margin" Value="{Binding Path=HeaderTextOptions.Margins}" />
+            <Setter Property="TextWrapping" Value="{Binding Path=HeaderTextOptions.Wrapping}" />
+            <Setter Property="Text" Value="{Binding Path=HeaderText}" />
+            <Setter Property="Visibility" Value="{Binding Path=HeaderText, Converter={StaticResource TextPresentToVisibility}}" />
+        </Style>
+        
+        <Style x:Key="ButtonBase" TargetType="Button">
+            <Setter Property="BorderThickness" Value="2" />
+            <Setter Property="Cursor" Value="Hand" />
+        </Style>
+        <Style x:Key="YesButton" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
+            <Setter Property="Background" Value="#1100FF00" />
+            <Setter Property="BorderBrush" Value="#3301FF01" />
+            <Setter Property="Command" Value="{Binding Path=YesAction}"/>
+        </Style>
+        <Style x:Key="NoButton" BasedOn="{StaticResource ButtonBase}" TargetType="Button">
+            <Setter Property="Background" Value="#110000FF" />
+            <Setter Property="BorderBrush" Value="#336182FE" />
+            <Setter Property="Command" Value="{Binding Path=NoAction}"/>
+        </Style>
+        <Style x:Key="ButtonTextBase" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=ButtonTextsOptions.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=ButtonTextsOptions.VerticalAlignment}" />
+            <Setter Property="TextAlignment" Value="{Binding Path=ButtonTextsOptions.TextAlignment}"/>
+            <Setter Property="FontSize" Value="{Binding Path=ButtonTextsOptions.Size}" />
+            <Setter Property="FontStyle" Value="{Binding Path=ButtonTextsOptions.Style}" />
+            <Setter Property="FontWeight" Value="{Binding Path=ButtonTextsOptions.Weight}" />
+            <Setter Property="Foreground" Value="{Binding Path=ButtonTextsOptions.Brush}" />
+            <Setter Property="Margin" Value="{Binding Path=ButtonTextsOptions.Margins}" />
+            <Setter Property="TextWrapping" Value="{Binding Path=ButtonTextsOptions.Wrapping}" />
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+        <Style x:Key="YesButtonText" BasedOn="{StaticResource ButtonTextBase}" TargetType="TextBlock">
+            <Setter Property="Text" Value="{Binding Path=YesButtonText}"/>
+        </Style>
+        <Style x:Key="NoButtonText" BasedOn="{StaticResource ButtonTextBase}" TargetType="TextBlock">
+            <Setter Property="Text" Value="{Binding Path=NoButtonText}"/>
+        </Style>
+        <Style x:Key="ButtonImageBase" TargetType="Image">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=ButtonImagesDisplayOptions.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=ButtonImagesDisplayOptions.VerticalAlignment}" />
+            <Setter Property="Width" Value="{Binding Path=ButtonImagesDisplayOptions.Width}" />
+            <Setter Property="Height" Value="{Binding Path=ButtonImagesDisplayOptions.Height}" />
+            <Setter Property="Margin" Value="{Binding Path=ButtonImagesDisplayOptions.Margins}" />
+            <Setter Property="Source" Value="{Binding Path=ButtonImagesDisplayOptions}" />
+            <Setter Property="Stretch" Value="{Binding Path=ButtonImagesDisplayOptions.Stretch}" />
+            <Setter Property="Opacity" Value="0.8" />
+        </Style>
+        <Style x:Key="YesButtonImage" BasedOn="{StaticResource ButtonImageBase}" TargetType="Image">
+            <Setter Property="Source" Value="{Binding Path=YesButtonImage}"/>
+            <Setter Property="Visibility" Value="{Binding Path=YesButtonImage, Converter={StaticResource ImageSourcePresentToVisibility}}"/>
+        </Style>
+        <Style x:Key="NoButtonImage" BasedOn="{StaticResource ButtonImageBase}" TargetType="Image">
+            <Setter Property="Source" Value="{Binding Path=NoButtonImage}"/>
+            <Setter Property="Visibility" Value="{Binding Path=NoButtonImage, Converter={StaticResource ImageSourcePresentToVisibility}}"/>
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+         <TextBlock Style="{StaticResource HeaderText}" />
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Button Style="{StaticResource YesButton}">
+                <StackPanel Orientation="Vertical">
+                    <Image Style="{StaticResource YesButtonImage}" />
+                    <TextBlock Style="{StaticResource YesButtonText}" />
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="1" Style="{StaticResource NoButton}">
+                <StackPanel Orientation="Vertical">
+                    <Image Style="{StaticResource NoButtonImage}"/>
+                    <TextBlock Style="{StaticResource NoButtonText}" />
+                </StackPanel>
+            </Button>
+
+        </Grid>
+    </Grid>
+</UserControl>

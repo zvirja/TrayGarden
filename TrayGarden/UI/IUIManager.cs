@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Threading;
 
 namespace TrayGarden.UI
@@ -13,5 +14,7 @@ namespace TrayGarden.UI
         void OKMessageBox(string caption, string text,
                                           MessageBoxImage image = MessageBoxImage.Information);
 
+      void ExecuteActionOnUIThreadSynchronously(Action action);
+      DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action);
     }
 }

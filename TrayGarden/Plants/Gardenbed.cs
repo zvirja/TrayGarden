@@ -1,12 +1,16 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
 using JetBrains.Annotations;
 using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
+using TrayGarden.Hallway;
 using TrayGarden.Plants.Pipeline;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.Plants
 {
@@ -20,6 +24,12 @@ namespace TrayGarden.Plants
         }
         protected bool Initialized { get; set; }
 
+        public virtual bool AutoDetectPlants
+        {
+            get { return MySettingsBox.GetBool("autoDetectPlants", true); }
+            set { MySettingsBox.SetBool("autoDetectPlants", value); }
+        }
+
 
         public Gardenbed()
         {
@@ -27,17 +37,19 @@ namespace TrayGarden.Plants
         }
 
         [UsedImplicitly]
-        public virtual void Initialize([NotNull] List<object> plants)
+        public virtual void Initialize(List<object> permanentPlants)
         {
-            Assert.ArgumentNotNull(plants, "plants");
             MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
-            foreach (object plant in plants)
+            if(permanentPlants == null)
+                permanentPlants = new List<object>();
+            permanentPlants.AddRange(GetAutoIncludePlants());
+            foreach (object plant in permanentPlants)
             {
                 IPlantEx resolvedPlantEx = ResolveIPlantEx(plant);
                 if (resolvedPlantEx != null)
                     Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
             }
-            HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow();
+            HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
             Initialized = true;
         }
 
@@ -58,6 +70,70 @@ namespace TrayGarden.Plants
             var newPlant = InitializePlantExPipeline.Run(plant, RootPlantsSettingsBox);
             return newPlant;
         }
+
+        protected virtual List<IPlant> GetAutoIncludePlants()
+        {
+            var result = new List<IPlant>();
+            if (AutoDetectPlants == false)
+                return result;
+            DirectoryInfo autoincludeDirectory = GetAutoIncludeDirectory();
+            if (!autoincludeDirectory.Exists)
+                return result;
+            FileInfo[] assembliesFileInfos = autoincludeDirectory.GetFiles("*.dll", SearchOption.TopDirectoryOnly);
+            if (assembliesFileInfos.Length == 0)
+                return result;
+            foreach (FileInfo assemblyFileInfo in assembliesFileInfos)
+            {
+                List<IPlant> plantsInAssembly = GetPlantsFromAssemblyFile(assemblyFileInfo);
+                if(plantsInAssembly != null && plantsInAssembly.Count > 0)
+                    result.AddRange(plantsInAssembly);
+            }
+            return result;
+        }
+
+        protected virtual DirectoryInfo GetAutoIncludeDirectory()
+        {
+            string folderSetting = Factory.Instance.GetStringSetting("Gardenbed.PlantsAutodetectFolder",
+                                                                                 string.Empty);
+            if (folderSetting.IsNullOrEmpty())
+                return new DirectoryInfo(Directory.GetCurrentDirectory());
+            else
+                return new DirectoryInfo(Path.Combine(Directory.GetCurrentDirectory(), folderSetting));
+        }
+
+        protected virtual List<IPlant> GetPlantsFromAssemblyFile(FileInfo assemblyFileInfo)
+        {
+            try
+            {
+                Assembly assembly = Assembly.LoadFile(assemblyFileInfo.FullName);
+                var candidates = assembly.GetTypes().Where(x => typeof (IPlant).IsAssignableFrom(x));
+                if (!candidates.Any())
+                    return null;
+                Log.Info("We have found a suitable types in '{0}' file".FormatWith(assemblyFileInfo.FullName), this);
+                var result = new List<IPlant>();
+                foreach (Type candidate in candidates)
+                {
+                    try
+                    {
+                        var instance = (IPlant)Activator.CreateInstance(candidate);
+                        Log.Info("Plant of type '{0}' was successfully instantiated!".FormatWith(candidate.FullName),
+                                 this);
+                        result.Add(instance);
+                    }
+                    catch (Exception ex)
+                    {
+                        Log.Error("Unable to instantiate IPlant of type '{0}'".FormatWith(candidate.FullName), ex, this);
+                    }
+                }
+                return result;
+            }
+            catch (Exception ex)
+            {
+                Log.Error("Unable to analyze file '{0}' for plants".FormatWith(assemblyFileInfo.FullName), ex, this);
+                return null;
+            }
+        }
+
 
         protected virtual void AssertInitialized()
         {

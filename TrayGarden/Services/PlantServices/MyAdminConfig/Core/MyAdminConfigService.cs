@@ -15,8 +15,9 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
     public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBox>
     {
         public MyAdminConfigService()
+            : base("My Admin Config", "MyAdminConfigService")
         {
-            LuggageName = "MyAdminConfigService";
+            ServiceDescription = "Provide plants with configuration manager for their admin configurations (e.g. <moduleName>.dll.config)";
         }
 
         protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)

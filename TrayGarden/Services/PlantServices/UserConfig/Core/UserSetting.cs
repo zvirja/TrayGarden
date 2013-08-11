@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.RuntimeSettings;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
     public class UserSetting : IUserSettingMaster
     {
@@ -35,12 +37,13 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
             get { return _metadata.Name; }
         }
 
-        public virtual int? IntValue
+        public virtual int IntValue
         {
             get
             {
                 AssertInitialized();
-                return _intValue;
+                if(_intValue == null) throw new InvalidOperationException("Current command doesn't support this type");
+                return _intValue.Value;
             }
             set
             {
@@ -54,12 +57,13 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
             }
         }
 
-        public virtual bool? BoolValue
+        public virtual bool BoolValue
         {
             get
             {
                 AssertInitialized();
-                return _boolValue;
+                if (_boolValue == null) throw new InvalidOperationException("Current command doesn't support this type");
+                return _boolValue.Value;
             }
             set
             {
@@ -142,12 +146,19 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
         public virtual void Initialize([NotNull] IUserSettingMetadata metadata,
                                        [NotNull] ISettingsBox containerSettingsBox)
         {
-            if (metadata == null) throw new ArgumentNullException("metadata");
-            if (containerSettingsBox == null) throw new ArgumentNullException("contaiterSettingsBox");
+            Assert.ArgumentNotNull(metadata, "metadata");
+            Assert.ArgumentNotNull(containerSettingsBox, "contaiterSettingsBox");
             Metadata = metadata;
             SettingsBox = containerSettingsBox;
             SetInitialSettingValue(metadata, containerSettingsBox);
             Initialized = true;
+        }
+
+        public virtual void ResetToDefault()
+        {
+            var stateBefore = GetSnapshot();
+            ResetToDefaultInternal(Metadata);
+            OnChanged(stateBefore, this);
         }
 
 
@@ -173,12 +184,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
                     _intValue = newValue;
                     return;
                 }
-                if (int.TryParse(metadata.DefaultValue, out newValue))
-                {
-                    _intValue = newValue;
-                    return;
-                }
-                _intValue = 0;
+                ResetToDefaultInternal(metadata);
                 return;
             }
             if (valueType == UserSettingValueType.Bool)
@@ -189,12 +195,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
                     _boolValue = newValue;
                     return;
                 }
-                if (bool.TryParse(metadata.DefaultValue, out newValue))
-                {
-                    _boolValue = newValue;
-                    return;
-                }
-                _boolValue = false;
+                ResetToDefaultInternal(metadata);
                 return;
             }
             if (valueType == UserSettingValueType.String)
@@ -205,7 +206,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
                     _stringValue = newValue;
                     return;
                 }
-                _stringValue = metadata.DefaultValue;
+                ResetToDefaultInternal(metadata);
                 return;
             }
             if (valueType == UserSettingValueType.StringOption)
@@ -219,7 +220,8 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
                     _stringOptionValue = newValue;
                     return;
                 }
-                _stringOptionValue = metadata.DefaultValue;
+               ResetToDefaultInternal(metadata);
+                return;
             }
 
 
@@ -245,6 +247,42 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
         {
             var clone = (UserSetting)MemberwiseClone();
             return clone;
+        }
+
+        protected virtual void ResetToDefaultInternal(IUserSettingMetadata metadata)
+        {
+            if (metadata.SettingValueType == UserSettingValueType.Int)
+            {
+                int newValue;
+                if (int.TryParse(metadata.DefaultValue, out newValue))
+                {
+                    _intValue = newValue;
+                    return;
+                }
+                _intValue = 0;
+                return;
+            }
+            if (metadata.SettingValueType == UserSettingValueType.Bool)
+            {
+                bool newValue;
+                if (bool.TryParse(metadata.DefaultValue, out newValue))
+                {
+                    _boolValue = newValue;
+                    return;
+                }
+                _boolValue = false;
+                return;
+            }
+            if (metadata.SettingValueType == UserSettingValueType.String)
+            {
+                _stringValue = metadata.DefaultValue;
+                return;
+            }
+            if (metadata.SettingValueType == UserSettingValueType.StringOption)
+            {
+                _stringOptionValue = metadata.DefaultValue;
+                return;
+            }
         }
 
     }

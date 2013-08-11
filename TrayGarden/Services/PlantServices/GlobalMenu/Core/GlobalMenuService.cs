@@ -14,6 +14,7 @@ using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
+using TrayGarden.UI.WindowWithReturn;
 using Application = System.Windows.Application;
 using Color = System.Drawing.Color;
 using FontStyle = System.Drawing.FontStyle;
@@ -39,15 +40,29 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         public bool BoldMainMenuEntries { get; set; }
         public bool ItalicMainMenuEntries { get; set; }
 
+        public override bool CanBeDisabled
+        {
+            get
+            {
+                return false;
+            }
+        }
+
         public GlobalMenuService()
+            : base("Global Menu", "GlobalMenuService")
         {
             IconText = "Tray Garden";
-            LuggageName = "GlobalMenuService";
-            TrayIconResourceName = "gardenIconV1";
+            TrayIconResourceName = "gardenIcon";
             ConfigureIconResourceName = "configureV1";
             ExitIconResourceName = "exitIconV1";
             BoldMainMenuEntries = true;
             ItalicMainMenuEntries = true;
+            ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
+        }
+
+        public virtual void ManuallyOpenConfigurationWindow()
+        {
+            OpenConfigurationWindow();
         }
        
        protected virtual void CreateNotifyIcon()
@@ -87,7 +102,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
         protected virtual void OpenConfigurationWindow()
         {
-            WindowWithBackVMBase mainWindowVM = GetMainVMPipelineRunner.Run(new GetMainVMPipelineArgs());
+            WindowWithBackVM mainWindowVM = GetMainVMPipelineRunner.Run(new GetMainVMPipelineArgs());
             if (mainWindowVM == null)
             {
                 HatcherGuide<IUIManager>.Instance.OKMessageBox("Plant configuration",

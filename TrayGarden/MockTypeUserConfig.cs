@@ -13,6 +13,10 @@ namespace TrayGarden
         {
             metadataBuilder.DeclareStringSetting("testStr","<empty>");
             metadataBuilder.DeclareIntSetting("testInt",25);
+            metadataBuilder.DeclareBoolSetting("some bool setting", false);
+
+            metadataBuilder.DeclareStringOptionSetting("combobox", new List<string>(){string.Empty,"option1","option2"}, string.Empty);
+
             return true;
         }
 

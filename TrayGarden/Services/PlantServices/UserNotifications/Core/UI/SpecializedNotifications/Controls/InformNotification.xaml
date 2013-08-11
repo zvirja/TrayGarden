@@ -1,0 +1,26 @@
+﻿<UserControl x:Class="TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls.InformNotification"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:viewModes="clr-namespace:TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="270" d:DataContext="{d:DesignInstance viewModes:InformNotificationVM}">
+    <Grid Background="Transparent">
+        <TextBlock 
+            Margin="{Binding Path=TextDisplayFont.Margins}"
+            TextWrapping="{Binding Path=TextDisplayFont.Wrapping}"
+            HorizontalAlignment="{Binding Path=TextDisplayFont.HorizontalAlignment}"
+            VerticalAlignment="{Binding Path=TextDisplayFont.VerticalAlignment}"
+            TextAlignment="{Binding Path=TextDisplayFont.TextAlignment}"
+            Text="{Binding Path=TextToDisplay}"
+            Foreground="{Binding Path=TextDisplayFont.Brush}"
+            FontSize="{Binding Path=TextDisplayFont.Size}"
+            FontStyle="{Binding Path=TextDisplayFont.Style}"
+            FontWeight="{Binding Path=TextDisplayFont.Weight}">
+        </TextBlock>
+        <Grid.InputBindings>
+            <MouseBinding MouseAction="LeftClick" Command="{Binding Path=OnTextClick}"></MouseBinding>
+        </Grid.InputBindings>
+    </Grid>
+</UserControl>

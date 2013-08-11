@@ -1,0 +1,175 @@
+﻿<UserControl x:Class="TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls.ActionNotification"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:system="clr-namespace:System;assembly=mscorlib"
+             xmlns:viewModes="clr-namespace:TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes"
+             xmlns:converters="clr-namespace:TrayGarden.UI.Common.Converters"
+             xmlns:helpContent="clr-namespace:TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="270" d:DataContext="{d:DesignInstance viewModes:ActionNotificationVM}">
+    <UserControl.Resources>
+        <converters:ChainCombiningConverter x:Key="TextPresentToVisibility">
+            <converters:ChainCombiningConverter.ConventerChain>
+                <converters:StringHasValueToBoolConverter />
+                <converters:BooleanToVisibilityConverter DefaultNonVisibleVisibility="Collapsed" />
+            </converters:ChainCombiningConverter.ConventerChain>
+        </converters:ChainCombiningConverter>
+
+        <converters:ChainCombiningConverter x:Key="ImageSourcePresentToVisibility">
+            <converters:ChainCombiningConverter.ConventerChain>
+                <converters:IsNotNullConverter />
+                <converters:BooleanToVisibilityConverter DefaultNonVisibleVisibility="Collapsed" />
+            </converters:ChainCombiningConverter.ConventerChain>
+        </converters:ChainCombiningConverter>
+
+        <Style x:Key="ActionButton" TargetType="Button">
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="HorizontalAlignment" Value="Stretch" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+            <Setter Property="Command" Value="{Binding Path=SubmitCommand}" />
+            <Setter Property="Padding" Value="3" />
+        </Style>
+        <Style x:Key="HeaderTitle" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=HeaderTextDisplayStyle.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=HeaderTextDisplayStyle.VerticalAlignment}" />
+            <Setter Property="TextAlignment" Value="{Binding Path=HeaderTextDisplayStyle.TextAlignment}"/>
+            <Setter Property="FontSize" Value="{Binding Path=HeaderTextDisplayStyle.Size}" />
+            <Setter Property="FontStyle" Value="{Binding Path=HeaderTextDisplayStyle.Style}" />
+            <Setter Property="FontWeight" Value="{Binding Path=HeaderTextDisplayStyle.Weight}" />
+            <Setter Property="Foreground" Value="{Binding Path=HeaderTextDisplayStyle.Brush}" />
+            <Setter Property="Margin" Value="{Binding Path=HeaderTextDisplayStyle.Margins}" />
+            <Setter Property="TextWrapping" Value="{Binding Path=HeaderTextDisplayStyle.Wrapping}" />
+            <Setter Property="Text" Value="{Binding Path=HeaderText}" />
+            <!--<Setter Property="Text" Value="Your link was shorted!" />-->
+            <Setter Property="Visibility" Value="{Binding Path=HeaderText, Converter={StaticResource TextPresentToVisibility}}" />
+        </Style>
+        <Style x:Key="ButtonText" TargetType="TextBlock">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=ButtonTextDisplayStyle.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=ButtonTextDisplayStyle.VerticalAlignment}" />
+            <Setter Property="TextAlignment" Value="{Binding Path=ButtonTextDisplayStyle.TextAlignment}"/>
+            <Setter Property="FontSize" Value="{Binding Path=ButtonTextDisplayStyle.Size}" />
+            <Setter Property="FontStyle" Value="{Binding Path=ButtonTextDisplayStyle.Style}" />
+            <Setter Property="FontWeight" Value="{Binding Path=ButtonTextDisplayStyle.Weight}" />
+            <Setter Property="Foreground" Value="{Binding Path=ButtonTextDisplayStyle.Brush}" />
+            <Setter Property="Margin" Value="{Binding Path=ButtonTextDisplayStyle.Margins}" />
+            <Setter Property="TextWrapping" Value="{Binding Path=ButtonTextDisplayStyle.Wrapping}" />
+            <Setter Property="Text" Value="{Binding Path=ButtonText}" />
+            <!--<Setter Property="Text" Value="REVERT" />-->
+            <Setter Property="Visibility" Value="{Binding Path=ButtonText, Converter={StaticResource TextPresentToVisibility}}" />
+        </Style>
+        <Style x:Key="ButtonImage" TargetType="Image">
+            <Setter Property="HorizontalAlignment" Value="{Binding Path=ButtonImageDisplayOptions.HorizontalAlignment}" />
+            <Setter Property="VerticalAlignment" Value="{Binding Path=ButtonImageDisplayOptions.VerticalAlignment}" />
+            <Setter Property="Width" Value="{Binding Path=ButtonImageDisplayOptions.Width}" />
+            <Setter Property="Height" Value="{Binding Path=ButtonImageDisplayOptions.Height}" />
+            <Setter Property="Margin" Value="{Binding Path=ButtonImageDisplayOptions.Margins}" />
+            <Setter Property="Source" Value="{Binding Path=ButtonImage}" />
+            <Setter Property="Stretch" Value="{Binding Path=ButtonImageDisplayOptions.Stretch}" />
+            <Setter Property="Visibility" Value="{Binding Path=ButtonImage, Converter={StaticResource ImageSourcePresentToVisibility}}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <!-- VerticalImageText layout -->
+        <Button Style="{StaticResource ActionButton}">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource HeaderTitle}" />
+                <Image Style="{StaticResource ButtonImage}" />
+                <TextBlock Style="{StaticResource  ButtonText}"/>
+            </StackPanel>
+            <Button.Visibility>
+                <Binding Path="LayoutType" ConverterParameter="collapsed">
+                    <Binding.Converter>
+                        <converters:CombiningConverter SecondConverter="{StaticResource BooleanToVisibilityConverter}">
+                            <converters:CombiningConverter.FirstConverter>
+                                <helpContent:ActionLayoutToBoolMatcher ValueToMatch="VerticalImageText" />
+                            </converters:CombiningConverter.FirstConverter>
+                        </converters:CombiningConverter>
+                    </Binding.Converter>
+                </Binding>
+            </Button.Visibility>
+        </Button>
+
+        <!-- VerticalTextImage layout -->
+        <Button Style="{StaticResource ActionButton}">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource HeaderTitle}" />
+                <TextBlock Style="{StaticResource  ButtonText}"/>
+                <Image Style="{StaticResource ButtonImage}" />
+            </StackPanel>
+            <Button.Visibility>
+                <Binding Path="LayoutType" ConverterParameter="collapsed">
+                    <Binding.Converter>
+                        <converters:CombiningConverter SecondConverter="{StaticResource BooleanToVisibilityConverter}">
+                            <converters:CombiningConverter.FirstConverter>
+                                <helpContent:ActionLayoutToBoolMatcher ValueToMatch="VerticalTextImage" />
+                            </converters:CombiningConverter.FirstConverter>
+                        </converters:CombiningConverter>
+                    </Binding.Converter>
+                </Binding>
+            </Button.Visibility>
+        </Button>
+
+
+        <!-- HorizontalImageText layout -->
+        <Button Style="{StaticResource ActionButton}">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Stretch">
+                <TextBlock Style="{StaticResource HeaderTitle}" />
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Image HorizontalAlignment="Center"  Style="{StaticResource ButtonImage}" />
+                    <TextBlock Grid.Column="1" Style="{StaticResource  ButtonText}"/>
+                </Grid>
+            </StackPanel>
+            <Button.Visibility>
+                <Binding Path="LayoutType" ConverterParameter="collapsed">
+                    <Binding.Converter>
+                        <converters:CombiningConverter SecondConverter="{StaticResource BooleanToVisibilityConverter}">
+                            <converters:CombiningConverter.FirstConverter>
+                                <helpContent:ActionLayoutToBoolMatcher ValueToMatch="HorizontalImageText" />
+                            </converters:CombiningConverter.FirstConverter>
+                        </converters:CombiningConverter>
+                    </Binding.Converter>
+                </Binding>
+            </Button.Visibility>
+        </Button>
+
+
+
+        <!-- HorizontalTextImage layout -->
+        <Button Style="{StaticResource ActionButton}" >
+            <StackPanel Orientation="Vertical" >
+                <TextBlock Style="{StaticResource HeaderTitle}" />
+                <Grid HorizontalAlignment="Stretch">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Style="{StaticResource  ButtonText}"/>
+                    <Image Grid.Column="1" HorizontalAlignment="Center"  Style="{StaticResource ButtonImage}" />
+                </Grid>
+            </StackPanel>
+            <Button.Visibility>
+                <Binding Path="LayoutType" ConverterParameter="collapsed">
+                    <Binding.Converter>
+                        <converters:CombiningConverter SecondConverter="{StaticResource BooleanToVisibilityConverter}">
+                            <converters:CombiningConverter.FirstConverter>
+                                <helpContent:ActionLayoutToBoolMatcher ValueToMatch="HorizontalTextImage" />
+                            </converters:CombiningConverter.FirstConverter>
+                        </converters:CombiningConverter>
+                    </Binding.Converter>
+                </Binding>
+            </Button.Visibility>
+        </Button>
+
+
+
+
+    </Grid>
+</UserControl>

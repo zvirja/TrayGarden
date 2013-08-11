@@ -13,12 +13,10 @@ namespace TrayGarden.Pipelines.Engine
         protected bool Initialized { get; set; }
 
         [UsedImplicitly]
-        public virtual bool Initialize([NotNull] object processorObject, [NotNull] string argumentTypeStr)
+        public virtual bool Initialize([NotNull] object processorObject, [NotNull] Type argumentType)
         {
             Assert.ArgumentNotNull(processorObject, "processorObject");
-            Assert.ArgumentNotNullOrEmpty(argumentTypeStr, "argumentTypeStr");
-            var argumentType = ReflectionHelper.ResolveType(argumentTypeStr);
-            Assert.IsNotNull(argumentType, "Processor initialization: Invalid type {0}".FormatWith(argumentTypeStr));
+            Assert.ArgumentNotNull(argumentType, "argumentType");
             Invoker = ResolveInvoker(processorObject, argumentType);
             if (Invoker == null)
             {

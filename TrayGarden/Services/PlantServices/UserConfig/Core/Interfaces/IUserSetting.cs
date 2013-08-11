@@ -4,10 +4,13 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
     public interface IUserSetting
     {
-        int? IntValue { get; set; }
-        bool? BoolValue { get; set; }
+        int IntValue { get; set; }
+        bool BoolValue { get; set; }
         string StringValue { get; set; }
         string StringOptionValue { get; set; }
+
+        event UserSettingValueChanged Changed;
+        void ResetToDefault();
 
         /// <summary>
         /// Leave a way to extend service. By default this value always is null.
@@ -18,5 +21,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 
         UserSettingValueType ValueType { get; }
         IUserSettingMetadata Metadata { get; }
+
     }
 }

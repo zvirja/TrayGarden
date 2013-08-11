@@ -240,7 +240,7 @@ namespace TrayGarden.Configuration
                 return null;
             }
             var isPrototype = instance is ISupportPrototyping;
-            var isSingleton = makeSingleton || XmlHelper.GetAttributeValue(configurationNode, "singleton").ToUpperInvariant().Equals("TRUE", StringComparison.OrdinalIgnoreCase);
+            var isSingleton = makeSingleton || XmlHelper.GetAttributeValue(configurationNode, "singleton").Equals("TRUE", StringComparison.OrdinalIgnoreCase);
             var objectInfo = new ObjectInfo(instance, configurationNode, isSingleton, isPrototype);
             ObjectInfosCache[configurationNode] = objectInfo;
             return objectInfo;
@@ -375,9 +375,13 @@ namespace TrayGarden.Configuration
                 return CreateSpecialNewList(objectConfigurationNode, out makeSingleton);
             if (specialPrefix.ToUpperInvariant().Equals("OBJECTFACTORY"))
                 return CreateSpecialObjectFactory(objectConfigurationNode, out makeSingleton);
+            if (specialPrefix.Equals("TYPEOF", StringComparison.OrdinalIgnoreCase))
+                return CreateSpecialTypeOf(objectConfigurationNode, out makeSingleton);
             Log.Warn("Unknown special prefix: {0}".FormatWith(specialPrefix), this);
             return null;
         }
+
+        
 
         protected virtual object CreateSpecialNewList(XmlNode objectConfigurationNode, out bool makeSingleton)
         {
@@ -395,6 +399,21 @@ namespace TrayGarden.Configuration
         {
             makeSingleton = true;
             return new ObjectFactory(this);
+        }
+
+        protected virtual object CreateSpecialTypeOf(XmlNode objectConfigurationNode, out bool makeSingleton)
+        {
+            makeSingleton = true;
+            if (objectConfigurationNode.ChildNodes.Count != 0)
+            {
+                Log.Warn(
+                    "Pay attention to the following node. Because of typeOf: the content of node will be ignored:{0}{1}"
+                        .FormatWith(Environment.NewLine, objectConfigurationNode.OuterXml), this);
+            }
+            string typeStr = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
+            typeStr = typeStr.Substring(typeStr.IndexOf(":", StringComparison.OrdinalIgnoreCase) + 1);
+            Type type = ReflectionHelper.ResolveType(typeStr);
+            return type;
         }
 
         #endregion

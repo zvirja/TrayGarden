@@ -159,4 +159,12 @@ namespace TrayGarden
                 };
         }
     }
+
+    class MockType2 : MockType
+    {
+    }
+
+    class MockType3 : MockType2
+    {
+    }
 }

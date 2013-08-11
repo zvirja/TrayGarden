@@ -16,7 +16,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
         {
             var selector = HatcherGuide<IDataTemplateSelector>.Instance;
             if (selector != null)
-                return selector.SelectTemplate(item, container);
+            {
+                DataTemplate resolvedTemplate = selector.SelectTemplate(item, container);
+                if (resolvedTemplate != null && resolvedTemplate != DependencyProperty.UnsetValue)
+                    return resolvedTemplate;
+            }
             var asFrameworkElement = container as FrameworkElement;
             Assert.IsNotNull(asFrameworkElement,"Strange.. passed dependency object isn't framework element");
             DataTemplate defaultDataTemplate = asFrameworkElement.TryFindResource("DefaultMode") as DataTemplate;

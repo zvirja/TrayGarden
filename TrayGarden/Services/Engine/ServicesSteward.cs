@@ -35,7 +35,10 @@ namespace TrayGarden.Services.Engine
                 {
                     try
                     {
-                        service.InformInitializeStage();
+                        if(service.IsActuallyEnabled)
+                            service.InformInitializeStage();
+                        else
+                            Log.Debug("service {0} skipped initialize stage. It's disabled".FormatWith(service.ServiceName),this);
                     }
                     catch (Exception ex)
                     {
@@ -56,7 +59,10 @@ namespace TrayGarden.Services.Engine
                 foreach (IService service in Services)
                     try
                     {
-                        service.InformDisplayStage();
+                        if(service.IsActuallyEnabled)
+                            service.InformDisplayStage();
+                        else
+                            Log.Debug("service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName), this);
                     }
                     catch (Exception ex)
                     {

@@ -36,6 +36,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
                 Log.Warn("Service of type '{0}' wasn't found".FormatWith(typeof(TServiceType)), this);
                 return;
             }
+            if (!serviceInstance.IsActuallyEnabled)
+                return;
             bool isAvailableForPlant = serviceInstance.IsAvailableForPlant(args.PlantEx);
             if (!isAvailableForPlant)
                 return;

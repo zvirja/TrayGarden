@@ -17,7 +17,7 @@ namespace TrayGarden
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
-            LifecycleObserver.NotifyStartup();
+            LifecycleObserver.NotifyStartup(e.Args);
         }
     }
 }

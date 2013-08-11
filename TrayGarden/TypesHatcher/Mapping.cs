@@ -17,12 +17,11 @@ namespace TrayGarden.TypesHatcher
         public Type InterfaceType { get; protected set; }
 
         [UsedImplicitly]
-        public virtual void Initialize([NotNull] string interfaceType, IObjectFactory objectFactory)
+        public virtual void Initialize([NotNull] Type interfaceType, IObjectFactory objectFactory)
         {
-            Assert.ArgumentNotNullOrEmpty(interfaceType, "interfaceType");
+            Assert.ArgumentNotNull(interfaceType, "interfaceType");
             Assert.ArgumentNotNull(objectFactory, "objectFactory");
-            InterfaceType = ReflectionHelper.ResolveType(interfaceType);
-            Assert.IsNotNull(InterfaceType,"Interface type is incorrect");
+            InterfaceType = interfaceType;
             ObjectFactory = objectFactory;
         }
 

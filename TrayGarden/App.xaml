@@ -1,6 +1,9 @@
 ﻿<Application x:Class="TrayGarden.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:converters="clr-namespace:TrayGarden.UI.Common.Converters"
+             xmlns:vMtoVMapping="clr-namespace:TrayGarden.UI.Common.VMtoVMapping"
+             >
              <!--StartupUri="UI\WindowWithBack.xaml"-->
     <Application.Resources>
         <Style x:Key="LinkButton" TargetType="Button">
@@ -32,6 +35,11 @@
             <Setter Property="CornerRadius" Value="5" />
             <Setter Property="SnapsToDevicePixels" Value="True" />
         </Style>
-        <BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+        <converters:BooleanAndConverter x:Key="BooleanAndConverter" />
+        <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
+        <converters:StringNullOrEmptyToBoolConverter x:Key="StringNullOrEmptyToBoolConverter" />
+        <converters:StringHasValueToBoolConverter x:Key="StringHasValueToBoolConverter" />
+        <vMtoVMapping:MappingsBasedContentValueConverter x:Key="MappingsBasedContentValueConverter"/>
     </Application.Resources>
 </Application>

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrayGarden.UI;
+using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
 {
@@ -10,7 +11,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
     {
         public virtual void Process(GetMainVMPipelineArgs args)
         {
-            args.ResultVM =  new WindowWithBackVMBase();
+            args.ResultVM =  new WindowWithBackVM();
         }
     }
 }

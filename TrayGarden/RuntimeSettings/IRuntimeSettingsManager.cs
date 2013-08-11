@@ -4,7 +4,7 @@
     {
         ISettingsBox SystemSettings { get; }
         ISettingsBox OtherSettings { get; }
-        bool SaveNow();
+        bool SaveNow(bool force);
     }
 
 }

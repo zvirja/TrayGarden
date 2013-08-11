@@ -24,6 +24,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -61,6 +62,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Configuration\ApplicationConfiguration\ActualAppProperties.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\Autorun\AutorunAwarePlayer.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\Autorun\AutorunHelper.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\Autorun\IAutorunHelper.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\AddRunAtStartupSetting.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\CreateConfigurationVM.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\CreateStep.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\AssignVisibleText.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\GetApplicationConfigStep.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\GetApplicationConfigStepArgs.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\Injection\InjectApplicationConfigLink.cs" />
     <Compile Include="Configuration\Factory.cs" />
     <Compile Include="Configuration\IFactory.cs" />
     <Compile Include="Configuration\IObjectFactory.cs" />
@@ -84,30 +96,53 @@
     <Compile Include="Configuration\ResolverBasedObjectFactory.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="Configuration\SimpleObjectFactory.cs" />
+    <Compile Include="Configuration\StringConstants.cs" />
     <Compile Include="Diagnostics\Assert.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
     <Compile Include="Hallway\IPlant.cs" />
     <Compile Include="Hallway\IServicesDelegation.cs" />
     <Compile Include="Helpers\AppConfigHelper.cs" />
+    <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ThreadContext.cs" />
     <Compile Include="Helpers\ThreadSwitcher\StackRawSwitcher.cs" />
     <Compile Include="Helpers\ThreadSwitcher\Switcher.cs" />
     <Compile Include="LifeCycle\LifecycleObserver.cs" />
     <Compile Include="MockTypeUserConfig.cs" />
+    <Compile Include="Pipelines\RestartApp\RestartAppArgs.cs" />
+    <Compile Include="Pipelines\RestartApp\RestartAppPipeline.cs" />
+    <Compile Include="Pipelines\RestartApp\SimpleAppRestart.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownArgs.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownPipeline.cs" />
     <Compile Include="Pipelines\Shutdown\PlantServicesInformClose.cs" />
+    <Compile Include="Pipelines\Startup\OpenConfigDiaglogIfNeed.cs" />
     <Compile Include="Pipelines\Startup\PlantServicesInformDisplay.cs" />
     <Compile Include="Pipelines\Startup\PlantServicesInformInit.cs" />
     <Compile Include="Pipelines\Startup\StartupArgs.cs" />
     <Compile Include="Pipelines\Startup\StartupPipeline.cs" />
+    <Compile Include="Plants\Intergration\AutoLoadAssembliesSetting.cs" />
+    <Compile Include="Plants\Intergration\AutoLoadPropertyAwarePlayer.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantSettingBox.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantID.cs" />
     <Compile Include="Plants\Pipeline\ResolveWorkhorses.cs" />
     <Compile Include="Plants\Pipeline\ResolveIPlant.cs" />
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="RuntimeSettings\BulkSettingsUpdate.cs" />
+    <Compile Include="RuntimeSettings\FastPropertyWrapper\BaseSettingMediator.cs" />
+    <Compile Include="RuntimeSettings\FastPropertyWrapper\StringSettingMediator.cs" />
+    <Compile Include="RuntimeSettings\FastPropertyWrapper\BoolSettingMediator.cs" />
+    <Compile Include="RuntimeSettings\FastPropertyWrapper\IntSettingMediator.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\MakeResetAllCommandVisible.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\CreateWindowWithBackState.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\CreateConfigurationVM.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\ResolveConfigurationEntries.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\InitializeGeneralSettings.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfiguration.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfigurationPipelineArgs.cs" />
+    <Compile Include="Services\Engine\UI\Intergration\ConfigurationPlayerServiceAware.cs" />
+    <Compile Include="Services\Engine\UI\Intergration\ServicesConfigurationInjectSAInjector.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Plants\IGardenbed.cs" />
     <Compile Include="Plants\IPlantEx.cs" />
@@ -154,9 +189,6 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineRunner.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\CreateViewModel.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ClipboardListenerPresenter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\UserSettingServicePresenter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\GlobalMenuServiceIconChangePresenter.cs" />
@@ -211,6 +243,20 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\ResolveWorkhorse.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\InitPlantUCPipeline.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\InitPlantUCPipelineArg.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\AddResetAllHelpAction.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\ResolveConfigurationEntries.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\ResolveContentVM.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\GetUCStepPipelineArgs.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\GetUCStepPipelineRunner.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\GetUCStepPipeline\CreateStepInfo.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\Intergration\CommandProxyForArgumentPassing.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\Intergration\UserConfigPresenter.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\UserSettingPlayers\UserSettingStringOption.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\UserSettingPlayers\UserSettingInt.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\UserSettingPlayers\UserSettingBool.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\UI\UserSettingPlayers\UserSettingString.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingChangedStrategies\Switchers\AccumulativeNotifyingStrategySwitcher.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingChangedStrategies\Switchers\SilentNotifyingStrategySwitcher.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingChangedStrategies\Switchers\NotifyingStrategySwitcher.cs" />
@@ -239,6 +285,49 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingValueType.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Smorgasbord\IUserConfiguration.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigService.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanSettingMediator.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UserNotificationsConfiguration.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\DisplayProviders\DisplayTaskBag.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\DisplayProviders\TopRightCornerProvider.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\IDisplayQueueProvider.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\INotificationResultCourier.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\IUserNotificationsGate.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\NotificationDisplayTask.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\NotificationResultCourier.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\NotificationState.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\UserNotificationsGate.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\ActionLayoutToBoolMatcher.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\ImageTextOrder.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\TextDisplayOptions.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\ImageDisplayOptions.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\INotificationWindow.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\ResultDelivering\IResultProvider.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\ResultDelivering\NotificationResult.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\ResultDelivering\ResultCode.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\ResultDelivering\ResultObtainedEventArgs.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\ActionNotification.xaml.cs">
+      <DependentUpon>ActionNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\InformNotification.xaml.cs">
+      <DependentUpon>InformNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\YesNoNotification.xaml.cs">
+      <DependentUpon>YesNoNotification.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\ActionNotificationVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\InformNotificationVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\YesNoNotificationVM.cs" />
+    <Compile Include="UI\Common\Converters\BooleanNotConverter.cs" />
+    <Compile Include="UI\Common\Converters\BooleanToVisibilityConverter.cs" />
+    <Compile Include="UI\Common\Converters\IsNotNullConverter.cs" />
+    <Compile Include="UI\Common\Converters\TimeSpanSummator.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\WindowPropertySetter.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\NotificationWindow.xaml.cs">
+      <DependentUpon>NotificationWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\NotificationWindowVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Positioning\PositionSize.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\SpecializedNotificationVMBase.cs" />
     <Compile Include="Services\ServicePlantBoxBase.cs" />
     <Compile Include="TypesHatcher\HatcherGuide.cs" />
     <Compile Include="TypesHatcher\HatcherManager.cs" />
@@ -258,22 +347,46 @@
     <Compile Include="Resources\MultisourceResourcesManager.cs" />
     <Compile Include="TypesHatcher\IMapping.cs" />
     <Compile Include="TypesHatcher\Mapping.cs" />
+    <Compile Include="UI\Common\Converters\BooleanAndConverter.cs" />
+    <Compile Include="UI\Common\Converters\BooleanOrConverter.cs" />
+    <Compile Include="UI\Common\Converters\ChainCombiningConverter.cs" />
+    <Compile Include="UI\Common\Converters\CombiningConverter.cs" />
+    <Compile Include="UI\Common\Converters\StringHasValueToBoolConverter.cs" />
     <Compile Include="UI\Common\IDataTemplateSelector.cs" />
+    <Compile Include="UI\Common\Converters\StringNullOrEmptyToBoolConverter.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\ISelfViewResolver.cs" />
+    <Compile Include="UI\Configuration\ConfigurationControl.xaml.cs">
+      <DependentUpon>ConfigurationControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="UI\Configuration\ConfigurationControlVM.cs" />
+    <Compile Include="UI\Configuration\IConfigurationControlVM.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationAwarePlayer.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForBoolVM.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryVMBase.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringVM.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForIntVM.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringOptionVM.cs" />
+    <Compile Include="UI\Configuration\IConfigurationAwarePlayer.cs" />
+    <Compile Include="UI\Configuration\Stuff\IntValidator.cs" />
+    <Compile Include="UI\ForSimplerLife\ConfigurationControlConstructInfo.cs" />
+    <Compile Include="UI\ForSimplerLife\WindowWithBackStateConstructInfo.cs" />
     <Compile Include="UI\IUIManager.cs" />
-    <Compile Include="UI\IWindowWithBack.cs" />
+    <Compile Include="UI\WindowWithReturn\IWindowWithBack.cs" />
     <Compile Include="UI\UIManager.cs" />
-    <Compile Include="UI\WindowWithBack.xaml.cs">
+    <Compile Include="UI\WindowWithReturn\WindowWithBack.xaml.cs">
       <DependentUpon>WindowWithBack.xaml</DependentUpon>
     </Compile>
-    <Compile Include="UI\WindowWithBackStuff\ActionCommandVM.cs" />
-    <Compile Include="UI\WindowWithBackStuff\IContentValueConverterMappingsSource.cs" />
-    <Compile Include="UI\WindowWithBackStuff\IViewModelToViewMapping.cs" />
-    <Compile Include="UI\WindowWithBackStuff\MappingsBasedContentValueConverter.cs" />
-    <Compile Include="UI\WindowWithBackStuff\RelayCommand.cs" />
-    <Compile Include="UI\WindowWithBackStuff\ViewModelToViewMappingFactoryBased.cs" />
-    <Compile Include="UI\WindowWithBackStuff\ViewModelToViewMappingResolverBased.cs" />
-    <Compile Include="UI\WindowWithBackStuff\WindowWithBackState.cs" />
-    <Compile Include="UI\WindowWithBackVMBase.cs" />
+    <Compile Include="UI\Common\Commands\ActionCommandVM.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\IVMtoVMappingsSource.cs" />
+    <Compile Include="UI\WindowWithReturn\Integration\ExitOnCloseAwarePlayer.cs" />
+    <Compile Include="UI\WindowWithReturn\Integration\ExitOnCloseSetting.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\IViewModelToViewMapping.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\MappingsBasedContentValueConverter.cs" />
+    <Compile Include="UI\Common\Commands\RelayCommand.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\ViewModelToViewMappingFactoryBased.cs" />
+    <Compile Include="UI\Common\VMtoVMapping\ViewModelToViewMappingResolverBased.cs" />
+    <Compile Include="UI\WindowWithReturn\WindowStepState.cs" />
+    <Compile Include="UI\WindowWithReturn\WindowWithBackVM.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -293,7 +406,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="UI\WindowWithBack.xaml">
+    <Page Include="Services\PlantServices\UserNotifications\Core\UI\NotificationWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\ActionNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\InformNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Controls\YesNoNotification.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\Configuration\ConfigurationControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="UI\WindowWithReturn\WindowWithBack.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -328,7 +461,8 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="bin\" />
+    <Folder Include="Services\PlantServices\UserNotifications\Core\Integration\" />
+    <Folder Include="Services\PlantServices\UserNotifications\Smorgasbord\" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mockIcon.ico" />
@@ -356,6 +490,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\exitIconV1.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\undo-icon.png" />
+    <Content Include="UI\Configuration\Images\reset.png" />
+    <Resource Include="UI\Configuration\Images\reset2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

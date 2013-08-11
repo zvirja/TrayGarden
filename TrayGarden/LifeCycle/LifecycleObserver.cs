@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.RestartApp;
 using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
 
@@ -14,21 +15,26 @@ namespace TrayGarden.LifeCycle
 
         protected static LifecycleObserver Observer { get; set; }
 
-        public static void NotifyStartup()
+        public static void NotifyStartup(string[] args)
         {
             if (Observer != null)
                 return;
             Observer = new LifecycleObserver();
-            Observer.NotifyStartupInternal();
+            Observer.NotifyStartupInternal(args);
+        }
+
+        public static void RestartApp(string[] paramsToAdd)
+        {
+            RestartAppPipeline.Run(paramsToAdd);
         }
 
 
-        protected virtual void NotifyStartupInternal()
+        protected virtual void NotifyStartupInternal(string[] args)
         {
             try
             {
                 Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
-                StartupPipeline.Run();
+                StartupPipeline.Run(args);
                 Application.Current.Exit += ApplicationExit;
             }
             catch (Exception ex)

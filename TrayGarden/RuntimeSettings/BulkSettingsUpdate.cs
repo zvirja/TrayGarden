@@ -21,7 +21,7 @@ namespace TrayGarden.RuntimeSettings
         public override void Dispose()
         {
             base.Dispose();
-            HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow();
+            HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
         }
     }
 }

@@ -15,8 +15,9 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
     {
 
         public StandaloneIconService()
+            : base("Standalone icon", "StandaloneIconService")
         {
-            LuggageName = "StandaloneIconService";
+            ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
         }
 
 

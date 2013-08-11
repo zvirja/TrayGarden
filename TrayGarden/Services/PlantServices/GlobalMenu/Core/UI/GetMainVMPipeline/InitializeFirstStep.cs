@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
-using TrayGarden.UI.WindowWithBackStuff;
 using TrayGarden.Helpers;
+using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
 {
@@ -19,18 +19,17 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline
         {
             Assert.IsNotNull(args.ResultVM,"Result VM can't be null");
             Assert.IsNotNull(args.PlantsConfigVM,"PlantsConfig VM can't be null");
-            args.ResultVM.ReplaceInitialState(GetInitialStep(args.PlantsConfigVM));
+            args.ResultVM.ReplaceInitialState(GetInitialStep(args));
         }
 
-        protected virtual WindowWithBackState GetInitialStep(PlantsConfigVM plantsConfigVM)
+        protected virtual WindowStepState GetInitialStep(GetMainVMPipelineArgs args)
         {
-            var step = new WindowWithBackState(GlobalTitle.GetValueOrDefault("Tray Garden -- Plants configuration"),
+            var step = new WindowStepState(GlobalTitle.GetValueOrDefault("Tray Garden -- Plants configuration"),
                                                Header.GetValueOrDefault("Here you configure plants"),
-                                               ShortName.GetValueOrDefault("plants config"), plantsConfigVM, null, null);
+                                               ShortName.GetValueOrDefault("plants config"), args.PlantsConfigVM,
+                                               args.SuperAction, args.StateSpecificHelpActions);
             return step;
+
         }
-
-
-        
     }
 }

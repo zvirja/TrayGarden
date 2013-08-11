@@ -9,7 +9,8 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
-using TrayGarden.UI.WindowWithBackStuff;
+using TrayGarden.UI.Common;
+using TrayGarden.UI.Common.Commands;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {

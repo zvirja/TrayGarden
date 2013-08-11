@@ -29,9 +29,9 @@ namespace TrayGarden.RuntimeSettings
         }
 
 
-        public virtual bool SaveNow()
+        public virtual bool SaveNow(bool force)
         {
-            return SaveSettingsInternal();
+            return SaveSettingsInternal(force);
         }
 
         [UsedImplicitly]
@@ -53,12 +53,12 @@ namespace TrayGarden.RuntimeSettings
 
         protected virtual void TimerForAutosave_Elapsed(object sender, ElapsedEventArgs e)
         {
-            SaveSettingsInternal();
+            SaveSettingsInternal(true);
         }
 
-        protected virtual bool SaveSettingsInternal()
+        protected virtual bool SaveSettingsInternal(bool force)
         {
-            if (BulkSettingsUpdate.CurrentValue == BulkUpdateState.Enabled)
+            if (!force && (BulkSettingsUpdate.CurrentValue == BulkUpdateState.Enabled))
                 return true;
             lock (_lock)
             {
@@ -76,7 +76,7 @@ namespace TrayGarden.RuntimeSettings
 
         protected virtual void RootBoxSave()
         {
-            SaveSettingsInternal();
+            SaveSettingsInternal(false);
         }
     }
 }

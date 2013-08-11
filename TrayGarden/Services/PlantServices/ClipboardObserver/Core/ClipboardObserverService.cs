@@ -23,8 +23,9 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
         protected bool IsNeedInService { get; set; }
 
         public ClipboardObserverService()
+            : base("Clipboard Observer", "ClipboardObserverService")
         {
-            LuggageName = "ClipboardObserverService";
+            ServiceDescription = "Service monitors the clipboard and deliver change notifications to plants.";
             CheckIntervalMsec = 200;
             IsNeedInService = false;
         }
