@@ -1,0 +1,28 @@
+﻿using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
+{
+  public class FakeNotificationResultCourier : INotificationResultCourier
+  {
+    public virtual NotificationResult GetResultWithWait()
+    {
+      return new NotificationResult(ResultCode.NoReaction);
+    }
+
+    public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
+    {
+      result = GetResultWithWait();
+      return true;
+    }
+
+    public virtual bool DiscardIfNotDisplayedYet()
+    {
+      return false;
+    }
+
+    public virtual bool DiscardNotificationInAnyCase()
+    {
+      return false;
+    }
+  }
+}

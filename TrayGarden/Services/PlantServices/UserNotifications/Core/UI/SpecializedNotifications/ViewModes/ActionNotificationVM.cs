@@ -7,11 +7,12 @@ using System.Windows.Input;
 using System.Windows.Media;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
-  public class ActionNotificationVM : SpecializedNotificationVMBase
+  public class ActionNotificationVM : SpecializedNotificationVMBase, IActionNotification
   {
     private ImageSource buttonImage;
     public string HeaderText { get; set; }
@@ -30,11 +31,10 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
 
     public ICommand SubmitCommand { get; set; }
 
-    public ActionNotificationVM(string headerText, string buttonText, ImageSource buttonImage)
+    public ActionNotificationVM(string headerText, string buttonText)
     {
       HeaderText = headerText;
       ButtonText = buttonText;
-      ButtonImage = buttonImage;
       LayoutType = ImageTextOrder.VerticalImageText;
       var headerTextBrush = new SolidColorBrush(Color.FromRgb(100, 100, 100));
       headerTextBrush.Freeze();

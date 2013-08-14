@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using JetBrains.Annotations;
+using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications;
 
@@ -12,8 +14,9 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
     protected bool Initialized { get; set; }
     protected IDisplayQueueProvider Provider { get; set; }
 
-    public virtual void Initialize(IDisplayQueueProvider provider)
+    public virtual void Initialize([NotNull] IDisplayQueueProvider provider)
     {
+      Assert.ArgumentNotNull(provider, "provider");
       Provider = provider;
       Initialized = true;
     }
@@ -29,6 +32,12 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
         displayTask.State = NotificationState.Aborted;
       }
       return new NotificationResultCourier(displayTask);
+    }
+
+    public virtual void DiscardAllTasks()
+    {
+      AssertInitialized();
+      Provider.DiscardAllTasks();
     }
 
     protected virtual NotificationDisplayTask GetDisplayTask(IResultProvider notificationVM, string originator)

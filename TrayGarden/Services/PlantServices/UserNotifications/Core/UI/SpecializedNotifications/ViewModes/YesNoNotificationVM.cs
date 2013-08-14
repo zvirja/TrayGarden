@@ -7,11 +7,12 @@ using System.Windows.Media;
 using TrayGarden.Services.PlantServices.UserConfig.Core.UI.Intergration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
-  public class YesNoNotificationVM:SpecializedNotificationVMBase
+  public class YesNoNotificationVM:SpecializedNotificationVMBase, IYesNoNotification
   {
     public string YesButtonText { get; set; }
     public ImageSource YesButtonImage { get; set; }

@@ -12,6 +12,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
   public static class UserNotificationsConfiguration
   {
     private static ISettingsBox _serviceSettingsBox;
+    public static readonly string SettingsBoxName = "UserNotificationsService";
 
     public static ISettingsBox ServiceSettingsBox
     {
@@ -21,25 +22,10 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
           return _serviceSettingsBox;
         _serviceSettingsBox =
           HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("PlantServices")
-                                               .GetSubBox("UserNotificationsService");
+                                               .GetSubBox(SettingsBoxName);
         return _serviceSettingsBox;
       }
     }
-
-    #region SettingsKeys
-
-    /*public static readonly string DelayBeforeNormalFadingKey = "DelayBeforeNormalFading";
-    public static readonly string DisplayPermanentCloseButtonKey = "DisplayPermanentCloseButton";
-    public static readonly string DelayBeforeForceFadingKey = "DelayBeforeForceFading";
-    public static readonly string NormalFadingDurationKey = "NormalFadingDuration";
-    public static readonly string ForceFadingDurationKey = "ForceFadingDuration";
-    public static readonly string PermanentCloseDescriptionPatternKey = "PermanentCloseDescriptionPattern";
-    public static readonly string NotificationWindowHeightKey = "NotificationWindowHeight";
-    public static readonly string NotificationWindowWidthKey = "NotificationWindowWidth";
-    public static readonly string NotificationWindowTopIndentKey = "NotificationWindowTopIndent";
-    public static readonly string NotificationWindowMaxDisplayedKey = "NotificationWindowHeight";*/
-
-    #endregion
 
     #region Mediators
 
@@ -52,10 +38,10 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
       new TimeSpanSettingMediator("DelayBeforeForceFadingKey", 0, GetServiceSettingsBox);
 
     public static readonly TimeSpanSettingMediator NormalFadingDuration =
-      new TimeSpanSettingMediator("NormalFadingDuration", 2000, GetServiceSettingsBox);
+      new TimeSpanSettingMediator("NormalFadingDuration", 500, GetServiceSettingsBox);
 
     public static readonly TimeSpanSettingMediator ForceFadingDuration =
-      new TimeSpanSettingMediator("ForceFadingDuration", 1000, GetServiceSettingsBox);
+      new TimeSpanSettingMediator("ForceFadingDuration", 200, GetServiceSettingsBox);
 
     #endregion
 

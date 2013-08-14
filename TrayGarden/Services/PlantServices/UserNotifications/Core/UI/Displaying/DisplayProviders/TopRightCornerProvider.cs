@@ -55,6 +55,23 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       return true;
     }
 
+    public virtual void DiscardAllTasks()
+    {
+      lock (Lock)
+      {
+        DisplayTaskBag[] displayTaskBags = QueuedTasks.ToArray();
+        foreach (DisplayTaskBag displayTaskBag in displayTaskBags)
+        {
+          DiscardTask(displayTaskBag.Task, false);
+        }
+        DisplayTaskBag[] taskBags = DisplayedWaitForResultTasks.ToArray();
+        foreach (DisplayTaskBag displayedWaitForResultTask in taskBags)
+        {
+          DiscardTask(displayedWaitForResultTask.Task, false);
+        }
+      }
+    }
+
     protected virtual DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
     {
       PositionSize positionSize = GetDefaultNotificationPositionSize();

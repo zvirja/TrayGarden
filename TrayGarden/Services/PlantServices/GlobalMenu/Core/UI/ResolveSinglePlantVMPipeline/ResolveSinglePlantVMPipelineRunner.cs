@@ -4,7 +4,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
 {
-    public class ResolveSinglePlantVMPipelineRunner
+    public static class ResolveSinglePlantVMPipelineRunner
     {
         public static SinglePlantVM Run(ResolveSinglePlantVMPipelineArgs args)
         {

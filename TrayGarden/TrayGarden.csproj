@@ -287,8 +287,12 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigService.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanSettingMediator.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UserNotificationsConfiguration.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Integration\UserNotificationsPresenter.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Plants\ILordOfNotifications.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Plants\LordOfNotifications.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\DisplayProviders\DisplayTaskBag.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\DisplayProviders\TopRightCornerProvider.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\FakeNotificationResultCourier.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\IDisplayQueueProvider.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\INotificationResultCourier.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\Displaying\IUserNotificationsGate.cs" />
@@ -315,8 +319,14 @@
       <DependentUpon>YesNoNotification.xaml</DependentUpon>
     </Compile>
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\ActionNotificationVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Interfaces\IActionNotification.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Interfaces\IInformNotification.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\InformNotificationVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Interfaces\IYesNoNotification.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\YesNoNotificationVM.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsService.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsServicePlantBox.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Smorgasbord\IGetPowerOfUserNotifications.cs" />
     <Compile Include="UI\Common\Converters\BooleanNotConverter.cs" />
     <Compile Include="UI\Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Common\Converters\IsNotNullConverter.cs" />
@@ -387,6 +397,9 @@
     <Compile Include="UI\Common\VMtoVMapping\ViewModelToViewMappingResolverBased.cs" />
     <Compile Include="UI\WindowWithReturn\WindowStepState.cs" />
     <Compile Include="UI\WindowWithReturn\WindowWithBackVM.cs" />
+    <Compile Include="VeryEmptyWindow.xaml.cs">
+      <DependentUpon>VeryEmptyWindow.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -430,6 +443,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="VeryEmptyWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -460,10 +477,7 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Services\PlantServices\UserNotifications\Core\Integration\" />
-    <Folder Include="Services\PlantServices\UserNotifications\Smorgasbord\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="Resources\mockIcon.ico" />
   </ItemGroup>

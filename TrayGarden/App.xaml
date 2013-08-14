@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:converters="clr-namespace:TrayGarden.UI.Common.Converters"
              xmlns:vMtoVMapping="clr-namespace:TrayGarden.UI.Common.VMtoVMapping"
+             StartupUri="VeryEmptyWindow.xaml"
              >
              <!--StartupUri="UI\WindowWithBack.xaml"-->
     <Application.Resources>
