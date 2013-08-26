@@ -7,7 +7,7 @@ using System.Timers;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using TrayGarden.Plants;
-using TrayGarden.Services.PlantServices.ClipboardObserver.Smorgasbord;
+using TrayGarden.Reception.Services;
 using TrayGarden.TypesHatcher;
 using Timer = System.Timers.Timer;
 

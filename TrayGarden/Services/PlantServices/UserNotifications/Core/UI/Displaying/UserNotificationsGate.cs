@@ -9,11 +9,13 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 {
+  [UsedImplicitly]
   public class UserNotificationsGate : IUserNotificationsGate
   {
     protected bool Initialized { get; set; }
     protected IDisplayQueueProvider Provider { get; set; }
 
+    [UsedImplicitly]
     public virtual void Initialize([NotNull] IDisplayQueueProvider provider)
     {
       Assert.ArgumentNotNull(provider, "provider");

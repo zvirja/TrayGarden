@@ -13,7 +13,7 @@ namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
     public bool Value
     {
       get { return SettingsBox.GetBool(Key, DefaultValue); }
-      set { SettingsBox.GetBool(Key, value); }
+      set { SettingsBox.SetBool(Key, value); }
     }
 
     public BoolSettingMediator([NotNull] string key, bool defaultValue,

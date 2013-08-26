@@ -8,18 +8,18 @@ using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline
 {
-    public class GetApplicationConfigStepArgs : PipelineArgs
-    {
-        public WindowWithBackStateConstructInfo StepConstructInfo { get; set; }
-        public ConfigurationControlConstructInfo ConfigurationConstructInfo { get; set; }
+  public class GetApplicationConfigStepArgs : PipelineArgs
+  {
+    public WindowWithBackStateConstructInfo StepConstructInfo { get; set; }
+    public ConfigurationControlConstructInfo ConfigurationConstructInfo { get; set; }
 
-        public GetApplicationConfigStepArgs()
-        {
-            StepConstructInfo = new WindowWithBackStateConstructInfo();
-            ConfigurationConstructInfo = new ConfigurationControlConstructInfo
-                {
-                    ConfigurationEntries = new List<ConfigurationEntryVMBase>()
-                };
-        }
+    public GetApplicationConfigStepArgs()
+    {
+      StepConstructInfo = new WindowWithBackStateConstructInfo();
+      ConfigurationConstructInfo = new ConfigurationControlConstructInfo
+          {
+            ConfigurationEntries = new List<ConfigurationEntryVMBase>()
+          };
     }
+  }
 }

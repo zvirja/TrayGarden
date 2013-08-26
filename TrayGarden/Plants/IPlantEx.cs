@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using JetBrains.Annotations;
-using TrayGarden.Hallway;
+using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Plants

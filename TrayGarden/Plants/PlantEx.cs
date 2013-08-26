@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
-using TrayGarden.Hallway;
+using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.RuntimeSettings.Provider;
 using TrayGarden.Helpers;

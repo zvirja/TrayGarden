@@ -3,26 +3,26 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
-using TrayGarden.Hallway;
+using TrayGarden.Reception;
 
 namespace TrayGarden.Plants.Pipeline
 {
+  [UsedImplicitly]
+  public class ResolveIPlant
+  {
     [UsedImplicitly]
-    public class ResolveIPlant
+    public virtual void Process(InitializePlantArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitializePlantArgs args)
-        {
-            var iPlant = args.PlantObject as IPlant;
-            if (iPlant != null)
-            {
-                args.IPlantObject = iPlant;
-            }
-            else
-            {
-                args.Abort();
-            }
-        }
-
+      var iPlant = args.PlantObject as IPlant;
+      if (iPlant != null)
+      {
+        args.IPlantObject = iPlant;
+      }
+      else
+      {
+        args.Abort();
+      }
     }
+
+  }
 }

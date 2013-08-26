@@ -151,24 +151,6 @@ namespace TrayGarden.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to QQVALUE.
-        /// </summary>
-        internal static string qq {
-            get {
-                return ResourceManager.GetString("qq", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to testValue.
-        /// </summary>
-        internal static string TestString {
-            get {
-                return ResourceManager.GetString("TestString", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap undo_icon {

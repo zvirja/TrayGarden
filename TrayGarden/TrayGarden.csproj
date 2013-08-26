@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\gardenIconV5.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\..\..\..\..\Downloads\log4net-1.2.11-bin-newkey\log4net.dll</HintPath>
@@ -100,8 +103,9 @@
     <Compile Include="Diagnostics\Assert.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
-    <Compile Include="Hallway\IPlant.cs" />
-    <Compile Include="Hallway\IServicesDelegation.cs" />
+    <Compile Include="Plants\Pipeline\ValidatePlant.cs" />
+    <Compile Include="Reception\IPlant.cs" />
+    <Compile Include="Reception\IServicesDelegation.cs" />
     <Compile Include="Helpers\AppConfigHelper.cs" />
     <Compile Include="Helpers\ImageHelper.cs" />
     <Compile Include="Helpers\ThreadContext.cs" />
@@ -170,10 +174,10 @@
     <Compile Include="Services\PlantServiceBase.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverPlantBox.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverService.cs" />
-    <Compile Include="Services\PlantServices\ClipboardObserver\Smorgasbord\IAskClipboardEvents.cs" />
+    <Compile Include="Reception\Services\IAskClipboardEvents.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsService.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsServicePlantBox.cs" />
-    <Compile Include="Services\PlantServices\CustomSettings\Smorgasbord\ISetCustomSettingsStorage.cs" />
+    <Compile Include="Reception\Services\IGetCustomSettingsStorage.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuPlantBox.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\BindPlantBoxToPlant.cs" />
@@ -215,11 +219,11 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\Views\PlantConfig.xaml.cs">
       <DependentUpon>PlantConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IChangesGlobalIcon.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Smorgasbord\IExtendsGlobalMenu.cs" />
+    <Compile Include="Reception\Services\IChangesGlobalIcon.cs" />
+    <Compile Include="Reception\Services\IExtendsGlobalMenu.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigService.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigServicePlantBox.cs" />
-    <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
+    <Compile Include="Reception\Services\IGiveMeMyAppConfig.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\AssignIconModifier.cs" />
@@ -230,10 +234,10 @@
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\InitPlantSIPipeline.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\StandaloneIconPlantBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\StandaloneIconService.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IAdvancedStandaloneIcon.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IExtendContextMenu.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\INeedToModifyIcon.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Smorgasbord\IStandaloneIcon.cs" />
+    <Compile Include="Reception\Services\StandaloneIcon\IAdvancedStandaloneIcon.cs" />
+    <Compile Include="Reception\Services\StandaloneIcon\IExtendContextMenu.cs" />
+    <Compile Include="Reception\Services\StandaloneIcon\INeedToModifyIcon.cs" />
+    <Compile Include="Reception\Services\StandaloneIcon\IStandaloneIcon.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\AssignPlantBox.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\ProvidePlantWithBridge.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\InitPlantPipeline\CreateBridge.cs" />
@@ -283,10 +287,19 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingsMetadataBuilder.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\Stuff\UserSettingValuesChanged.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingValueType.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\Smorgasbord\IUserConfiguration.cs" />
+    <Compile Include="Reception\Services\IUserConfiguration.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigService.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanMediatorBasedPlayer.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanSettingMediator.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\CreateConfigurationControl.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\AddConfigurationEntries.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\CreateStep.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\TuneWindowProperties.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\TuneConfigurationProperties.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\UNConfigurationStepArgs.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\UNConfigurationStepPipeline.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UserNotificationsConfiguration.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Integration\PlantServiceConfigurator.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Integration\UserNotificationsPresenter.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Plants\ILordOfNotifications.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Plants\LordOfNotifications.cs" />
@@ -326,7 +339,7 @@
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\YesNoNotificationVM.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsService.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsServicePlantBox.cs" />
-    <Compile Include="Services\PlantServices\UserNotifications\Smorgasbord\IGetPowerOfUserNotifications.cs" />
+    <Compile Include="Reception\Services\IGetPowerOfUserNotifications.cs" />
     <Compile Include="UI\Common\Converters\BooleanNotConverter.cs" />
     <Compile Include="UI\Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Common\Converters\IsNotNullConverter.cs" />
@@ -370,6 +383,9 @@
     </Compile>
     <Compile Include="UI\Configuration\ConfigurationControlVM.cs" />
     <Compile Include="UI\Configuration\IConfigurationControlVM.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\BoolRSMediatorBasedPlayer.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\IntRSMediatorBasedPlayer.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\StringRSMediatorBasedPlayer.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationAwarePlayer.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForBoolVM.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryVMBase.cs" />
@@ -477,7 +493,15 @@
       <SubType>Designer</SubType>
     </None>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Services\PlantServices\ClipboardObserver\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\CustomSettings\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\GlobalMenu\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\MyAdminConfig\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\StandaloneIcon\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\UserConfig\Smorgasbord\" />
+    <Folder Include="Services\PlantServices\UserNotifications\Smorgasbord\" />
+  </ItemGroup>
   <ItemGroup>
     <None Include="Resources\mockIcon.ico" />
   </ItemGroup>

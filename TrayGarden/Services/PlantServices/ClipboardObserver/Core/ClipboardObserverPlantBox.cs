@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using TrayGarden.Plants;
+using TrayGarden.Reception.Services;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.Services.PlantServices.ClipboardObserver.Smorgasbord;
 
 namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {

@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Services.FleaMarket.IconChanger;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline

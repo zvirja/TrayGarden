@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
@@ -13,35 +14,47 @@ using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying.DisplayProviders
 {
+  [UsedImplicitly]
   public class TopRightCornerProvider : IDisplayQueueProvider
   {
     protected object Lock = new object();
 
     #region Settings
-    protected int SimultaneouslyDisplayedLimit { get; set; }
-    protected TimeSpan NonDisplayedTaskExpiration { get; set; }
-    protected int NotificationWindowHeight { get; set; }
-    protected int NotificationWindowWidth { get; set; }
-    protected int NotificationWindowTopIndent { get; set; }
-    protected int WorkerTimerPeriodMsec { get; set; }
+
+    protected int SimultaneouslyDisplayedLimit
+    {
+      get { return UserNotificationsConfiguration.NotificationWindowMaxDisplayed.Value; }
+    }
+
+    protected TimeSpan NonDisplayedTaskExpiration
+    {
+      get { return UserNotificationsConfiguration.ExpirationOfInvisibleNotification.Value; }
+    }
+
+    protected int NotificationWindowHeight
+    {
+      get { return UserNotificationsConfiguration.NotificationWindowHeight.Value; }
+    }
+
+    protected int NotificationWindowWidth
+    {
+      get { return UserNotificationsConfiguration.NotificationWindowWidth.Value; }
+    }
+
+    protected int NotificationWindowTopIndent
+    {
+      get { return UserNotificationsConfiguration.NotificationWindowTopIndent.Value; }
+    }
+
+
 
     #endregion
 
     protected List<DisplayTaskBag> QueuedTasks { get; set; }
     protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
 
-    protected Timer TickTimer { get; set; }
-
     public TopRightCornerProvider()
     {
-      WorkerTimerPeriodMsec = UserNotificationsConfiguration.WorkerTimePeriod.Value;
-      SimultaneouslyDisplayedLimit = UserNotificationsConfiguration.NotificationWindowMaxDisplayed.Value;
-      NonDisplayedTaskExpiration = UserNotificationsConfiguration.ExpirationOfInvisibleNotification.Value;
-      NotificationWindowHeight = UserNotificationsConfiguration.NotificationWindowHeight.Value;
-      NotificationWindowWidth = UserNotificationsConfiguration.NotificationWindowWidth.Value;
-      NotificationWindowTopIndent = UserNotificationsConfiguration.NotificationWindowTopIndent.Value;
-
-      TickTimer = new Timer(WorkerTick, null, 0, WorkerTimerPeriodMsec);
       QueuedTasks = new List<DisplayTaskBag>();
       DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
     }
@@ -49,9 +62,13 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
     public virtual bool EnqueueToDisplay(NotificationDisplayTask task)
     {
       var taskBag = GetTaskBag(task);
-      AddBagToQueue(taskBag);
       task.TaskDiscardHandler = DiscardTask;
-      ProcessPendingQueue();
+      lock (Lock)
+      {
+        AddBagToQueue(taskBag);
+        Monitor.Pulse(Lock);
+        ProcessPendingQueue();
+      }
       return true;
     }
 
@@ -154,14 +171,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       }
     }
 
-    protected virtual void WorkerTick(object state)
-    {
-      lock (Lock)
-      {
-        ProcessPendingQueue();
-      }
-    }
-
     protected virtual void RemoveExpiredTasks()
     {
       DateTime expirationThreshold = DateTime.UtcNow.Subtract(NonDisplayedTaskExpiration);
@@ -191,7 +200,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       {
         if (displayedWaitForResultTask.WindowVM.IsPositionLocked)
         {
-          lockedPositions.Add((int) displayedWaitForResultTask.PositionSize.Top);
+          lockedPositions.Add((int)displayedWaitForResultTask.PositionSize.Top);
         }
         else
         {
@@ -227,6 +236,22 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       }
     }
 
+    protected virtual void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
+    {
+      lock (Lock)
+      {
+        var vmFiredEvent = sender as NotificationWindowVM;
+        Assert.IsNotNull(vmFiredEvent, "Result source cannot be null");
+        var correspondingBag = DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
+        if (correspondingBag == null)
+          return;
+        DisplayedWaitForResultTasks.Remove(correspondingBag);
+        correspondingBag.Task.State = NotificationState.Handled;
+        correspondingBag.Task.SetResult(vmFiredEvent.Result);
+        ProcessPendingQueue();
+      }
+    }
+
     protected virtual void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
     {
       var uiManager = HatcherGuide<IUIManager>.Instance;
@@ -236,22 +261,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
           task.WindowVM.ResultObtained += WindowVM_ResultObtained;
           window.PrepareAndDisplay(task.WindowVM);
         });
-    }
-
-    protected virtual void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
-    {
-      lock (Lock)
-      {
-        var vmFiredEvent = sender as NotificationWindowVM;
-        Assert.IsNotNull(vmFiredEvent,"Result source cannot be null");
-        var correspondingBag = DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
-        if (correspondingBag == null)
-          return;
-        DisplayedWaitForResultTasks.Remove(correspondingBag);
-        correspondingBag.Task.State = NotificationState.Handled;
-        correspondingBag.Task.SetResult(vmFiredEvent.Result);
-        ProcessPendingQueue();
-      }
     }
   }
 }

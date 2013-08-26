@@ -1,26 +1,21 @@
 ﻿using System;
-using System.Drawing;
-using System.Windows.Forms;
 using JetBrains.Annotations;
-using TrayGarden.RuntimeSettings;
-using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
-using TrayGarden.Helpers;
+using TrayGarden.Reception.Services;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
+  [UsedImplicitly]
+  public class ProvideWithIconChanger
+  {
     [UsedImplicitly]
-    public class ProvideWithIconChanger
+    public virtual void Process(InitPlantGMArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitPlantGMArgs args)
-        {
-            var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IChangesGlobalIcon>();
-            if (asExpected == null)
-            {
-                return;
-            }
-            asExpected.StoreGlobalIconChangingAssignee(args.GlobalNotifyIconChanger);
-        }
+      var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IChangesGlobalIcon>();
+      if (asExpected == null)
+      {
+        return;
+      }
+      asExpected.StoreGlobalIconChangingAssignee(args.GlobalNotifyIconChanger);
     }
+  }
 }

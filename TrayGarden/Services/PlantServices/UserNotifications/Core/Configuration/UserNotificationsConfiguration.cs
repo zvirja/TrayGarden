@@ -35,13 +35,13 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
       new TimeSpanSettingMediator("DelayBeforeNormalFading", 5000, GetServiceSettingsBox);
 
     public static readonly TimeSpanSettingMediator DelayBeforeForceFading =
-      new TimeSpanSettingMediator("DelayBeforeForceFadingKey", 0, GetServiceSettingsBox);
+      new TimeSpanSettingMediator("DelayBeforeForceFading", 3000, GetServiceSettingsBox);
 
     public static readonly TimeSpanSettingMediator NormalFadingDuration =
       new TimeSpanSettingMediator("NormalFadingDuration", 500, GetServiceSettingsBox);
 
     public static readonly TimeSpanSettingMediator ForceFadingDuration =
-      new TimeSpanSettingMediator("ForceFadingDuration", 200, GetServiceSettingsBox);
+      new TimeSpanSettingMediator("ForceFadingDuration", 500, GetServiceSettingsBox);
 
     #endregion
 
@@ -64,7 +64,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
     #region Position and Size
 
     public static readonly IntSettingMediator NotificationWindowHeight =
-      new IntSettingMediator("NotificationWindowHeight", 100, GetServiceSettingsBox);
+      new IntSettingMediator("NotificationWindowHeight", 110, GetServiceSettingsBox);
 
     public static readonly IntSettingMediator NotificationWindowWidth = new IntSettingMediator(
       "NotificationWindowWidth", 350, GetServiceSettingsBox);

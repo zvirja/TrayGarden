@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
+using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Helpers;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
@@ -50,19 +50,9 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
       notifyIcon.Text = niTitle;
       notifyIcon.Icon = niIcon;
       notifyIcon.Tag = niClickHandler;
-      notifyIcon.MouseClick += NotifyIconOnMouseClickAsyncHandler;
+      notifyIcon.MouseClick += (sender, eventArgs) => Task.Factory.StartNew(() => niClickHandler(sender, eventArgs));
       args.SIBox.NotifyIcon = notifyIcon;
     }
-
-    protected virtual void NotifyIconOnMouseClickAsyncHandler(object sender, MouseEventArgs mouseEventArgs)
-    {
-      var notifyIcon = sender as NotifyIcon;
-      Assert.IsNotNull(notifyIcon, "Notify icon cannot be null");
-      var eventHandler = notifyIcon.Tag as MouseEventHandler;
-      Assert.IsNotNull(eventHandler, "Event handler cannot be null");
-      Task.Factory.StartNew(() => eventHandler(sender, mouseEventArgs));
-    }
-
 
     protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
     {

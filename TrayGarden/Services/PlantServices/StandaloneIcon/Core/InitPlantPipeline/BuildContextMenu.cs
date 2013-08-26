@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using JetBrains.Annotations;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
+using TrayGarden.Reception.Services.StandaloneIcon;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {

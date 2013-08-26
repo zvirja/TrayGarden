@@ -6,14 +6,14 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 {
+  [UsedImplicitly]
+  public class InitializeGeneralSettings
+  {
     [UsedImplicitly]
-    public class InitializeGeneralSettings
+    public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
-        {
-            args.ConfigConstructInfo.AllowResetOption = true;
-            args.ConfigConstructInfo.AllowReboot = true;
-        }
+      args.ConfigConstructInfo.EnableResetAllOption = true;
+      args.ConfigConstructInfo.AllowReboot = true;
     }
+  }
 }

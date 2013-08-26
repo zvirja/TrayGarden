@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrayGarden.Plants;
+using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
-using TrayGarden.Services.PlantServices.UserNotifications.Smorgasbord;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core
@@ -42,7 +42,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core
           SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
         };
       var lord = new LordOfNotifications(plantBox);
-      plant.PutLuggage(LuggageName,plantBox);
+      plant.PutLuggage(LuggageName, plantBox);
       workhorse.StoreLordOfNotifications(lord);
     }
   }

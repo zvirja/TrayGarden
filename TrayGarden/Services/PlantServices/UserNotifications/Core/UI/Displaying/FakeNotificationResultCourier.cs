@@ -6,7 +6,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
   {
     public virtual NotificationResult GetResultWithWait()
     {
-      return new NotificationResult(ResultCode.NoReaction);
+      return new NotificationResult(ResultCode.Unspecified);
     }
 
     public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)

@@ -6,16 +6,13 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Plants.Pipeline
 {
+  [UsedImplicitly]
+  public class ResolvePlantSettingBox
+  {
     [UsedImplicitly]
-    public class ResolvePlantSettingBox
+    public virtual void Process(InitializePlantArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitializePlantArgs args)
-        {
-            args.PlantSettingsBox = args.RootSettingsBox.GetSubBox(args.PlantID);
-        }
-
-
-
+      args.PlantSettingsBox = args.RootSettingsBox.GetSubBox(args.PlantID);
     }
+  }
 }

@@ -6,25 +6,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using TrayGarden.Configuration;
-using TrayGarden.Hallway;
+using TrayGarden.Reception;
+using TrayGarden.Reception.Services;
+using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
-using TrayGarden.Services.PlantServices.ClipboardObserver.Smorgasbord;
-using TrayGarden.Services.PlantServices.CustomSettings.Smorgasbord;
-using TrayGarden.Services.PlantServices.GlobalMenu.Smorgasbord;
-using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Smorgasbord;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
-using TrayGarden.Services.PlantServices.UserNotifications.Smorgasbord;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IStoreCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation, IGetPowerOfUserNotifications
+  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IGetCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation, IGetPowerOfUserNotifications
   {
     public bool Initialized { get; set; }
     public int IntValue { get; set; }
@@ -55,6 +51,7 @@ namespace TrayGarden
       Calculated = string.Empty;
       ObjList = new List<MockType>();
       HumanSupportingName = "Mock plant";
+      Description = "customDesc";
     }
 
     public void MethodInt(int val)

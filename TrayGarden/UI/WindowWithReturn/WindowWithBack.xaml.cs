@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows;
+using System.Windows.Media;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
+using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.VMtoVMapping;
+using TrayGarden.Helpers;
 
 namespace TrayGarden.UI.WindowWithReturn
 {
@@ -39,17 +43,31 @@ namespace TrayGarden.UI.WindowWithReturn
     }
 
     /*protected MappingsBasedContentValueConverter ViewModelToViewConverter { get; set; }*/
+    protected string iconResourceKey;
+
     protected List<IViewModelToViewMapping> Mappings { get; set; }
     protected WindowState StateToRestore { get; set; }
 
+    public string IconResourceKey
+    {
+      get { return iconResourceKey; }
+      set
+      {
+        iconResourceKey = value;
+        SetIcon();
+      }
+    }
 
     public WindowWithBack()
     {
-
       InitializeComponent();
+      IconResourceKey = "gardenIconV5";
       StateToRestore = this.WindowState;
       Hide();
+      SetIcon();
     }
+
+    public bool IsCurrentlyDisplayed { get { return DataContext != null; } }
 
     public virtual void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings)
     {
@@ -68,6 +86,11 @@ namespace TrayGarden.UI.WindowWithReturn
       WindowState = StateToRestore;
     }
 
+    public void BringToFront()
+    {
+      if (IsCurrentlyDisplayed)
+        this.Activate();
+    }
 
 
     public virtual List<IViewModelToViewMapping> GetMappings()
@@ -136,6 +159,16 @@ namespace TrayGarden.UI.WindowWithReturn
         maximized = false;
       }
       return true;
+    }
+
+    protected void SetIcon()
+    {
+      if (IconResourceKey.IsNullOrEmpty())
+        return;
+      Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(IconResourceKey, null);
+      if (resource == null)
+        return;
+      this.Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
     }
   }
 }
