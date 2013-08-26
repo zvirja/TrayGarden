@@ -7,11 +7,11 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Pipelines.Startup
 {
-    public class PlantServicesInformInit
+  public class PlantServicesInformInit
+  {
+    public void Process(StartupArgs args)
     {
-        public void Process(StartupArgs args)
-        {
-            HatcherGuide<IServicesSteward>.Instance.InformInitializeStage();
-        }
+      HatcherGuide<IServicesSteward>.Instance.InformInitializeStage();
     }
+  }
 }

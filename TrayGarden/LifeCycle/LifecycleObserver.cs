@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Windows;
 using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.RestartApp;
 using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
+using TrayGarden.Resources;
 
 namespace TrayGarden.LifeCycle
 {
@@ -20,6 +22,7 @@ namespace TrayGarden.LifeCycle
       if (Observer != null)
         return;
       Observer = new LifecycleObserver();
+      Observer.LoadLog4NetFromResources();
       Observer.NotifyStartupInternal(args);
     }
 
@@ -57,6 +60,23 @@ namespace TrayGarden.LifeCycle
         ShutdownPipeline.Run();
     }
 
+    protected virtual void LoadLog4NetFromResources()
+    {
+      AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
+    }
 
+    protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+    {
+      if (args.Name.Contains("log4net"))
+      {
+        var alreadyLoaded = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("log4net"));
+        if (alreadyLoaded != null)
+          return alreadyLoaded;
+        byte[] log4Net = GlobalResources.log4net;
+        alreadyLoaded = Assembly.Load(log4Net);
+        return alreadyLoaded;
+      }
+      return null;
+    }
   }
 }
