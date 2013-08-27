@@ -134,6 +134,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
     {
       GlobalMenuPlantBox plantBox = GetPlantLuggage(plantEx);
+      if (plantBox == null)
+        return;
       plantBox.FixVisibility();
     }
 
