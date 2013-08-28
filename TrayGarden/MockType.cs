@@ -20,7 +20,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGiveMeMyAppConfig, IGetCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation, IGetPowerOfUserNotifications
+  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGetCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation, IGetPowerOfUserNotifications
   {
     public bool Initialized { get; set; }
     public int IntValue { get; set; }

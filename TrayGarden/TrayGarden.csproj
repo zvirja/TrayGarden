@@ -134,6 +134,7 @@
     <Compile Include="Plants\Pipeline\ResolveWorkhorses.cs" />
     <Compile Include="Plants\Pipeline\ResolveIPlant.cs" />
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
+    <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="RuntimeSettings\BulkSettingsUpdate.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\BaseSettingMediator.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\StringSettingMediator.cs" />
@@ -224,7 +225,6 @@
     </Compile>
     <Compile Include="Reception\Services\IChangesGlobalIcon.cs" />
     <Compile Include="Reception\Services\IExtendsGlobalMenu.cs" />
-    <Compile Include="Reception\Services\IGiveMeMyAppConfig.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigService.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigServicePlantBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
@@ -500,7 +500,6 @@
     <Folder Include="Services\PlantServices\ClipboardObserver\Smorgasbord\" />
     <Folder Include="Services\PlantServices\CustomSettings\Smorgasbord\" />
     <Folder Include="Services\PlantServices\GlobalMenu\Smorgasbord\" />
-    <Folder Include="Services\PlantServices\MyAdminConfig\Smorgasbord\" />
     <Folder Include="Services\PlantServices\StandaloneIcon\Smorgasbord\" />
     <Folder Include="Services\PlantServices\UserConfig\Smorgasbord\" />
     <Folder Include="Services\PlantServices\UserNotifications\Smorgasbord\" />
