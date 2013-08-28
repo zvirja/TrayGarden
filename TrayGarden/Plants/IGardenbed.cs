@@ -3,11 +3,12 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Plants
 {
-    public interface IGardenbed
-    {
-        bool AutoDetectPlants { get; set; }
-        void Initialize(List<object> plants);
-        List<IPlantEx> GetAllPlants();
-        List<IPlantEx> GetEnabledPlants();
-    }
+  public interface IGardenbed
+  {
+    bool AutoDetectPlants { get; set; }
+    void Initialize(List<object> plants);
+    void InformPostInitStage();
+    List<IPlantEx> GetAllPlants();
+    List<IPlantEx> GetEnabledPlants();
+  }
 }

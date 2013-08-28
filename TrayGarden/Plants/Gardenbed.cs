@@ -53,6 +53,14 @@ namespace TrayGarden.Plants
       Initialized = true;
     }
 
+    public virtual void InformPostInitStage()
+    {
+      foreach (IPlantEx plantEx in GetAllPlants())
+      {
+        plantEx.Plant.PostServicesInitialize();
+      }
+    }
+
     public virtual List<IPlantEx> GetAllPlants()
     {
       AssertInitialized();

@@ -3,17 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
+using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Pipelines.Startup
 {
-  public class PlantServicesInformInit
+  [UsedImplicitly]
+  public class GardenbedInformPostServicesInit
   {
     [UsedImplicitly]
     public void Process(StartupArgs args)
     {
-      HatcherGuide<IServicesSteward>.Instance.InformInitializeStage();
+      HatcherGuide<IGardenbed>.Instance.InformPostInitStage();
     }
   }
 }

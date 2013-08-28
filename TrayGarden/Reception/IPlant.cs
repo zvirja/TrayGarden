@@ -13,5 +13,6 @@ namespace TrayGarden.Reception
     string HumanSupportingName { get; }
     string Description { get; }
     void Initialize();
+    void PostServicesInitialize();
   }
 }

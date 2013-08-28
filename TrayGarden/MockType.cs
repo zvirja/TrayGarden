@@ -42,6 +42,11 @@ namespace TrayGarden
       Initialized = true;
     }
 
+    public void PostServicesInitialize()
+    {
+      
+    }
+
     private INotifyIconChangerClient NotifyIconChangerClient;
 
     public MockType()
