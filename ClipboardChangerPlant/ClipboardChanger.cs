@@ -19,6 +19,11 @@ namespace ClipboardChangerPlant
         "This plant listen clipboard and replaces links. \r\nFor instance it shorts all http://www.* like links and resolve direct links for Clip2Net service.";
     }
 
+    public virtual void Initialize()
+    {
+      
+    }
+
     public virtual List<object> GetServiceDelegates()
     {
       return null;
