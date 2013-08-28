@@ -134,6 +134,8 @@
     <Compile Include="Plants\Pipeline\ResolveWorkhorses.cs" />
     <Compile Include="Plants\Pipeline\ResolveIPlant.cs" />
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardProvider.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Core\IClipboardValueProvider.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="RuntimeSettings\BulkSettingsUpdate.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\BaseSettingMediator.cs" />
@@ -178,7 +180,7 @@
     <Compile Include="Services\PlantServiceBase.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverPlantBox.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardObserverService.cs" />
-    <Compile Include="Reception\Services\IAskClipboardEvents.cs" />
+    <Compile Include="Reception\Services\IClipboardWorks.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsService.cs" />
     <Compile Include="Services\PlantServices\CustomSettings\Core\CustomSettingsServicePlantBox.cs" />
     <Compile Include="Reception\Services\IGetCustomSettingsStorage.cs" />

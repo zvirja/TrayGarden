@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 
 namespace TrayGarden.Reception.Services
 {
@@ -9,8 +10,9 @@ namespace TrayGarden.Reception.Services
   /// This service allows to listen the clipboard events. 
   /// If service is enabled you will receive a notification each time the Clipboard content is changed.
   /// </summary>
-  public interface IAskClipboardEvents
+  public interface IClipboardWorks
   {
     void OnClipboardTextChanged(string newClipboardValue);
+    void StoreClipboardValueProvider(IClipboardProvider provider);
   }
 }

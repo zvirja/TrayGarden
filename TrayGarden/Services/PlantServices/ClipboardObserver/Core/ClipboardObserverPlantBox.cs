@@ -5,14 +5,14 @@ using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {
-    public class ClipboardObserverPlantBox:ServicePlantBoxBase
+  public class ClipboardObserverPlantBox : ServicePlantBoxBase
+  {
+    public IClipboardWorks WorksHungry { get; set; }
+
+    public virtual void InformNewClipboardValue(string newClipboardValue)
     {
-        public IAskClipboardEvents EventsHungry { get; set; }
-        
-        public virtual void InformNewClipboardValue(string newClipboardValue)
-        {
-            if(IsEnabled)
-                Task.Factory.StartNew(() => EventsHungry.OnClipboardTextChanged(newClipboardValue));
-        }
+      if (IsEnabled)
+        Task.Factory.StartNew(() => WorksHungry.OnClipboardTextChanged(newClipboardValue));
     }
+  }
 }

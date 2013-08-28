@@ -12,6 +12,7 @@ using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
@@ -20,7 +21,7 @@ using TrayGarden.TypesHatcher;
 
 namespace TrayGarden
 {
-  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGetCustomSettingsStorage, IAskClipboardEvents, IServicesDelegation, IGetPowerOfUserNotifications
+  public class MockType : IPlant, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IExtendsGlobalMenu, IChangesGlobalIcon, IGetCustomSettingsStorage, IClipboardWorks, IServicesDelegation, IGetPowerOfUserNotifications
   {
     public bool Initialized { get; set; }
     public int IntValue { get; set; }
@@ -162,6 +163,11 @@ namespace TrayGarden
     public void OnClipboardTextChanged(string newClipboardValue)
     {
       int a = 10;
+    }
+
+    public void StoreClipboardValueProvider(IClipboardProvider provider)
+    {
+      
     }
 
     public string HumanSupportingName { get; private set; }
