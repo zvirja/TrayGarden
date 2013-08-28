@@ -35,11 +35,9 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
       {
         Log.Warn("Unable to open admin config for {0}".FormatWith(assemblyLocation), this, ex);
       }
-      if (assemblyConfiguration != null)
-      {
-        asExpected.StoreModuleConfiguration(assemblyConfiguration);
-        plantEx.PutLuggage(LuggageName, new MyAdminConfigServicePlantBox());
-      }
+
+      asExpected.StoreModuleConfiguration(assemblyConfiguration);
+      plantEx.PutLuggage(LuggageName, new MyAdminConfigServicePlantBox());
     }
 
 

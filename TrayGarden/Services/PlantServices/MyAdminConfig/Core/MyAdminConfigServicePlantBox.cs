@@ -5,7 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
 {
-    public class MyAdminConfigServicePlantBox:ServicePlantBoxBase
-    {
-    }
+  public class MyAdminConfigServicePlantBox : ServicePlantBoxBase
+  {
+  }
 }
