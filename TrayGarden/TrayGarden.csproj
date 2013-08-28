@@ -104,6 +104,7 @@
     <Compile Include="Diagnostics\Assert.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
+    <Compile Include="Plants\Pipeline\InitializePlant.cs" />
     <Compile Include="Plants\Pipeline\ValidatePlant.cs" />
     <Compile Include="Reception\IPlant.cs" />
     <Compile Include="Reception\IServicesDelegation.cs" />
