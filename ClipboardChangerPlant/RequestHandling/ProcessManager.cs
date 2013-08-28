@@ -5,7 +5,6 @@ using System.Text;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.RequestHandling.PipelineModel;
-using ClipboardChangerV2.Configuration;
 
 namespace ClipboardChangerPlant.RequestHandling
 {

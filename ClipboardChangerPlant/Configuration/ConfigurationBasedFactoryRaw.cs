@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
-using System.Reflection;
 using System.Text;
 using System.Xml;
-using ClipboardChangerPlant.Configuration;
 
-namespace ClipboardChangerV2.Configuration
+namespace ClipboardChangerPlant.Configuration
 {
   public class ConfigurationBasedFactoryRaw
   {

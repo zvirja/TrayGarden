@@ -1,5 +1,5 @@
 ﻿using System.Drawing;
-using ClipboardChangerV2.NotificationIcon;
+using ClipboardChangerPlant.NotificationIcon;
 
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 {

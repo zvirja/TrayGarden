@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
-using ClipboardChangerV2.Configuration;
 
-namespace ClipboardChangerV2.NotificationIcon
+namespace ClipboardChangerPlant.NotificationIcon
 {
   public class NotifyIconManager : INeedCongurationNode
   {

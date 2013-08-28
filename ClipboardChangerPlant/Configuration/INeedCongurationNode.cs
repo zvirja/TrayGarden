@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace ClipboardChangerV2.Configuration
+namespace ClipboardChangerPlant.Configuration
 {
   public interface INeedCongurationNode
   {

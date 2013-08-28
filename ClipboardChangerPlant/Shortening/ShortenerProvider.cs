@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
-using ClipboardChangerV2.Configuration;
 
 namespace ClipboardChangerPlant.Shortening
 {

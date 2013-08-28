@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using ClipboardChangerPlant.Configuration;
+using ClipboardChangerPlant.NotificationIcon;
 using ClipboardChangerPlant.RequestHandling;
-using ClipboardChangerV2.NotificationIcon;
 using JetBrains.Annotations;
 
 namespace ClipboardChangerPlant.Engine

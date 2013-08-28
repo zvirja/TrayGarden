@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Engine;
+using ClipboardChangerPlant.NotificationIcon;
 using ClipboardChangerPlant.RequestHandling;
 using ClipboardChangerPlant.Shortening;
-using ClipboardChangerV2.Configuration;
-using ClipboardChangerV2.NotificationIcon;
 
 namespace ClipboardChangerPlant.Configuration
 {
