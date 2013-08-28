@@ -131,15 +131,15 @@ namespace ClipboardChangerPlant.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;ClipboardChangerV2&gt;
+        ///   Looks up a localized string similar to &lt;ClipboardChangerPlant&gt;
         ///    &lt;RequestHandlers&gt;
-        ///      &lt;RequestHandler name=&quot;Youtube&quot; type=&quot;ClipboardChangerV2.RequestHandling.Specialized.SimpleHandler&quot;&gt;
+        ///      &lt;RequestHandler name=&quot;Youtube&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler&quot;&gt;
         ///        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
         ///        &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
         ///        &lt;MatchRegExpressions&gt;http://www.youtube.com/watch.*|&lt;/MatchRegExpressions&gt;
         ///      &lt;/RequestHandler&gt;
         ///
-        ///      &lt;RequestHandler name=&quot;Clip2NetWithoutWebRequest&quot; type=&quot;ClipboardChangerV2.RequestHandling.Specialized.Clip2NetWithoutRequestHa [rest of string was truncated]&quot;;.
+        ///      &lt;RequestHandler name=&quot;Clip2NetWithoutWebRequest&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithout [rest of string was truncated]&quot;;.
         /// </summary>
         public static string XmlConfiguration {
             get {

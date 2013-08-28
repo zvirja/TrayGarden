@@ -16,7 +16,7 @@ namespace ClipboardChangerPlant.Configuration
       {
         if (_mainConfigurationNode != null)
           return _mainConfigurationNode;
-        var mainSection = ConfigurationManager.GetSection("ClipboardChangerV2") as SectionHandler;
+        var mainSection = ConfigurationManager.GetSection("ClipboardChangerPlant") as SectionHandler;
         if (mainSection != null)
           _mainConfigurationNode = mainSection.XmlRepresentation;
         else
