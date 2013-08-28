@@ -5,9 +5,11 @@ using System.Text;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.RequestHandling.PipelineModel;
+using JetBrains.Annotations;
 
 namespace ClipboardChangerPlant.RequestHandling
 {
+  [UsedImplicitly]
   public class ProcessManager : INeedCongurationNode
   {
     private static readonly Lazy<ProcessManager> _actualProcessManager = new Lazy<ProcessManager>(() => Factory.ActualFactory.GetRequestProcessManager());
@@ -19,22 +21,22 @@ namespace ClipboardChangerPlant.RequestHandling
     protected XmlHelper ConfigurationHelper;
     protected List<Processor> Processors;
 
-    public virtual void ProcessRequest()
+    public virtual void ProcessRequest(bool onlyShorteningRequired, bool clipboardEvent, string predefinedClipboardValue)
     {
       try
       {
-        var processorsArgs = new ProcessorArgs();
+        var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue);
         foreach (var processor in Processors)
         {
           processor.Process(processorsArgs);
-          if (processorsArgs.Abort)
+          if (processorsArgs.Aborted)
             break;
         }
       }
       catch
       {
         var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
-        notifyManager.SetNewIcon(notifyManager.DefaultTrayIcon, 1);
+        notifyManager.SetNewIcon(notifyManager.ErrorTrayIcon, 250);
       }
     }
 

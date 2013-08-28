@@ -63,6 +63,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="RequestHandling\PipelineModel\UpdateSuccessTrayIcon.cs" />
     <Compile Include="RequestHandling\PipelineModel\GetFromClipboard.cs" />
     <Compile Include="RequestHandling\PipelineModel\Processor.cs" />
     <Compile Include="RequestHandling\PipelineModel\ProcessorArgs.cs" />

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ClipboardChangerPlant.Clipboard;
+using ClipboardChangerPlant.Engine;
+using ClipboardChangerPlant.NotificationIcon;
 using TrayGarden.Reception;
 
 namespace ClipboardChangerPlant
@@ -21,12 +24,20 @@ namespace ClipboardChangerPlant
 
     public virtual void Initialize()
     {
-      
+      AppEngine.ActualEngine.Init();
+    }
+
+    public virtual void PostServicesInitialize()
+    {
+      int a = 10;
     }
 
     public virtual List<object> GetServiceDelegates()
     {
-      return null;
+      var result = new List<object>();
+      result.Add(NotifyIconManager.ActualManager);
+      result.Add(ClipboardManager.Provider);
+      return result;
     }
   }
 }

@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Configuration;
+using JetBrains.Annotations;
 
 namespace ClipboardChangerPlant.RequestHandling
 {
+  [UsedImplicitly]
   public class ReqHandlerResolver
   {
     private static readonly Lazy<List<RequestHandler>> _handlers =

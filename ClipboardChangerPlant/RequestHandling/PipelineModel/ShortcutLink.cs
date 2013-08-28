@@ -10,15 +10,13 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
   {
     public override void Process(ProcessorArgs args)
     {
-      if (!args.ShouldBeShorted)
+      if (!args.ShouldBeShorted && !args.OnlyShorteningRequired)
         return;
       string outputString;
       if (!ShortenerManager.TryShorterUrl(args.ResultUrl, out outputString))
-      {
-        HandleError(args, ErrorTrayIcon);
-        return;
-      }
-      args.ResultUrl = outputString;
+        HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
+      else
+        args.ResultUrl = outputString;
     }
   }
 }

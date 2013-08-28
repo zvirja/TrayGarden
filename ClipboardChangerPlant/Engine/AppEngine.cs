@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.NotificationIcon;
 using ClipboardChangerPlant.RequestHandling;
@@ -19,20 +20,30 @@ namespace ClipboardChangerPlant.Engine
       get { return _actualEngine.Value; }
     }
 
-    public NotifyIconManager NotifyIconManager { get; set; }
     public ProcessManager RequestProcessManager { get; set; }
 
-    public virtual void Init(NotifyIcon notifyIcon)
+    public virtual void Init()
     {
       var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
-      notifyManager.Initialize(notifyIcon);
-      notifyManager.MainActionRequested += new Action<object>(notifyManager_MainActionRequested);
+      notifyManager.MainActionRequested += NotifyManagerOnMainActionRequested;
+      notifyManager.ShorteningRequested += NotifyManagerOnShorteningRequested;
+      ClipboardManager.Provider.OnClipboardValueChanged +=ProviderOnOnClipboardValueChanged;
       this.RequestProcessManager = Factory.ActualFactory.GetRequestProcessManager();
     }
 
-    private void notifyManager_MainActionRequested(object sender)
+    private void NotifyManagerOnShorteningRequested(object o)
     {
-      RequestProcessManager.ProcessRequest();
+      RequestProcessManager.ProcessRequest(true, false, null);
+    }
+
+    private void NotifyManagerOnMainActionRequested(object o)
+    {
+      RequestProcessManager.ProcessRequest(false, false, null);
+    }
+
+    private void ProviderOnOnClipboardValueChanged(string s)
+    {
+      RequestProcessManager.ProcessRequest(false, true, s);
     }
   }
 }

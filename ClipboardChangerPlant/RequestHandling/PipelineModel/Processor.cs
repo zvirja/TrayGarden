@@ -18,14 +18,20 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
       get { return NotifyIconManager.ActualManager.ErrorTrayIcon; }
     }
 
-    protected virtual void HandleError(ProcessorArgs args, Icon errorIcon)
+    protected virtual Icon SuccessTrayIcon
+    {
+      get { return NotifyIconManager.ActualManager.SuccessTrayIcon; }
+    }
+
+    protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
     {
       NotifyIconManager.ActualManager.SetNewIcon(errorIcon);
-      args.Abort = true;
+      args.Abort();
     }
-    protected virtual void HandleError(ProcessorArgs args)
+
+    protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args)
     {
-      HandleError(args, ErrorTrayIcon);
+      HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
     }
   }
 }

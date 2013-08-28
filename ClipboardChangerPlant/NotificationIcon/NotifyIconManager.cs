@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
@@ -9,12 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
+using TrayGarden.Reception.Services.StandaloneIcon;
+using TrayGarden.Services.FleaMarket.IconChanger;
 
 namespace ClipboardChangerPlant.NotificationIcon
 {
-  public class NotifyIconManager : INeedCongurationNode
+  public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu
   {
-    protected XmlHelper ConfigurationHelper;
     private static readonly Lazy<NotifyIconManager> _manager = new Lazy<NotifyIconManager>(() => Factory.ActualFactory.GetNotifyIconManager());
     public static NotifyIconManager ActualManager
     {
@@ -24,64 +26,9 @@ namespace ClipboardChangerPlant.NotificationIcon
       }
     }
 
-    private NotifyIcon _notifyIcon;
+    protected XmlHelper ConfigurationHelper;
 
-    public NotifyIcon NotifyIcon
-    {
-      get
-      {
-        if (_notifyIcon == null)
-          throw new NoNullAllowedException("NotifyIconManager should be initialized");
-        return _notifyIcon;
-      }
-      set { _notifyIcon = value; }
-    }
-
-    public void Initialize(NotifyIcon notifyIcon)
-    {
-      NotifyIcon = notifyIcon;
-      NotifyIcon.MouseClick += new MouseEventHandler(NotifyIcon_MouseClick);
-      NotifyIcon.Icon = DefaultTrayIcon;
-    }
-
-    void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
-    {
-      if (e.Button == MouseButtons.Left)
-        OnMainActionRequested();
-    }
-
-    public event Action<object> MainActionRequested;
-
-    protected virtual void OnMainActionRequested()
-    {
-      Action<object> handler = MainActionRequested;
-      if (handler != null) handler(this);
-    }
-
-    private Task _currentUpdateIconTask;
-    private CancellationTokenSource _currentCancellationTokenSource;
-
-    public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
-    {
-      if (msTimeout == 0)
-        msTimeout = ConfigurationHelper.GetIntValue("DefaultTimeout");
-      SetIconInternal(newIcon, DefaultTrayIcon, msTimeout);
-    }
-
-    protected virtual void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
-    {
-      if (_currentUpdateIconTask != null && !_currentUpdateIconTask.IsCompleted)
-        _currentCancellationTokenSource.Cancel();
-      _currentCancellationTokenSource = new CancellationTokenSource();
-      _currentUpdateIconTask = Task.Factory.StartNew(() =>
-                                {
-                                  var cancellationToken = _currentCancellationTokenSource.Token;
-                                  _notifyIcon.Icon = newIcon;
-                                  Thread.Sleep(msTimeout);
-                                  if (!cancellationToken.IsCancellationRequested)
-                                    _notifyIcon.Icon = backIcon;
-                                }, _currentCancellationTokenSource.Token);
-    }
+    public INotifyIconChangerClient NotifyIconChangerClient { get; set; }
 
     public Icon DefaultTrayIcon
     {
@@ -108,11 +55,74 @@ namespace ClipboardChangerPlant.NotificationIcon
       get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("InProgressTrayIcon")); }
     }
 
+    public event Action<object> MainActionRequested;
+    public event Action<object> ShorteningRequested;
+
+    public bool GetIconInfo(out string title, out Icon icon, out MouseEventHandler iconClickHandler)
+    {
+      title = "ClipboardChanger";
+      icon = DefaultTrayIcon;
+      iconClickHandler = NotifyIcon_MouseClick;
+      return true;
+    }
+
+    public virtual void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+    {
+      NotifyIconChangerClient = notifyIconChangerClient;
+    }
+
+
+    public virtual List<ToolStripMenuItem> GetStripsToAdd()
+    {
+      var result = new List<ToolStripMenuItem>();
+      var shortLink = new ToolStripMenuItem("Short link in clipboard");
+      shortLink.Click +=(sender, args) => OnShorteningRequested();
+      result.Add(shortLink);
+      return result;
+    }
+
+    public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
+    {
+      if (msTimeout == 0)
+        msTimeout = ConfigurationHelper.GetIntValue("DefaultTimeout");
+      SetIconInternal(newIcon, msTimeout);
+    }
+
+    protected virtual void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+    {
+      if(e.Button == MouseButtons.Left)
+        OnMainActionRequested();
+    }
+
+    protected virtual void OnMainActionRequested()
+    {
+      Action<object> handler = MainActionRequested;
+      if (handler != null) handler(this);
+    }
+
+    protected virtual void OnShorteningRequested()
+    {
+      Action<object> handler = ShorteningRequested;
+      if (handler != null) handler(this);
+    }
+
+    protected virtual void SetIconInternal(Icon newIcon, int msTimeout)
+    {
+      NotifyIconChangerClient.SetIcon(newIcon,msTimeout);
+    }
+
+
+
+    #region Factory part
+
     public void SetConfigurationNode(XmlNode configurationNode)
     {
       ConfigurationHelper = new XmlHelper(configurationNode);
     }
 
     public string Name { get; set; }
+
+    #endregion
+
   }
 }

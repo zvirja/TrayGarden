@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml;
 
@@ -16,10 +17,14 @@ namespace ClipboardChangerPlant.Configuration
       {
         if (_mainConfigurationNode != null)
           return _mainConfigurationNode;
-        var mainSection = ConfigurationManager.GetSection("ClipboardChangerPlant") as SectionHandler;
-        if (mainSection != null)
-          _mainConfigurationNode = mainSection.XmlRepresentation;
-        else
+        var currentConfig = GetCurrentConfiguration();
+        if (currentConfig != null)
+        {
+          var mainSection = currentConfig.GetSection("ClipboardChangerPlant") as SectionHandler;
+          if (mainSection != null)
+            _mainConfigurationNode = mainSection.XmlRepresentation;
+        }
+        if(_mainConfigurationNode == null)
           _mainConfigurationNode = GetEmbeddedConfiguration();
         return _mainConfigurationNode;
       }
@@ -30,6 +35,20 @@ namespace ClipboardChangerPlant.Configuration
       var document = new XmlDocument();
       document.LoadXml(ResourcesOperator.GetStringByName("XmlConfiguration"));
       return document;
+    }
+
+    private static System.Configuration.Configuration GetCurrentConfiguration()
+    {
+      try
+      {
+        System.Configuration.Configuration configuration = ConfigurationManager.OpenExeConfiguration(Assembly.GetExecutingAssembly().Location);
+        return configuration;
+      }
+      catch (Exception)
+      {
+        
+      }
+      return null;
     }
 
     private static ConfigurationBasedFactoryRaw _instance;

@@ -7,11 +7,12 @@ using ClipboardChangerPlant.Configuration;
 
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 {
-  public class SetToClipboard : Processor
+  public class UpdateSuccessTrayIcon : Processor
   {
     public override void Process(ProcessorArgs args)
     {
-      ClipboardManager.SetValue(args.ResultUrl);
+      var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
+      notifyIconManager.SetNewIcon(args.ResolvedHandler != null ? args.ResolvedHandler.HandlerIcon : SuccessTrayIcon, 800);
     }
   }
 }

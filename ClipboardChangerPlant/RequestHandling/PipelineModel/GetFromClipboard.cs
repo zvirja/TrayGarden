@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Configuration;
+using TrayGarden.Helpers;
 
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 {
@@ -10,12 +11,25 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
   {
     public override void Process(ProcessorArgs args)
     {
-      var currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
-      if (string.IsNullOrEmpty(currentValue))
-        HandleError(args, NotFoundTrayIcon);
+      if (args.ClipboardEvent)
+      {
+        if (args.PredefinedClipboardValue.IsNullOrEmpty())
+        {
+          args.Abort();
+          return;
+        }
+        args.ResultUrl = args.PredefinedClipboardValue;
+      }
       else
-        args.ResultUrl = currentValue;
-
+      {
+        string currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
+        if (currentValue.IsNullOrEmpty())
+        {
+          HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
+        }
+        else
+          args.ResultUrl = currentValue;
+      }
     }
   }
 }

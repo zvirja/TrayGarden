@@ -4,29 +4,43 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
+using JetBrains.Annotations;
+using TrayGarden.Reception.Services;
+using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 
 namespace ClipboardChangerPlant.Clipboard
 {
-  public class ClipboardProvider
+  [UsedImplicitly]
+  public class ClipboardProvider:IClipboardWorks
   {
-    protected XmlHelper ConfigurationHelper;
-
-    public string Name { get; set; }
-
+    public IClipboardProvider ActualProvider { get; set; }
+    public event Action<string> OnClipboardValueChanged;
 
     public virtual string GetValue()
     {
-      return System.Windows.Clipboard.GetText();
+      return ActualProvider.GetCurrentClipboardText();
     }
 
     public virtual void SetValue(string value)
     {
-      System.Windows.Clipboard.SetText(value);
+      ActualProvider.SetCurrentClipboardText(value);
     }
 
-    public void SetConfigurationNode(XmlNode configurationNode)
+
+    public virtual void OnClipboardTextChanged(string newClipboardValue)
     {
-      ConfigurationHelper = new XmlHelper(configurationNode);
+      OnOnClipboardValueChanged(newClipboardValue);
+    }
+
+    public virtual void StoreClipboardValueProvider(IClipboardProvider provider)
+    {
+      ActualProvider = provider;
+    }
+
+    protected virtual void OnOnClipboardValueChanged(string newValue)
+    {
+      Action<string> handler = OnClipboardValueChanged;
+      if (handler != null) handler(newValue);
     }
   }
 }

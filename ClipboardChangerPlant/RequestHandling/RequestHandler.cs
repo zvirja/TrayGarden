@@ -21,6 +21,11 @@ namespace ClipboardChangerPlant.RequestHandling
       get { return ConfigurationHelper.GetBoolValue("ShouldBeShorted"); }
     }
 
+    public virtual bool ShoudBeConfirmed
+    {
+      get { return ConfigurationHelper.GetBoolValue("ConfirmBefore"); }
+    }
+
     public virtual string[] MatchRegularExpressions
     {
       get { return ConfigurationHelper.GetStringValue("MatchRegExpressions").Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries); }

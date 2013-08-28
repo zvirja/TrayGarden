@@ -13,16 +13,21 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
       RequestHandler resolvedHandler;
       if (!ReqHandlerResolver.TryToResolveHandler(args.ResultUrl, out resolvedHandler))
       {
-        HandleError(args, NotFoundTrayIcon);
+        if (!args.ClipboardEvent)
+          HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
+        else
+          args.Abort();
         return;
       }
       args.ResolvedHandler = resolvedHandler;
+
       string result;
       var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
-      notifyIconManager.SetNewIcon(notifyIconManager.InProgressTrayIcon, 30000);
+      notifyIconManager.SetNewIcon(notifyIconManager.InProgressTrayIcon, 10000000);
+
       if (!resolvedHandler.TryProcess(args.ResultUrl, out result))
       {
-        HandleError(args, ErrorTrayIcon);
+        HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
         return;
       }
       args.ShouldBeShorted = resolvedHandler.IsShorterEnabled;

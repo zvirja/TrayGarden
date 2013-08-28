@@ -14,14 +14,7 @@ namespace ClipboardChangerPlant.Clipboard
     {
       get
       {
-        if (_provider != null)
-          return _provider;
-        lock (_lock)
-        {
-          if (_provider != null)
-            return _provider;
-          _provider = Factory.ActualFactory.GetClipboardProvider();
-        }
+        _provider = Factory.ActualFactory.GetClipboardProvider();
         return _provider;
       }
     }
