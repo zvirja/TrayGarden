@@ -71,7 +71,7 @@
     <Compile Include="RequestHandling\PipelineModel\SetToClipboard.cs" />
     <Compile Include="RequestHandling\PipelineModel\ShortcutLink.cs" />
     <Compile Include="RequestHandling\ProcessManager.cs" />
-    <Compile Include="RequestHandling\ReqHandlerResolver.cs" />
+    <Compile Include="RequestHandling\RequestHandlerChief.cs" />
     <Compile Include="RequestHandling\RequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithoutRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithRequestHandler.cs" />
