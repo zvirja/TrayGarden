@@ -6,12 +6,15 @@ using System.Threading.Tasks;
 using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Engine;
 using ClipboardChangerPlant.NotificationIcon;
+using ClipboardChangerPlant.UIConfiguration;
 using TrayGarden.Reception;
 
 namespace ClipboardChangerPlant
 {
   public class ClipboardChanger:IPlant, IServicesDelegation
   {
+    public static ClipboardChanger ActualPlant { get; protected set; }
+    
     public string HumanSupportingName { get; protected set; }
     public string Description { get; protected set; }
 
@@ -24,12 +27,13 @@ namespace ClipboardChangerPlant
 
     public virtual void Initialize()
     {
-      AppEngine.ActualEngine.Init();
+      ActualPlant = this;
+      AppEngine.ActualEngine.PreInit();
     }
 
     public virtual void PostServicesInitialize()
     {
-      int a = 10;
+      AppEngine.ActualEngine.PostInit();      
     }
 
     public virtual List<object> GetServiceDelegates()
@@ -37,6 +41,7 @@ namespace ClipboardChangerPlant
       var result = new List<object>();
       result.Add(NotifyIconManager.ActualManager);
       result.Add(ClipboardManager.Provider);
+      result.Add(UIConfigurationManager.ActualManager);
       return result;
     }
   }

@@ -8,7 +8,7 @@ using JetBrains.Annotations;
 namespace ClipboardChangerPlant.RequestHandling
 {
   [UsedImplicitly]
-  public class ReqHandlerResolver
+  public class RequestHandlerChief
   {
     private static readonly Lazy<List<RequestHandler>> _handlers =
         new Lazy<List<RequestHandler>>(() => Factory.ActualFactory.GetRequestHandlers());
@@ -30,6 +30,18 @@ namespace ClipboardChangerPlant.RequestHandling
       }
       handler = null;
       return false;
+    }
+
+    public static void PreInit()
+    {
+      foreach (RequestHandler requestHandler in Handlers)
+        requestHandler.PreInit();
+    }
+
+    public static void PostInit()
+    {
+      foreach (RequestHandler requestHandler in Handlers)
+        requestHandler.PostInit();
     }
   }
 }

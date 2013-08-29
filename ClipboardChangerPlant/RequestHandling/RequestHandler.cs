@@ -48,6 +48,16 @@ namespace ClipboardChangerPlant.RequestHandling
     }
 
     public string Name { get; set; }
+
+    public virtual void PreInit()
+    {
+      
+    }
+
+    public virtual void PostInit()
+    {
+      
+    }
   }
 }
 

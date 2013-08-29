@@ -82,6 +82,7 @@
     <Compile Include="Shortening\Google\SerializationHelper.cs" />
     <Compile Include="Shortening\ShortenerManager.cs" />
     <Compile Include="Shortening\ShortenerProvider.cs" />
+    <Compile Include="UIConfiguration\UIConfigurationManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrayGarden\TrayGarden.csproj">

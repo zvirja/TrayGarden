@@ -11,7 +11,7 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
     public override void Process(ProcessorArgs args)
     {
       RequestHandler resolvedHandler;
-      if (!ReqHandlerResolver.TryToResolveHandler(args.ResultUrl, out resolvedHandler))
+      if (!RequestHandlerChief.TryToResolveHandler(args.ResultUrl, out resolvedHandler))
       {
         if (!args.ClipboardEvent)
           HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
