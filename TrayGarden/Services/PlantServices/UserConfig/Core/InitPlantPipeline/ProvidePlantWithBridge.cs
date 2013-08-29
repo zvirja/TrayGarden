@@ -6,14 +6,14 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
 {
+  [UsedImplicitly]
+  public class ProvidePlantWithBridge
+  {
     [UsedImplicitly]
-    public class ProvidePlantWithBridge
+    public virtual void Process(InitPlantUCPipelineArg args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitPlantUCPipelineArg args)
-        {
-            args.Workhorse.StoreUserSettingsBridge(args.Bridge);
-        }
-
+      args.Workhorse.StoreUserSettingsBridge(args.Bridge);
     }
+
+  }
 }

@@ -6,23 +6,23 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.InitPlantPipeline
 {
+  [UsedImplicitly]
+  public class AssignPlantBox
+  {
     [UsedImplicitly]
-    public class AssignPlantBox
+    public virtual void Process(InitPlantUCPipelineArg args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitPlantUCPipelineArg args)
-        {
-            UserConfigServicePlantBox userConfigServicePlantBox = CreatePlantBox(args);
-            args.RelatedPlant.PutLuggage(args.LuggageName,userConfigServicePlantBox);
-        }
-
-        protected virtual UserConfigServicePlantBox CreatePlantBox(InitPlantUCPipelineArg args)
-        {
-            var plantBox = new UserConfigServicePlantBox();
-            plantBox.RelatedPlantEx = args.RelatedPlant;
-            plantBox.SettingsBox = args.SettingBox;
-            plantBox.SettingsBridge = args.Bridge;
-            return plantBox;
-        }
+      UserConfigServicePlantBox userConfigServicePlantBox = CreatePlantBox(args);
+      args.RelatedPlant.PutLuggage(args.LuggageName, userConfigServicePlantBox);
     }
+
+    protected virtual UserConfigServicePlantBox CreatePlantBox(InitPlantUCPipelineArg args)
+    {
+      var plantBox = new UserConfigServicePlantBox();
+      plantBox.RelatedPlantEx = args.RelatedPlant;
+      plantBox.SettingsBox = args.SettingBox;
+      plantBox.SettingsBridge = args.Bridge;
+      return plantBox;
+    }
+  }
 }
