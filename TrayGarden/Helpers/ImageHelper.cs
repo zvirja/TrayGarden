@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Threading;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 
@@ -20,7 +21,7 @@ namespace TrayGarden.Helpers
     [System.Runtime.InteropServices.DllImport("gdi32.dll")]
     public static extern bool DeleteObject(IntPtr hObject);
 
-    public static BitmapImage GetBitmapImageFromBitmap(Bitmap bitmap, ImageFormat imageFormat)
+    public static BitmapImage GetBitmapImageFromBitmapThreadSafe(Bitmap bitmap, ImageFormat imageFormat)
     {
       if (bitmap == null)
         return null;
@@ -34,7 +35,9 @@ namespace TrayGarden.Helpers
       result.CacheOption = BitmapCacheOption.OnLoad;
       result.EndInit();
       memoryStream.Close();
+      result.Freeze();
       return result;
+
     }
 
     public static BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
