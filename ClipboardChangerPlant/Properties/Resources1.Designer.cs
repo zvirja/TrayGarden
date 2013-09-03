@@ -123,6 +123,56 @@ namespace ClipboardChangerPlant.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
         /// </summary>
+        public static System.Drawing.Icon klipperShorted {
+            get {
+                object obj = ResourceManager.GetObject("klipperShorted", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon klipperShortedv2 {
+            get {
+                object obj = ResourceManager.GetObject("klipperShortedv2", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon klipperShortedv3 {
+            get {
+                object obj = ResourceManager.GetObject("klipperShortedv3", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon klipperShortedv4 {
+            get {
+                object obj = ResourceManager.GetObject("klipperShortedv4", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
+        public static System.Drawing.Icon klipperShortedv5 {
+            get {
+                object obj = ResourceManager.GetObject("klipperShortedv5", resourceCulture);
+                return ((System.Drawing.Icon)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Icon similar to (Icon).
+        /// </summary>
         public static System.Drawing.Icon klipperSuccess {
             get {
                 object obj = ResourceManager.GetObject("klipperSuccess", resourceCulture);
@@ -159,9 +209,9 @@ namespace ClipboardChangerPlant.Properties {
         ///
         ///  &lt;ClipboardChangerPlant&gt;
         ///    &lt;RequestHandlers&gt;
-        ///      &lt;RequestHandler name=&quot;Clip2NetWithoutWebRequest&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler&quot;&gt;
-        ///        &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
-        ///        &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconReso [rest of string was truncated]&quot;;.
+        ///      &lt;RequestHandler name=&quot;OnlyShorteningHandler&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.OnlyShorteningHandler&quot;&gt;
+        ///        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
+        ///        &lt;SuccessIconResourceName&gt;klipperShortedv5&lt;/SuccessIconResourceN [rest of string was truncated]&quot;;.
         /// </summary>
         public static string XmlConfiguration {
             get {

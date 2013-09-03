@@ -148,6 +148,12 @@
 
   &lt;ClipboardChangerPlant&gt;
     &lt;RequestHandlers&gt;
+      &lt;RequestHandler name="OnlyShorteningHandler" type="ClipboardChangerPlant.RequestHandling.Specialized.OnlyShorteningHandler"&gt;
+        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
+        &lt;SuccessIconResourceName&gt;klipperShortedv5&lt;/SuccessIconResourceName&gt;
+        &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
+      &lt;/RequestHandler&gt;
+      
       &lt;RequestHandler name="Clip2NetWithoutWebRequest" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler"&gt;
         &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconResourceName&gt;
@@ -239,5 +245,20 @@
   </data>
   <data name="undoImage32" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\undoicon32.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="klipperShorted" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\klipperShorted.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="klipperShortedv2" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\klipperShortedv2.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="klipperShortedv3" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\klipperShortedv3.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="klipperShortedv4" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\klipperShortedv4.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="klipperShortedv5" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\klipperShortedv5.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
