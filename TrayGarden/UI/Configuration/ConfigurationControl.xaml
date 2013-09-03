@@ -23,6 +23,7 @@
             <Setter Property="HorizontalAlignment" Value="Stretch" />
             <Setter Property="TextAlignment" Value="Center" />
             <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="5 0"/>
             <Style.Triggers>
                 <DataTrigger Binding="{Binding Path=SettingDescription, Mode=OneWay, Converter={StaticResource StringHasValueToBoolConverter}}" Value="True">
                     <Setter Property="Cursor" Value="Help" />
