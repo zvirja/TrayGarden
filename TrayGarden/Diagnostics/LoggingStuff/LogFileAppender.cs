@@ -44,7 +44,7 @@ namespace TrayGarden.Diagnostics.LoggingStuff
     protected static string ResolveDirectoryPath()
     {
       if (!AppConfigHelper.GetBoolSetting("Log4net.UseAppData", false))
-        return Directory.GetCurrentDirectory();
+        return DirectoryHelper.CurrentDirectory;
       string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), DirectoryName);
       directory = Path.Combine(directory, "Logs");
       return directory;
