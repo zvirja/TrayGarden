@@ -14,14 +14,16 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
   {
     public override void Process(ProcessorArgs args)
     {
+      NotifyIconManager notifyIconManager = NotifyIconManager.ActualManager;
       if (args.ClipboardEvent)
       {
-        args.CurrentNotifyIconChangerClient = NotifyIconManager.ActualManager.GlobalNotifyIconChangerClient;
+        args.CurrentNotifyIconChangerClient = notifyIconManager.GlobalNotifyIconChangerClient;
       }
       else
       {
-        args.CurrentNotifyIconChangerClient = NotifyIconManager.ActualManager.NotifyIconChangerClient;
-        
+        args.CurrentNotifyIconChangerClient = args.OriginatorIsGlobalIcon
+          ? notifyIconManager.GlobalNotifyIconChangerClient
+          : notifyIconManager.NotifyIconChangerClient;
       }
     }
   }
