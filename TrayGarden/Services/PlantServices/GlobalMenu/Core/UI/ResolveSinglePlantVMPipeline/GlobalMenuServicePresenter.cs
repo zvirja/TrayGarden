@@ -8,19 +8,22 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
 {
-    [UsedImplicitly]
-    public class GlobalMenuServicePresenter:ServicePresenterBase<GlobalMenuService>
+  [UsedImplicitly]
+  public class GlobalMenuServicePresenter : ServicePresenterBase<GlobalMenuService>
+  {
+    public GlobalMenuServicePresenter()
     {
-        public GlobalMenuServicePresenter()
-        {
-            ServiceName = "Embedding to global menu";
-            ServiceDescription =
-               "If service is enabled, plant is enabled to embed its row to global menu.";
-        }
-
-        protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)
-        {
-            return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, serviceInstance.GetPlantLuggage(plantEx));
-        }
+      ServiceName = "Embedding to global menu";
+      ServiceDescription =
+         "If service is enabled, plant is enabled to embed its row to global menu.";
     }
+
+    protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)
+    {
+      var luggage = serviceInstance.GetPlantLuggage(plantEx);
+      if (luggage.ToolStripMenuItem == null)
+        return null;
+      return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, luggage);
+    }
+  }
 }

@@ -184,7 +184,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
     {
       foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
-        menuStrip.Items.Add(globalMenuPlantBox.ToolStripMenuItem);
+        if(globalMenuPlantBox.ToolStripMenuItem != null)
+          menuStrip.Items.Add(globalMenuPlantBox.ToolStripMenuItem);
     }
 
     protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)

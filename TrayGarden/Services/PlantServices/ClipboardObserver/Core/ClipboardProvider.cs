@@ -13,9 +13,9 @@
       return Service.GetLastTimeClipboardValue();
     }
 
-    public virtual void SetCurrentClipboardText(string newValue)
+    public virtual void SetCurrentClipboardText(string newValue, bool silent)
     {
-      Service.QueueNewClipboardValue(newValue);
+      Service.QueueNewClipboardValue(newValue,silent);
     }
   }
 }

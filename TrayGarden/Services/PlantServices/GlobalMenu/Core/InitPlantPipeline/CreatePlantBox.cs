@@ -4,13 +4,13 @@ using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
+  [UsedImplicitly]
+  public class CreatePlantBox
+  {
     [UsedImplicitly]
-    public class CreatePlantBox
+    public virtual void Process(InitPlantGMArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(InitPlantGMArgs args)
-        {
-            args.GMBox = new GlobalMenuPlantBox();
-        }
+      args.GMBox = new GlobalMenuPlantBox();
     }
+  }
 }

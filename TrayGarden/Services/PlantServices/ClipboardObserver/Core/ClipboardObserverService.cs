@@ -18,6 +18,7 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
   {
     protected volatile string lastCheckClipboardValue;
     protected volatile string queuedValueToSet;
+    protected volatile bool queueingSilentMode;
 
     public int CheckIntervalMsec { get; set; }
     protected Thread CheckThread { get; set; }
@@ -56,9 +57,10 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
       InitializePlantWithLuggage(plantEx);
     }
 
-    public virtual void QueueNewClipboardValue(string newValue)
+    public virtual void QueueNewClipboardValue(string newValue, bool silent)
     {
       queuedValueToSet = newValue;
+      queueingSilentMode = silent;
     }
 
     public virtual string GetLastTimeClipboardValue()
@@ -82,6 +84,9 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
         if (queuedValueToSet != null)
         {
           Clipboard.SetText(queuedValueToSet);
+          if (queueingSilentMode)
+            lastCheckClipboardValue = queuedValueToSet;
+          queueingSilentMode = false;
           queuedValueToSet = null;
         }
         //FIX FROM CLIPBRD_E_CANT_OPEN

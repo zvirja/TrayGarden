@@ -17,15 +17,14 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IExtendsGlobalMenu>();
       if (asExpected == null)
       {
-        args.Abort();
         return;
       }
       var menuItem = GetStripItem(asExpected);
       if (menuItem == null)
       {
-        args.Abort();
         return;
       }
+      args.IsPlantInUse = true;
       args.GMBox.ToolStripMenuItem = menuItem;
     }
 

@@ -16,6 +16,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
         return;
       }
       asExpected.StoreGlobalIconChangingAssignee(args.GlobalNotifyIconChanger);
+      args.IsPlantInUse = true;
     }
   }
 }

@@ -9,6 +9,6 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
   public interface IClipboardProvider
   {
     string GetCurrentClipboardText();
-    void SetCurrentClipboardText(string newValue);
+    void SetCurrentClipboardText(string newValue, bool silent);
   }
 }
