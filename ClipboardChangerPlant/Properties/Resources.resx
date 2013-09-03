@@ -140,33 +140,63 @@
     <value>..\Resources\Custom-Icon-Design-Pretty-Office-2-Success.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
   <data name="XmlConfiguration" xml:space="preserve">
-    <value>&lt;ClipboardChangerPlant&gt;
-    &lt;RequestHandlers&gt;
-      &lt;RequestHandler name="Youtube" type="ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler"&gt;
-        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
-        &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
-        &lt;MatchRegExpressions&gt;http://www.youtube.com/watch.*|&lt;/MatchRegExpressions&gt;
-      &lt;/RequestHandler&gt;
+    <value>&lt;?xml version="1.0"?&gt;
+&lt;configuration&gt;
+  &lt;configSections&gt;
+    &lt;section name="ClipboardChangerPlant" type="ClipboardChangerPlant.Configuration.SectionHandler, ClipboardChangerPlant" /&gt;
+  &lt;/configSections&gt;
 
+  &lt;ClipboardChangerPlant&gt;
+    &lt;RequestHandlers&gt;
       &lt;RequestHandler name="Clip2NetWithoutWebRequest" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler"&gt;
         &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconResourceName&gt;
-        &lt;MatchRegExpressions&gt;http://clip2net.com/clip/.*|&lt;/MatchRegExpressions&gt;
-      &lt;/RequestHandler&gt;      
+        &lt;MatchRegExpressions&gt;.+http://clip2net.com/clip/.*|&lt;/MatchRegExpressions&gt;
+      &lt;/RequestHandler&gt;
 
       &lt;RequestHandler name="Clip2NetWithoutWebRequest" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithRequestHandler"&gt;
         &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;^http://clip2net.com/s/.*|&lt;/MatchRegExpressions&gt;
       &lt;/RequestHandler&gt;
+
+      &lt;RequestHandler name="Youtube shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithValidation"&gt;
+        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
+        &lt;ConfirmBefore&gt;False&lt;/ConfirmBefore&gt;
+        &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
+        &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
+        &lt;MatchRegExpressions&gt;http://www.youtube.com/watch.*|&lt;/MatchRegExpressions&gt;
+      &lt;/RequestHandler&gt;
+
+      &lt;RequestHandler name="all url shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithValidation"&gt;
+        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
+        &lt;ConfirmBefore&gt;True&lt;/ConfirmBefore&gt;
+        &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
+        &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
+        &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
+      &lt;/RequestHandler&gt;
+
+      &lt;!--      &lt;RequestHandler name="fallbackHandler" type="ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler"&gt;
+        &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
+        &lt;ConfirmBefore&gt;True&lt;/ConfirmBefore&gt;
+        &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
+        &lt;MatchRegExpressions&gt;.*&lt;/MatchRegExpressions&gt;
+      &lt;/RequestHandler&gt;--&gt;
     &lt;/RequestHandlers&gt;
 
     &lt;ProcessManager name="DefaultProcessManager" type="ClipboardChangerPlant.RequestHandling.ProcessManager"&gt;
       &lt;pipeline&gt;
-        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.GetFromClipboard" /&gt;
-        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.RequestAndExecuteHandler" /&gt;
-        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.ShortcutLink" /&gt;
-        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.SetToClipboard" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PullValueFromClipboard" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ResolveNotifyIconChanger" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.StoreOriginalUrlValue" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ResolveHandler" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PreExecuteHandler" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ExecuteHandler" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ShortcutLink" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PostExecuteHandler" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.StoreToClipboard" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.UpdateSuccessTrayIcon" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PostmortemRevertValueHandler" /&gt;
       &lt;/pipeline&gt;
     &lt;/ProcessManager&gt;
 
@@ -175,10 +205,14 @@
         &lt;ApiKey&gt;AIzaSyADhkgzCMcGp6_y1Rfj1tiuBR6-lp3kBsk&lt;/ApiKey&gt;
         &lt;RequestUrl&gt;https://www.googleapis.com/urlshortener/v1/url&lt;/RequestUrl&gt;
       &lt;/ShortenerProvider&gt;
+
+      &lt;!--&lt;ShortenerProvider name="FallbackProvider" type="ClipboardChangerPlant.Shortening.ShortenerProvider"&gt;
+        &lt;ApiKey&gt;key&lt;/ApiKey&gt;
+      &lt;/ShortenerProvider&gt;--&gt;
     &lt;/ShortenerProviders&gt;
 
     &lt;ClipboardProvider name="DefaultProvider" type="ClipboardChangerPlant.Clipboard.ClipboardProvider" /&gt;
-    
+
     &lt;NotifyIconManager name="DefaultManager" type="ClipboardChangerPlant.NotificationIcon.NotifyIconManager"&gt;
       &lt;DefaultTrayIcon&gt;klipper&lt;/DefaultTrayIcon&gt;
       &lt;NotFoundTrayIcon&gt;klipperEmpty&lt;/NotFoundTrayIcon&gt;
@@ -189,7 +223,13 @@
     &lt;/NotifyIconManager&gt;
 
     &lt;ApplicationEngine name="DefaultApplicationEngine" type="ClipboardChangerPlant.Engine.AppEngine" /&gt;
-  &lt;/ClipboardChangerPlant&gt;</value>
+    
+  &lt;/ClipboardChangerPlant&gt;
+
+  &lt;startup&gt;
+    &lt;supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.0" /&gt;
+  &lt;/startup&gt;
+&lt;/configuration&gt;</value>
   </data>
   <data name="youtube" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\Wwalczyszyn-Android-Style-Honeycomb-YouTube.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>

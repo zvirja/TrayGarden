@@ -151,15 +151,17 @@ namespace ClipboardChangerPlant.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;ClipboardChangerPlant&gt;
-        ///    &lt;RequestHandlers&gt;
-        ///      &lt;RequestHandler name=&quot;Youtube&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler&quot;&gt;
-        ///        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
-        ///        &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
-        ///        &lt;MatchRegExpressions&gt;http://www.youtube.com/watch.*|&lt;/MatchRegExpressions&gt;
-        ///      &lt;/RequestHandler&gt;
+        ///   Looks up a localized string similar to &lt;?xml version=&quot;1.0&quot;?&gt;
+        ///&lt;configuration&gt;
+        ///  &lt;configSections&gt;
+        ///    &lt;section name=&quot;ClipboardChangerPlant&quot; type=&quot;ClipboardChangerPlant.Configuration.SectionHandler, ClipboardChangerPlant&quot; /&gt;
+        ///  &lt;/configSections&gt;
         ///
-        ///      &lt;RequestHandler name=&quot;Clip2NetWithoutWebRequest&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithout [rest of string was truncated]&quot;;.
+        ///  &lt;ClipboardChangerPlant&gt;
+        ///    &lt;RequestHandlers&gt;
+        ///      &lt;RequestHandler name=&quot;Clip2NetWithoutWebRequest&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler&quot;&gt;
+        ///        &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
+        ///        &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconReso [rest of string was truncated]&quot;;.
         /// </summary>
         public static string XmlConfiguration {
             get {
