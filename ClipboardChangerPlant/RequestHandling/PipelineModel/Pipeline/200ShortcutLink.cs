@@ -3,9 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Shortening;
+using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
+  [UsedImplicitly]
   public class ShortcutLink : Processor
   {
     public override void Process(ProcessorArgs args)

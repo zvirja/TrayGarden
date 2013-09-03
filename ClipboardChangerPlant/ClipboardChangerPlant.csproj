@@ -32,17 +32,20 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClipboardChanger.cs" />
@@ -63,18 +66,25 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="RequestHandling\PipelineModel\UpdateSuccessTrayIcon.cs" />
-    <Compile Include="RequestHandling\PipelineModel\GetFromClipboard.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\400PostmortemRevertValueHandler.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\100PreExecuteHandler.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\025StoreOriginalUrlValue.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\250PostExecuteHandler.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\150ExecuteHandler.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\350UpdateSuccessTrayIcon.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\000PullValueFromClipboard.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\001ResolveNotifyIconChanger.cs" />
     <Compile Include="RequestHandling\PipelineModel\Processor.cs" />
     <Compile Include="RequestHandling\PipelineModel\ProcessorArgs.cs" />
-    <Compile Include="RequestHandling\PipelineModel\RequestAndExecuteHandler.cs" />
-    <Compile Include="RequestHandling\PipelineModel\SetToClipboard.cs" />
-    <Compile Include="RequestHandling\PipelineModel\ShortcutLink.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\050ResolveHandler.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\300StoreToClipboard.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\200ShortcutLink.cs" />
     <Compile Include="RequestHandling\ProcessManager.cs" />
     <Compile Include="RequestHandling\RequestHandlerChief.cs" />
     <Compile Include="RequestHandling\RequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithoutRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithRequestHandler.cs" />
+    <Compile Include="RequestHandling\Specialized\UrlShortenerWithValidation.cs" />
     <Compile Include="RequestHandling\Specialized\SimpleHandler.cs" />
     <Compile Include="Shortening\Google\GoogleProvider.cs" />
     <Compile Include="Shortening\Google\RequestObject.cs" />
@@ -82,7 +92,9 @@
     <Compile Include="Shortening\Google\SerializationHelper.cs" />
     <Compile Include="Shortening\ShortenerManager.cs" />
     <Compile Include="Shortening\ShortenerProvider.cs" />
+    <Compile Include="UIConfiguration\PopupDialogsManager.cs" />
     <Compile Include="UIConfiguration\UIConfigurationManager.cs" />
+    <Compile Include="UIConfiguration\UIDialogConfirmator.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\TrayGarden\TrayGarden.csproj">
@@ -98,6 +110,8 @@
     <Content Include="Resources\Oxygen-Icons.org-Oxygen-Actions-edit-delete.ico" />
     <Content Include="Resources\process.ico" />
     <Content Include="Resources\Treetog-Junior-Document-empty.ico" />
+    <None Include="Resources\Undo-icon2.png" />
+    <None Include="Resources\undoicon32.png" />
     <Content Include="Resources\Wwalczyszyn-Android-Style-Honeycomb-YouTube.ico" />
   </ItemGroup>
   <ItemGroup>
@@ -111,7 +125,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)\*" "C:\Users\Zvirja\Documents\visual studio 2012\Projects\TrayGarden\TrayGarden\bin\Release"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)\*" "C:\Users\Zvirja\Documents\visual studio 2012\Projects\TrayGarden\TrayGarden\bin\Debug"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

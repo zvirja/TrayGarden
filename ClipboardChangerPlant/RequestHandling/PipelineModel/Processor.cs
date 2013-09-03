@@ -25,7 +25,7 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 
     protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
     {
-      NotifyIconManager.ActualManager.SetNewIcon(errorIcon);
+      args.CurrentNotifyIconChangerClient.SetIcon(errorIcon);
       args.Abort();
     }
 

@@ -15,6 +15,7 @@ namespace ClipboardChangerPlant.Clipboard
   [UsedImplicitly]
   public class ClipboardProvider : IClipboardWorks
   {
+    protected static readonly string ListenClipboardSettingName = "Listen the clipboard";
     protected IUserSetting ListenClipoardSetting { get; set; }
 
     protected bool ListenClipboad
@@ -33,9 +34,9 @@ namespace ClipboardChangerPlant.Clipboard
       return ActualProvider.GetCurrentClipboardText();
     }
 
-    public virtual void SetValue(string value)
+    public virtual void SetValue(string value, bool silent)
     {
-      ActualProvider.SetCurrentClipboardText(value);
+      ActualProvider.SetCurrentClipboardText(value, silent);
     }
 
     public virtual void PreInit()
@@ -45,7 +46,7 @@ namespace ClipboardChangerPlant.Clipboard
 
     public virtual void PostInit()
     {
-      ListenClipoardSetting = UIConfigurationManager.ActualManager.UserSettings["Listen the clipboard"];
+      ListenClipoardSetting = UIConfigurationManager.ActualManager.UserSettings[ListenClipboardSettingName];
     }
 
     public virtual void OnClipboardTextChanged(string newClipboardValue)
@@ -61,7 +62,7 @@ namespace ClipboardChangerPlant.Clipboard
 
     protected virtual void EmbedUserSettings(IUserSettingsMetadataBuilder userSettingsMetadataBuilder)
     {
-      userSettingsMetadataBuilder.DeclareBoolSetting("Listen clipboard", true);
+      userSettingsMetadataBuilder.DeclareBoolSetting(ListenClipboardSettingName, true);
     }
 
     protected virtual void OnOnClipboardValueChanged(string newValue)

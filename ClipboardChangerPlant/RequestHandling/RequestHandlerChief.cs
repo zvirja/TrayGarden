@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Configuration;
+using ClipboardChangerPlant.RequestHandling.PipelineModel;
 using JetBrains.Annotations;
 
 namespace ClipboardChangerPlant.RequestHandling
@@ -18,8 +19,9 @@ namespace ClipboardChangerPlant.RequestHandling
       get { return _handlers.Value; }
     }
 
-    public static bool TryToResolveHandler(string valueToHandle, out RequestHandler handler)
+    public static bool TryToResolveHandler(ProcessorArgs pipelineArgs, out RequestHandler handler)
     {
+      string valueToHandle = pipelineArgs.ResultUrl;
       foreach (var requestHandler in Handlers)
       {
         if (requestHandler.Match(valueToHandle))

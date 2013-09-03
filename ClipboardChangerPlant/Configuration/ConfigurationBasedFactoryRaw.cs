@@ -83,8 +83,8 @@ namespace ClipboardChangerPlant.Configuration
       if (castedResultObject is INeedCongurationNode)
       {
         var configurationNeeder = (INeedCongurationNode)castedResultObject;
-        configurationNeeder.SetConfigurationNode(configurationNode);
         configurationNeeder.Name = configurationNode.Attributes["name"].Value;
+        configurationNeeder.SetConfigurationNode(configurationNode);
       }
       return castedResultObject;
     }

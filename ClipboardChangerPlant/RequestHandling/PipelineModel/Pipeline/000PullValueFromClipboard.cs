@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Configuration;
+using JetBrains.Annotations;
 using TrayGarden.Helpers;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
-  public class GetFromClipboard : Processor
+  [UsedImplicitly]
+  public class PullValueFromClipboard : Processor
   {
     public override void Process(ProcessorArgs args)
     {

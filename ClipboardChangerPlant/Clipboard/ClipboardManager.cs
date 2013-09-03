@@ -24,9 +24,9 @@ namespace ClipboardChangerPlant.Clipboard
       return Provider.GetValue();
     }
 
-    public static void SetValue(string newValue)
+    public static void SetValue(string newValue, bool silent = false)
     {
-      Provider.SetValue(newValue);
+      Provider.SetValue(newValue, silent);
     }
   }
 }

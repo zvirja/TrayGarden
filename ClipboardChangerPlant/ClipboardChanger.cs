@@ -11,10 +11,10 @@ using TrayGarden.Reception;
 
 namespace ClipboardChangerPlant
 {
-  public class ClipboardChanger:IPlant, IServicesDelegation
+  public class ClipboardChanger : IPlant, IServicesDelegation
   {
     public static ClipboardChanger ActualPlant { get; protected set; }
-    
+
     public string HumanSupportingName { get; protected set; }
     public string Description { get; protected set; }
 
@@ -33,7 +33,7 @@ namespace ClipboardChangerPlant
 
     public virtual void PostServicesInitialize()
     {
-      AppEngine.ActualEngine.PostInit();      
+      AppEngine.ActualEngine.PostInit();
     }
 
     public virtual List<object> GetServiceDelegates()
@@ -42,6 +42,7 @@ namespace ClipboardChangerPlant
       result.Add(NotifyIconManager.ActualManager);
       result.Add(ClipboardManager.Provider);
       result.Add(UIConfigurationManager.ActualManager);
+      result.Add(PopupDialogsManager.ActualManager);
       return result;
     }
   }

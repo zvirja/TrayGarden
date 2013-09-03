@@ -131,6 +131,26 @@ namespace ClipboardChangerPlant.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap undoImage32 {
+            get {
+                object obj = ResourceManager.GetObject("undoImage32", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        public static System.Drawing.Bitmap undoImage48 {
+            get {
+                object obj = ResourceManager.GetObject("undoImage48", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to &lt;ClipboardChangerPlant&gt;
         ///    &lt;RequestHandlers&gt;
         ///      &lt;RequestHandler name=&quot;Youtube&quot; type=&quot;ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler&quot;&gt;

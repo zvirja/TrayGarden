@@ -10,12 +10,13 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
+using TrayGarden.Reception.Services;
 using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Services.FleaMarket.IconChanger;
 
 namespace ClipboardChangerPlant.NotificationIcon
 {
-  public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu
+  public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IChangesGlobalIcon
   {
     private static readonly Lazy<NotifyIconManager> _manager = new Lazy<NotifyIconManager>(() => Factory.ActualFactory.GetNotifyIconManager());
     public static NotifyIconManager ActualManager
@@ -29,6 +30,7 @@ namespace ClipboardChangerPlant.NotificationIcon
     protected XmlHelper ConfigurationHelper;
 
     public INotifyIconChangerClient NotifyIconChangerClient { get; set; }
+    public INotifyIconChangerClient GlobalNotifyIconChangerClient { get; set; }
 
     public Icon DefaultTrayIcon
     {
@@ -81,6 +83,11 @@ namespace ClipboardChangerPlant.NotificationIcon
       return result;
     }
 
+    public virtual void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+    {
+      GlobalNotifyIconChangerClient = notifyIconChangerClient;
+    }
+
     public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
     {
       if (msTimeout == 0)
@@ -123,6 +130,7 @@ namespace ClipboardChangerPlant.NotificationIcon
     public string Name { get; set; }
 
     #endregion
+
 
   }
 }

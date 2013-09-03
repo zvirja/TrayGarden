@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Configuration;
+using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
+  [UsedImplicitly]
   public class UpdateSuccessTrayIcon : Processor
   {
     public override void Process(ProcessorArgs args)
     {
       var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
-      notifyIconManager.SetNewIcon(args.ResolvedHandler != null ? args.ResolvedHandler.HandlerIcon : SuccessTrayIcon, 800);
+      args.CurrentNotifyIconChangerClient.SetIcon(
+        args.ResolvedHandler != null ? args.ResolvedHandler.HandlerIcon : SuccessTrayIcon, 800);
     }
   }
 }
