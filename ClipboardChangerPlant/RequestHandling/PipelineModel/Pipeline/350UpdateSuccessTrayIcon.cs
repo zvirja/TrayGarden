@@ -14,7 +14,7 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
     {
       var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
       args.CurrentNotifyIconChangerClient.SetIcon(
-        args.ResolvedHandler != null ? args.ResolvedHandler.HandlerIcon : SuccessTrayIcon, 800);
+        args.ResolvedHandler != null ? args.ResolvedHandler.HandlerIcon : SuccessTrayIcon, 1500);
     }
   }
 }
