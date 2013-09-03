@@ -6,6 +6,7 @@ using System.Runtime.Remoting.Lifetime;
 using System.Text.RegularExpressions;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
+using ClipboardChangerPlant.RequestHandling.PipelineModel;
 using ClipboardChangerPlant.UIConfiguration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
@@ -21,8 +22,9 @@ namespace ClipboardChangerPlant.RequestHandling
       Confirmators = new List<UIDialogConfirmator>();
     }
 
-    public virtual bool Match(string inputValue)
+    public virtual bool? Match(ProcessorArgs args)
     {
+      string inputValue = args.ResultUrl;
       return MatchRegularExpressions.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
     }
 

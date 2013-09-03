@@ -40,17 +40,17 @@ namespace ClipboardChangerPlant.Engine
 
     private void NotifyManagerOnShorteningRequested(object o)
     {
-      RequestProcessManager.ProcessRequest(true, false, null);
+      RequestProcessManager.ProcessRequest(true, false, null, false);
     }
 
     private void NotifyManagerOnMainActionRequested(object o)
     {
-      RequestProcessManager.ProcessRequest(false, false, null);
+      RequestProcessManager.ProcessRequest(false, false, null, false);
     }
 
     private void ProviderOnOnClipboardValueChanged(string s)
     {
-      RequestProcessManager.ProcessRequest(false, true, s);
+      RequestProcessManager.ProcessRequest(false, true, s, false);
     }
   }
 }

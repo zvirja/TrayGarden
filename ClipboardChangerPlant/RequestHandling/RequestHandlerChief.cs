@@ -21,14 +21,16 @@ namespace ClipboardChangerPlant.RequestHandling
 
     public static bool TryToResolveHandler(ProcessorArgs pipelineArgs, out RequestHandler handler)
     {
-      string valueToHandle = pipelineArgs.ResultUrl;
       foreach (var requestHandler in Handlers)
       {
-        if (requestHandler.Match(valueToHandle))
+        var handlerMatch = requestHandler.Match(pipelineArgs);
+        if (handlerMatch == true)
         {
           handler = requestHandler;
           return true;
         }
+        if (handlerMatch == null)
+          break;
       }
       handler = null;
       return false;

@@ -21,11 +21,11 @@ namespace ClipboardChangerPlant.RequestHandling
     protected XmlHelper ConfigurationHelper;
     protected List<Processor> Processors;
 
-    public virtual void ProcessRequest(bool onlyShorteningRequired, bool clipboardEvent, string predefinedClipboardValue)
+    public virtual void ProcessRequest(bool onlyShorteningRequired, bool clipboardEvent, string predefinedClipboardValue, bool globalIconIsOriginator)
     {
       try
       {
-        var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue);
+        var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue, globalIconIsOriginator);
         foreach (var processor in Processors)
         {
           processor.Process(processorsArgs);
