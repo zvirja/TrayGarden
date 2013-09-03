@@ -59,6 +59,7 @@
     <Compile Include="Configuration\SectionHandler.cs" />
     <Compile Include="Configuration\XmlHelper.cs" />
     <Compile Include="Engine\AppEngine.cs" />
+    <Compile Include="NotificationIcon\GlobalMenuExtender.cs" />
     <Compile Include="NotificationIcon\NotifyIconManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources1.Designer.cs">
@@ -84,6 +85,7 @@
     <Compile Include="RequestHandling\RequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithoutRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithRequestHandler.cs" />
+    <Compile Include="RequestHandling\Specialized\OnlyShorteningHandler.cs" />
     <Compile Include="RequestHandling\Specialized\UrlShortenerWithValidation.cs" />
     <Compile Include="RequestHandling\Specialized\SimpleHandler.cs" />
     <Compile Include="Shortening\Google\GoogleProvider.cs" />
@@ -107,6 +109,11 @@
     <Content Include="Resources\Custom-Icon-Design-Pretty-Office-2-Success.ico" />
     <Content Include="Resources\klipper.ico" />
     <Content Include="Resources\klipper2.ico" />
+    <None Include="Resources\klipperShorted.ico" />
+    <None Include="Resources\klipperShortedv2.ico" />
+    <None Include="Resources\klipperShortedv3.ico" />
+    <None Include="Resources\klipperShortedv5.ico" />
+    <None Include="Resources\klipperShortedv4.ico" />
     <Content Include="Resources\Oxygen-Icons.org-Oxygen-Actions-edit-delete.ico" />
     <Content Include="Resources\process.ico" />
     <Content Include="Resources\Treetog-Junior-Document-empty.ico" />

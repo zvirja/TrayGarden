@@ -43,6 +43,7 @@ namespace ClipboardChangerPlant
       result.Add(ClipboardManager.Provider);
       result.Add(UIConfigurationManager.ActualManager);
       result.Add(PopupDialogsManager.ActualManager);
+      result.Add(GlobalMenuExtender.ActualExtender);
       return result;
     }
   }
