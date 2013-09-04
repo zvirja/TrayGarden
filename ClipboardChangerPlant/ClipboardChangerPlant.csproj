@@ -73,8 +73,8 @@
     <Compile Include="RequestHandling\PipelineModel\Pipeline\250PostExecuteHandler.cs" />
     <Compile Include="RequestHandling\PipelineModel\Pipeline\150ExecuteHandler.cs" />
     <Compile Include="RequestHandling\PipelineModel\Pipeline\350UpdateSuccessTrayIcon.cs" />
-    <Compile Include="RequestHandling\PipelineModel\Pipeline\000PullValueFromClipboard.cs" />
-    <Compile Include="RequestHandling\PipelineModel\Pipeline\001ResolveNotifyIconChanger.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\010PullValueFromClipboard.cs" />
+    <Compile Include="RequestHandling\PipelineModel\Pipeline\000ResolveNotifyIconChanger.cs" />
     <Compile Include="RequestHandling\PipelineModel\Processor.cs" />
     <Compile Include="RequestHandling\PipelineModel\ProcessorArgs.cs" />
     <Compile Include="RequestHandling\PipelineModel\Pipeline\050ResolveHandler.cs" />

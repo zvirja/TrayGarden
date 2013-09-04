@@ -192,8 +192,8 @@
 
     &lt;ProcessManager name="DefaultProcessManager" type="ClipboardChangerPlant.RequestHandling.ProcessManager"&gt;
       &lt;pipeline&gt;
-        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PullValueFromClipboard" /&gt;
         &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ResolveNotifyIconChanger" /&gt;
+        &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PullValueFromClipboard" /&gt;
         &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.StoreOriginalUrlValue" /&gt;
         &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.ResolveHandler" /&gt;
         &lt;processor type="ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline.PreExecuteHandler" /&gt;
