@@ -1,4 +1,5 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
@@ -8,7 +9,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
   public class GlobalMenuPlantBox : ServicePlantBoxBase
   {
     private INotifyIconChangerMaster _globalNotifyIconChanger;
-    public ToolStripMenuItem ToolStripMenuItem { get; set; }
+    public List<ToolStripMenuItem> ToolStripMenuItems { get; set; }
+    public bool IsGlobalIconChangingEnabled { get; set; }
     public INotifyIconChangerMaster GlobalNotifyIconChanger
     {
       get
@@ -52,12 +54,13 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
     public virtual void FixVisibility()
     {
-      if (ToolStripMenuItem == null)
+      if (ToolStripMenuItems == null)
         return;
-      if (RelatedPlantEx.IsEnabled)
-        ToolStripMenuItem.Visible = IsEnabled;
-      else
-        ToolStripMenuItem.Visible = false;
+      var shouldBeVisible = RelatedPlantEx.IsEnabled && IsEnabled;
+      foreach (ToolStripMenuItem toolStripMenuItem in ToolStripMenuItems)
+      {
+        toolStripMenuItem.Visible = shouldBeVisible;
+      }
     }
   }
 }

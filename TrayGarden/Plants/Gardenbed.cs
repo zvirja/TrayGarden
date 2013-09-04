@@ -103,11 +103,12 @@ namespace TrayGarden.Plants
     {
       string folderSetting = Factory.Instance.GetStringSetting("Gardenbed.PlantsAutodetectFolder",
                                                                            string.Empty);
-      DirectoryInfo currentDirectory = new FileInfo(Assembly.GetEntryAssembly().Location).Directory;
-      if (folderSetting.IsNullOrEmpty())
-        return currentDirectory;
-      else
-        return new DirectoryInfo(Path.Combine(currentDirectory.FullName, folderSetting));
+      string workingDirectory = DirectoryHelper.CurrentDirectory;
+      Log.Debug("Gardenbed. CurrentDirectory: {0}".FormatWith(workingDirectory), this);
+      if (folderSetting.NotNullNotEmpty())
+        workingDirectory = Path.Combine(workingDirectory, folderSetting);
+      Log.Info("Gardenbed. Lookup directory: {0}".FormatWith(workingDirectory), this);
+      return new DirectoryInfo(workingDirectory);
     }
 
     protected virtual List<IPlant> GetPlantsFromAssemblyFile(FileInfo assemblyFileInfo)

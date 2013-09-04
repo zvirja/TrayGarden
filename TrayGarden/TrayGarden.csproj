@@ -116,7 +116,6 @@
     <Compile Include="Helpers\ThreadSwitcher\StackRawSwitcher.cs" />
     <Compile Include="Helpers\ThreadSwitcher\Switcher.cs" />
     <Compile Include="LifeCycle\LifecycleObserver.cs" />
-    <Compile Include="MockTypeUserConfig.cs" />
     <Compile Include="Pipelines\RestartApp\RestartAppArgs.cs" />
     <Compile Include="Pipelines\RestartApp\RestartAppPipeline.cs" />
     <Compile Include="Pipelines\RestartApp\SimpleAppRestart.cs" />
@@ -137,6 +136,9 @@
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardProvider.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\IClipboardValueProvider.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\ContextMenuBuilder.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\IMenuEntriesAppender.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\MenuEntriesAppender.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="RuntimeSettings\BulkSettingsUpdate.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\BaseSettingMediator.cs" />
@@ -166,7 +168,6 @@
     <Compile Include="RuntimeSettings\ISettingsBox.cs" />
     <Compile Include="RuntimeSettings\Provider\ISettingsStorage.cs" />
     <Compile Include="RuntimeSettings\ContainerBasedSettingsBox.cs" />
-    <Compile Include="MockType.cs" />
     <Compile Include="NonInitializedException.cs" />
     <Compile Include="Pipelines\Engine\IPipeline.cs" />
     <Compile Include="Pipelines\Engine\IPipelineManager.cs" />
@@ -187,32 +188,32 @@
     <Compile Include="Reception\Services\IGetCustomSettingsStorage.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuService.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\GlobalMenuPlantBox.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\BindPlantBoxToPlant.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreateContextMenuStrip.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreateSettingsBox.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\CreatePlantBox.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\400BindPlantBoxToPlant.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\100CreateContextMenuStrip.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\050CreateSettingsBox.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\000CreatePlantBox.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\ProvideWithIconChanger.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\200ProvideWithIconChanger.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\ResolvePlantsConfigVM.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\InitializeFirstStep.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineRunner.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\CreateViewModel.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ClipboardListenerPresenter.cs">
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\400ClipboardListenerPresenter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\GlobalMenuServiceIconChangePresenter.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\GlobalMenuServicePresenter.cs">
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\300GlobalMenuServiceIconChangePresenter.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\200GlobalMenuServiceMenuEmbeddingPresenter.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ServicePresenterBase.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\StandaloneIconServicePresenter.cs">
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\100StandaloneIconServicePresenter.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\CreatePlantVM.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\000CreatePlantVM.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ResolveSinglePlantVMPipelineArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\ResolveSinglePlantVMPipelineRunner.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\Stuff\ServiceForPlantDataTemplateSelector.cs" />
@@ -230,12 +231,12 @@
     <Compile Include="Reception\Services\IExtendsGlobalMenu.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigService.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Core\MyAdminConfigServicePlantBox.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ValidateAndAssignSIBox.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\BuildContextMenu.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\AssignIconModifier.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\CreateNotifyIcon.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\CreateSIPlantBox.cs" />
-    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\ResolveSettingsBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\400ValidateAndAssignSIBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\200BuildContextMenu.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\300AssignIconModifier.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\100CreateNotifyIcon.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\000CreateSIPlantBox.cs" />
+    <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\500ResolveSettingsBox.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\InitPlantSIArgs.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\InitPlantPipeline\InitPlantSIPipeline.cs" />
     <Compile Include="Services\PlantServices\StandaloneIcon\Core\StandaloneIconPlantBox.cs" />

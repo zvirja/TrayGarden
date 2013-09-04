@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System.Windows.Media.Converters;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
@@ -12,7 +14,9 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
   public class InitPlantGMArgs : PipelineArgs
   {
-    public bool IsPlantInUse { get; set; }
+    public bool IsNotifyIconChangerInUse { get; set; }
+    public bool IsMenuExtendingInUse { get; set; }
+    public bool IsAdvancedMenuExtendingInUse { get; set; }
     public string LuggageName { get; set; }
     public IPlantEx PlantEx { get; protected set; }
     public INotifyIconChangerMaster GlobalNotifyIconChanger { get; set; }
@@ -30,5 +34,14 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       LuggageName = luggageName;
       GlobalNotifyIconChanger = globalNotifyIconChanger;
     }
+
+    public virtual void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
+    {
+      if(GMBox.ToolStripMenuItems == null)
+        GMBox.ToolStripMenuItems = new List<ToolStripMenuItem>();
+      GMBox.ToolStripMenuItems.AddRange(newItem);
+    }
+
+
   }
 }

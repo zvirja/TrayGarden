@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using ClipboardChangerPlant.Configuration;
+using ClipboardChangerPlant.Properties;
 using TrayGarden.Reception.Services;
 using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Services.FleaMarket.IconChanger;
@@ -77,7 +78,7 @@ namespace ClipboardChangerPlant.NotificationIcon
     public virtual List<ToolStripMenuItem> GetStripsToAdd()
     {
       var result = new List<ToolStripMenuItem>();
-      var shortLink = new ToolStripMenuItem("Short link in clipboard");
+      var shortLink = new ToolStripMenuItem("Short link in clipboard", Resources.klipperShortedv5.ToBitmap());
       shortLink.Click +=(sender, args) => OnShorteningRequested();
       result.Add(shortLink);
       return result;

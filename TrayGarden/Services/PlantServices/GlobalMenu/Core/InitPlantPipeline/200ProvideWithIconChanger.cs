@@ -1,6 +1,7 @@
 ﻿using System;
 using JetBrains.Annotations;
 using TrayGarden.Reception.Services;
+using TrayGarden.Services.FleaMarket.IconChanger;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
@@ -15,8 +16,10 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       {
         return;
       }
-      asExpected.StoreGlobalIconChangingAssignee(args.GlobalNotifyIconChanger);
-      args.IsPlantInUse = true;
+      INotifyIconChangerMaster globalNotifyIconChanger = args.GlobalNotifyIconChanger;
+      asExpected.StoreGlobalIconChangingAssignee(globalNotifyIconChanger);
+      args.GMBox.GlobalNotifyIconChanger = globalNotifyIconChanger;
+      args.IsNotifyIconChangerInUse = true;
     }
   }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
 namespace TrayGarden.Reception.Services
 {
@@ -8,6 +9,6 @@ namespace TrayGarden.Reception.Services
   /// </summary>
   public interface IExtendsGlobalMenu
   {
-    bool GetMenuStripItemData(out string text, out Icon icon, out EventHandler clickHandler);
+    bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender);
   }
 }

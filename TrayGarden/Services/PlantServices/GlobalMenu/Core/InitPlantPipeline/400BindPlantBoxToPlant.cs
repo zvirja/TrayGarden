@@ -10,14 +10,13 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
     [UsedImplicitly]
     public virtual void Process(InitPlantGMArgs args)
     {
-      if (!args.IsPlantInUse)
+      if (!(args.IsAdvancedMenuExtendingInUse || args.IsMenuExtendingInUse || args.IsNotifyIconChangerInUse))
       {
         args.Abort();
         return;
       }
       GlobalMenuPlantBox globalMenuPlantBox = args.GMBox;
       globalMenuPlantBox.RelatedPlantEx = args.PlantEx;
-      globalMenuPlantBox.GlobalNotifyIconChanger = args.GlobalNotifyIconChanger;
       globalMenuPlantBox.RelatedPlantEx.PutLuggage(args.LuggageName, globalMenuPlantBox);
     }
   }

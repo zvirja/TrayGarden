@@ -11,6 +11,7 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
@@ -24,23 +25,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
   [UsedImplicitly]
   public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
   {
-    private NotifyIcon _globalNotifyIcon;
-    protected NotifyIcon GlobalNotifyIcon
-    {
-      get { return _globalNotifyIcon; }
-      set
-      {
-        _globalNotifyIcon = value;
-        int a = 10;
-      }
-    }
-
+    protected NotifyIcon GlobalNotifyIcon { get; set; }
+    protected bool Initialized { get; set; }
     public string IconText { get; set; }
     public string TrayIconResourceName { get; set; }
-    public string ConfigureIconResourceName { get; set; }
-    public string ExitIconResourceName { get; set; }
-    public bool BoldMainMenuEntries { get; set; }
-    public bool ItalicMainMenuEntries { get; set; }
+    public ContextMenuBuilder ContextMenuBuilder { get; set; }
 
     public override bool CanBeDisabled
     {
@@ -55,17 +44,66 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     {
       IconText = "Tray Garden";
       TrayIconResourceName = "gardenIcon";
-      ConfigureIconResourceName = "configureV1";
-      ExitIconResourceName = "exitIconV1";
-      BoldMainMenuEntries = true;
-      ItalicMainMenuEntries = true;
       ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
+    }
+
+    #region Public methods
+
+    public virtual void Initialize([NotNull] ContextMenuBuilder builder)
+    {
+      Assert.ArgumentNotNull(builder, "builder");
+      ContextMenuBuilder = builder;
+      Initialized = true;
     }
 
     public virtual void ManuallyOpenConfigurationWindow()
     {
+      EnsureInitialized();
       OpenConfigurationWindow();
     }
+
+    public override void InitializePlant(IPlantEx plantEx)
+    {
+      EnsureInitialized();
+      base.InitializePlant(plantEx);
+      InitializePlantFromPipeline(plantEx);
+    }
+
+    public override void InformInitializeStage()
+    {
+      EnsureInitialized();
+      base.InformInitializeStage();
+      CreateNotifyIcon();
+    }
+
+    public override void InformDisplayStage()
+    {
+      EnsureInitialized();
+      base.InformDisplayStage();
+      var plantBoxes = new List<GlobalMenuPlantBox>();
+      List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+      foreach (IPlantEx plant in allPlants)
+      {
+        GlobalMenuPlantBox luggage = GetPlantLuggage(plant);
+        if (luggage == null)
+          continue;
+        plantBoxes.Add(luggage);
+        luggage.FixVisibility();
+      }
+
+      GlobalNotifyIcon.ContextMenuStrip = BuildContextMenu(plantBoxes);
+      GlobalNotifyIcon.Visible = true;
+    }
+
+    public override void InformClosingStage()
+    {
+      EnsureInitialized();
+      base.InformClosingStage();
+      if (GlobalNotifyIcon != null)
+        GlobalNotifyIcon.Dispose();
+    }
+
+    #endregion
 
     protected virtual void CreateNotifyIcon()
     {
@@ -100,6 +138,14 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     {
       if (e.Button == MouseButtons.Left)
         OpenConfigurationWindow();
+    }
+
+    protected virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
+    {
+      Assert.IsNotNull(ContextMenuBuilder, "Builder cannot be null, something is wrong");
+      ContextMenuBuilder.ConfigureContextItemOnClick = ConfigureContextItemOnClick;
+      ContextMenuBuilder.ExitContextItemOnClick = ExitContextItemOnClick;
+      return ContextMenuBuilder.BuildContextMenu(plantBoxes);
     }
 
     protected virtual void OpenConfigurationWindow()
@@ -139,55 +185,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       plantBox.FixVisibility();
     }
 
-
-    protected virtual void BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
-    {
-      var contextMenuStrip = new ContextMenuStrip();
-      BuildContextMenuPrefix(contextMenuStrip);
-      EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
-      BuildContextMenuSuffix(contextMenuStrip);
-      GlobalNotifyIcon.ContextMenuStrip = contextMenuStrip;
-    }
-
-    protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
-    {
-      var configureItem = contextMenuStrip.Items.Add("Configure");
-      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ConfigureIconResourceName, null);
-      if (iconResource != null)
-        configureItem.Image = iconResource.ToBitmap();
-      configureItem.Font = new Font(configureItem.Font, GetMainMenuEntriesStyle());
-      configureItem.Click += ConfigureContextItemOnClick;
-      contextMenuStrip.Items.Add("-");
-    }
-
-    protected virtual FontStyle GetMainMenuEntriesStyle()
-    {
-      FontStyle result = 0;
-      if (BoldMainMenuEntries)
-        result |= FontStyle.Bold;
-      if (ItalicMainMenuEntries)
-        result |= FontStyle.Italic;
-      return result;
-    }
-
-    protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
-    {
-      contextMenuStrip.Items.Add("-");
-      var exitItem = contextMenuStrip.Items.Add("Exit Garden");
-      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
-      if (iconResource != null)
-        exitItem.Image = iconResource.ToBitmap();
-      exitItem.Font = new Font(exitItem.Font, GetMainMenuEntriesStyle());
-      exitItem.Click += ExitContextItemOnClick;
-    }
-
-    protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
-    {
-      foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
-        if(globalMenuPlantBox.ToolStripMenuItem != null)
-          menuStrip.Items.Add(globalMenuPlantBox.ToolStripMenuItem);
-    }
-
     protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)
     {
       Application.Current.Shutdown();
@@ -198,47 +195,10 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       OpenConfigurationWindow();
     }
 
-    #region Public methods
-
-
-    public override void InitializePlant(IPlantEx plantEx)
+    protected virtual void EnsureInitialized()
     {
-      base.InitializePlant(plantEx);
-      InitializePlantFromPipeline(plantEx);
+      if (!Initialized)
+        throw new NonInitializedException();
     }
-
-    public override void InformInitializeStage()
-    {
-      base.InformInitializeStage();
-      CreateNotifyIcon();
-    }
-
-    public override void InformDisplayStage()
-    {
-      base.InformDisplayStage();
-      var plantBoxes = new List<GlobalMenuPlantBox>();
-      List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-      foreach (IPlantEx plant in allPlants)
-      {
-        GlobalMenuPlantBox luggage = GetPlantLuggage(plant);
-        if (luggage == null)
-          continue;
-        plantBoxes.Add(luggage);
-        luggage.FixVisibility();
-      }
-
-      BuildContextMenu(plantBoxes);
-      GlobalNotifyIcon.Visible = true;
-    }
-
-    public override void InformClosingStage()
-    {
-      base.InformClosingStage();
-      if (GlobalNotifyIcon != null)
-        GlobalNotifyIcon.Dispose();
-    }
-
-    #endregion
-
   }
 }

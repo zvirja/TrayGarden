@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.Properties;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
 namespace ClipboardChangerPlant.NotificationIcon
 {
@@ -12,17 +13,21 @@ namespace ClipboardChangerPlant.NotificationIcon
   {
     public static GlobalMenuExtender ActualExtender = new GlobalMenuExtender();
 
-    public bool GetMenuStripItemData(out string text, out Icon icon, out EventHandler clickHandler)
+    public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
     {
-      text = "Short clipboard url";
-      icon = Resources.klipperShortedv5;
-      clickHandler = ShortUrl;
+      menuAppender.AppentMenuStripItem("Short clipboard url", Resources.klipperShortedv5, ShortUrl);
+      menuAppender.AppentMenuStripItem("Handle clipboard value (Clipboard changer)",Resources.processClipboard,HandleClipboard);
       return true;
     }
 
     protected virtual void ShortUrl(object sender, EventArgs eventArgs)
     {
       Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(true, false, null, true);
+    }
+
+    protected virtual void HandleClipboard(object sender, EventArgs e)
+    {
+      Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(false, false, null, true);
     }
   }
 }

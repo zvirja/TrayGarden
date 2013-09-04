@@ -116,6 +116,7 @@
     <None Include="Resources\klipperShortedv4.ico" />
     <Content Include="Resources\Oxygen-Icons.org-Oxygen-Actions-edit-delete.ico" />
     <Content Include="Resources\process.ico" />
+    <None Include="Resources\processClipboard.ico" />
     <Content Include="Resources\Treetog-Junior-Document-empty.ico" />
     <None Include="Resources\Undo-icon2.png" />
     <None Include="Resources\undoicon32.png" />
@@ -132,7 +133,7 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>copy "$(TargetDir)\*" "C:\Users\Zvirja\Documents\visual studio 2012\Projects\TrayGarden\TrayGarden\bin\Debug"</PostBuildEvent>
+    <PostBuildEvent>copy "$(TargetDir)\*" "$(SolutionDir)\TrayGarden\$(OutDir)"</PostBuildEvent>
   </PropertyGroup>
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
