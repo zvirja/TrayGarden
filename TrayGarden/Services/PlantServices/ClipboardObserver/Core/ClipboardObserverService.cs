@@ -119,14 +119,19 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 
     protected virtual void InitializePlantWithLuggage(IPlantEx plant)
     {
-      var asExpected = plant.GetFirstWorkhorseOfType<IClipboardWorks>();
-      if (asExpected == null)
+      var asClipboardWorksPerformer = plant.GetFirstWorkhorseOfType<IClipboardWorks>();
+      if (asClipboardWorksPerformer != null)
+      {
+        asClipboardWorksPerformer.StoreClipboardValueProvider(SelfProvider);
+        IsNeedInService = true;
+      }
+      var clipboardListener = plant.GetFirstWorkhorseOfType<IClipboardListener>();
+      if (clipboardListener == null)
         return;
       IsNeedInService = true;
-      asExpected.StoreClipboardValueProvider(SelfProvider);
       var clipboardObserverPlantBox = new ClipboardObserverPlantBox
           {
-            WorksHungry = asExpected,
+            WorksHungry = clipboardListener,
             RelatedPlantEx = plant,
             SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
           };

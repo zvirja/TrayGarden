@@ -7,7 +7,7 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {
   public class ClipboardObserverPlantBox : ServicePlantBoxBase
   {
-    public IClipboardWorks WorksHungry { get; set; }
+    public IClipboardListener WorksHungry { get; set; }
 
     public virtual void InformNewClipboardValue(string newClipboardValue)
     {

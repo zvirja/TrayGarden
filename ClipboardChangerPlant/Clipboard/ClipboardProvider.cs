@@ -13,7 +13,7 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 namespace ClipboardChangerPlant.Clipboard
 {
   [UsedImplicitly]
-  public class ClipboardProvider : IClipboardWorks
+  public class ClipboardProvider : IClipboardWorks, IClipboardListener
   {
     protected static readonly string ListenClipboardSettingName = "Listen the clipboard";
     protected IUserSetting ListenClipoardSetting { get; set; }
