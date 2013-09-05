@@ -49,6 +49,8 @@ namespace ClipboardChangerPlant.RequestHandling
 
     public override bool PreExecute(string operableUrl, bool isClipboardRequest)
     {
+      if (!isClipboardRequest)
+        return true;
       if (!Enabled)
         return false;
       if (ExecuteConfirmator != null)
@@ -58,6 +60,8 @@ namespace ClipboardChangerPlant.RequestHandling
 
     public override bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
     {
+      if (!isClipboardRequest)
+        return false;
       if (RevertConfirmator != null)
         return RevertConfirmator.ConfirmThroughUI() == true;
       return base.PostmortemRevertValue(currentUrl, originalUrl, isClipboardRequest);
