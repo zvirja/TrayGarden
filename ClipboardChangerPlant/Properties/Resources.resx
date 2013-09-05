@@ -179,7 +179,7 @@
       &lt;/RequestHandler&gt;
 
       &lt;RequestHandler name="all url shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithConfirmation"&gt;
-        &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
+        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
         &lt;EnableConfirmation&gt;True&lt;/EnableConfirmation&gt;
