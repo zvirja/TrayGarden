@@ -8,10 +8,10 @@ namespace ClipboardChangerPlant.Configuration
 {
   public class XmlHelper
   {
-    public static string GetStringValue(XmlNode parent, string nodePath)
+    public static string GetStringValue(XmlNode parent, string nodePath, string defaultValue)
     {
       var innerNode = SmartSelectSingleNode(parent, nodePath);
-      return innerNode.InnerText;
+      return innerNode == null ? defaultValue : innerNode.InnerText;
     }
 
     public static XmlNode SmartSelectSingleNode(XmlNode parent, string nodePath)
@@ -34,14 +34,26 @@ namespace ClipboardChangerPlant.Configuration
       return innerNodes;
     }
 
-    public static bool GetBoolValue(XmlNode node, string nodePath)
+    public static bool GetBoolValue(XmlNode parent, string nodePath, bool defaultValue)
     {
-      return bool.Parse(GetStringValue(node, nodePath));
+      var strValue = GetStringValue(parent, nodePath, null);
+      if (strValue == null)
+        return defaultValue;
+      bool result;
+      if (bool.TryParse(strValue, out result))
+        return result;
+      return defaultValue;
     }
 
-    public static int GetIntValue(XmlNode parent, string nodePath)
+    public static int GetIntValue(XmlNode parent, string nodePath, int defaultValue)
     {
-      return int.Parse(GetStringValue(parent, nodePath));
+      var strValue = GetStringValue(parent, nodePath, null);
+      if (strValue == null)
+        return defaultValue;
+      int result;
+      if (int.TryParse(strValue, out result))
+        return result;
+      return defaultValue;
     }
 
     public static string FixNodePath(XmlNode parent, string nodePath)
@@ -60,19 +72,19 @@ namespace ClipboardChangerPlant.Configuration
       ParentNode = parentNode;
     }
 
-    public string GetStringValue(string nodePath)
+    public string GetStringValue(string nodePath, string defaultValue)
     {
-      return GetStringValue(ParentNode, nodePath);
+      return GetStringValue(ParentNode, nodePath, defaultValue);
     }
 
-    public bool GetBoolValue(string nodePath)
+    public bool GetBoolValue(string nodePath, bool defaultValue)
     {
-      return GetBoolValue(ParentNode, nodePath);
+      return GetBoolValue(ParentNode, nodePath, defaultValue);
     }
 
-    public int GetIntValue(string nodePath)
+    public int GetIntValue(string nodePath, int defaultValue)
     {
-      return GetIntValue(ParentNode, nodePath);
+      return GetIntValue(ParentNode, nodePath, defaultValue);
     }
   }
 }

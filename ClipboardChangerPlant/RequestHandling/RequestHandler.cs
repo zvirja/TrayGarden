@@ -15,32 +15,26 @@ namespace ClipboardChangerPlant.RequestHandling
   public class RequestHandler : INeedCongurationNode
   {
     protected XmlHelper ConfigurationHelper;
-    protected List<UIDialogConfirmator> Confirmators { get; set; }
-
-    public RequestHandler()
-    {
-      Confirmators = new List<UIDialogConfirmator>();
-    }
 
     public virtual bool? Match(ProcessorArgs args)
     {
       string inputValue = args.ResultUrl;
-      return MatchRegularExpressions.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
+      return RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
     }
 
     public virtual bool IsShorterEnabled
     {
-      get { return ConfigurationHelper.GetBoolValue("ShouldBeShorted"); }
+      get { return ConfigurationHelper.GetBoolValue("ShouldBeShorted", false); }
     }
 
-    public virtual string[] MatchRegularExpressions
+    public virtual string[] RegularExpressionsToMatch
     {
-      get { return ConfigurationHelper.GetStringValue("MatchRegExpressions").Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries); }
+      get { return ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty).Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries); }
     }
 
-    public virtual Icon HandlerIcon
+    public virtual Icon DefaultHandlerIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessIconResourceName")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess")); }
     }
 
     public virtual bool PreExecute(string operableUrl, bool isClipboardRequest)
@@ -73,23 +67,13 @@ namespace ClipboardChangerPlant.RequestHandling
 
     public virtual void PreInit()
     {
-      foreach (UIDialogConfirmator confirmator in Confirmators)
-        confirmator.PreInit();
+
     }
 
     public virtual void PostInit()
     {
-      foreach (UIDialogConfirmator confirmator in Confirmators)
-        confirmator.PostInit();
-    }
 
-    protected UIDialogConfirmator RegisterUIDialogConfirmator(string confirmationSettingName, Func<IResultProvider> uiDialogConstructor)
-    {
-      var uiConfirmator = new UIDialogConfirmator(confirmationSettingName, uiDialogConstructor);
-      Confirmators.Add(uiConfirmator);
-      return uiConfirmator;
     }
-
   }
 }
 

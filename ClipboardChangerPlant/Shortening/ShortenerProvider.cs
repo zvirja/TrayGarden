@@ -19,7 +19,7 @@ namespace ClipboardChangerPlant.Shortening
 
     public virtual string ApiKey
     {
-      get { return ConfigurationHelper.GetStringValue("ApiKey"); }
+      get { return ConfigurationHelper.GetStringValue("ApiKey", string.Empty); }
     }
 
     public void SetConfigurationNode(XmlNode configurationNode)

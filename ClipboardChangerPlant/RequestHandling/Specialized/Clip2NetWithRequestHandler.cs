@@ -15,18 +15,8 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   [UsedImplicitly]
-  public class Clip2NetWithRequestHandler : RequestHandler
+  public class Clip2NetWithRequestHandler : Clip2NetWithoutRequestHandler
   {
-    protected UIDialogConfirmator ExecuteChecker { get; set; }
-    protected UIDialogConfirmator RevertConfirmator { get; set; }
-
-
-    public Clip2NetWithRequestHandler()
-    {
-      RevertConfirmator = RegisterUIDialogConfirmator("Ask Clip2Net revert (req)", GetRevertDialog);
-      ExecuteChecker = RegisterUIDialogConfirmator("Enable Clip2Net monitor (req)", () => null);
-    }
-
     public override bool TryProcess(string inputValue, out string result)
     {
       try
@@ -67,30 +57,14 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       return validContent;
     }
 
-    protected virtual IResultProvider GetRevertDialog()
+    protected override string GetEnabledSettingName()
     {
-      IActionNotification revertDialog = RevertConfirmator.LordOfNotifications.CreateActionNotification(
-        "Clip2Net value was transformed", "Revert value");
-      revertDialog.LayoutType = ImageTextOrder.HorizontalTextImage;
-
-      TextDisplayOptions headerTextDisplayStyle = revertDialog.HeaderTextDisplayStyle;
-      headerTextDisplayStyle.Margins = new Thickness(5, 0, 0, 10);
-      headerTextDisplayStyle.Size = 14;
-
-      revertDialog.ButtonImage = GetUndoImage();
-      ImageDisplayOptions imageDisplayOptions = revertDialog.ButtonImageDisplayOptions;
-      imageDisplayOptions.Margins = new Thickness(20, 0, 0, 0);
-      imageDisplayOptions.Height = imageDisplayOptions.Width = 48;
-
-      revertDialog.ButtonTextDisplayStyle.Size = 18;
-      revertDialog.ButtonTextDisplayStyle.Margins = new Thickness(15, 0, 0, 0);
-      return revertDialog;
+      return "Enable Clip2Net(req) monitor";
     }
 
-    protected virtual ImageSource GetUndoImage()
+    protected override string GetRevertConfirmatorSettingName()
     {
-      var bitmap = Resources.undoImage48;
-      return ImageHelper.GetBitmapImageFromBitmapThreadSafe(bitmap, ImageFormat.Png);
+      return "Clip2Net(req) ask for revert";
     }
 
   }

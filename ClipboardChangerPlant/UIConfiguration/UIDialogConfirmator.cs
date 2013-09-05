@@ -11,16 +11,35 @@ namespace ClipboardChangerPlant.UIConfiguration
 {
   public class UIDialogConfirmator
   {
+    protected IUserSetting confirmationSetting;
     protected Func<IResultProvider> UIDialogConstructor { get; set; }
 
-    public ILordOfNotifications LordOfNotifications { get; set; }
+    public ILordOfNotifications LordOfNotifications
+    {
+      get
+      {
+        return PopupDialogsManager.ActualManager.LordOfNotifications;
+      }
+    }
     public string ConfirmationSettingName { get; set; }
-    public IUserSetting ConfirmationSetting { get; set; }
+
+    public IUserSetting ConfirmationSetting
+    {
+      get
+      {
+        if (confirmationSetting != null)
+          return confirmationSetting;
+        confirmationSetting = UIConfigurationManager.ActualManager.UserSettings[ConfirmationSettingName];
+        return confirmationSetting;
+      }
+    }
 
     public UIDialogConfirmator(string confirmationSettingName, Func<IResultProvider> uiDialogConstructor)
     {
       ConfirmationSettingName = confirmationSettingName;
       UIDialogConstructor = uiDialogConstructor;
+      //Moved to constructor because believe that it will be created before the initialization happen
+      UIConfigurationManager.ActualManager.VolatileUserSettings.Add(PopulateConfirmationSetting);
     }
 
 
@@ -29,15 +48,10 @@ namespace ClipboardChangerPlant.UIConfiguration
       UIConfigurationManager.ActualManager.VolatileUserSettings.Add(PopulateConfirmationSetting);
     }
 
-    public virtual void PostInit()
-    {
-      ConfirmationSetting = UIConfigurationManager.ActualManager.UserSettings[ConfirmationSettingName];
-      LordOfNotifications = PopupDialogsManager.ActualManager.LordOfNotifications;
-      
-    }
-
     public virtual bool? ConfirmThroughUI()
     {
+      if (ConfirmationSetting == null)
+        return null;
       if (!ConfirmationSetting.BoolValue)
         return null;
       return GetConfirmationFromUIDialog();

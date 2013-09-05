@@ -83,10 +83,11 @@
     <Compile Include="RequestHandling\ProcessManager.cs" />
     <Compile Include="RequestHandling\RequestHandlerChief.cs" />
     <Compile Include="RequestHandling\RequestHandler.cs" />
+    <Compile Include="RequestHandling\RequestHandlerWithUIConfirmation.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithoutRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\OnlyShorteningHandler.cs" />
-    <Compile Include="RequestHandling\Specialized\UrlShortenerWithValidation.cs" />
+    <Compile Include="RequestHandling\Specialized\UrlShortenerWithConfirmation.cs" />
     <Compile Include="RequestHandling\Specialized\SimpleHandler.cs" />
     <Compile Include="Shortening\Google\GoogleProvider.cs" />
     <Compile Include="Shortening\Google\RequestObject.cs" />

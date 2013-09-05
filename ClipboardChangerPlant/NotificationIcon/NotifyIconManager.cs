@@ -35,27 +35,27 @@ namespace ClipboardChangerPlant.NotificationIcon
 
     public Icon DefaultTrayIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("DefaultTrayIcon")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("DefaultTrayIcon", "klipper")); }
     }
 
     public Icon NotFoundTrayIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("NotFoundTrayIcon")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("NotFoundTrayIcon", "klipperEmpty")); }
     }
 
     public Icon ErrorTrayIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("ErrorTrayIcon")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("ErrorTrayIcon", "klipperFault")); }
     }
 
     public Icon SuccessTrayIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessTrayIcon")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessTrayIcon", "klipperSuccess")); }
     }
 
     public Icon InProgressTrayIcon
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("InProgressTrayIcon")); }
+      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("InProgressTrayIcon", "klipperInProgress")); }
     }
 
     public event Action<object> MainActionRequested;
@@ -92,7 +92,7 @@ namespace ClipboardChangerPlant.NotificationIcon
     public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
     {
       if (msTimeout == 0)
-        msTimeout = ConfigurationHelper.GetIntValue("DefaultTimeout");
+        msTimeout = ConfigurationHelper.GetIntValue("DefaultTimeout", 400);
       SetIconInternal(newIcon, msTimeout);
     }
 

@@ -20,24 +20,8 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   [UsedImplicitly]
-  public class Clip2NetWithoutRequestHandler : RequestHandler
+  public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
   {
-    protected UIDialogConfirmator RevertConfirmator { get; set; }
-    protected UIDialogConfirmator ExecuteChecker { get; set; }
-
-    public Clip2NetWithoutRequestHandler()
-    {
-      RevertConfirmator = RegisterUIDialogConfirmator("Ask Clip2Net revert (non req)", GetRevertDialog);
-      ExecuteChecker = RegisterUIDialogConfirmator("Enable Clip2Net monitor (non req)", () => null);
-    }
-
-    public override bool PreExecute(string operableUrl, bool isClipboardRequest)
-    {
-      if (!ExecuteChecker.ConfirmationSetting.BoolValue)
-        return false;
-      return base.PreExecute(operableUrl, isClipboardRequest);
-    }
-
     public override bool TryProcess(string inputValue, out string result)
     {
       result = null;
@@ -52,13 +36,6 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       }
     }
 
-    public override bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
-    {
-      if (RevertConfirmator.ConfirmThroughUI() == true)
-        return true;
-      return base.PostmortemRevertValue(currentUrl, originalUrl, isClipboardRequest);
-    }
-
     protected virtual string ResolveAsXml(string inputValue)
     {
       var root = XElement.Parse(inputValue);
@@ -66,7 +43,7 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       return imgNode.Attribute("src").Value;
     }
 
-    protected virtual IResultProvider GetRevertDialog()
+    protected override IResultProvider GetRevertDialog()
     {
       IActionNotification revertDialog = RevertConfirmator.LordOfNotifications.CreateActionNotification(
         "Clip2Net value was transformed", "Revert value");
@@ -92,5 +69,14 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       return ImageHelper.GetBitmapImageFromBitmapThreadSafe(bitmap, ImageFormat.Png);
     }
 
+    protected override string GetEnabledSettingName()
+    {
+      return "Enable Clip2Net(non req) monitor";
+    }
+
+    protected override string GetRevertConfirmatorSettingName()
+    {
+      return "Clip2Net(non req) ask for revert";
+    }
   }
 }

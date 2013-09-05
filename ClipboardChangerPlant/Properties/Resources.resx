@@ -154,32 +154,36 @@
         &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
       &lt;/RequestHandler&gt;
       
-      &lt;RequestHandler name="Clip2NetWithoutWebRequest" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler"&gt;
+      &lt;RequestHandler name="clip2net (non req)" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithoutRequestHandler"&gt;
         &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;.+http://clip2net.com/clip/.*|&lt;/MatchRegExpressions&gt;
+        &lt;EnableConfirmation&gt;False&lt;/EnableConfirmation&gt;
+        &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
-      &lt;RequestHandler name="Clip2NetWithoutWebRequest" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithRequestHandler"&gt;
+      &lt;RequestHandler name="clip2net (req)" type="ClipboardChangerPlant.RequestHandling.Specialized.Clip2NetWithRequestHandler"&gt;
         &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;clip2net&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;^http://clip2net.com/s/.*|&lt;/MatchRegExpressions&gt;
+        &lt;EnableConfirmation&gt;False&lt;/EnableConfirmation&gt;
+        &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
-      &lt;RequestHandler name="Youtube shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithValidation"&gt;
+      &lt;RequestHandler name="Youtube shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithConfirmation"&gt;
         &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
-        &lt;ConfirmBefore&gt;False&lt;/ConfirmBefore&gt;
-        &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
         &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;http://www.youtube.com/watch.*|&lt;/MatchRegExpressions&gt;
+        &lt;EnableConfirmation&gt;False&lt;/EnableConfirmation&gt;
+        &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
       &lt;RequestHandler name="all url shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithValidation"&gt;
-        &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
-        &lt;ConfirmBefore&gt;True&lt;/ConfirmBefore&gt;
         &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
         &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
+        &lt;EnableConfirmation&gt;True&lt;/EnableConfirmation&gt;
+        &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
       &lt;!--      &lt;RequestHandler name="fallbackHandler" type="ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler"&gt;

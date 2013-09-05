@@ -11,7 +11,7 @@ namespace ClipboardChangerPlant.Shortening.Google
   {
     public string RequestUrl
     {
-      get { return ConfigurationHelper.GetStringValue("RequestUrl"); }
+      get { return ConfigurationHelper.GetStringValue("RequestUrl", "https://www.googleapis.com/urlshortener/v1/url"); }
     }
 
     private string MakeUrl()
