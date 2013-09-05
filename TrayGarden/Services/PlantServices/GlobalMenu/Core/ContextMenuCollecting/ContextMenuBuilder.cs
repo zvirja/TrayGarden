@@ -20,7 +20,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
     public string ExitIconResourceName { get; set; }
     public bool BoldMainMenuEntries { get; set; }
     public bool ItalicMainMenuEntries { get; set; }
-    public bool InsertDemiliterBetweenPlants { get; set; }
+    public bool InsertDelimiterBetweenPlants { get; set; }
 
     public ContextMenuBuilder()
     {
@@ -85,7 +85,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
       foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
         if (globalMenuPlantBox.ToolStripMenuItems != null && globalMenuPlantBox.ToolStripMenuItems.Count > 0)
         {
-          if (valueWasAppended && InsertDemiliterBetweenPlants)
+          if (valueWasAppended && InsertDelimiterBetweenPlants)
             menuStrip.Items.Add("-");
           foreach (ToolStripMenuItem contextMenuItem in globalMenuPlantBox.ToolStripMenuItems)
             menuStrip.Items.Add(contextMenuItem);
