@@ -22,6 +22,8 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
   [UsedImplicitly]
   public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
   {
+    protected string revertDialogHeader = "Clip2Net value was transformed";
+
     public override bool TryProcess(string inputValue, out string result)
     {
       result = null;
@@ -46,7 +48,7 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
     protected override IResultProvider GetRevertDialog()
     {
       IActionNotification revertDialog = RevertConfirmator.LordOfNotifications.CreateActionNotification(
-        "Clip2Net value was transformed", "Revert value");
+        revertDialogHeader, "Revert value");
       revertDialog.LayoutType = ImageTextOrder.HorizontalTextImage;
 
       TextDisplayOptions headerTextDisplayStyle = revertDialog.HeaderTextDisplayStyle;
