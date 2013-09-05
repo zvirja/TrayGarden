@@ -178,20 +178,13 @@
         &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
-      &lt;RequestHandler name="all url shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithValidation"&gt;
+      &lt;RequestHandler name="all url shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithConfirmation"&gt;
         &lt;ShowRevertOption&gt;True&lt;/ShowRevertOption&gt;
         &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
         &lt;MatchRegExpressions&gt;^http.*|&lt;/MatchRegExpressions&gt;
         &lt;EnableConfirmation&gt;True&lt;/EnableConfirmation&gt;
         &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
-
-      &lt;!--      &lt;RequestHandler name="fallbackHandler" type="ClipboardChangerPlant.RequestHandling.Specialized.SimpleHandler"&gt;
-        &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
-        &lt;ConfirmBefore&gt;True&lt;/ConfirmBefore&gt;
-        &lt;SuccessIconResourceName&gt;klipperSuccess&lt;/SuccessIconResourceName&gt;
-        &lt;MatchRegExpressions&gt;.*&lt;/MatchRegExpressions&gt;
-      &lt;/RequestHandler&gt;--&gt;
     &lt;/RequestHandlers&gt;
 
     &lt;ProcessManager name="DefaultProcessManager" type="ClipboardChangerPlant.RequestHandling.ProcessManager"&gt;
