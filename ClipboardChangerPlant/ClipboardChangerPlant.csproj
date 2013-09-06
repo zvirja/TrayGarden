@@ -103,6 +103,7 @@
     <ProjectReference Include="..\TrayGarden\TrayGarden.csproj">
       <Project>{7bb35110-1966-4ff1-92a2-764f78bf0aa2}</Project>
       <Name>TrayGarden</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
