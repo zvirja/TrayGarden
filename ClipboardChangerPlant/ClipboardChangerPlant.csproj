@@ -86,6 +86,7 @@
     <Compile Include="RequestHandling\RequestHandlerWithUIConfirmation.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithoutRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\Clip2NetWithRequestHandler.cs" />
+    <Compile Include="RequestHandling\Specialized\JingRequestHandler.cs" />
     <Compile Include="RequestHandling\Specialized\OnlyShorteningHandler.cs" />
     <Compile Include="RequestHandling\Specialized\UrlShortenerWithConfirmation.cs" />
     <Compile Include="RequestHandling\Specialized\SimpleHandler.cs" />
@@ -109,6 +110,7 @@
   <ItemGroup>
     <Content Include="Resources\clip2net_MAINICON.ico" />
     <Content Include="Resources\Custom-Icon-Design-Pretty-Office-2-Success.ico" />
+    <None Include="Resources\jing.ico" />
     <Content Include="Resources\klipper.ico" />
     <Content Include="Resources\klipper2.ico" />
     <None Include="Resources\klipperShorted.ico" />

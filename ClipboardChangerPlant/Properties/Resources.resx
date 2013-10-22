@@ -170,6 +170,14 @@
         &lt;EnableReverting&gt;True&lt;/EnableReverting&gt;
       &lt;/RequestHandler&gt;
 
+      &lt;RequestHandler name="Jing" type="ClipboardChangerPlant.RequestHandling.Specialized.JingRequestHandler"&gt;
+        &lt;ShouldBeShorted&gt;False&lt;/ShouldBeShorted&gt;
+        &lt;SuccessIconResourceName&gt;jing&lt;/SuccessIconResourceName&gt;
+        &lt;MatchRegExpressions&gt;^http://screencast.com/t/.*|&lt;/MatchRegExpressions&gt;
+        &lt;EnableConfirmation&gt;True&lt;/EnableConfirmation&gt;
+        &lt;EnableReverting&gt;False&lt;/EnableReverting&gt;
+      &lt;/RequestHandler&gt;
+
       &lt;RequestHandler name="Youtube shortener" type="ClipboardChangerPlant.RequestHandling.Specialized.UrlShortenerWithConfirmation"&gt;
         &lt;ShouldBeShorted&gt;True&lt;/ShouldBeShorted&gt;
         &lt;SuccessIconResourceName&gt;youtube&lt;/SuccessIconResourceName&gt;
@@ -260,5 +268,8 @@
   </data>
   <data name="processClipboard" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\Resources\processClipboard.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
+  <data name="jing" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\Resources\jing.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
 </root>
