@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
   public class GlobalMenuPlantBox : ServicePlantBoxBase
   {
     private INotifyIconChangerMaster _globalNotifyIconChanger;
-    public List<ToolStripMenuItem> ToolStripMenuItems { get; set; }
+    public List<ToolStripItem> ToolStripMenuItems { get; set; }
     public bool IsGlobalIconChangingEnabled { get; set; }
     public INotifyIconChangerMaster GlobalNotifyIconChanger
     {
@@ -57,7 +57,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       if (ToolStripMenuItems == null)
         return;
       var shouldBeVisible = RelatedPlantEx.IsEnabled && IsEnabled;
-      foreach (ToolStripMenuItem toolStripMenuItem in ToolStripMenuItems)
+      foreach (ToolStripItem toolStripMenuItem in ToolStripMenuItems)
       {
         toolStripMenuItem.Visible = shouldBeVisible;
       }

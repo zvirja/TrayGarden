@@ -87,6 +87,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
         GlobalMenuPlantBox luggage = GetPlantLuggage(plant);
         if (luggage == null)
           continue;
+        // Adding a separator to separate plants from one another:
+        luggage.ToolStripMenuItems.Add(new ToolStripSeparator());
         plantBoxes.Add(luggage);
         luggage.FixVisibility();
       }

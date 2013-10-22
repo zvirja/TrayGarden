@@ -38,7 +38,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
     public virtual void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
     {
       if(GMBox.ToolStripMenuItems == null)
-        GMBox.ToolStripMenuItems = new List<ToolStripMenuItem>();
+        GMBox.ToolStripMenuItems = new List<ToolStripItem>();
       GMBox.ToolStripMenuItems.AddRange(newItem);
     }
 

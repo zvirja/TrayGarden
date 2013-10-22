@@ -66,7 +66,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
 
     protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
     {
-      contextMenuStrip.Items.Add("-");
       var exitItem = contextMenuStrip.Items.Add("Exit Garden");
       Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
       if (iconResource != null)
@@ -81,15 +80,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
 
     protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
     {
-      bool valueWasAppended = false;
       foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
         if (globalMenuPlantBox.ToolStripMenuItems != null && globalMenuPlantBox.ToolStripMenuItems.Count > 0)
         {
-          if (valueWasAppended && InsertDelimiterBetweenPlants)
-            menuStrip.Items.Add("-");
-          foreach (ToolStripMenuItem contextMenuItem in globalMenuPlantBox.ToolStripMenuItems)
+          foreach (ToolStripItem contextMenuItem in globalMenuPlantBox.ToolStripMenuItems)
             menuStrip.Items.Add(contextMenuItem);
-          valueWasAppended = true;
         }
     }
 
