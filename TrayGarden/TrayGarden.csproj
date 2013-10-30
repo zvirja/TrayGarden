@@ -105,6 +105,7 @@
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
+    <Compile Include="Helpers\NativeHelper.cs" />
     <Compile Include="Pipelines\Startup\GardenbedInformPostServicesInit.cs" />
     <Compile Include="Plants\Pipeline\InitializePlant.cs" />
     <Compile Include="Plants\Pipeline\ValidatePlant.cs" />
@@ -136,6 +137,9 @@
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Reception\Services\IClipboardWorks.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardProvider.cs" />
+    <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardMonitor.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\IClipboardValueProvider.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\ContextMenuBuilder.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\IMenuEntriesAppender.cs" />

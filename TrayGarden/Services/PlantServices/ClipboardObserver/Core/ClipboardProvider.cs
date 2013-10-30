@@ -10,12 +10,17 @@
 
     public virtual string GetCurrentClipboardText()
     {
-      return Service.GetLastTimeClipboardValue();
+      return Service.GetClipboardValue(false);
+    }
+
+    public virtual string GetCurrentClipboardTextIgnoreSizeRestrictions()
+    {
+      return Service.GetClipboardValue(true);
     }
 
     public virtual void SetCurrentClipboardText(string newValue, bool silent)
     {
-      Service.QueueNewClipboardValue(newValue,silent);
+      Service.SetClipboardValue(newValue, silent);
     }
   }
 }
