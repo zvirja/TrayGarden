@@ -29,7 +29,7 @@ namespace TrayGarden.Diagnostics
     {
       if (@object == null)
       {
-        throw new Exception(message);
+        throw new ArgumentException(message);
       }
     }
 
@@ -43,7 +43,7 @@ namespace TrayGarden.Diagnostics
     {
       if (!condition)
       {
-        throw new Exception(message);
+        throw new ArgumentException(message);
       }
     }
   }
