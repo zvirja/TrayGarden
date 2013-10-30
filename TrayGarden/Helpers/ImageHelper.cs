@@ -18,9 +18,6 @@ namespace TrayGarden.Helpers
   public static class ImageHelper
   {
 
-    [System.Runtime.InteropServices.DllImport("gdi32.dll")]
-    public static extern bool DeleteObject(IntPtr hObject);
-
     public static BitmapImage GetBitmapImageFromBitmapThreadSafe(Bitmap bitmap, ImageFormat imageFormat)
     {
       if (bitmap == null)
@@ -52,7 +49,7 @@ namespace TrayGarden.Helpers
       }
       finally
       {
-        DeleteObject(hBitmap);
+        NativeHelper.DeleteObject(hBitmap);
       }
 
       return retval;
