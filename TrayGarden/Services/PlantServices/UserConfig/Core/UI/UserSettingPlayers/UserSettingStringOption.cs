@@ -19,7 +19,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.UI.UserSettingPlayer
             set { UserSetting.StringOptionValue = value; }
         }
 
-        public override object ServiceOptions
+        public override object StringOptions
         {
             get { return UserSetting.Metadata.AdditionalParams; }
         }

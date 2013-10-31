@@ -19,7 +19,7 @@ namespace TrayGarden.UI.Configuration.Stuff
         public virtual string StringValue { get; set; }
         public virtual string StringOptionValue { get; set; }
         public virtual object ObjectValue { get; set; }
-        public virtual object ServiceOptions { get; protected set; }
+        public virtual object StringOptions { get; protected set; }
         public virtual string SettingDescription { get; protected set; }
         public virtual bool RequiresApplicationReboot
         {

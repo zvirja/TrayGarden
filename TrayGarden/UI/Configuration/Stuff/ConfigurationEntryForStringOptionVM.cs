@@ -34,7 +34,7 @@ namespace TrayGarden.UI.Configuration.Stuff
 
         protected virtual List<string> GetAllPossibleOptions()
         {
-            var casted = RealPlayer.ServiceOptions as List<string>;
+            var casted = RealPlayer.StringOptions as List<string>;
             return casted ?? new List<string>();
         }
     }

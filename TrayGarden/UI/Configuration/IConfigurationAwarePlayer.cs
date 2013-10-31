@@ -13,7 +13,7 @@ namespace TrayGarden.UI.Configuration
         string StringValue { get; set; }
         string StringOptionValue { get; set; }
         object ObjectValue { get; set; }
-        object ServiceOptions { get;}
+        object StringOptions { get;}
         string SettingDescription { get; }
         bool RequiresApplicationReboot { get; }
 
