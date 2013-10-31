@@ -355,6 +355,7 @@
     <Compile Include="UI\Common\Converters\BooleanNotConverter.cs" />
     <Compile Include="UI\Common\Converters\BooleanToVisibilityConverter.cs" />
     <Compile Include="UI\Common\Converters\IsNotNullConverter.cs" />
+    <Compile Include="UI\Common\Converters\StringHasValueToBoolConverter.cs" />
     <Compile Include="UI\Common\Converters\TimeSpanSummator.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\HelpContent\WindowPropertySetter.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\NotificationWindow.xaml.cs">
@@ -386,7 +387,7 @@
     <Compile Include="UI\Common\Converters\BooleanOrConverter.cs" />
     <Compile Include="UI\Common\Converters\ChainCombiningConverter.cs" />
     <Compile Include="UI\Common\Converters\CombiningConverter.cs" />
-    <Compile Include="UI\Common\Converters\StringHasValueToBoolConverter.cs" />
+    <Compile Include="UI\Common\Converters\StringHasValueToBoolConverterDebug.cs" />
     <Compile Include="UI\Common\IDataTemplateSelector.cs" />
     <Compile Include="UI\Common\Converters\StringNullOrEmptyToBoolConverter.cs" />
     <Compile Include="UI\Common\VMtoVMapping\ISelfViewResolver.cs" />
