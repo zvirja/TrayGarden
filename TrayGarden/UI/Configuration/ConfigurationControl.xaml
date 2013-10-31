@@ -9,218 +9,218 @@
              xmlns:configuration="clr-namespace:TrayGarden.UI.Configuration"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" d:DataContext="{d:DesignInstance configuration:ConfigurationControlVM}">
-    <UserControl.Resources>
-        <converters:StringHasValueToBoolConverterDebug x:Key="StringHasValueToBoolConverterDebug" />
+  <UserControl.Resources>
+    <converters:StringHasValueToBoolConverterDebug x:Key="StringHasValueToBoolConverterDebug" />
 
-        <!-- Reset image-->
-        <BitmapImage x:Key="ResetIcon" UriSource="Images/reset2.png" />
+    <!-- Reset image-->
+    <BitmapImage x:Key="ResetIcon" UriSource="Images/reset2.png" />
 
-        <!--Style for setting entry value-->
-        <Style x:Key="SettingValueStyle" TargetType="Control">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="HorizontalContentAlignment" Value="Center" />
-            <Setter Property="VerticalContentAlignment" Value="Center" />
-            <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
-        </Style>
+    <!--Style for setting entry value-->
+    <Style x:Key="SettingValueStyle" TargetType="Control">
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="HorizontalContentAlignment" Value="Center" />
+      <Setter Property="VerticalContentAlignment" Value="Center" />
+      <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
+    </Style>
 
-        <!--Style for setting entry name-->
-        <Style x:Key="SettingNameStyle" TargetType="TextBlock">
-            <Setter Property="FontSize" Value="20" />
-            <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="TextAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Margin" Value="5 0"/>
-            <Style.Triggers>
-                <!--Modify cursor if name contains description-->
-                <DataTrigger Binding="{Binding Path=DataContext.SettingDescription, Mode=OneWay, Converter={StaticResource StringHasValueToBoolConverter}}" Value="True">
-                    <Setter Property="Cursor" Value="Help" />
-                </DataTrigger>
-                <!--Set unactive background if readonly-->
-                <DataTrigger Binding="{Binding Path=DataContext.AllowEditing}" Value="False">
-                    <Setter Property="Foreground" Value="Gray" />
-                </DataTrigger>
-            </Style.Triggers>
-        </Style>
+    <!--Style for setting entry name-->
+    <Style x:Key="SettingNameStyle" TargetType="TextBlock">
+      <Setter Property="FontSize" Value="20" />
+      <Setter Property="HorizontalAlignment" Value="Stretch" />
+      <Setter Property="TextAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Margin" Value="5 0"/>
+      <Style.Triggers>
+        <!--Modify cursor if name contains description-->
+        <DataTrigger Binding="{Binding Path=DataContext.SettingDescription, Mode=OneWay, Converter={StaticResource StringHasValueToBoolConverter}}" Value="True">
+          <Setter Property="Cursor" Value="Help" />
+        </DataTrigger>
+        <!--Set unactive background if readonly-->
+        <DataTrigger Binding="{Binding Path=DataContext.AllowEditing}" Value="False">
+          <Setter Property="Foreground" Value="Gray" />
+        </DataTrigger>
+      </Style.Triggers>
+    </Style>
 
-        <Style x:Key="SettingGrid" TargetType="Grid">
-            <Setter Property="Margin" Value="0 5" />
-            <Setter Property="Background" Value="LightGreen" />
-        </Style>
+    <Style x:Key="SettingGrid" TargetType="Grid">
+      <Setter Property="Margin" Value="0 5" />
+      <Setter Property="Background" Value="LightGreen" />
+    </Style>
 
-        <Style x:Key="ResetBtn" TargetType="Button">
-            <Setter Property="ToolTip" Value="{Binding Path=DataContext.RestoreDefaultValueTooltip}" />
-            <Setter Property="Margin" Value="5 0 0 0" />
-            <Setter Property="Padding" Value="3 0" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Setter Property="Command" Value="{Binding Path=DataContext.RestoreDefaultValue}" />
-            <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
-        </Style>
+    <Style x:Key="ResetBtn" TargetType="Button">
+      <Setter Property="ToolTip" Value="{Binding Path=DataContext.RestoreDefaultValueTooltip}" />
+      <Setter Property="Margin" Value="5 0 0 0" />
+      <Setter Property="Padding" Value="3 0" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Setter Property="Command" Value="{Binding Path=DataContext.RestoreDefaultValue}" />
+      <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
+    </Style>
 
-        <Style x:Key="ResetBtnImage" TargetType="Image">
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="Source" Value="{StaticResource ResetIcon}" />
-            <Setter Property="Stretch" Value="None" />
-        </Style>
+    <Style x:Key="ResetBtnImage" TargetType="Image">
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="Source" Value="{StaticResource ResetIcon}" />
+      <Setter Property="Stretch" Value="None" />
+    </Style>
 
-        <!-- Style for setting description text -->
-        <Style x:Key="ToolTipTextBlock" TargetType="TextBlock">
-            <Setter Property="Text" Value="{Binding Path=DataContext.SettingDescription}" />
-            <Setter Property="Foreground" Value="Black" />
-            <Setter Property="Background" Value="White" />
-            <Setter Property="Margin" Value="4" />
-            <Setter Property="FontSize" Value="14" />
-        </Style>
+    <!-- Style for setting description text -->
+    <Style x:Key="ToolTipTextBlock" TargetType="TextBlock">
+      <Setter Property="Text" Value="{Binding Path=DataContext.SettingDescription}" />
+      <Setter Property="Foreground" Value="Black" />
+      <Setter Property="Background" Value="White" />
+      <Setter Property="Margin" Value="4" />
+      <Setter Property="FontSize" Value="14" />
+    </Style>
 
-        <!-- Style for setting description popup -->
-        <Style x:Key="PopupTooltip" TargetType="Popup">
-            <Setter Property="IsOpen">
-                <Setter.Value>
-                    <MultiBinding Mode="OneWay" Converter="{StaticResource BooleanAndConverter}">
-                        <Binding ElementName="SettingName" Path="IsMouseOver" Mode="OneWay" />
-                        <Binding Path="DataContext.SettingDescription" Mode="OneWay" Converter="{StaticResource StringHasValueToBoolConverter}" />
-                    </MultiBinding>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="PlacementTarget" Value="{Binding ElementName=SettingName}" />
-            <Setter Property="Placement" Value="Mouse" />
-        </Style>
+    <!-- Style for setting description popup -->
+    <Style x:Key="PopupTooltip" TargetType="Popup">
+      <Setter Property="IsOpen">
+        <Setter.Value>
+          <MultiBinding Mode="OneWay" Converter="{StaticResource BooleanAndConverter}">
+            <Binding ElementName="SettingName" Path="IsMouseOver" Mode="OneWay" />
+            <Binding Path="DataContext.SettingDescription" Mode="OneWay" Converter="{StaticResource StringHasValueToBoolConverter}" />
+          </MultiBinding>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="PlacementTarget" Value="{Binding ElementName=SettingName}" />
+      <Setter Property="Placement" Value="Mouse" />
+    </Style>
 
-        <DataTemplate x:Key="SettingDescriptionTooltip">
-            <Popup Style="{StaticResource PopupTooltip}">
-                <Grid Background="White">
-                    <TextBlock Style="{StaticResource ToolTipTextBlock}" TextWrapping="Wrap" />
-                </Grid>
-            </Popup>
-        </DataTemplate>
+    <DataTemplate x:Key="SettingDescriptionTooltip">
+      <Popup Style="{StaticResource PopupTooltip}">
+        <Grid Background="White">
+          <TextBlock Style="{StaticResource ToolTipTextBlock}" TextWrapping="Wrap" />
+        </Grid>
+      </Popup>
+    </DataTemplate>
 
-        <!-- This button represents bool setting (big checkbox) -->
-        <Style x:Key="BoolSettingValueToogleButton" BasedOn="{StaticResource SettingValueStyle}" TargetType="ToggleButton">
-            <Setter Property="Cursor" Value="Hand" />
+    <!-- This button represents bool setting (big checkbox) -->
+    <Style x:Key="BoolSettingValueToogleButton" BasedOn="{StaticResource SettingValueStyle}" TargetType="ToggleButton">
+      <Setter Property="Cursor" Value="Hand" />
 
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="{x:Type ToggleButton}">
-                        <Border x:Name="border" CornerRadius="2" Background="LightGray" BorderThickness="0" SnapsToDevicePixels="True">
-                            <ContentPresenter />
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="true">
-                                <Setter Property="Background" TargetName="border" Value="#5CE65C"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="{x:Type ToggleButton}">
+            <Border x:Name="border" CornerRadius="2" Background="LightGray" BorderThickness="0" SnapsToDevicePixels="True">
+              <ContentPresenter />
+            </Border>
+            <ControlTemplate.Triggers>
+              <Trigger Property="IsChecked" Value="true">
+                <Setter Property="Background" TargetName="border" Value="#5CE65C"/>
+              </Trigger>
+            </ControlTemplate.Triggers>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
 
-    </UserControl.Resources>
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition />
-            <RowDefinition Height="Auto" />
-        </Grid.RowDefinitions>
+  </UserControl.Resources>
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition />
+      <RowDefinition Height="Auto" />
+    </Grid.RowDefinitions>
 
-        <!-- Setting window description section-->
-        <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" Foreground="DarkGray" Padding="10 5 0 0" Text="{Binding Path=ConfigurationDescription}">
+    <!-- Setting window description section-->
+    <TextBlock Grid.Row="0" FontSize="14" TextWrapping="Wrap" Foreground="DarkGray" Padding="10 5 0 0" Text="{Binding Path=ConfigurationDescription}">
             
             <!-- display description only if is present -->
-            <TextBlock.Resources>
-                <converters:ChainCombiningConverter x:Key="StringValuePresentToVisibility">
-                    <converters:ChainCombiningConverter.ConventerChain>
-                        <converters:StringHasValueToBoolConverter />
-                        <BooleanToVisibilityConverter />
-                    </converters:ChainCombiningConverter.ConventerChain>
-                </converters:ChainCombiningConverter>
-            </TextBlock.Resources>
-            <TextBlock.Visibility>
-                <Binding Path="ConfigurationDescription" Converter="{StaticResource StringValuePresentToVisibility}" />
-            </TextBlock.Visibility>
-        </TextBlock>
+      <TextBlock.Resources>
+        <converters:ChainCombiningConverter x:Key="StringValuePresentToVisibility">
+          <converters:ChainCombiningConverter.ConventerChain>
+            <converters:StringHasValueToBoolConverter />
+            <BooleanToVisibilityConverter />
+          </converters:ChainCombiningConverter.ConventerChain>
+        </converters:ChainCombiningConverter>
+      </TextBlock.Resources>
+      <TextBlock.Visibility>
+        <Binding Path="ConfigurationDescription" Converter="{StaticResource StringValuePresentToVisibility}" />
+      </TextBlock.Visibility>
+    </TextBlock>
 
-        <!-- Control with all settings -->
-        <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-            <!-- Enumerate settings -->
-            <ItemsControl ItemsSource="{Binding Path=ConfigurationEntries}" Margin="10">
-                <!-- vertical panel (is required) -->
-                <ItemsControl.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Vertical" />
-                    </ItemsPanelTemplate>
-                </ItemsControl.ItemsPanel>
+    <!-- Control with all settings -->
+    <ScrollViewer Grid.Row="1" HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+      <!-- Enumerate settings -->
+      <ItemsControl ItemsSource="{Binding Path=ConfigurationEntries}" Margin="10">
+        <!-- vertical panel (is required) -->
+        <ItemsControl.ItemsPanel>
+          <ItemsPanelTemplate>
+            <StackPanel Orientation="Vertical" />
+          </ItemsPanelTemplate>
+        </ItemsControl.ItemsPanel>
 
-                <ItemsControl.Resources>
-                    <!-- Common setting template -->
-                    <DataTemplate x:Key="SettingLayoutRegular">
-                        <Grid Style="{StaticResource SettingGrid}">
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="*" />
-                                <ColumnDefinition Width="Auto" />
-                            </Grid.ColumnDefinitions>
-                            <TextBlock x:Name="SettingName" Style="{StaticResource SettingNameStyle}" Text="{Binding DataContext.SettingName }" />
-                            <ContentPresenter Grid.Column="0" ContentTemplate="{StaticResource SettingDescriptionTooltip}" />
-                            <ContentPresenter Grid.Column="1" Content="{Binding}" />
-                            <Button Grid.Column="2" Style="{StaticResource ResetBtn}">
-                                <Image Style="{StaticResource ResetBtnImage}"/>
-                            </Button>
-                        </Grid>
-                    </DataTemplate>
-
-                    <!-- Bool setting markup -->
-                    <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForBoolVM}">
-                        <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-                            <ToggleButton x:Name="IsEnabledToggleButton" Style="{StaticResource BoolSettingValueToogleButton}" IsChecked="{Binding Path=BoolValue, Mode=TwoWay}" >
-                                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SettingValueStyle}" Cursor="Hand" IsChecked="{Binding ElementName=IsEnabledToggleButton, Path=IsChecked, Mode=TwoWay}">
-                                    <CheckBox.LayoutTransform>
-                                        <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
-                                    </CheckBox.LayoutTransform>
-                                </CheckBox>
-                            </ToggleButton>
-                        </ContentControl>
-                    </DataTemplate>
-
-                    <!-- String setting markup -->
-                    <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringVM}">
-                        <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-                            <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=StringValue}" />
-                        </ContentControl>
-                    </DataTemplate>
-
-                    <!-- Int setting markup -->
-                    <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForIntVM}">
-                        <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-                            <TextBox Style="{StaticResource SettingValueStyle}" >
-                                <TextBox.Text>
-                                    <Binding Path="IntValue">
-                                        <Binding.ValidationRules>
-                                            <stuff:IntValidator />
-                                        </Binding.ValidationRules>
-                                    </Binding>
-                                </TextBox.Text>
-                            </TextBox>
-                        </ContentControl>
-                    </DataTemplate>
-
-                    <!-- String option setting markup -->
-                    <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringOptionVM}">
-                        <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-                            <ComboBox Grid.Column="1" Style="{StaticResource SettingValueStyle}" ItemsSource="{Binding Path=AllPossibleOptions}" Text="{Binding Path=StringOptionValue}" />
-                        </ContentControl>
-                    </DataTemplate>
-                </ItemsControl.Resources>
-            </ItemsControl>
-        </ScrollViewer>
-
-        <!-- App reboot line -->
-        <Grid Grid.Row="2" Background="LightSteelBlue" Visibility="{Binding Path=RebootRequired, Converter={StaticResource BooleanToVisibilityConverter}}">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition />
+        <ItemsControl.Resources>
+          <!-- Common setting template -->
+          <DataTemplate x:Key="SettingLayoutRegular">
+            <Grid Style="{StaticResource SettingGrid}">
+              <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
-            </Grid.ColumnDefinitions>
-            <TextBlock Foreground="IndianRed" FontWeight="Bold" FontSize="14" Padding="15 3 0 3" >Some modified settings require application reboot to be applied.</TextBlock>
-            <Button Margin="0 3 15 3"  
+              </Grid.ColumnDefinitions>
+              <TextBlock x:Name="SettingName" Style="{StaticResource SettingNameStyle}" Text="{Binding DataContext.SettingName }" />
+              <ContentPresenter Grid.Column="0" ContentTemplate="{StaticResource SettingDescriptionTooltip}" />
+              <ContentPresenter Grid.Column="1" Content="{Binding}" />
+              <Button Grid.Column="2" Style="{StaticResource ResetBtn}">
+                <Image Style="{StaticResource ResetBtnImage}"/>
+              </Button>
+            </Grid>
+          </DataTemplate>
+
+          <!-- Bool setting markup -->
+          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForBoolVM}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <ToggleButton x:Name="IsEnabledToggleButton" Style="{StaticResource BoolSettingValueToogleButton}" IsChecked="{Binding Path=BoolValue, Mode=TwoWay}" >
+                <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SettingValueStyle}" Cursor="Hand" IsChecked="{Binding ElementName=IsEnabledToggleButton, Path=IsChecked, Mode=TwoWay}">
+                  <CheckBox.LayoutTransform>
+                    <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
+                  </CheckBox.LayoutTransform>
+                </CheckBox>
+              </ToggleButton>
+            </ContentControl>
+          </DataTemplate>
+
+          <!-- String setting markup -->
+          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringVM}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=StringValue}" />
+            </ContentControl>
+          </DataTemplate>
+
+          <!-- Int setting markup -->
+          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForIntVM}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <TextBox Style="{StaticResource SettingValueStyle}" >
+                <TextBox.Text>
+                  <Binding Path="IntValue">
+                    <Binding.ValidationRules>
+                      <stuff:IntValidator />
+                    </Binding.ValidationRules>
+                  </Binding>
+                </TextBox.Text>
+              </TextBox>
+            </ContentControl>
+          </DataTemplate>
+
+          <!-- String option setting markup -->
+          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringOptionVM}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <ComboBox Style="{StaticResource SettingValueStyle}" ItemsSource="{Binding Path=AllPossibleOptions}" Text="{Binding Path=StringOptionValue}" />
+            </ContentControl>
+          </DataTemplate>
+        </ItemsControl.Resources>
+      </ItemsControl>
+    </ScrollViewer>
+
+    <!-- App reboot line -->
+    <Grid Grid.Row="2" Background="LightSteelBlue" Visibility="{Binding Path=RebootRequired, Converter={StaticResource BooleanToVisibilityConverter}}">
+      <Grid.ColumnDefinitions>
+        <ColumnDefinition />
+        <ColumnDefinition Width="Auto" />
+      </Grid.ColumnDefinitions>
+      <TextBlock Foreground="IndianRed" FontWeight="Bold" FontSize="14" Padding="15 3 0 3" >Some modified settings require application reboot to be applied.</TextBlock>
+      <Button Margin="0 3 15 3"  
                     FontStyle="Italic" 
                     FontWeight="Bold" 
                     FontSize="13" 
@@ -229,6 +229,6 @@
                     Content="Reboot now" 
                     Command="{Binding Path=RebootApplication}" 
                     Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
-        </Grid>
     </Grid>
+  </Grid>
 </UserControl>
