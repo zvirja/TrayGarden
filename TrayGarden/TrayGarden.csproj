@@ -395,6 +395,7 @@
       <DependentUpon>ConfigurationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Configuration\ConfigurationControlVM.cs" />
+    <Compile Include="UI\Configuration\IConfigurationAwarePlayerWithValues.cs" />
     <Compile Include="UI\Configuration\IConfigurationControlVM.cs" />
     <Compile Include="UI\Configuration\RuntimeSettingsIntegration\BoolRSMediatorBasedPlayer.cs" />
     <Compile Include="UI\Configuration\RuntimeSettingsIntegration\IntRSMediatorBasedPlayer.cs" />

@@ -3,39 +3,40 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.UI.Configuration.Stuff
 {
-    public class ConfigurationEntryForStringOptionVM : ConfigurationEntryVMBase
+  public class ConfigurationEntryForStringOptionVM : ConfigurationEntryVMBase
+  {
+
+    public string StringOptionValue
     {
-
-        public string StringOptionValue
-        {
-            get { return RealPlayer.StringOptionValue; }
-            set
-            {
-                if (value == RealPlayer.StringOptionValue) return;
-                RealPlayer.StringOptionValue = value;
-                OnPropertyChanged("StringOptionValue");
-            }
-        }
-
-        public List<string> AllPossibleOptions
-        {
-            get { return GetAllPossibleOptions(); }
-        }
-
-        public ConfigurationEntryForStringOptionVM([NotNull] IConfigurationAwarePlayer realPlayer) : base(realPlayer)
-        {
-        }
-
-        protected override void OnUnderlyingSettingValueChanged()
-        {
-            base.OnUnderlyingSettingValueChanged();
-            OnPropertyChanged("StringOptionValue");
-        }
-
-        protected virtual List<string> GetAllPossibleOptions()
-        {
-            var casted = RealPlayer.StringOptions as List<string>;
-            return casted ?? new List<string>();
-        }
+      get { return GetSpecificRealPlayer<IConfigurationAwarePlayerWithValues>().StringOptionValue; }
+      set
+      {
+        if (value == GetSpecificRealPlayer<IConfigurationAwarePlayerWithValues>().StringOptionValue) return;
+        GetSpecificRealPlayer<IConfigurationAwarePlayerWithValues>().StringOptionValue = value;
+        OnPropertyChanged("StringOptionValue");
+      }
     }
+
+    public List<string> AllPossibleOptions
+    {
+      get { return GetAllPossibleOptions(); }
+    }
+
+    public ConfigurationEntryForStringOptionVM([NotNull] IConfigurationAwarePlayerWithValues realPlayer)
+      : base(realPlayer)
+    {
+    }
+
+    protected override void OnUnderlyingSettingValueChanged()
+    {
+      base.OnUnderlyingSettingValueChanged();
+      OnPropertyChanged("StringOptionValue");
+    }
+
+    protected virtual List<string> GetAllPossibleOptions()
+    {
+      var casted = GetSpecificRealPlayer<IConfigurationAwarePlayerWithValues>().StringOptions as List<string>;
+      return casted ?? new List<string>();
+    }
+  }
 }
