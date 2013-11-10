@@ -5,42 +5,43 @@
              xmlns:vMtoVMapping="clr-namespace:TrayGarden.UI.Common.VMtoVMapping"
              StartupUri="VeryEmptyWindow.xaml"
              >
-             <!--StartupUri="UI\WindowWithBack.xaml"-->
-    <Application.Resources>
-        <Style x:Key="LinkButton" TargetType="Button">
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <TextBlock>
+  <!--StartupUri="UI\WindowWithBack.xaml"-->
+  <Application.Resources>
+    <Style x:Key="LinkButton" TargetType="Button">
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <TextBlock>
                             <ContentPresenter />
-                        </TextBlock>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Setter Property="Foreground" Value="Blue" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="VerticalAlignment" Value="Center" />
-            <Setter Property="FontSize" Value="16" />
-            <Setter Property="Cursor" Value="Hand" />
-            <Style.Triggers>
-                <Trigger Property="IsMouseOver" Value="true">
-                    <Setter Property="Foreground" Value="Red" />
-                </Trigger>
-            </Style.Triggers>
-        </Style>
+            </TextBlock>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+      <Setter Property="Foreground" Value="Blue" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="VerticalAlignment" Value="Center" />
+      <Setter Property="FontSize" Value="16" />
+      <Setter Property="Cursor" Value="Hand" />
+      <Style.Triggers>
+        <Trigger Property="IsMouseOver" Value="true">
+          <Setter Property="Foreground" Value="Red" />
+        </Trigger>
+      </Style.Triggers>
+    </Style>
 
-        <Style x:Key="MainBorderStyle" TargetType="{x:Type Border}">
-            <Setter Property="Background" Value="WhiteSmoke" />
-            <Setter Property="BorderBrush" Value="LightGray" />
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="CornerRadius" Value="5" />
-            <Setter Property="SnapsToDevicePixels" Value="True" />
-        </Style>
-        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
-        <converters:BooleanAndConverter x:Key="BooleanAndConverter" />
-        <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
-        <converters:StringNullOrEmptyToBoolConverter x:Key="StringNullOrEmptyToBoolConverter" />
-        <converters:StringHasValueToBoolConverter x:Key="StringHasValueToBoolConverter" />
-        <vMtoVMapping:MappingsBasedContentValueConverter x:Key="MappingsBasedContentValueConverter"/>
-    </Application.Resources>
+    <Style x:Key="MainBorderStyle" TargetType="{x:Type Border}">
+      <Setter Property="Background" Value="WhiteSmoke" />
+      <Setter Property="BorderBrush" Value="LightGray" />
+      <Setter Property="BorderThickness" Value="1" />
+      <Setter Property="CornerRadius" Value="5" />
+      <Setter Property="SnapsToDevicePixels" Value="True" />
+    </Style>
+    <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+    <converters:BooleanAndConverter x:Key="BooleanAndConverter" />
+    <converters:BooleanNotConverter x:Key="BooleanNotConverter" />
+    <converters:BooleanOrConverter x:Key="BooleanOrConverter" />
+    <converters:StringNullOrEmptyToBoolConverter x:Key="StringNullOrEmptyToBoolConverter" />
+    <converters:StringHasValueToBoolConverter x:Key="StringHasValueToBoolConverter" />
+    <vMtoVMapping:MappingsBasedContentValueConverter x:Key="MappingsBasedContentValueConverter"/>
+  </Application.Resources>
 </Application>
