@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Windows.Input;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 
@@ -12,6 +13,7 @@ namespace TrayGarden.UI.Configuration.Stuff
     protected bool _requiresApplicationReboot;
     public string SettingName { get; protected set; }
     public bool SupportsReset { get; protected set; }
+    public bool HideReset { get; protected set; }
     public bool ReadOnly { get; set; }
 
     public virtual bool BoolValue { get; set; }
@@ -20,6 +22,8 @@ namespace TrayGarden.UI.Configuration.Stuff
     public virtual string StringOptionValue { get; set; }
     public virtual object ObjectValue { get; set; }
     public virtual object StringOptions { get; protected set; }
+    public ICommand Action { get; protected set; }
+    public string ActionTitle { get; protected set; }
     public virtual string SettingDescription { get; protected set; }
     public virtual bool RequiresApplicationReboot
     {

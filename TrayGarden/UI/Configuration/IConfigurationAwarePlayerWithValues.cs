@@ -1,4 +1,6 @@
-﻿namespace TrayGarden.UI.Configuration
+﻿using System.Windows.Input;
+
+namespace TrayGarden.UI.Configuration
 {
   public interface IConfigurationAwarePlayerWithValues : IConfigurationAwarePlayer
   {
@@ -8,5 +10,7 @@
     string StringOptionValue { get; set; }
     object ObjectValue { get; set; }
     object StringOptions { get; }
+    ICommand Action { get; }
+    string ActionTitle { get; }
   }
 }

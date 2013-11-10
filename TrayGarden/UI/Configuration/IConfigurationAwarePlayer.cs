@@ -6,6 +6,7 @@ namespace TrayGarden.UI.Configuration
   {
     string SettingName { get; }
     bool SupportsReset { get; }
+    bool HideReset { get; }
     bool ReadOnly { get; set; }
     string SettingDescription { get; }
     bool RequiresApplicationReboot { get; }

@@ -54,6 +54,15 @@
       <Setter Property="Cursor" Value="Hand" />
       <Setter Property="Command" Value="{Binding Path=DataContext.RestoreDefaultValue}" />
       <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
+      <Setter Property="Visibility" >
+        <Setter.Value>
+          <Binding ConverterParameter="collapsed" Path="DataContext.HideResetButton">
+            <Binding.Converter>
+              <converters:CombiningConverter FirstConverter="{StaticResource BooleanNotConverter}" SecondConverter="{StaticResource BooleanToVisibilityConverter}" />
+            </Binding.Converter>
+          </Binding>
+        </Setter.Value>
+      </Setter>
     </Style>
 
     <Style x:Key="ResetBtnImage" TargetType="Image">
@@ -159,6 +168,9 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
+              <Grid.RowDefinitions>
+                <RowDefinition MinHeight="32" />
+              </Grid.RowDefinitions>
               <TextBlock x:Name="SettingName" Style="{StaticResource SettingNameStyle}" Text="{Binding DataContext.SettingName }" />
               <ContentPresenter Grid.Column="0" ContentTemplate="{StaticResource SettingDescriptionTooltip}" />
               <ContentPresenter Grid.Column="1" Content="{Binding}" />
@@ -207,6 +219,13 @@
           <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringOptionVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
               <ComboBox Style="{StaticResource SettingValueStyle}" ItemsSource="{Binding Path=AllPossibleOptions}" Text="{Binding Path=StringOptionValue}" />
+            </ContentControl>
+          </DataTemplate>
+
+          <!-- Action setting markup -->
+          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForAction}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <Button Style="{StaticResource SettingValueStyle}" Command="{Binding Path=Action}" Content="{Binding Path=ActionTitle}" Cursor="Hand" />
             </ContentControl>
           </DataTemplate>
         </ItemsControl.Resources>

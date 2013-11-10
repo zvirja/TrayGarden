@@ -104,6 +104,7 @@
     <Compile Include="Diagnostics\Assert.cs" />
     <Compile Include="Diagnostics\Log.cs" />
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
+    <Compile Include="DummyTests\DummySettingInjection.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
     <Compile Include="Helpers\NativeHelper.cs" />
     <Compile Include="Pipelines\Startup\GardenbedInformPostServicesInit.cs" />
@@ -402,6 +403,7 @@
     <Compile Include="UI\Configuration\RuntimeSettingsIntegration\StringRSMediatorBasedPlayer.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationAwarePlayer.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForBoolVM.cs" />
+    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForAction.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryVMBase.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringVM.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForIntVM.cs" />

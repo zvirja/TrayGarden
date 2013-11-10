@@ -17,22 +17,27 @@ namespace TrayGarden.UI.Configuration.Stuff
     public ICommand RestoreDefaultValue { get; set; }
     public string RestoreDefaultValueTooltip { get; set; }
 
-    public string SettingName
+    public virtual string SettingName
     {
       get { return RealPlayer.SettingName; }
     }
 
-    public string SettingDescription
+    public virtual string SettingDescription
     {
       get { return RealPlayer.SettingDescription; }
     }
 
-    public bool AllowEditing
+    public virtual bool AllowEditing
     {
       get { return !RealPlayer.ReadOnly; }
     }
 
-    public bool RequiresApplicationReboot
+    public virtual bool HideResetButton
+    {
+      get { return RealPlayer.HideReset; }
+    }
+
+    public virtual bool RequiresApplicationReboot
     {
       get { return RealPlayer.RequiresApplicationReboot; }
     }
