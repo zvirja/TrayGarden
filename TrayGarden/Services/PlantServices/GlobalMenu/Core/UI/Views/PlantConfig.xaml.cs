@@ -38,13 +38,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views
 
             PlantItems.ItemsSource = new List<PlantsConfigVM>() { plantVM, plantVM, plantVM, plantVM };*/
         }
-
-        private void ContainerForCheckBox_OnMouseUp(object sender, MouseButtonEventArgs e)
-        {
-            var gridSender = sender as Grid;
-            var elem = gridSender.Children.Cast<UIElement>().First(x => x.GetType() == typeof(CheckBox)) as CheckBox;
-            var isch = elem.GetValue(CheckBox.IsCheckedProperty);
-            var i = 19;
-        }
     }
 }
