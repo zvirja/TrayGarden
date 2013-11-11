@@ -151,13 +151,13 @@
     <Compile Include="RuntimeSettings\FastPropertyWrapper\StringSettingMediator.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\BoolSettingMediator.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\IntSettingMediator.cs" />
-    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\MakeResetAllCommandVisible.cs">
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\400MakeResetAllCommandVisible.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\CreateWindowWithBackState.cs" />
-    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\CreateConfigurationVM.cs" />
-    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\ResolveConfigurationEntries.cs" />
-    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\InitializeGeneralSettings.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\600CreateWindowWithBackState.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\300CreateConfigurationVM.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\200ResolveConfigurationEntries.cs" />
+    <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\100InitializeGeneralSettings.cs" />
     <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfiguration.cs" />
     <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfigurationPipelineArgs.cs" />
     <Compile Include="Services\Engine\UI\Intergration\ConfigurationPlayerServiceAware.cs" />
