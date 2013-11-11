@@ -5,6 +5,7 @@ using System.Text;
 using System.Windows.Input;
 using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
+using TrayGarden.UI.Configuration.Stuff.ExtentedEntry;
 
 namespace TrayGarden.UI.Configuration.Stuff
 {
@@ -25,6 +26,8 @@ namespace TrayGarden.UI.Configuration.Stuff
     public ICommand Action { get; protected set; }
     public string ActionTitle { get; protected set; }
     public virtual string SettingDescription { get; protected set; }
+    public List<ISettingEntryAction> AdditionalActions { get; set; }
+
     public virtual bool RequiresApplicationReboot
     {
       get { return _requiresApplicationReboot; }
@@ -58,6 +61,7 @@ namespace TrayGarden.UI.Configuration.Stuff
       SettingName = settingName;
       SupportsReset = supportsReset;
       ReadOnly = readOnly;
+      AdditionalActions = new List<ISettingEntryAction>();
     }
 
   }

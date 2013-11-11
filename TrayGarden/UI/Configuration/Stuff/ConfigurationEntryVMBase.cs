@@ -8,6 +8,7 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.Common;
 using TrayGarden.UI.Common.Commands;
+using TrayGarden.UI.Configuration.Stuff.ExtentedEntry;
 
 namespace TrayGarden.UI.Configuration.Stuff
 {
@@ -36,6 +37,14 @@ namespace TrayGarden.UI.Configuration.Stuff
     {
       get { return RealPlayer.HideReset; }
     }
+
+    public List<ISettingEntryAction> AdditionalActions
+    {
+      get
+      {
+        return RealPlayer.AdditionalActions;
+      }
+    } 
 
     public virtual bool RequiresApplicationReboot
     {

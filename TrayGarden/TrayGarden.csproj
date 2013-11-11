@@ -409,6 +409,8 @@
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForIntVM.cs" />
     <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringOptionVM.cs" />
     <Compile Include="UI\Configuration\IConfigurationAwarePlayer.cs" />
+    <Compile Include="UI\Configuration\Stuff\ExtentedEntry\BasicSettingEntryAction.cs" />
+    <Compile Include="UI\Configuration\Stuff\ExtentedEntry\ISettingEntryAction.cs" />
     <Compile Include="UI\Configuration\Stuff\IntValidator.cs" />
     <Compile Include="UI\ForSimplerLife\ConfigurationControlConstructInfo.cs" />
     <Compile Include="UI\ForSimplerLife\WindowWithBackStateConstructInfo.cs" />

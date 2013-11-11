@@ -159,7 +159,14 @@
           </ItemsPanelTemplate>
         </ItemsControl.ItemsPanel>
 
+        <!-- Template for "CustomAction" element-->
         <ItemsControl.Resources>
+          <DataTemplate x:Key="CustomActionLayout">
+            <Button Command="{Binding Action}" Margin="3 0 0 0" Cursor="Hand" ToolTip="{Binding Path=Hint}">
+              <Image Source="{Binding Path=LabelImage}" />
+            </Button>
+          </DataTemplate>
+          
           <!-- Common setting template -->
           <DataTemplate x:Key="SettingLayoutRegular">
             <Grid Style="{StaticResource SettingGrid}">
@@ -167,16 +174,25 @@
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="*" />
                 <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="Auto" />
               </Grid.ColumnDefinitions>
               <Grid.RowDefinitions>
                 <RowDefinition MinHeight="32" />
               </Grid.RowDefinitions>
               <TextBlock x:Name="SettingName" Style="{StaticResource SettingNameStyle}" Text="{Binding DataContext.SettingName }" />
               <ContentPresenter Grid.Column="0" ContentTemplate="{StaticResource SettingDescriptionTooltip}" />
-              <ContentPresenter Grid.Column="1" Content="{Binding}" />
+              <ContentPresenter Grid.Column="1" Content="{Binding}" />            
               <Button Grid.Column="2" Style="{StaticResource ResetBtn}">
-                <Image Style="{StaticResource ResetBtnImage}"/>
+                <Image Style="{StaticResource ResetBtnImage}" />
               </Button>
+              <!--Custom actions-->
+              <ItemsControl Grid.Column="3" ItemTemplate="{StaticResource CustomActionLayout}" ItemsSource="{Binding Path=DataContext.AdditionalActions}">
+                <ItemsControl.ItemsPanel>
+                  <ItemsPanelTemplate>
+                    <StackPanel Orientation="Horizontal" />
+                  </ItemsPanelTemplate>
+                </ItemsControl.ItemsPanel>
+              </ItemsControl>
             </Grid>
           </DataTemplate>
 
