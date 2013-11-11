@@ -20,7 +20,7 @@
       <Setter Property="FontSize" Value="20" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
       <Setter Property="VerticalContentAlignment" Value="Center" />
-      <Setter Property="IsEnabled" Value="{Binding Path=DataContext.AllowEditing}" />
+      <Setter Property="IsEnabled" Value="{Binding Path=AllowEditing}" />
     </Style>
 
     <!--Style for setting entry name-->
