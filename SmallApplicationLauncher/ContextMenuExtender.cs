@@ -1,11 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Diagnostics;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
+using System.Drawing;
 
 namespace SmallApplicationLauncher
 {
-  using System.Drawing;
-
   public class ContextMenuExtender : TrayGarden.Reception.Services.IExtendsGlobalMenu
   {
     public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
