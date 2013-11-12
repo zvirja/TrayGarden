@@ -20,7 +20,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
 
     public virtual void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler)
     {
-      if (text.IsNullOrEmpty() || clickHandler == null)
+      if (text.IsNullOrEmpty() || icon == null || clickHandler == null)
         return;
       EventHandler asyncClickHandler = (sender, args) => Task.Factory.StartNew(() => clickHandler(sender, args));
       var menuItem = new ToolStripMenuItem(text, icon.ToBitmap(), asyncClickHandler);
