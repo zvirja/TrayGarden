@@ -26,13 +26,13 @@ namespace SmallApplicationLauncher
 
     public bool GetUserSettingsMetadata(IUserSettingsMetadataBuilder metadataBuilder)
     {
-      metadataBuilder.DeclareStringSetting("PathToApplicationsFolder", @"C:\Apps");
+      metadataBuilder.DeclareStringSetting("Path to Small Apps folder", @"C:\Apps");
       return true;
     }
 
     public void StoreUserSettingsBridge(IUserSettingsBridge userSettingsBridge)
     {
-      var folderInfo = new DirectoryInfo(userSettingsBridge.GetUserSetting("PathToApplicationsFolder").StringValue);
+      var folderInfo = new DirectoryInfo(userSettingsBridge.GetUserSetting("Path to Small Apps folder").StringValue);
       Applications = new Dictionary<string, string>();
       
       foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
