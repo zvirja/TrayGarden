@@ -12,7 +12,8 @@ namespace SmallApplicationLauncher
       foreach (KeyValuePair<string, string> application in UserConfiguration.Configuration.Applications)
       {
         KeyValuePair<string, string> app = application;
-        menuAppender.AppentMenuStripItem(application.Key, Icon.ExtractAssociatedIcon(app.Value), (sender, args) => Process.Start(app.Value));
+        FileVersionInfo fileVersion = FileVersionInfo.GetVersionInfo(app.Value);
+        menuAppender.AppentMenuStripItem(fileVersion.ProductName, Icon.ExtractAssociatedIcon(app.Value), (sender, args) => Process.Start(app.Value));
       }
 
       return true;
