@@ -34,10 +34,12 @@ namespace SmallApplicationLauncher
     {
       var folderInfo = new DirectoryInfo(userSettingsBridge.GetUserSetting("Path to Small Apps folder").StringValue);
       Applications = new Dictionary<string, string>();
-      
-      foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
+      if (folderInfo.Exists)
       {
-        Applications.Add(app.Name, app.FullName);
+        foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
+        {
+          Applications.Add(app.Name, app.FullName);
+        }
       }
     }
   }
