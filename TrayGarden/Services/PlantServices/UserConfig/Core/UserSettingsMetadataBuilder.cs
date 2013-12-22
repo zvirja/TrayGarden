@@ -69,7 +69,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
             Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
             Assert.ArgumentNotNullOrEmpty(type, "type");
             AssertInitialized();
-            DeclareSettingMetadata(settingName, UserSettingValueType.StringOption, defaultValue.ToString(CultureInfo.InvariantCulture), new[] { type, parameters });
+            DeclareSettingMetadata(settingName, UserSettingValueType.CustomType, defaultValue.ToString(CultureInfo.InvariantCulture), new[] { type, parameters });
         }
 
         public virtual List<IUserSettingMetadataMaster> GetResultingSettingsMetadata()
