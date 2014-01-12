@@ -8,6 +8,7 @@ using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
 {

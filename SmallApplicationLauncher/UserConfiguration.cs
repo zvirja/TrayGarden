@@ -6,6 +6,7 @@ using System.Text;
 
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
 namespace SmallApplicationLauncher

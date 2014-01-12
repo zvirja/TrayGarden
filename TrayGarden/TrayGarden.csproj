@@ -263,7 +263,7 @@
     <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\IUserSettingHallmark.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\IUserSettingStorage.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\IUserSettingsBuilder.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\Core\IPersonalUserSettingsSteward.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\IPersonalUserSettingsSteward.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\SettingBoxBasedStorage.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\TypeSpecific\IBoolUserSetting.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\Interfaces\TypeSpecific\IDoubleUserSetting.cs" />

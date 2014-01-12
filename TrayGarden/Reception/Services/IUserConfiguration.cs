@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
 namespace TrayGarden.Reception.Services
 {
