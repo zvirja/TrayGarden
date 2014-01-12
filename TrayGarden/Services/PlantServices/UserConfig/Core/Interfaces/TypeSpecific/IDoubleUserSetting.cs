@@ -5,8 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific
 {
-  public interface IDoubleUserSetting : IUserSettingBase
+  public interface IDoubleUserSetting : ITypedUserSetting<double>
   {
-    double DoubleValue { get; set; }
   }
 }

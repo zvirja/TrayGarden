@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+using TrayGarden.Services.PlantServices.UserConfig.Core;
 
 namespace TrayGarden.Reception.Services
 {
@@ -11,7 +12,16 @@ namespace TrayGarden.Reception.Services
   /// </summary>
   public interface IUserConfiguration
   {
-    bool GetUserSettingsMetadata(IUserSettingsMetadataBuilder metadataBuilder);
-    void StoreUserSettingsBridge(IUserSettingsBridge userSettingsBridge);
+    #region Public Methods and Operators
+
+    /// <summary>
+    /// This method allows plant to store and use personal settings steward.
+    /// Steward should be used to declare user settings.
+    /// Settings might be declared at any point of program execution.
+    /// </summary>
+    /// <param name="personalSettingsSteward"></param>
+    void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward);
+
+    #endregion
   }
 }

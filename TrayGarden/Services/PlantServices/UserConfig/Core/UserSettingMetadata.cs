@@ -1,21 +1,51 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
-using TrayGarden.Services.PlantServices.UserConfig.Core.Stuff;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
-    public class UserSettingMetadata : IUserSettingMetadataMaster
-    {
-        public virtual string Name { get; protected set; }
-        public virtual string DefaultValue { get; protected set; }
-        public virtual UserSettingValueType SettingValueType { get; protected set; }
-        public virtual object AdditionalParams { get; protected set; }
+  public class UserSettingMetadata<T> : IUserSettingMetadataMaster<T>
+  {
+    #region Public Properties
 
-        public virtual void Initialize(string name, UserSettingValueType valueType, string defaultValue, object additionalParams)
-        {
-            Name = name;
-            DefaultValue = defaultValue;
-            SettingValueType = valueType;
-            AdditionalParams = additionalParams;
-        }
+    public virtual object AdditionalParams { get; protected set; }
+
+    public T DefaultValue { get; protected set; }
+
+    public string Description { get; private set; }
+
+    public IUserSettingHallmark Hallmark { get; protected set; }
+
+    public virtual string Name { get; protected set; }
+
+    public virtual string Title { get; protected set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public void Initialize(
+      string name,
+      string title,
+      T defaultValue,
+      string description,
+      object additionalParams,
+      IUserSettingHallmark hallmark)
+    {
+      Assert.ArgumentNotNullOrEmpty(name, "name");
+      Assert.ArgumentNotNullOrEmpty(title, "title");
+      this.Name = name;
+      this.Title = title;
+      this.DefaultValue = defaultValue;
+      this.Description = description;
+      this.AdditionalParams = additionalParams;
+      this.Hallmark = hallmark;
     }
+
+    #endregion
+  }
 }

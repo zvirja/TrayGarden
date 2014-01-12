@@ -4,9 +4,10 @@ using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
-using TrayGarden.UI.Common;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.Stuff.ExtentedEntry;
 
@@ -14,82 +15,118 @@ namespace TrayGarden.UI.Configuration.Stuff
 {
   public class ConfigurationEntryVMBase : INotifyPropertyChanged
   {
-    public IConfigurationAwarePlayer RealPlayer { get; set; }
-    public ICommand RestoreDefaultValue { get; set; }
-    public string RestoreDefaultValueTooltip { get; set; }
+    #region Constructors and Destructors
 
-    public virtual string SettingName
+    public ConfigurationEntryVMBase([NotNull] IConfigurationAwarePlayer realPlayer)
     {
-      get { return RealPlayer.SettingName; }
+      Assert.ArgumentNotNull(realPlayer, "realPlayer");
+      this.RealPlayer = realPlayer;
+      this.RestoreDefaultValue = new RelayCommand(this.ResetValue, this.RealPlayer.SupportsReset);
+      this.RestoreDefaultValueTooltip = "Reset to default";
+      this.RealPlayer.ValueChanged += this.OnUnderlyingSettingValueChanged;
+      this.RealPlayer.RequiresApplicationRebootChanged += this.RealPlayer_RequiresApplicationRebootChanged;
     }
 
-    public virtual string SettingDescription
-    {
-      get { return RealPlayer.SettingDescription; }
-    }
+    #endregion
 
-    public virtual bool AllowEditing
-    {
-      get { return !RealPlayer.ReadOnly; }
-    }
+    #region Public Events
 
-    public virtual bool HideResetButton
-    {
-      get { return RealPlayer.HideReset; }
-    }
+    public event PropertyChangedEventHandler PropertyChanged;
+
+    #endregion
+
+    #region Public Properties
 
     public List<ISettingEntryAction> AdditionalActions
     {
       get
       {
-        return RealPlayer.AdditionalActions;
+        return this.RealPlayer.AdditionalActions;
       }
-    } 
+    }
+
+    public virtual bool AllowEditing
+    {
+      get
+      {
+        return !this.RealPlayer.ReadOnly;
+      }
+    }
+
+    public virtual bool HideResetButton
+    {
+      get
+      {
+        return this.RealPlayer.HideReset;
+      }
+    }
+
+    public IConfigurationAwarePlayer RealPlayer { get; set; }
 
     public virtual bool RequiresApplicationReboot
     {
-      get { return RealPlayer.RequiresApplicationReboot; }
+      get
+      {
+        return this.RealPlayer.RequiresApplicationReboot;
+      }
     }
 
-    public event PropertyChangedEventHandler PropertyChanged;
+    public ICommand RestoreDefaultValue { get; set; }
 
-    public ConfigurationEntryVMBase([NotNull] IConfigurationAwarePlayer realPlayer)
+    public string RestoreDefaultValueTooltip { get; set; }
+
+    public virtual string SettingDescription
     {
-      Assert.ArgumentNotNull(realPlayer, "realPlayer");
-      RealPlayer = realPlayer;
-      RestoreDefaultValue = new RelayCommand(ResetValue, RealPlayer.SupportsReset);
-      RestoreDefaultValueTooltip = "Reset to default";
-      RealPlayer.ValueChanged += OnUnderlyingSettingValueChanged;
-      RealPlayer.RequiresApplicationRebootChanged += RealPlayer_RequiresApplicationRebootChanged;
+      get
+      {
+        return this.RealPlayer.SettingDescription;
+      }
     }
 
-    protected virtual void RealPlayer_RequiresApplicationRebootChanged()
+    public virtual string SettingName
     {
-      OnPropertyChanged("RequiresApplicationReboot");
+      get
+      {
+        return this.RealPlayer.SettingName;
+      }
     }
 
+    #endregion
 
-    protected virtual void ResetValue(object o)
+    #region Methods
+
+    protected T GetSpecificRealPlayer<T>()
     {
-      if (RealPlayer.SupportsReset && AllowEditing)
-        RealPlayer.Reset();
-    }
-
-    protected virtual void OnUnderlyingSettingValueChanged()
-    {
-
+      return (T)this.RealPlayer;
     }
 
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged(string propertyName)
     {
-      PropertyChangedEventHandler handler = PropertyChanged;
-      if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+      PropertyChangedEventHandler handler = this.PropertyChanged;
+      if (handler != null)
+      {
+        handler(this, new PropertyChangedEventArgs(propertyName));
+      }
     }
 
-    protected T GetSpecificRealPlayer<T>()
+    protected virtual void OnUnderlyingSettingValueChanged()
     {
-      return (T)RealPlayer;
     }
+
+    protected virtual void RealPlayer_RequiresApplicationRebootChanged()
+    {
+      this.OnPropertyChanged("RequiresApplicationReboot");
+    }
+
+    protected virtual void ResetValue(object o)
+    {
+      if (this.RealPlayer.SupportsReset && this.AllowEditing)
+      {
+        this.RealPlayer.Reset();
+      }
+    }
+
+    #endregion
   }
 }

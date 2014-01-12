@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
-using TrayGarden.Services.PlantServices.UserConfig.Core.UI.Intergration;
+
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
@@ -12,50 +12,68 @@ using TrayGarden.UI.Common.Commands;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
-  public class YesNoNotificationVM:SpecializedNotificationVMBase, IYesNoNotification
+  public class YesNoNotificationVM : SpecializedNotificationVMBase, IYesNoNotification
   {
-    public string YesButtonText { get; set; }
-    public ImageSource YesButtonImage { get; set; }
-    public ICommand YesAction { get; set; }
-
-    public string NoButtonText { get; set; }
-    public ImageSource NoButtonImage { get; set; }
-    public ICommand NoAction { get; set; }
-
-    public string HeaderText { get; set; }
-    public TextDisplayOptions HeaderTextOptions { get; set; }
-    public ImageTextOrder ButtonsLayoutKind { get; set; }
-    public ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
-    public TextDisplayOptions ButtonTextsOptions { get; set; }
-
+    #region Constructors and Destructors
 
     public YesNoNotificationVM(string headerText)
     {
       //Common init
-      HeaderText = headerText;
-      HeaderTextOptions = new TextDisplayOptions(Brushes.DimGray, 14);
-      ButtonsLayoutKind = ImageTextOrder.VerticalImageText;
-      ButtonImagesDisplayOptions = new ImageDisplayOptions(32, 32);
-      ButtonTextsOptions = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
+      this.HeaderText = headerText;
+      this.HeaderTextOptions = new TextDisplayOptions(Brushes.DimGray, 14);
+      this.ButtonsLayoutKind = ImageTextOrder.VerticalImageText;
+      this.ButtonImagesDisplayOptions = new ImageDisplayOptions(32, 32);
+      this.ButtonTextsOptions = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
 
       //Yes button init
-      YesButtonText = "YES";
-      YesAction = new RelayCommand(OnYesAction, true);
+      this.YesButtonText = "YES";
+      this.YesAction = new RelayCommand(this.OnYesAction, true);
 
       //No button init
-      NoButtonText = "NO";
-      NoAction = new RelayCommand(OnNoAction, true);
+      this.NoButtonText = "NO";
+      this.NoAction = new RelayCommand(this.OnNoAction, true);
+    }
 
+    #endregion
+
+    #region Public Properties
+
+    public ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
+
+    public TextDisplayOptions ButtonTextsOptions { get; set; }
+
+    public ImageTextOrder ButtonsLayoutKind { get; set; }
+
+    public string HeaderText { get; set; }
+
+    public TextDisplayOptions HeaderTextOptions { get; set; }
+
+    public ICommand NoAction { get; set; }
+
+    public ImageSource NoButtonImage { get; set; }
+
+    public string NoButtonText { get; set; }
+
+    public ICommand YesAction { get; set; }
+
+    public ImageSource YesButtonImage { get; set; }
+
+    public string YesButtonText { get; set; }
+
+    #endregion
+
+    #region Methods
+
+    protected virtual void OnNoAction(object o)
+    {
+      this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
     }
 
     protected virtual void OnYesAction(object o)
     {
-      SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
+      this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
     }
 
-    protected virtual void OnNoAction(object o)
-    {
-      SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
-    }
+    #endregion
   }
 }

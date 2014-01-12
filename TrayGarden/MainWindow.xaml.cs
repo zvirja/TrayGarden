@@ -29,8 +29,6 @@ using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.FleaMarket.IconChanger;
-using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies;
-using TrayGarden.Services.PlantServices.UserConfig.Core.UserSettingChangedStrategies.Switchers;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using log4net.Appender;

@@ -23,18 +23,17 @@ namespace ClipboardChangerPlant.Engine
 
     public virtual void PreInit()
     {
-      ClipboardManager.Provider.PreInit();
       RequestHandlerChief.PreInit();
     }
 
     public virtual void PostInit()
     {
+      ClipboardManager.Provider.PostInit();
       RequestHandlerChief.PostInit();
       this.RequestProcessManager = Factory.ActualFactory.GetRequestProcessManager();
       var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
       notifyManager.MainActionRequested += NotifyManagerOnMainActionRequested;
       notifyManager.ShorteningRequested += NotifyManagerOnShorteningRequested;
-      ClipboardManager.Provider.PostInit();
       ClipboardManager.Provider.OnClipboardValueChanged += ProviderOnOnClipboardValueChanged;
     }
 

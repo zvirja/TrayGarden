@@ -1,31 +1,34 @@
-﻿using System;
-using System.Drawing.Imaging;
+﻿#region
+
+using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net;
-using System.Windows;
-using System.Windows.Media;
-using ClipboardChangerPlant.Properties;
-using ClipboardChangerPlant.UIConfiguration;
+using System.Text;
+
 using JetBrains.Annotations;
-using TrayGarden.Helpers;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
+
+#endregion
 
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   [UsedImplicitly]
   public class Clip2NetWithRequestHandler : Clip2NetWithoutRequestHandler
   {
+    #region Public Methods and Operators
+
     public override bool TryProcess(string inputValue, out string result)
     {
       try
       {
         result = inputValue;
-        var pageBody = GetBody(inputValue);
-        var originalUrl = ExcractOriginalUrl(pageBody);
+        var pageBody = this.GetBody(inputValue);
+        var originalUrl = this.ExcractOriginalUrl(pageBody);
         if (string.IsNullOrEmpty(originalUrl))
+        {
           return false;
+        }
         result = originalUrl;
         return true;
       }
@@ -34,7 +37,25 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
         result = inputValue;
         return false;
       }
+    }
 
+    #endregion
+
+    #region Methods
+
+    protected virtual string ExcractOriginalUrl(string pageBody)
+    {
+      var searchString = "<a class=\"image-down-file\" href=\"http://clip2net.com/clip/";
+      var payloadPart = "http://clip2net.com/clip/";
+      var indexOf = pageBody.IndexOf(searchString);
+      if (indexOf < 0)
+      {
+        return null;
+      }
+      var contentStart = pageBody.Substring(indexOf + searchString.Length - payloadPart.Length);
+      var endIndex = contentStart.IndexOf("\"");
+      var validContent = contentStart.Substring(0, endIndex);
+      return validContent;
     }
 
     protected virtual string GetBody(string url)
@@ -43,18 +64,6 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       var response = request.GetResponse();
       var result = new StreamReader(response.GetResponseStream()).ReadToEnd();
       return result;
-    }
-
-    protected virtual string ExcractOriginalUrl(string pageBody)
-    {
-      var searchString = "<img src=\"http://clip2net.com/clip/";
-      var indexOf = pageBody.IndexOf(searchString);
-      if (indexOf < 0)
-        return null;
-      var contentStart = pageBody.Substring(indexOf + 10);
-      var endIndex = contentStart.IndexOf("\"");
-      var validContent = contentStart.Substring(0, endIndex);
-      return validContent;
     }
 
     protected override string GetEnabledSettingName()
@@ -67,5 +76,6 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       return "Clip2Net(req) ask for revert";
     }
 
+    #endregion
   }
 }

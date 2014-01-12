@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using TrayGarden.Reception.Services;
+using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
 namespace ClipboardChangerPlant.UIConfiguration
 {
   public class UIConfigurationManager : IUserConfiguration
   {
-    #region Static
-
-    public static UIConfigurationManager ActualManager { get; protected set; }
+    #region Constructors and Destructors
 
     static UIConfigurationManager()
     {
@@ -20,44 +20,29 @@ namespace ClipboardChangerPlant.UIConfiguration
 
     #endregion
 
-    public IUserSettingsBridge UserSettingsBridge { get; set; }
-    public List<Action<IUserSettingsMetadataBuilder>> VolatileUserSettings { get; protected set; }
-    public Dictionary<string, IUserSetting> UserSettings { get; set; }
+    #region Public Properties
 
-    public UIConfigurationManager()
+    public static UIConfigurationManager ActualManager { get; protected set; }
+
+    public IPersonalUserSettingsSteward SettingsSteward { get; set; }
+
+    public Dictionary<string, IUserSettingBase> UserSettings
     {
-      VolatileUserSettings = new List<Action<IUserSettingsMetadataBuilder>>();
-    }
-
-
-    public virtual bool GetUserSettingsMetadata(IUserSettingsMetadataBuilder metadataBuilder)
-    {
-      AddNativeSettings(metadataBuilder);
-      AddVolatileSettings(metadataBuilder);
-      return true;
-    }
-
-    public virtual void StoreUserSettingsBridge(IUserSettingsBridge userSettingsBridge)
-    {
-      UserSettingsBridge = userSettingsBridge;
-      InitializeUserSettingsDictionary();
-    }
-
-    protected virtual void AddNativeSettings(IUserSettingsMetadataBuilder metadataBuilder)
-    {
-    }
-
-    protected virtual void AddVolatileSettings(IUserSettingsMetadataBuilder metadataBuilder)
-    {
-      foreach (Action<IUserSettingsMetadataBuilder> volatileUserSettingInjector in VolatileUserSettings)
+      get
       {
-        volatileUserSettingInjector(metadataBuilder);
+        return this.SettingsSteward.DefinedSettings;
       }
     }
 
-    protected virtual void InitializeUserSettingsDictionary()
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
     {
-      UserSettings = UserSettingsBridge.GetUserSettings().ToDictionary(x => x.Name);
+      this.SettingsSteward = personalSettingsSteward;
     }
+
+    #endregion
   }
 }

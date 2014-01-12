@@ -5,8 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific
 {
-  public interface IStringUserSetting : IUserSettingBase
+  public interface IStringUserSetting : ITypedUserSetting<string>
   {
-    string StringValue { get; set; }
   }
 }

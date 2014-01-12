@@ -5,8 +5,7 @@ using System.Text;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific
 {
-  public interface IBoolUserSetting : IUserSettingBase
+  public interface IBoolUserSetting : ITypedUserSetting<bool>
   {
-    bool BoolValue { get; set; }
   }
 }

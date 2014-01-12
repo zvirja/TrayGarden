@@ -1,11 +1,16 @@
-﻿using TrayGarden.Plants;
-using TrayGarden.RuntimeSettings;
-using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
-    public class UserConfigServicePlantBox : ServicePlantBoxBase
-    {
-        public IUserSettingsBridgeMaster SettingsBridge { get; set; }
-    }
+  public class UserConfigServicePlantBox : ServicePlantBoxBase
+  {
+    #region Public Properties
+
+    public IPersonalUserSettingsSteward SettingsSteward { get; set; }
+
+    #endregion
+  }
 }

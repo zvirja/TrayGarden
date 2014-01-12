@@ -1,15 +1,33 @@
-﻿using TrayGarden.Reception.Services;
-using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
+
+using TrayGarden.Reception.Services;
+using TrayGarden.Services.PlantServices.UserConfig.Core;
+using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
 namespace SmallApplicationLauncher
 {
   public class UserConfiguration : IUserConfiguration
   {
+    #region Static Fields
+
     private static UserConfiguration configuration;
-    public Dictionary<string, string> Applications { get; private set; }
+
+    #endregion
+
+    #region Constructors and Destructors
+
+    private UserConfiguration()
+    {
+      this.Applications = new Dictionary<string, string>();
+    }
+
+    #endregion
+
+    #region Public Properties
 
     public static UserConfiguration Configuration
     {
@@ -19,28 +37,29 @@ namespace SmallApplicationLauncher
       }
     }
 
-    private UserConfiguration()
-    {
-      Applications = new Dictionary<string, string>();
-    }
+    public Dictionary<string, string> Applications { get; private set; }
 
-    public bool GetUserSettingsMetadata(IUserSettingsMetadataBuilder metadataBuilder)
-    {
-      metadataBuilder.DeclareStringSetting("Path to Small Apps folder", @"C:\Apps");
-      return true;
-    }
+    #endregion
 
-    public void StoreUserSettingsBridge(IUserSettingsBridge userSettingsBridge)
+    #region Public Methods and Operators
+
+    public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
     {
-      var folderInfo = new DirectoryInfo(userSettingsBridge.GetUserSetting("Path to Small Apps folder").StringValue);
-      Applications = new Dictionary<string, string>();
+      IStringUserSetting userSetting = personalSettingsSteward.DeclareStringSetting(
+        "Path to Small Apps folder",
+        "Path to Small Apps folder",
+        @"C:\Apps");
+      var folderInfo = new DirectoryInfo(userSetting.Value);
+      this.Applications = new Dictionary<string, string>();
       if (folderInfo.Exists)
       {
         foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
         {
-          Applications.Add(app.Name, app.FullName);
+          this.Applications.Add(app.Name, app.FullName);
         }
       }
     }
+
+    #endregion
   }
 }
