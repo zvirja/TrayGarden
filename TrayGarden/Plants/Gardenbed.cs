@@ -49,7 +49,7 @@ namespace TrayGarden.Plants
         if (resolvedPlantEx != null)
           Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
       }
-      HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
+      //HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
       Initialized = true;
     }
 

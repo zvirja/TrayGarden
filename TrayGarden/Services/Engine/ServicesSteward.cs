@@ -1,98 +1,123 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
-using TrayGarden.Plants;
-using TrayGarden.RuntimeSettings;
-using TrayGarden.TypesHatcher;
 using TrayGarden.Helpers;
+using TrayGarden.Plants;
+using TrayGarden.TypesHatcher;
+
+#endregion
 
 namespace TrayGarden.Services.Engine
 {
   [UsedImplicitly]
   public class ServicesSteward : IServicesSteward
   {
-    protected bool Initialized { get; set; }
+    #region Public Properties
 
     public List<IService> Services { get; set; }
 
-    [UsedImplicitly]
-    public void Initialize([NotNull] List<IService> services)
-    {
-      Assert.ArgumentNotNull(services, "services");
-      Services = services;
-      Initialized = true;
-    }
+    #endregion
 
-    public virtual void InformInitializeStage()
+    #region Properties
+
+    protected bool Initialized { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual void InformClosingStage()
     {
-      AssertInitialized();
-      using (new BulkSettingsUpdate())
+      this.AssertInitialized();
+      foreach (IService service in this.Services)
       {
-        foreach (IService service in Services)
+        try
         {
-          try
-          {
-            if (service.IsActuallyEnabled)
-              service.InformInitializeStage();
-            else
-              Log.Debug("service {0} skipped initialize stage. It's disabled".FormatWith(service.ServiceName), this);
-          }
-          catch (Exception ex)
-          {
-            Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), ex, this);
-          }
+          service.InformClosingStage();
         }
-        var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-        foreach (IPlantEx plant in plants)
-          AquaintPlantWithServices(plant);
+        catch (Exception ex)
+        {
+          Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), ex, this);
+        }
       }
     }
 
     public virtual void InformDisplayStage()
     {
-      AssertInitialized();
-      using (new BulkSettingsUpdate())
+      this.AssertInitialized();
+      foreach (IService service in this.Services)
       {
-        foreach (IService service in Services)
-          try
+        try
+        {
+          if (service.IsActuallyEnabled)
           {
-            if (service.IsActuallyEnabled)
-              service.InformDisplayStage();
-            else
-              Log.Debug("service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName), this);
+            service.InformDisplayStage();
           }
-          catch (Exception ex)
+          else
           {
-            Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), ex, this);
-
+            Log.Debug(
+              "service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName),
+              this);
           }
+        }
+        catch (Exception ex)
+        {
+          Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), ex, this);
+        }
       }
     }
 
-    public virtual void InformClosingStage()
+    public virtual void InformInitializeStage()
     {
-      AssertInitialized();
-      using (new BulkSettingsUpdate())
-      {
-        foreach (IService service in Services)
-          try
-          {
-            service.InformClosingStage();
-          }
-          catch (Exception ex)
-          {
-            Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), ex, this);
+      this.AssertInitialized();
 
+      foreach (IService service in this.Services)
+      {
+        try
+        {
+          if (service.IsActuallyEnabled)
+          {
+            service.InformInitializeStage();
           }
+          else
+          {
+            Log.Debug("service {0} skipped initialize stage. It's disabled".FormatWith(service.ServiceName), this);
+          }
+        }
+        catch (Exception ex)
+        {
+          Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), ex, this);
+        }
+      }
+      var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+      foreach (IPlantEx plant in plants)
+      {
+        this.AquaintPlantWithServices(plant);
       }
     }
+
+    [UsedImplicitly]
+    public void Initialize([NotNull] List<IService> services)
+    {
+      Assert.ArgumentNotNull(services, "services");
+      this.Services = services;
+      this.Initialized = true;
+    }
+
+    #endregion
+
+    #region Methods
 
     protected virtual void AquaintPlantWithServices(IPlantEx plantEx)
     {
-      foreach (IService service in Services)
+      foreach (IService service in this.Services)
       {
         try
         {
@@ -100,16 +125,24 @@ namespace TrayGarden.Services.Engine
         }
         catch (Exception ex)
         {
-          Log.Error("Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName, service.GetType().FullName), ex, this);
+          Log.Error(
+            "Failed to init plant '{0}' with service {1}".FormatWith(
+              plantEx.Plant.GetType().FullName,
+              service.GetType().FullName),
+            ex,
+            this);
         }
       }
     }
 
     protected virtual void AssertInitialized()
     {
-      if (!Initialized)
+      if (!this.Initialized)
+      {
         throw new NonInitializedException();
+      }
     }
 
+    #endregion
   }
 }
