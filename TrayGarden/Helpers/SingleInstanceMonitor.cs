@@ -97,7 +97,7 @@ namespace TrayGarden.Helpers
           this.innerHandle.WaitOne();
           if (this.disposed == -1)
           {
-            Log.Info("SingleInstanceMonitor: Event from foreign process received",this);
+            Log.Info("SingleInstanceMonitor: Event from foreign process received", this);
             this.NotifyAboutForeignEvent();
           }
             //this.disposed == 0. Disposing in progress.
