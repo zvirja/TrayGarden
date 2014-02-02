@@ -17,7 +17,7 @@ namespace TrayGarden.Helpers
   {
     #region Static Fields
 
-    protected static readonly string EventGlobalName = @"Local\TrayGardenEnsureSingle";
+    protected static readonly string EventGlobalName = @"Local\TrayGardenEnsureSingleInstance";
 
     #endregion
 
