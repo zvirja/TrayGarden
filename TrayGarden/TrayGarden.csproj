@@ -109,6 +109,7 @@
     <Compile Include="Helpers\ISingleInstanceMonitor.cs" />
     <Compile Include="Helpers\NativeHelper.cs" />
     <Compile Include="Helpers\SingleInstanceMonitor.cs" />
+    <Compile Include="Pipelines\RestartApp\100StopSingleInstanceMonitor.cs" />
     <Compile Include="Pipelines\Startup\GardenbedInformPostServicesInit.cs" />
     <Compile Include="Pipelines\Startup\SingleInstanceCheckAndHooks.cs" />
     <Compile Include="Plants\Pipeline\InitializePlant.cs" />
@@ -123,7 +124,7 @@
     <Compile Include="LifeCycle\LifecycleObserver.cs" />
     <Compile Include="Pipelines\RestartApp\RestartAppArgs.cs" />
     <Compile Include="Pipelines\RestartApp\RestartAppPipeline.cs" />
-    <Compile Include="Pipelines\RestartApp\SimpleAppRestart.cs" />
+    <Compile Include="Pipelines\RestartApp\200SimpleAppRestart.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownArgs.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownPipeline.cs" />
     <Compile Include="Pipelines\Shutdown\PlantServicesInformClose.cs" />
