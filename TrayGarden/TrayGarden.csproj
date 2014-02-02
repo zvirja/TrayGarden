@@ -110,8 +110,8 @@
     <Compile Include="Helpers\NativeHelper.cs" />
     <Compile Include="Helpers\SingleInstanceMonitor.cs" />
     <Compile Include="Pipelines\RestartApp\100StopSingleInstanceMonitor.cs" />
-    <Compile Include="Pipelines\Startup\GardenbedInformPostServicesInit.cs" />
-    <Compile Include="Pipelines\Startup\SingleInstanceCheckAndHooks.cs" />
+    <Compile Include="Pipelines\Startup\300GardenbedInformPostServicesInit.cs" />
+    <Compile Include="Pipelines\Startup\100SingleInstanceCheckAndHooks.cs" />
     <Compile Include="Plants\Pipeline\InitializePlant.cs" />
     <Compile Include="Plants\Pipeline\ValidatePlant.cs" />
     <Compile Include="Reception\IPlant.cs" />
@@ -128,9 +128,9 @@
     <Compile Include="Pipelines\Shutdown\ShutdownArgs.cs" />
     <Compile Include="Pipelines\Shutdown\ShutdownPipeline.cs" />
     <Compile Include="Pipelines\Shutdown\PlantServicesInformClose.cs" />
-    <Compile Include="Pipelines\Startup\OpenConfigDiaglogIfNeed.cs" />
-    <Compile Include="Pipelines\Startup\PlantServicesInformDisplay.cs" />
-    <Compile Include="Pipelines\Startup\PlantServicesInformInit.cs" />
+    <Compile Include="Pipelines\Startup\500OpenConfigDiaglogIfNeed.cs" />
+    <Compile Include="Pipelines\Startup\400PlantServicesInformDisplay.cs" />
+    <Compile Include="Pipelines\Startup\200PlantServicesInformInit.cs" />
     <Compile Include="Pipelines\Startup\StartupArgs.cs" />
     <Compile Include="Pipelines\Startup\StartupPipeline.cs" />
     <Compile Include="Plants\Intergration\AutoLoadAssembliesSetting.cs" />
@@ -205,11 +205,13 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\200ProvideWithIconChanger.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\ResolvePlantsConfigVM.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\InitializeFirstStep.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineArgs.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\GetMainVMPipelineRunner.cs" />
-    <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\GetMainVMPipeline\CreateViewModel.cs" />
+    <Compile Include="UI\MainWindow\IMainWindowDisplayer.cs" />
+    <Compile Include="UI\MainWindow\MainWindowDisplayer.cs" />
+    <Compile Include="UI\MainWindow\ResolveVMPipeline\200ResolvePlantsConfigVM.cs" />
+    <Compile Include="UI\MainWindow\ResolveVMPipeline\300InitializeFirstStep.cs" />
+    <Compile Include="UI\MainWindow\ResolveVMPipeline\GetMainVMPipelineArgs.cs" />
+    <Compile Include="UI\MainWindow\ResolveVMPipeline\GetMainVMPipelineRunner.cs" />
+    <Compile Include="UI\MainWindow\ResolveVMPipeline\100CreateViewModel.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\UI\ResolveSinglePlantVMPipeline\400ClipboardListenerPresenter.cs">
       <SubType>Code</SubType>
     </Compile>

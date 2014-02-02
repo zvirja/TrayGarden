@@ -1,21 +1,29 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using JetBrains.Annotations;
-using TrayGarden.Plants;
+
 using TrayGarden.Services.Engine;
 using TrayGarden.TypesHatcher;
 
+#endregion
+
 namespace TrayGarden.Pipelines.Startup
 {
-  [UsedImplicitly]
-  public class GardenbedInformPostServicesInit
+  public class PlantServicesInformDisplay
   {
+    #region Public Methods and Operators
+
     [UsedImplicitly]
     public void Process(StartupArgs args)
     {
-      HatcherGuide<IGardenbed>.Instance.InformPostInitStage();
+      HatcherGuide<IServicesSteward>.Instance.InformDisplayStage();
     }
+
+    #endregion
   }
 }

@@ -12,9 +12,10 @@ using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
-using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.GetMainVMPipeline;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
+using TrayGarden.UI.MainWindow;
+using TrayGarden.UI.MainWindow.ResolveVMPipeline;
 using TrayGarden.UI.WindowWithReturn;
 using Application = System.Windows.Application;
 using Color = System.Drawing.Color;
@@ -54,12 +55,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       Assert.ArgumentNotNull(builder, "builder");
       ContextMenuBuilder = builder;
       Initialized = true;
-    }
-
-    public virtual void ManuallyOpenConfigurationWindow()
-    {
-      EnsureInitialized();
-      OpenConfigurationWindow();
     }
 
     public override void InitializePlant(IPlantEx plantEx)
@@ -150,28 +145,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       return ContextMenuBuilder.BuildContextMenu(plantBoxes);
     }
 
-    protected virtual void OpenConfigurationWindow()
-    {
-      IWindowWithBack windowWithBack = HatcherGuide<IWindowWithBack>.Instance;
-      Assert.IsNotNull(windowWithBack, "Window with back wasn't resolved");
-      if (windowWithBack.IsCurrentlyDisplayed)
-      {
-        windowWithBack.BringToFront();
-        return;
-      }
-      WindowWithBackVM mainWindowVM = GetMainVMPipelineRunner.Run(new GetMainVMPipelineArgs());
-      if (mainWindowVM == null)
-      {
-        HatcherGuide<IUIManager>.Instance.OKMessageBox("Plant configuration",
-                                                       "We was unable to resolve main View Model. Please provide log files to developer",
-                                                       MessageBoxImage.Error);
-      }
-      else
-      {
-        windowWithBack.PrepareAndShow(mainWindowVM);
-      }
-    }
-
     protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
     {
       INotifyIconChangerMaster globalNotifyIconChanger = HatcherGuide<INotifyIconChangerMaster>.CreateNewInstance();
@@ -195,6 +168,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     protected virtual void ConfigureContextItemOnClick(object sender, EventArgs eventArgs)
     {
       OpenConfigurationWindow();
+    }
+
+    protected virtual void OpenConfigurationWindow()
+    {
+      HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
     }
 
     protected virtual void EnsureInitialized()

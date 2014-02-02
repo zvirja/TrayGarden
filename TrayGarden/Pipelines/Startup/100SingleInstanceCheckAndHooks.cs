@@ -9,11 +9,9 @@ using System.Windows;
 
 using JetBrains.Annotations;
 
-using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
-using TrayGarden.Services.Engine;
-using TrayGarden.Services.PlantServices.GlobalMenu.Core;
 using TrayGarden.TypesHatcher;
+using TrayGarden.UI.MainWindow;
 
 #endregion
 
@@ -57,17 +55,7 @@ namespace TrayGarden.Pipelines.Startup
 
     protected virtual void OpenConfigurationWindow(object obj)
     {
-      var serviceInstance =
-        HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(
-          x => x.GetType().IsAssignableFrom(typeof(GlobalMenuService))) as GlobalMenuService;
-      if (serviceInstance == null)
-      {
-        Log.Warn("Was unable to run startup configuration window", this);
-      }
-      else
-      {
-        serviceInstance.ManuallyOpenConfigurationWindow();
-      }
+      HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
     }
 
     #endregion
