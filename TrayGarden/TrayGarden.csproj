@@ -106,8 +106,11 @@
     <Compile Include="Diagnostics\LoggingStuff\LogFileAppender.cs" />
     <Compile Include="DummyTests\DummySettingInjection.cs" />
     <Compile Include="Helpers\DirectoryHelper.cs" />
+    <Compile Include="Helpers\ISingleInstanceMonitor.cs" />
     <Compile Include="Helpers\NativeHelper.cs" />
+    <Compile Include="Helpers\SingleInstanceMonitor.cs" />
     <Compile Include="Pipelines\Startup\GardenbedInformPostServicesInit.cs" />
+    <Compile Include="Pipelines\Startup\SingleInstanceCheckAndHooks.cs" />
     <Compile Include="Plants\Pipeline\InitializePlant.cs" />
     <Compile Include="Plants\Pipeline\ValidatePlant.cs" />
     <Compile Include="Reception\IPlant.cs" />
