@@ -78,6 +78,7 @@ namespace TrayGarden.Helpers
         this.innerHandle.Set();
         return false;
       }
+      Log.Info("SingleInstanceMonitor: ownership acquired", this);
       this.StartAwaitingLoop();
       return true;
     }
@@ -96,12 +97,14 @@ namespace TrayGarden.Helpers
           this.innerHandle.WaitOne();
           if (this.disposed == -1)
           {
+            Log.Info("SingleInstanceMonitor: Event from foreign process received",this);
             this.NotifyAboutForeignEvent();
           }
             //this.disposed == 0. Disposing in progress.
             //Value cannot be 1, because while() condition cannot allow this.
           else
           {
+            Log.Info("SingleInstanceMonitor: disposing", this);
             this.innerHandle.Close();
             this.disposed = 1;
             this.disposedWaitHandle.Set();
