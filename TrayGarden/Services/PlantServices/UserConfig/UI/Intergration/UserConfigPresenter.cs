@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +17,8 @@ using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
 {
@@ -35,7 +39,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
     protected virtual ICommand GetCommand(object plantEx)
     {
       var relayCommand = new RelayCommand(this.RunServiceForPlant, true);
-      return new CommandProxyForArgumentPassing(relayCommand, plantEx);
+      return new CommandProxyForCustomParam(relayCommand, plantEx);
     }
 
     protected override ServiceForPlantVMBase GetServiceVM(UserConfigService serviceInstance, IPlantEx plantEx)
@@ -49,10 +53,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
       {
         return null;
       }
-      return new ServiceForPlantActionPerformVM(
-        this.ServiceName,
-        this.ServiceDescription,
-        this.GetCommand(userConfigServicePlantBox));
+      return new ServiceForPlantActionPerformVM(this.ServiceName, this.ServiceDescription, this.GetCommand(userConfigServicePlantBox));
     }
 
     protected virtual void RunServiceForPlant(object argument)

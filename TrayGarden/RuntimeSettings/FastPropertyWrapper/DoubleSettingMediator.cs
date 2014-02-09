@@ -11,11 +11,11 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
 {
-  public class BoolSettingMediator : BaseSettingMediator
+  public class DoubleSettingMediator : BaseSettingMediator
   {
     #region Constructors and Destructors
 
-    public BoolSettingMediator([NotNull] string key, bool defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
+    public DoubleSettingMediator([NotNull] string key, double defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
       : base(key, settingsBoxResolver)
     {
       this.DefaultValue = defaultValue;
@@ -25,17 +25,17 @@ namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
 
     #region Public Properties
 
-    public bool DefaultValue { get; set; }
+    public double DefaultValue { get; set; }
 
-    public bool Value
+    public double Value
     {
       get
       {
-        return this.SettingsBox.GetBool(this.Key, this.DefaultValue);
+        return this.SettingsBox.GetDouble(this.Key, this.DefaultValue);
       }
       set
       {
-        this.SettingsBox.SetBool(this.Key, value);
+        this.SettingsBox.SetDouble(this.Key, value);
       }
     }
 

@@ -11,7 +11,7 @@ using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers;
-using TrayGarden.UI.Configuration.Stuff;
+using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
@@ -27,7 +27,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
       ConfigurationControlConstructInfo configurationConstructInfo = args.ConfigurationConstructInfo;
       if (configurationConstructInfo.ConfigurationEntries == null)
       {
-        configurationConstructInfo.ConfigurationEntries = new List<ConfigurationEntryVMBase>();
+        configurationConstructInfo.ConfigurationEntries = new List<ConfigurationEntryBaseVM>();
       }
       configurationConstructInfo.ConfigurationEntries.AddRange(this.GetSettingVMs(args.UCServicePlantBox));
     }
@@ -36,43 +36,41 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 
     #region Methods
 
-    protected virtual ConfigurationEntryVMBase GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
+    protected virtual ConfigurationEntryBaseVM GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
     {
       if (userSetting is IBoolUserSetting)
       {
-        return new ConfigurationEntryForBoolVM(new UserSettingBoolPlayer((IBoolUserSetting)userSetting));
+        return new BoolConfigurationEntryVM(new TypedUserSettingPlayer<bool>((IBoolUserSetting)userSetting));
       }
       if (userSetting is IIntUserSetting)
       {
-        return new ConfigurationEntryForIntVM(new UserSettingIntPlayer((IIntUserSetting)userSetting));
+        return new IntConfigurationEntryVM(new TypedUserSettingPlayer<int>((IIntUserSetting)userSetting));
       }
       if (userSetting is IDoubleUserSetting)
       {
-        return new ConfigurationEntryForDoubleVM(new UserSettingDoublePlayer((IDoubleUserSetting)userSetting));
+        return new DoubleConfigurationEntryVM(new TypedUserSettingPlayer<double>((IDoubleUserSetting)userSetting));
       }
       if (userSetting is IStringUserSetting)
       {
-        return new ConfigurationEntryForStringVM(new UserSettingStringPlayer((IStringUserSetting)userSetting));
+        return new StringConfigurationEntryVM(new TypedUserSettingPlayer<string>((IStringUserSetting)userSetting));
       }
       if (userSetting is IStringOptionUserSetting)
       {
-        return
-          new ConfigurationEntryForStringOptionVM(
-            new UserSettingStringOptionPlayer((IStringOptionUserSetting)userSetting));
+        return new StringOptionConfigurationEntryVM(new StringOptionUserSettingPlayer((IStringOptionUserSetting)userSetting));
       }
       return null;
     }
 
-    protected virtual IEnumerable<ConfigurationEntryVMBase> GetSettingVMs(UserConfigServicePlantBox ucServicePlantBox)
+    protected virtual IEnumerable<ConfigurationEntryBaseVM> GetSettingVMs(UserConfigServicePlantBox ucServicePlantBox)
     {
       Dictionary<string, IUserSettingBase> userSettings = ucServicePlantBox.SettingsSteward.DefinedSettings;
-      var result = new List<ConfigurationEntryVMBase>();
+      var result = new List<ConfigurationEntryBaseVM>();
       foreach (KeyValuePair<string, IUserSettingBase> userSettingPair in userSettings)
       {
-        ConfigurationEntryVMBase resolvedVM = this.GetConfigurationEntryVMForISetting(userSettingPair.Value);
-        if (resolvedVM != null)
+        ConfigurationEntryBaseVM resolvedBaseVm = this.GetConfigurationEntryVMForISetting(userSettingPair.Value);
+        if (resolvedBaseVm != null)
         {
-          result.Add(resolvedVM);
+          result.Add(resolvedBaseVm);
         }
         else
         {

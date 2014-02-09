@@ -1,23 +1,35 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using TrayGarden.Pipelines.Engine;
-using TrayGarden.UI.Configuration;
-using TrayGarden.UI.Configuration.Stuff;
 using TrayGarden.UI.ForSimplerLife;
+
+#endregion
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 {
-    public class GetStateForServicesConfigurationPipelineArgs: PipelineArgs
-    {
-        public WindowWithBackStateConstructInfo StateConstructInfo { get; set; }
-        public ConfigurationControlConstructInfo ConfigConstructInfo { get; set; }
+  public class GetStateForServicesConfigurationPipelineArgs : PipelineArgs
+  {
+    #region Constructors and Destructors
 
-        public GetStateForServicesConfigurationPipelineArgs()
-        {
-            StateConstructInfo = new WindowWithBackStateConstructInfo();
-            ConfigConstructInfo = new ConfigurationControlConstructInfo();
-        }
+    public GetStateForServicesConfigurationPipelineArgs()
+    {
+      this.StateConstructInfo = new WindowWithBackStateConstructInfo();
+      this.ConfigConstructInfo = new ConfigurationControlConstructInfo();
     }
+
+    #endregion
+
+    #region Public Properties
+
+    public ConfigurationControlConstructInfo ConfigConstructInfo { get; set; }
+
+    public WindowWithBackStateConstructInfo StateConstructInfo { get; set; }
+
+    #endregion
+  }
 }

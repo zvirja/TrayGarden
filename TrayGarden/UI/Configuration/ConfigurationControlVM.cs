@@ -14,7 +14,7 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.LifeCycle;
 using TrayGarden.UI.Common.Commands;
-using TrayGarden.UI.Configuration.Stuff;
+using TrayGarden.UI.Configuration.EntryVM;
 
 #endregion
 
@@ -30,7 +30,7 @@ namespace TrayGarden.UI.Configuration
 
     #region Constructors and Destructors
 
-    public ConfigurationControlVM([NotNull] List<ConfigurationEntryVMBase> configurationEntries, bool allowResetAll)
+    public ConfigurationControlVM([NotNull] List<ConfigurationEntryBaseVM> configurationEntries, bool allowResetAll)
     {
       Assert.ArgumentNotNull(configurationEntries, "configurationEntries");
       this.ConfigurationEntries = configurationEntries;
@@ -76,7 +76,7 @@ namespace TrayGarden.UI.Configuration
 
     public string ConfigurationDescription { get; set; }
 
-    public List<ConfigurationEntryVMBase> ConfigurationEntries { get; protected set; }
+    public List<ConfigurationEntryBaseVM> ConfigurationEntries { get; protected set; }
 
     public ICommand RebootApplication { get; protected set; }
 
@@ -126,7 +126,7 @@ namespace TrayGarden.UI.Configuration
 
     protected virtual void ResetAllExecute(object o)
     {
-      foreach (ConfigurationEntryVMBase configurationEntry in this.ConfigurationEntries)
+      foreach (ConfigurationEntryBaseVM configurationEntry in this.ConfigurationEntries)
       {
         if (configurationEntry.RestoreDefaultValue.CanExecute(o))
         {
@@ -135,9 +135,9 @@ namespace TrayGarden.UI.Configuration
       }
     }
 
-    protected void SubscribeToEntriesEvents(IEnumerable<ConfigurationEntryVMBase> configurationEntries)
+    protected void SubscribeToEntriesEvents(IEnumerable<ConfigurationEntryBaseVM> configurationEntries)
     {
-      foreach (ConfigurationEntryVMBase configurationEntry in configurationEntries)
+      foreach (ConfigurationEntryBaseVM configurationEntry in configurationEntries)
       {
         configurationEntry.PropertyChanged += this.ConfigurationEntry_PropertyChanged;
       }

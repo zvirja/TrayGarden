@@ -67,7 +67,7 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Configuration\ApplicationConfiguration\ActualAppProperties.cs" />
-    <Compile Include="Configuration\ApplicationConfiguration\Autorun\AutorunAwarePlayer.cs" />
+    <Compile Include="Configuration\ApplicationConfiguration\Autorun\AutorunPlayer.cs" />
     <Compile Include="Configuration\ApplicationConfiguration\Autorun\AutorunHelper.cs" />
     <Compile Include="Configuration\ApplicationConfiguration\Autorun\IAutorunHelper.cs" />
     <Compile Include="Configuration\ApplicationConfiguration\GetApplicationConfigStepPipeline\AddRunAtStartupSetting.cs" />
@@ -134,13 +134,14 @@
     <Compile Include="Pipelines\Startup\StartupArgs.cs" />
     <Compile Include="Pipelines\Startup\StartupPipeline.cs" />
     <Compile Include="Plants\Intergration\AutoLoadAssembliesSetting.cs" />
-    <Compile Include="Plants\Intergration\AutoLoadPropertyAwarePlayer.cs" />
+    <Compile Include="Plants\Intergration\AutoLoadPropertyPlayer.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantSettingBox.cs" />
     <Compile Include="Plants\Pipeline\ResolvePlantID.cs" />
     <Compile Include="Plants\Pipeline\ResolveWorkhorses.cs" />
     <Compile Include="Plants\Pipeline\ResolveIPlant.cs" />
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Reception\Services\IClipboardWorks.cs" />
+    <Compile Include="RuntimeSettings\FastPropertyWrapper\DoubleSettingMediator.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardProvider.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardMonitor.cs">
       <SubType>Form</SubType>
@@ -164,7 +165,7 @@
     <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\100InitializeGeneralSettings.cs" />
     <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfiguration.cs" />
     <Compile Include="Services\Engine\UI\GetStateForServicesConfigurationPipeline\GetStateForServicesConfigurationPipelineArgs.cs" />
-    <Compile Include="Services\Engine\UI\Intergration\ConfigurationPlayerServiceAware.cs" />
+    <Compile Include="Services\Engine\UI\Intergration\ConfigurationPlayerService.cs" />
     <Compile Include="Services\Engine\UI\Intergration\ServicesConfigurationInjectSAInjector.cs" />
     <Compile Include="Services\IService.cs" />
     <Compile Include="Plants\IGardenbed.cs" />
@@ -205,6 +206,20 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\200ProvideWithIconChanger.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\StringOptionUserSettingPlayer.cs" />
+    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\TypedUserSettingPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\ActionConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\ConfigurationPlayerBase.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\IActionConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\IStringOptionConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\ITypedConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\StringOptionConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\TypedConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\TypedConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\PlayerForStringRSMediator.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\PlayerForDoubleRSMediator.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\PlayerForIntRSMediator.cs" />
+    <Compile Include="UI\Configuration\ValueValidators\DoubleValidator.cs" />
     <Compile Include="UI\MainWindow\IMainWindowDisplayer.cs" />
     <Compile Include="UI\MainWindow\MainWindowDisplayer.cs" />
     <Compile Include="UI\MainWindow\ResolveVMPipeline\200ResolvePlantsConfigVM.cs" />
@@ -294,13 +309,8 @@
     <Compile Include="Services\PlantServices\UserConfig\Pipelines\GetWindowStep\GetUCStepPipelineArgs.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Pipelines\GetWindowStep\GetUCStepPipelineRunner.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Pipelines\GetWindowStep\400CreateStepInfo.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\Intergration\CommandProxyForArgumentPassing.cs" />
+    <Compile Include="UI\Common\Commands\CommandProxyForCustomParam.cs" />
     <Compile Include="Services\PlantServices\UserConfig\UI\Intergration\UserConfigPresenter.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\UserSettingDoublePlayer.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\UserSettingStringOption.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\UserSettingIntPlayer.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\UserSettingBoolPlayer.cs" />
-    <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\UserSettingStringPlayer.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserSettingBase.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\TypedUserSetting.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigServicePlantBox.cs" />
@@ -311,7 +321,7 @@
     <Compile Include="Reception\Services\IUserConfiguration.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\UserConfigService.cs" />
     <Compile Include="Services\PlantServices\UserConfig\Core\SettingsSteward.cs" />
-    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanMediatorBasedPlayer.cs" />
+    <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\PlayerForTimespanMediator.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\TimeSpanSettingMediator.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\CreateConfigurationControl.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\Configuration\UIInteraction\GetStepPipeline\AddConfigurationEntries.cs" />
@@ -360,7 +370,7 @@
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\Interfaces\IYesNoNotification.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UI\SpecializedNotifications\ViewModes\YesNoNotificationVM.cs" />
     <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsService.cs" />
-    <Compile Include="Services\PlantServices\UserNotifications\Core\UserNotificationsServicePlantBox.cs" />
+    <Compile Include="UI\Common\UserNotificationsServicePlantBox.cs" />
     <Compile Include="Reception\Services\IGetPowerOfUserNotifications.cs" />
     <Compile Include="UI\Common\Converters\BooleanNotConverter.cs" />
     <Compile Include="UI\Common\Converters\BooleanToVisibilityConverter.cs" />
@@ -405,23 +415,20 @@
       <DependentUpon>ConfigurationControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="UI\Configuration\ConfigurationControlVM.cs" />
-    <Compile Include="UI\Configuration\IConfigurationAwarePlayerWithValues.cs" />
+    <Compile Include="UI\Configuration\IConfigurationPlayerWithValues.cs" />
     <Compile Include="UI\Configuration\IConfigurationControlVM.cs" />
-    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\BoolRSMediatorBasedPlayer.cs" />
-    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\IntRSMediatorBasedPlayer.cs" />
-    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\StringRSMediatorBasedPlayer.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationAwarePlayer.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForBoolVM.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForAction.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForDoubleVM.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryVMBase.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringVM.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForIntVM.cs" />
-    <Compile Include="UI\Configuration\Stuff\ConfigurationEntryForStringOptionVM.cs" />
-    <Compile Include="UI\Configuration\IConfigurationAwarePlayer.cs" />
-    <Compile Include="UI\Configuration\Stuff\ExtentedEntry\BasicSettingEntryAction.cs" />
-    <Compile Include="UI\Configuration\Stuff\ExtentedEntry\ISettingEntryAction.cs" />
-    <Compile Include="UI\Configuration\Stuff\IntValidator.cs" />
+    <Compile Include="UI\Configuration\RuntimeSettingsIntegration\PlayerForBoolRSMediator.cs" />
+    <Compile Include="UI\Configuration\EntryVM\BoolConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\ActionConfigurationEntry.cs" />
+    <Compile Include="UI\Configuration\EntryVM\DoubleConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\ConfigurationEntryBaseVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\StringConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\IntConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\StringOptionConfigurationEntryVM.cs" />
+    <Compile Include="UI\Configuration\EntryVM\Players\IConfigurationPlayer.cs" />
+    <Compile Include="UI\Configuration\EntryVM\ExtentedEntry\SimpleConfigurationEntryAction.cs" />
+    <Compile Include="UI\Configuration\EntryVM\ExtentedEntry\IConfigurationEntryAction.cs" />
+    <Compile Include="UI\Configuration\ValueValidators\IntValidator.cs" />
     <Compile Include="UI\ForSimplerLife\ConfigurationControlConstructInfo.cs" />
     <Compile Include="UI\ForSimplerLife\WindowWithBackStateConstructInfo.cs" />
     <Compile Include="UI\IUIManager.cs" />
@@ -432,7 +439,7 @@
     </Compile>
     <Compile Include="UI\Common\Commands\ActionCommandVM.cs" />
     <Compile Include="UI\Common\VMtoVMapping\IVMtoVMappingsSource.cs" />
-    <Compile Include="UI\WindowWithReturn\Integration\ExitOnCloseAwarePlayer.cs" />
+    <Compile Include="UI\WindowWithReturn\Integration\ExitOnClosePlayer.cs" />
     <Compile Include="UI\WindowWithReturn\Integration\ExitOnCloseSetting.cs" />
     <Compile Include="UI\Common\VMtoVMapping\IViewModelToViewMapping.cs" />
     <Compile Include="UI\Common\VMtoVMapping\MappingsBasedContentValueConverter.cs" />

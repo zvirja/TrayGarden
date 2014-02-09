@@ -3,10 +3,11 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:stuff="clr-namespace:TrayGarden.UI.Configuration.Stuff"
              xmlns:common="clr-namespace:TrayGarden.UI.Common"
              xmlns:converters="clr-namespace:TrayGarden.UI.Common.Converters"
              xmlns:configuration="clr-namespace:TrayGarden.UI.Configuration"
+             xmlns:entryVMs="clr-namespace:TrayGarden.UI.Configuration.EntryVM"
+             xmlns:valueValidators="clr-namespace:TrayGarden.UI.Configuration.ValueValidators"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="600" d:DataContext="{d:DesignInstance configuration:ConfigurationControlVM}">
   <UserControl.Resources>
@@ -197,9 +198,9 @@
           </DataTemplate>
 
           <!-- Bool setting markup -->
-          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForBoolVM}">
+          <DataTemplate DataType="{x:Type entryVMs:BoolConfigurationEntryVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-              <ToggleButton x:Name="IsEnabledToggleButton" Style="{StaticResource BoolSettingValueToogleButton}" IsChecked="{Binding Path=BoolValue, Mode=TwoWay}" >
+              <ToggleButton x:Name="IsEnabledToggleButton" Style="{StaticResource BoolSettingValueToogleButton}" IsChecked="{Binding Path=Value, Mode=TwoWay}" >
                 <CheckBox HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource SettingValueStyle}" Cursor="Hand" IsChecked="{Binding ElementName=IsEnabledToggleButton, Path=IsChecked, Mode=TwoWay}">
                   <CheckBox.LayoutTransform>
                     <ScaleTransform ScaleX="1.5" ScaleY="1.5"/>
@@ -210,20 +211,35 @@
           </DataTemplate>
 
           <!-- String setting markup -->
-          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringVM}">
+          <DataTemplate DataType="{x:Type entryVMs:StringConfigurationEntryVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-              <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=StringValue}" />
+              <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=Value}" />
             </ContentControl>
           </DataTemplate>
 
           <!-- Int setting markup -->
-          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForIntVM}">
+          <DataTemplate DataType="{x:Type entryVMs:IntConfigurationEntryVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
               <TextBox Style="{StaticResource SettingValueStyle}" >
                 <TextBox.Text>
-                  <Binding Path="IntValue">
+                  <Binding Path="Value">
                     <Binding.ValidationRules>
-                      <stuff:IntValidator />
+                      <valueValidators:IntValidator />
+                    </Binding.ValidationRules>
+                  </Binding>
+                </TextBox.Text>
+              </TextBox>
+            </ContentControl>
+          </DataTemplate>
+
+          <!-- Double setting markup -->
+          <DataTemplate DataType="{x:Type entryVMs:DoubleConfigurationEntryVM}">
+            <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
+              <TextBox Style="{StaticResource SettingValueStyle}" >
+                <TextBox.Text>
+                  <Binding Path="Value">
+                    <Binding.ValidationRules>
+                      <valueValidators:DoubleValidator />
                     </Binding.ValidationRules>
                   </Binding>
                 </TextBox.Text>
@@ -232,14 +248,14 @@
           </DataTemplate>
 
           <!-- String option setting markup -->
-          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForStringOptionVM}">
+          <DataTemplate DataType="{x:Type entryVMs:StringOptionConfigurationEntryVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-              <ComboBox Style="{StaticResource SettingValueStyle}" ItemsSource="{Binding Path=AllPossibleOptions}" Text="{Binding Path=StringOptionValue}" />
+              <ComboBox Style="{StaticResource SettingValueStyle}" ItemsSource="{Binding Path=AllPossibleOptions}" Text="{Binding Path=Value}" />
             </ContentControl>
           </DataTemplate>
 
           <!-- Action setting markup -->
-          <DataTemplate DataType="{x:Type stuff:ConfigurationEntryForAction}">
+          <DataTemplate DataType="{x:Type entryVMs:ActionConfigurationEntry}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
               <Button Style="{StaticResource SettingValueStyle}" Command="{Binding Path=Action}" Content="{Binding Path=ActionTitle}" Cursor="Hand" />
             </ContentControl>

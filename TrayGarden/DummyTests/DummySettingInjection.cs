@@ -12,8 +12,8 @@ using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration;
-using TrayGarden.UI.Configuration.Stuff;
-using TrayGarden.UI.Configuration.Stuff.ExtentedEntry;
+using TrayGarden.UI.Configuration.EntryVM;
+using TrayGarden.UI.Configuration.EntryVM.Players;
 
 namespace TrayGarden.DummyTests
 {
@@ -30,24 +30,14 @@ namespace TrayGarden.DummyTests
 #endif
     }
 
-    protected ConfigurationEntryVMBase GetActionConfigurationEntry()
+    protected ConfigurationEntryBaseVM GetActionConfigurationEntry()
     {
-      var realPlayer = new ActionAwarePlayer("Dummy setting", "Dummy action", delegate(object obj)
+      var realPlayer = new ActionConfigurationPlayer("Dummy setting", "Dummy action", new RelayCommand(delegate(object obj)
       {
-        HatcherGuide<IUIManager>.Instance.OKMessageBox("Dummy action","Dummy action performed");
-      });
-     
-      return new ConfigurationEntryForAction(realPlayer);
-    }
+        HatcherGuide<IUIManager>.Instance.OKMessageBox("Dummy action", "Dummy action performed");
+      }, true));
 
-    public class ActionAwarePlayer : ConfigurationAwarePlayer
-    {
-      public ActionAwarePlayer(string settingName, string actionName, Action<object> action)
-        : base(settingName, true, false)
-      {
-        base.ActionTitle = actionName;
-        base.Action = new RelayCommand(action, true);
-      }
+      return new ActionConfigurationEntry(realPlayer);
     }
   }
 }
