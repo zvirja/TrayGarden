@@ -262,8 +262,7 @@
                     Grid.Column="1" 
                     Style="{StaticResource LinkButton}" 
                     Content="Reboot now" 
-                    Command="{Binding Path=RebootApplication}" 
-                    Visibility="{Binding RelativeSource={RelativeSource Self}, Path=IsEnabled, Converter={StaticResource BooleanToVisibilityConverter}}" />
+                    Command="{Binding Path=RebootApplication}" />
     </Grid>
   </Grid>
 </UserControl>
