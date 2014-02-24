@@ -54,7 +54,13 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       }
       var contentStart = pageBody.Substring(indexOf + searchString.Length - payloadPart.Length);
       var endIndex = contentStart.IndexOf("\"");
-      var validContent = contentStart.Substring(0, endIndex);
+      string validContent = contentStart.Substring(0, endIndex);
+
+      //remove &fd=1 param which causes download
+      const string downloadSuffix = "&fd=1";
+      if (validContent.EndsWith(downloadSuffix))
+        validContent = validContent.Substring(0, validContent.Length - downloadSuffix.Length);
+
       return validContent;
     }
 
