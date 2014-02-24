@@ -43,6 +43,7 @@
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>.\log4net.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
@@ -565,7 +566,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\undo-icon.png" />
-    <None Include="log4net.dll" />
+    <Content Include="log4net.dll" />
     <Content Include="UI\Configuration\Images\reset.png" />
     <Resource Include="UI\Configuration\Images\reset2.png" />
   </ItemGroup>

@@ -51,6 +51,7 @@
     <ProjectReference Include="..\TrayGarden\TrayGarden.csproj">
       <Project>{7BB35110-1966-4FF1-92A2-764F78BF0AA2}</Project>
       <Name>TrayGarden</Name>
+      <Private>False</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
