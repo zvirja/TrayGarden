@@ -1,37 +1,54 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using JetBrains.Annotations;
+
 using log4net.Appender;
+
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Diagnostics.LoggingStuff
 {
   [UsedImplicitly]
   public class LogFileAppender : FileAppender
   {
+    #region Static Fields
+
     protected static string DirectoryName = ResolveDirectoryName();
 
+    #endregion
 
+    #region Public Properties
 
     public override string File
     {
-      get { return GetLogFileNameFull(); }
-      set { base.File = GetLogFileNameFull(); }
+      get
+      {
+        return GetLogFileNameFull();
+      }
+      set
+      {
+        base.File = GetLogFileNameFull();
+      }
     }
 
-    protected static string ResolveDirectoryName()
-    {
-      var configuredValue = ConfigurationManager.AppSettings["Log4net.FolderNameInAppData"];
-      return configuredValue.NotNullNotEmpty() ? configuredValue : "TrayGarden";
-    }
+    #endregion
+
+    #region Methods
 
     protected static string GetLogFileName()
     {
-      return AppConfigHelper.GetBoolSetting("Log4net.UseSingleLogFile", true) ? "Log.log" : "Log " + (DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".log");
+      return AppConfigHelper.GetBoolSetting("Log4net.UseSingleLogFile", true)
+               ? "Log.log"
+               : "Log " + (DateTime.Now.ToString("yyyy-MM-dd-HHmmss") + ".log");
     }
 
     protected static string GetLogFileNameFull()
@@ -41,13 +58,23 @@ namespace TrayGarden.Diagnostics.LoggingStuff
       return Path.Combine(directory, GetLogFileName());
     }
 
+    protected static string ResolveDirectoryName()
+    {
+      var configuredValue = ConfigurationManager.AppSettings["Log4net.FolderNameInAppData"];
+      return configuredValue.NotNullNotEmpty() ? configuredValue : "TrayGarden";
+    }
+
     protected static string ResolveDirectoryPath()
     {
       if (!AppConfigHelper.GetBoolSetting("Log4net.UseAppData", false))
+      {
         return DirectoryHelper.CurrentDirectory;
+      }
       string directory = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), DirectoryName);
       directory = Path.Combine(directory, "Logs");
       return directory;
     }
+
+    #endregion
   }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -6,13 +8,18 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+
 using TrayGarden.Diagnostics;
+
+#endregion
 
 namespace TrayGarden.UI.Common.VMtoVMapping
 {
   [ValueConversion(typeof(object), typeof(Control))]
   public class MappingsBasedContentValueConverter : IMultiValueConverter
   {
+    #region Public Methods and Operators
+
     public virtual object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
     {
       // return new TextBox(){Text = value[0].ToString()};
@@ -20,15 +27,20 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       Assert.IsTrue(value.Length == 2, "Should be 2 params");
       object valueToConvert = value[0];
       //Use self resolving hack for better customization
-      Control resolvedUsingSelfResolving = ResolveUsingSelfResolving(valueToConvert);
+      Control resolvedUsingSelfResolving = this.ResolveUsingSelfResolving(valueToConvert);
       if (resolvedUsingSelfResolving != null)
+      {
         return resolvedUsingSelfResolving;
+      }
 
       //Resolve using trivial method
       var mappingsSource = value[1] as IVMtoVMappingsSource;
 
-      if (valueToConvert == null || valueToConvert == DependencyProperty.UnsetValue || mappingsSource == null || mappingsSource == DependencyProperty.UnsetValue)
+      if (valueToConvert == null || valueToConvert == DependencyProperty.UnsetValue || mappingsSource == null
+          || mappingsSource == DependencyProperty.UnsetValue)
+      {
         return DependencyProperty.UnsetValue;
+      }
 
       List<IViewModelToViewMapping> mappings = mappingsSource.GetMappings();
       Assert.IsNotNull(mappings, "Mappings cannot be null");
@@ -44,12 +56,20 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       throw new NotSupportedException();
     }
 
+    #endregion
+
+    #region Methods
+
     protected virtual Control ResolveUsingSelfResolving(object viewModel)
     {
       var vmAsSelfResolver = viewModel as ISelfViewResolver;
       if (vmAsSelfResolver == null)
+      {
         return null;
+      }
       return vmAsSelfResolver.GetViewToPresentMe();
     }
+
+    #endregion
   }
 }

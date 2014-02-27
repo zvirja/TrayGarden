@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +9,8 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserConfig.Core.TypeSpecific;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
@@ -104,6 +108,31 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       return setting;
     }
 
+    public virtual IStringOptionUserSetting BuildStringOptionSetting(
+      string settingName,
+      string settingTitle,
+      string defaultValue,
+      string settingDescription,
+      object additionParams,
+      List<IUserSettingBase> parentDependentSetting,
+      IUserSettingHallmark hallmark)
+    {
+      ITypedUserSettingMetadata<string> settingMetadata = this.BuildMetadata<string>(
+        settingName,
+        settingTitle,
+        defaultValue,
+        settingDescription,
+        additionParams,
+        hallmark);
+      var setting = new StringOptionUserSetting();
+      var masterInstance = (ITypedUserSettingMaster<string>)setting;
+      masterInstance.Initialize(
+        settingMetadata,
+        new SettingBoxOrientedStorage<string>(this.UnderlyingBox.GetString, this.UnderlyingBox.SetString),
+        parentDependentSetting);
+      return setting;
+    }
+
     public virtual IStringUserSetting BuildStringSetting(
       string settingName,
       string settingTitle,
@@ -121,31 +150,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         additionParams,
         hallmark);
       var setting = new StringUserSetting();
-      var masterInstance = (ITypedUserSettingMaster<string>)setting;
-      masterInstance.Initialize(
-        settingMetadata,
-        new SettingBoxOrientedStorage<string>(this.UnderlyingBox.GetString, this.UnderlyingBox.SetString),
-        parentDependentSetting);
-      return setting;
-    }
-
-    public virtual IStringOptionUserSetting BuildStringOptionSetting(
-     string settingName,
-     string settingTitle,
-     string defaultValue,
-     string settingDescription,
-     object additionParams,
-     List<IUserSettingBase> parentDependentSetting,
-     IUserSettingHallmark hallmark)
-    {
-      ITypedUserSettingMetadata<string> settingMetadata = this.BuildMetadata<string>(
-        settingName,
-        settingTitle,
-        defaultValue,
-        settingDescription,
-        additionParams,
-        hallmark);
-      var setting = new StringOptionUserSetting();
       var masterInstance = (ITypedUserSettingMaster<string>)setting;
       masterInstance.Initialize(
         settingMetadata,

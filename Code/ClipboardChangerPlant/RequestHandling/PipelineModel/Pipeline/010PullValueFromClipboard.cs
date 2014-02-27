@@ -1,16 +1,25 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using ClipboardChangerPlant.Configuration;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
   [UsedImplicitly]
   public class PullValueFromClipboard : Processor
   {
+    #region Public Methods and Operators
+
     public override void Process(ProcessorArgs args)
     {
       if (args.ClipboardEvent)
@@ -27,11 +36,15 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
         string currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
         if (currentValue.IsNullOrEmpty())
         {
-          HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
+          this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
         }
         else
+        {
           args.ResultUrl = currentValue;
+        }
       }
     }
+
+    #endregion
   }
 }

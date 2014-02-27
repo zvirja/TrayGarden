@@ -1,12 +1,23 @@
-﻿using System.Drawing;
-using System.Windows.Forms;
-using JetBrains.Annotations;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.Linq;
+using System.Text;
+
+#endregion
 
 namespace TrayGarden.Services.FleaMarket.IconChanger
 {
-    public interface INotifyIconChangerClient
-    {
-        void SetIcon(Icon newIcon, int msTimeout);
-        void SetIcon(Icon newIcon);
-    }
+  public interface INotifyIconChangerClient
+  {
+    #region Public Methods and Operators
+
+    void SetIcon(Icon newIcon, int msTimeout);
+
+    void SetIcon(Icon newIcon);
+
+    #endregion
+  }
 }

@@ -95,9 +95,7 @@ namespace TrayGarden.RuntimeSettings.Provider
       var bucket = new Bucket();
       bucket.Name = rootContainer.Name;
       bucket.Settings =
-        rootContainer.GetPresentStringSettingNames()
-          .Select(x => new StringStringPair(x, rootContainer.GetStringSetting(x)))
-          .ToList();
+        rootContainer.GetPresentStringSettingNames().Select(x => new StringStringPair(x, rootContainer.GetStringSetting(x))).ToList();
       bucket.InnerBuckets =
         rootContainer.GetPresentSubContainerNames()
           .Select(x => this.BuildBucketFromContainer(rootContainer.GetNamedSubContainer(x)))
@@ -131,7 +129,7 @@ namespace TrayGarden.RuntimeSettings.Provider
           Bucket resultObject = serializer.Deserialize(streamReader) as Bucket;
           if (this.EnableDebuggingTraces)
           {
-            this.TraceDebugStreamContent(streamReader.BaseStream,"ReadOp");
+            this.TraceDebugStreamContent(streamReader.BaseStream, "ReadOp");
           }
           return resultObject;
         }
@@ -206,9 +204,7 @@ namespace TrayGarden.RuntimeSettings.Provider
       {
         string debugTracesDirectory = Path.Combine(DirectoryHelper.CurrentDirectory, "SettingsStorageDebugTraces");
         Directory.CreateDirectory(debugTracesDirectory);
-        string traceFileName = "{0} --- {1}.txt".FormatWith(
-          DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss-ffff"),
-          fileNameSuffix);
+        string traceFileName = "{0} --- {1}.txt".FormatWith(DateTime.Now.ToString("yyyy-MM-dd HH-mm-ss-ffff"), fileNameSuffix);
         using (FileStream traceFileStream = File.Create(Path.Combine(debugTracesDirectory, traceFileName)))
         {
           streamToTrace.Seek(0, SeekOrigin.Begin);

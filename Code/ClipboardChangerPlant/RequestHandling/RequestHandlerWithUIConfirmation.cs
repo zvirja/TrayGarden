@@ -1,8 +1,9 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Xml;
 
 using ClipboardChangerPlant.UIConfiguration;
 
@@ -10,6 +11,8 @@ using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
+
+#endregion
 
 namespace ClipboardChangerPlant.RequestHandling
 {
@@ -49,9 +52,23 @@ namespace ClipboardChangerPlant.RequestHandling
 
     #endregion
 
-    //Use it to initialize handler
-
     #region Public Methods and Operators
+
+    public override void PostInit()
+    {
+      base.PostInit();
+      this.EnabledSetting = this.DeclareEnabledSetting();
+      if (this.EnableConfirmation)
+      {
+        this.ExecuteConfirmator = new UIDialogConfirmator(this.GetExecuteConfirmatorSettingName(), this.GetConfirmationDialog);
+      }
+      if (this.EnableReverting)
+      {
+        this.RevertConfirmator = new UIDialogConfirmator(this.GetRevertConfirmatorSettingName(), this.GetRevertDialog);
+      }
+    }
+
+    //Use it to initialize handler
 
     public override bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
     {
@@ -90,31 +107,12 @@ namespace ClipboardChangerPlant.RequestHandling
     protected virtual IBoolUserSetting DeclareEnabledSetting()
     {
       string settingNameAndTitle = this.GetEnabledSettingName();
-      return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(
-        settingNameAndTitle,
-        settingNameAndTitle,
-        true);
+      return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(settingNameAndTitle, settingNameAndTitle, true);
     }
 
     protected virtual IResultProvider GetConfirmationDialog()
     {
       return new YesNoNotificationVM("Process clipboard value?");
-    }
-
-    public override void PostInit()
-    {
-      base.PostInit();
-      this.EnabledSetting = DeclareEnabledSetting();
-      if (this.EnableConfirmation)
-      {
-        this.ExecuteConfirmator = new UIDialogConfirmator(
-          this.GetExecuteConfirmatorSettingName(),
-          this.GetConfirmationDialog);
-      }
-      if (this.EnableReverting)
-      {
-        this.RevertConfirmator = new UIDialogConfirmator(this.GetRevertConfirmatorSettingName(), this.GetRevertDialog);
-      }
     }
 
     protected virtual string GetEnabledSettingName()

@@ -1,16 +1,26 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TrayGarden.Configuration;
+
+#endregion
 
 namespace TrayGarden.Configuration
 {
-    public static class Settings
+  public static class Settings
+  {
+    #region Public Properties
+
+    public static string ApplicationDataFolderName
     {
-        public static string ApplicationDataFolderName
-        {
-            get { return Factory.Instance.GetStringSetting("ApplicationData.FolderName", "TrayGarden"); }
-        }
+      get
+      {
+        return Factory.Instance.GetStringSetting("ApplicationData.FolderName", "TrayGarden");
+      }
     }
+
+    #endregion
+  }
 }

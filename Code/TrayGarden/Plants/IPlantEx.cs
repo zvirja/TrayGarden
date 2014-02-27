@@ -1,27 +1,53 @@
-﻿using System.Collections.Generic;
-using JetBrains.Annotations;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
+#endregion
+
 namespace TrayGarden.Plants
 {
-    public interface IPlantEx
-    {
-        List<object> Workhorses { get; }
-        IPlant Plant { get; }
-        string ID { get; }
-        ISettingsBox MySettingsBox { get; }
-        bool IsEnabled { get; set; }
-        event PlantEnabledChangedEvent EnabledChanged;
+  public interface IPlantEx
+  {
+    #region Public Events
 
-        void Initialize(IPlant plant,List<object> workhorses, string id, ISettingsBox mySettingsBox);
+    event PlantEnabledChangedEvent EnabledChanged;
 
-        bool HasLuggage(string name);
-        object GetLuggage(string name);
-        T GetLuggage<T>(string name) where T : class;
-        void PutLuggage(string name, object luggage);
+    #endregion
 
-        T GetFirstWorkhorseOfType<T>();
+    #region Public Properties
 
-    }
+    string ID { get; }
+
+    bool IsEnabled { get; set; }
+
+    ISettingsBox MySettingsBox { get; }
+
+    IPlant Plant { get; }
+
+    List<object> Workhorses { get; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    T GetFirstWorkhorseOfType<T>();
+
+    object GetLuggage(string name);
+
+    T GetLuggage<T>(string name) where T : class;
+
+    bool HasLuggage(string name);
+
+    void Initialize(IPlant plant, List<object> workhorses, string id, ISettingsBox mySettingsBox);
+
+    void PutLuggage(string name, object luggage);
+
+    #endregion
+  }
 }

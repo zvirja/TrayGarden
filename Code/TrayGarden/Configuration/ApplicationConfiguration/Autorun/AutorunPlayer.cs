@@ -36,7 +36,7 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
       set
       {
         ActualAppProperties.RunAtStartup = value;
-        OnValueChanged();
+        this.OnValueChanged();
       }
     }
 

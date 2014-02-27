@@ -1,25 +1,37 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering
 {
   public class NotificationResult
   {
-    public ResultCode Code { get; set; }
+    #region Constructors and Destructors
 
-    public object CustomData { get; set; }
-
-    public NotificationResult(ResultCode code):this(code,null)
+    public NotificationResult(ResultCode code)
+      : this(code, null)
     {
-      
     }
 
     public NotificationResult(ResultCode code, object customData)
     {
-      Code = code;
-      CustomData = customData;
+      this.Code = code;
+      this.CustomData = customData;
     }
+
+    #endregion
+
+    #region Public Properties
+
+    public ResultCode Code { get; set; }
+
+    public object CustomData { get; set; }
+
+    #endregion
   }
 }

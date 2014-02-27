@@ -1,20 +1,30 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using ClipboardChangerPlant.Configuration;
+
 using JetBrains.Annotations;
+
+#endregion
 
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
   [UsedImplicitly]
   public class ExecuteHandler : Processor
   {
+    #region Public Methods and Operators
+
     public override void Process(ProcessorArgs args)
     {
       RequestHandler resolvedHandler = args.ResolvedHandler;
       if (resolvedHandler == null)
+      {
         throw new ArgumentException("args.ResolvedHandler");
+      }
 
       string result;
       var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
@@ -22,11 +32,13 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 
       if (!resolvedHandler.TryProcess(args.ResultUrl, out result))
       {
-        HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
+        this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
         return;
       }
       args.ShouldBeShorted = resolvedHandler.IsShorterEnabled;
       args.ResultUrl = result;
     }
+
+    #endregion
   }
 }

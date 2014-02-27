@@ -1,17 +1,19 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using TrayGarden.Configuration.ApplicationConfiguration;
+
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
+
+#endregion
 
 namespace ClipboardChangerPlant.UIConfiguration
 {
   public class PopupDialogsManager : TrayGarden.Reception.Services.IGetPowerOfUserNotifications
   {
-    #region static part
-
-    public static PopupDialogsManager ActualManager { get; set; }
+    #region Constructors and Destructors
 
     static PopupDialogsManager()
     {
@@ -20,12 +22,21 @@ namespace ClipboardChangerPlant.UIConfiguration
 
     #endregion
 
+    #region Public Properties
+
+    public static PopupDialogsManager ActualManager { get; set; }
 
     public ILordOfNotifications LordOfNotifications { get; set; }
 
+    #endregion
+
+    #region Public Methods and Operators
+
     public void StoreLordOfNotifications(ILordOfNotifications lordOfNotifications)
     {
-      LordOfNotifications = lordOfNotifications;
+      this.LordOfNotifications = lordOfNotifications;
     }
+
+    #endregion
   }
 }

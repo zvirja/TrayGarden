@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,6 +15,8 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers;
 using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.ForSimplerLife;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {
@@ -74,9 +78,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
         }
         else
         {
-          Log.Warn(
-            "Was unable to resolve UserSettingVM for {0} type".FormatWith(userSettingPair.Value.GetType().Name),
-            this);
+          Log.Warn("Was unable to resolve UserSettingVM for {0} type".FormatWith(userSettingPair.Value.GetType().Name), this);
         }
       }
       return result;

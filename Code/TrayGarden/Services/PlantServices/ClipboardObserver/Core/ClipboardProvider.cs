@@ -1,26 +1,48 @@
-﻿namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+#endregion
+
+namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {
   public class ClipboardProvider : IClipboardProvider
   {
-    protected ClipboardObserverService Service { get; set; }
+    #region Constructors and Destructors
+
     public ClipboardProvider(ClipboardObserverService service)
     {
-      Service = service;
+      this.Service = service;
     }
+
+    #endregion
+
+    #region Properties
+
+    protected ClipboardObserverService Service { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public virtual string GetCurrentClipboardText()
     {
-      return Service.GetClipboardValue(false);
+      return this.Service.GetClipboardValue(false);
     }
 
     public virtual string GetCurrentClipboardTextIgnoreSizeRestrictions()
     {
-      return Service.GetClipboardValue(true);
+      return this.Service.GetClipboardValue(true);
     }
 
     public virtual void SetCurrentClipboardText(string newValue, bool silent)
     {
-      Service.SetClipboardValue(newValue, silent);
+      this.Service.SetClipboardValue(newValue, silent);
     }
+
+    #endregion
   }
 }

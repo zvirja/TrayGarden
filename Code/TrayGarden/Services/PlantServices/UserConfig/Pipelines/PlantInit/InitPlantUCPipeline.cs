@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,6 +8,8 @@ using System.Text;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.TypesHatcher;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
 {

@@ -1,15 +1,26 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#endregion
+
 namespace TrayGarden.Configuration
 {
-    public class Factory
+  public class Factory
+  {
+    #region Public Properties
+
+    public static IFactory Instance
     {
-        public static IFactory Instance
-        {
-            get { return ModernFactory.ActualInstance; }
-        }
+      get
+      {
+        return ModernFactory.ActualInstance;
+      }
     }
+
+    #endregion
+  }
 }

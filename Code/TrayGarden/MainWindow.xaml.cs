@@ -1,52 +1,32 @@
-﻿using System;
-using System.Collections;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Configuration;
-using System.IO;
 using System.Linq;
-using System.Runtime.CompilerServices;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Forms;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using System.Xml;
-using System.Xml.Serialization;
-using TrayGarden.Configuration;
-using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
+
 using TrayGarden.Helpers.ThreadSwitcher;
-using TrayGarden.Pipelines.Engine;
-using TrayGarden.Plants;
-using TrayGarden.Resources;
-using TrayGarden.Services.Engine;
-using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
-using log4net.Appender;
-using Clipboard = System.Windows.Clipboard;
+
+#endregion
 
 namespace TrayGarden
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
-    public partial class MainWindow : Window
-    {
-        public MainWindow()
-        {
-            InitializeComponent();
-            Closing += MainWindow_Closing;
+  /// <summary>
+  /// Interaction logic for MainWindow.xaml
+  /// </summary>
+  public partial class MainWindow : Window
+  {
+    #region Constructors and Destructors
 
-            /*
+    public MainWindow()
+    {
+      this.InitializeComponent();
+      this.Closing += this.MainWindow_Closing;
+
+      /*
             var bucket = new Bucket(){Name = "Parent"};
             bucket.Settings.Add(new StringStringPair("first","hello"));
             bucket.Settings.Add(new StringStringPair("second", "sec"));
@@ -102,23 +82,21 @@ namespace TrayGarden
              * 
              */
 
+      //var mock = Factory.Instance.GetObject<IPipelineManager>("pipelineManager");
+      //var sa = new SomeArgs {Name = "Pfff"};
+      //mock.InvokePipeline("simple", sa);
+      //var res = sa.Result;
 
-            //var mock = Factory.Instance.GetObject<IPipelineManager>("pipelineManager");
-            //var sa = new SomeArgs {Name = "Pfff"};
-            //mock.InvokePipeline("simple", sa);
-            //var res = sa.Result;
+      //var resm = Factory.Instance.GetObject<IResourcesManager>("resourceManager");
 
-            //var resm = Factory.Instance.GetObject<IResourcesManager>("resourceManager");
+      //var str = resm.GetStringResource("qq","NO");
 
-            //var str = resm.GetStringResource("qq","NO");
-
-            /* var sa = new SomeArgs { Name = "Pfff" };
+      /* var sa = new SomeArgs { Name = "Pfff" };
              HatcherGuide<IPipelineManager>.Instance.InvokePipeline("simple", sa);
 
              var rs = sa.Result;*/
 
-
-            /*var gardenbed = HatcherGuide<IGardenbed>.Instance;
+      /*var gardenbed = HatcherGuide<IGardenbed>.Instance;
             var firstPlant = gardenbed.GetAllPlants().FirstOrDefault();
             var key = "empty";
             firstPlant.PutLuggage(key,new object());
@@ -126,42 +104,44 @@ namespace TrayGarden
             var contains = firstPlant.HasLuggage(key);
             var luggage = firstPlant.GetLuggage(key);*/
 
-            /*var servicesSteward = HatcherGuide<IServicesSteward>.Instance;
+      /*var servicesSteward = HatcherGuide<IServicesSteward>.Instance;
             servicesSteward.InformInitializeStage();
             servicesSteward.InformDisplayStage();
 
             var plant = HatcherGuide<IGardenbed>.Instance.GetAllPlants()[0];
             plant.IsEnabled = true;*/
 
-          //  Log.Info("Test info", this);
+      //  Log.Info("Test info", this);
 
-           // RuntimeHelpers.PrepareMethod(typeof (FileAppender).GetMethod("ActivateOptions").MethodHandle);
+      // RuntimeHelpers.PrepareMethod(typeof (FileAppender).GetMethod("ActivateOptions").MethodHandle);
 
-            // servicesSteward.InformClosingStage();
+      // servicesSteward.InformClosingStage();
 
-
-            HatcherGuide<IUIManager>.Instance.OKMessageBox("Bye","Bye");
-            //int a = 19;
-
-
-        }
-
-    
-
-
-        void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-           // HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
-
-        }
-
-        
+      HatcherGuide<IUIManager>.Instance.OKMessageBox("Bye", "Bye");
+      //int a = 19;
     }
 
-    class IntSv:Switcher<int>
+    #endregion
+
+    #region Methods
+
+    private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
-        public IntSv(int newValue) : base(newValue)
-        {
-        }
+      // HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
     }
+
+    #endregion
+  }
+
+  internal class IntSv : Switcher<int>
+  {
+    #region Constructors and Destructors
+
+    public IntSv(int newValue)
+      : base(newValue)
+    {
+    }
+
+    #endregion
+  }
 }

@@ -1,15 +1,28 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using ClipboardChangerPlant.Configuration;
+
+#endregion
 
 namespace ClipboardChangerPlant.Clipboard
 {
   public static class ClipboardManager
   {
-    private static ClipboardProvider _provider;
+    #region Static Fields
+
     private static object _lock = new object();
+
+    private static ClipboardProvider _provider;
+
+    #endregion
+
+    #region Public Properties
+
     public static ClipboardProvider Provider
     {
       get
@@ -18,6 +31,10 @@ namespace ClipboardChangerPlant.Clipboard
         return _provider;
       }
     }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public static string GetValue()
     {
@@ -28,5 +45,7 @@ namespace ClipboardChangerPlant.Clipboard
     {
       Provider.SetValue(newValue, silent);
     }
+
+    #endregion
   }
 }

@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +9,8 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
@@ -100,9 +104,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       }
     }
 
-    protected virtual void Initialize(
-      [NotNull] IUserSettingMetadataBase baseMetadata,
-      List<IUserSettingBase> activityCriterias)
+    protected virtual void Initialize([NotNull] IUserSettingMetadataBase baseMetadata, List<IUserSettingBase> activityCriterias)
     {
       Assert.ArgumentNotNull(baseMetadata, "baseMetadata");
       this.Metadata = baseMetadata;

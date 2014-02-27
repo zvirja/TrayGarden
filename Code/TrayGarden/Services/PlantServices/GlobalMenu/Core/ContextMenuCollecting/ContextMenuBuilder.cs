@@ -1,92 +1,134 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Resources;
 using TrayGarden.TypesHatcher;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting
 {
   [UsedImplicitly]
   public class ContextMenuBuilder
   {
-    public EventHandler ExitContextItemOnClick { get; set; }
-    public EventHandler ConfigureContextItemOnClick { get; set; }
-
-    public string ConfigureIconResourceName { get; set; }
-    public string ExitIconResourceName { get; set; }
-    public bool BoldMainMenuEntries { get; set; }
-    public bool ItalicMainMenuEntries { get; set; }
-    public bool InsertDelimiterBetweenPlants { get; set; }
+    #region Constructors and Destructors
 
     public ContextMenuBuilder()
     {
-      ConfigureIconResourceName = "configureV1";
-      ExitIconResourceName = "exitIconV1";
-      BoldMainMenuEntries = true;
-      ItalicMainMenuEntries = true;
+      this.ConfigureIconResourceName = "configureV1";
+      this.ExitIconResourceName = "exitIconV1";
+      this.BoldMainMenuEntries = true;
+      this.ItalicMainMenuEntries = true;
     }
+
+    #endregion
+
+    #region Public Properties
+
+    public bool BoldMainMenuEntries { get; set; }
+
+    public EventHandler ConfigureContextItemOnClick { get; set; }
+
+    public string ConfigureIconResourceName { get; set; }
+
+    public EventHandler ExitContextItemOnClick { get; set; }
+
+    public string ExitIconResourceName { get; set; }
+
+    public bool InsertDelimiterBetweenPlants { get; set; }
+
+    public bool ItalicMainMenuEntries { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
     {
       var contextMenuStrip = new ContextMenuStrip();
-      BuildContextMenuPrefix(contextMenuStrip);
-      EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
-      BuildContextMenuSuffix(contextMenuStrip);
+      this.BuildContextMenuPrefix(contextMenuStrip);
+      this.EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
+      this.BuildContextMenuSuffix(contextMenuStrip);
       return contextMenuStrip;
     }
+
+    #endregion
+
+    #region Methods
 
     protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
     {
       var configureItem = contextMenuStrip.Items.Add("Configure");
-      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ConfigureIconResourceName, null);
+      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.ConfigureIconResourceName, null);
       if (iconResource != null)
-        configureItem.Image = iconResource.ToBitmap();
-      configureItem.Font = new Font(configureItem.Font, GetMainMenuEntriesStyle());
-      configureItem.Click += delegate(object sender, EventArgs args)
       {
-        if (ConfigureContextItemOnClick != null)
-          ConfigureContextItemOnClick(sender, args);
-      };
+        configureItem.Image = iconResource.ToBitmap();
+      }
+      configureItem.Font = new Font(configureItem.Font, this.GetMainMenuEntriesStyle());
+      configureItem.Click += delegate(object sender, EventArgs args)
+        {
+          if (this.ConfigureContextItemOnClick != null)
+          {
+            this.ConfigureContextItemOnClick(sender, args);
+          }
+        };
       contextMenuStrip.Items.Add("-");
-    }
-
-    protected virtual FontStyle GetMainMenuEntriesStyle()
-    {
-      FontStyle result = 0;
-      if (BoldMainMenuEntries)
-        result |= FontStyle.Bold;
-      if (ItalicMainMenuEntries)
-        result |= FontStyle.Italic;
-      return result;
     }
 
     protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
     {
       var exitItem = contextMenuStrip.Items.Add("Exit Garden");
-      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
+      Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.ExitIconResourceName, null);
       if (iconResource != null)
-        exitItem.Image = iconResource.ToBitmap();
-      exitItem.Font = new Font(exitItem.Font, GetMainMenuEntriesStyle());
-      exitItem.Click += delegate(object sender, EventArgs args)
       {
-        if (ExitContextItemOnClick != null)
-          ExitContextItemOnClick(sender, args);
-      };
+        exitItem.Image = iconResource.ToBitmap();
+      }
+      exitItem.Font = new Font(exitItem.Font, this.GetMainMenuEntriesStyle());
+      exitItem.Click += delegate(object sender, EventArgs args)
+        {
+          if (this.ExitContextItemOnClick != null)
+          {
+            this.ExitContextItemOnClick(sender, args);
+          }
+        };
     }
 
     protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
     {
       foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
+      {
         if (globalMenuPlantBox.ToolStripMenuItems != null && globalMenuPlantBox.ToolStripMenuItems.Count > 0)
         {
           foreach (ToolStripItem contextMenuItem in globalMenuPlantBox.ToolStripMenuItems)
+          {
             menuStrip.Items.Add(contextMenuItem);
+          }
         }
+      }
     }
 
+    protected virtual FontStyle GetMainMenuEntriesStyle()
+    {
+      FontStyle result = 0;
+      if (this.BoldMainMenuEntries)
+      {
+        result |= FontStyle.Bold;
+      }
+      if (this.ItalicMainMenuEntries)
+      {
+        result |= FontStyle.Italic;
+      }
+      return result;
+    }
+
+    #endregion
   }
 }

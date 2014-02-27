@@ -1,10 +1,13 @@
-﻿using System;
-using System.Collections.Concurrent;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
@@ -12,127 +15,138 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDeliveri
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
+#endregion
+
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying.DisplayProviders
 {
   [UsedImplicitly]
   public class TopRightCornerProvider : IDisplayQueueProvider
   {
+    #region Fields
+
     protected object Lock = new object();
 
-    #region Settings
+    #endregion
 
-    protected int SimultaneouslyDisplayedLimit
+    #region Constructors and Destructors
+
+    public TopRightCornerProvider()
     {
-      get { return UserNotificationsConfiguration.NotificationWindowMaxDisplayed.Value; }
+      this.QueuedTasks = new List<DisplayTaskBag>();
+      this.DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
     }
+
+    #endregion
+
+    #region Properties
+
+    protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
 
     protected TimeSpan NonDisplayedTaskExpiration
     {
-      get { return UserNotificationsConfiguration.ExpirationOfInvisibleNotification.Value; }
+      get
+      {
+        return UserNotificationsConfiguration.ExpirationOfInvisibleNotification.Value;
+      }
     }
 
     protected int NotificationWindowHeight
     {
-      get { return UserNotificationsConfiguration.NotificationWindowHeight.Value; }
-    }
-
-    protected int NotificationWindowWidth
-    {
-      get { return UserNotificationsConfiguration.NotificationWindowWidth.Value; }
+      get
+      {
+        return UserNotificationsConfiguration.NotificationWindowHeight.Value;
+      }
     }
 
     protected int NotificationWindowTopIndent
     {
-      get { return UserNotificationsConfiguration.NotificationWindowTopIndent.Value; }
+      get
+      {
+        return UserNotificationsConfiguration.NotificationWindowTopIndent.Value;
+      }
     }
 
+    protected int NotificationWindowWidth
+    {
+      get
+      {
+        return UserNotificationsConfiguration.NotificationWindowWidth.Value;
+      }
+    }
 
+    protected List<DisplayTaskBag> QueuedTasks { get; set; }
+
+    protected int SimultaneouslyDisplayedLimit
+    {
+      get
+      {
+        return UserNotificationsConfiguration.NotificationWindowMaxDisplayed.Value;
+      }
+    }
 
     #endregion
 
-    protected List<DisplayTaskBag> QueuedTasks { get; set; }
-    protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
+    #region Public Methods and Operators
 
-    public TopRightCornerProvider()
+    public virtual void DiscardAllTasks()
     {
-      QueuedTasks = new List<DisplayTaskBag>();
-      DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
+      lock (this.Lock)
+      {
+        DisplayTaskBag[] displayTaskBags = this.QueuedTasks.ToArray();
+        foreach (DisplayTaskBag displayTaskBag in displayTaskBags)
+        {
+          this.DiscardTask(displayTaskBag.Task, false);
+        }
+        DisplayTaskBag[] taskBags = this.DisplayedWaitForResultTasks.ToArray();
+        foreach (DisplayTaskBag displayedWaitForResultTask in taskBags)
+        {
+          this.DiscardTask(displayedWaitForResultTask.Task, false);
+        }
+      }
     }
 
     public virtual bool EnqueueToDisplay(NotificationDisplayTask task)
     {
-      var taskBag = GetTaskBag(task);
-      task.TaskDiscardHandler = DiscardTask;
-      lock (Lock)
+      var taskBag = this.GetTaskBag(task);
+      task.TaskDiscardHandler = this.DiscardTask;
+      lock (this.Lock)
       {
-        AddBagToQueue(taskBag);
-        Monitor.Pulse(Lock);
-        ProcessPendingQueue();
+        this.AddBagToQueue(taskBag);
+        Monitor.Pulse(this.Lock);
+        this.ProcessPendingQueue();
       }
       return true;
     }
 
-    public virtual void DiscardAllTasks()
-    {
-      lock (Lock)
-      {
-        DisplayTaskBag[] displayTaskBags = QueuedTasks.ToArray();
-        foreach (DisplayTaskBag displayTaskBag in displayTaskBags)
-        {
-          DiscardTask(displayTaskBag.Task, false);
-        }
-        DisplayTaskBag[] taskBags = DisplayedWaitForResultTasks.ToArray();
-        foreach (DisplayTaskBag displayedWaitForResultTask in taskBags)
-        {
-          DiscardTask(displayedWaitForResultTask.Task, false);
-        }
-      }
-    }
+    #endregion
 
-    protected virtual DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
-    {
-      PositionSize positionSize = GetDefaultNotificationPositionSize();
-      NotificationWindowVM notificationWindowVM = GetNotificationWindowVM(task, positionSize);
-      return new DisplayTaskBag(task, notificationWindowVM, DateTime.UtcNow, positionSize);
-    }
-
-    protected virtual PositionSize GetDefaultNotificationPositionSize()
-    {
-      var width = NotificationWindowWidth;
-      var height = NotificationWindowHeight;
-      var top = NotificationWindowTopIndent;
-
-      var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
-      var left = screenWidth - width;
-      return new PositionSize(top, left, width, height);
-    }
-
-    protected virtual NotificationWindowVM GetNotificationWindowVM(NotificationDisplayTask task, PositionSize actualPositionAndSize)
-    {
-      return new NotificationWindowVM(actualPositionAndSize, task.RelatedSpecializedNotification, task.Originator);
-    }
+    #region Methods
 
     protected virtual void AddBagToQueue(DisplayTaskBag task)
     {
-      lock (Lock)
+      lock (this.Lock)
       {
-        QueuedTasks.Add(task);
+        this.QueuedTasks.Add(task);
         task.Task.State = NotificationState.InQueue;
       }
     }
 
     protected virtual DisplayTaskBag DequeueBagAndPrepareItToDisplay()
     {
-      lock (Lock)
+      lock (this.Lock)
       {
-        if (DisplayedWaitForResultTasks.Count == SimultaneouslyDisplayedLimit)
+        if (this.DisplayedWaitForResultTasks.Count == this.SimultaneouslyDisplayedLimit)
+        {
           return null;
-        RemoveExpiredTasks();
-        if (QueuedTasks.Count == 0)
+        }
+        this.RemoveExpiredTasks();
+        if (this.QueuedTasks.Count == 0)
+        {
           return null;
-        var bag = QueuedTasks[0];
-        QueuedTasks.Remove(bag);
-        DisplayedWaitForResultTasks.Add(bag);
+        }
+        var bag = this.QueuedTasks[0];
+        this.QueuedTasks.Remove(bag);
+        this.DisplayedWaitForResultTasks.Add(bag);
         bag.Task.State = NotificationState.IsDisplayed;
         return bag;
       }
@@ -143,21 +157,25 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       DisplayTaskBag bagToRemove = null;
       try
       {
-        lock (Lock)
+        lock (this.Lock)
         {
-          bagToRemove = QueuedTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
+          bagToRemove = this.QueuedTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
           if (bagToRemove != null)
           {
-            QueuedTasks.Remove(bagToRemove);
+            this.QueuedTasks.Remove(bagToRemove);
             return true;
           }
           //Don't try to remove from main collection if flag is true
           if (onlyIfNonDisplayed)
+          {
             return false;
-          bagToRemove = DisplayedWaitForResultTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
+          }
+          bagToRemove = this.DisplayedWaitForResultTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
           if (bagToRemove == null)
+          {
             return false;
-          DisplayedWaitForResultTasks.Remove(bagToRemove);
+          }
+          this.DisplayedWaitForResultTasks.Remove(bagToRemove);
           return true;
         }
       }
@@ -171,32 +189,65 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       }
     }
 
-    protected virtual void RemoveExpiredTasks()
+    protected virtual PositionSize GetDefaultNotificationPositionSize()
     {
-      DateTime expirationThreshold = DateTime.UtcNow.Subtract(NonDisplayedTaskExpiration);
-      lock (Lock)
-      {
-        for (int i = QueuedTasks.Count - 1; i > -1; i--)
-        {
-          var bag = QueuedTasks[i];
-          if (bag.EnqueueTime < expirationThreshold)
+      var width = this.NotificationWindowWidth;
+      var height = this.NotificationWindowHeight;
+      var top = this.NotificationWindowTopIndent;
+
+      var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
+      var left = screenWidth - width;
+      return new PositionSize(top, left, width, height);
+    }
+
+    protected virtual NotificationWindowVM GetNotificationWindowVM(NotificationDisplayTask task, PositionSize actualPositionAndSize)
+    {
+      return new NotificationWindowVM(actualPositionAndSize, task.RelatedSpecializedNotification, task.Originator);
+    }
+
+    protected virtual DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
+    {
+      PositionSize positionSize = this.GetDefaultNotificationPositionSize();
+      NotificationWindowVM notificationWindowVM = this.GetNotificationWindowVM(task, positionSize);
+      return new DisplayTaskBag(task, notificationWindowVM, DateTime.UtcNow, positionSize);
+    }
+
+    protected virtual void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
+    {
+      var uiManager = HatcherGuide<IUIManager>.Instance;
+      uiManager.ExecuteActionOnUIThreadAsynchronously(
+        delegate
           {
-            QueuedTasks.Remove(bag);
-            bag.Task.State = NotificationState.Expired;
-            bag.Task.SetResult(new NotificationResult(ResultCode.Unspecified));
-          }
+            var window = HatcherGuide<INotificationWindow>.CreateNewInstance();
+            task.WindowVM.ResultObtained += this.WindowVM_ResultObtained;
+            window.PrepareAndDisplay(task.WindowVM);
+          });
+    }
+
+    protected virtual void ProcessPendingQueue()
+    {
+      lock (this.Lock)
+      {
+        this.RemoveExpiredTasks();
+        this.RecalculateDisplayedTasksPositions();
+        DisplayTaskBag nextBagToDisplay = this.DequeueBagAndPrepareItToDisplay();
+        while (nextBagToDisplay != null)
+        {
+          this.RecalculateDisplayedTasksPositions();
+          this.LastPreparationsAndVisualizeTask(nextBagToDisplay);
+          nextBagToDisplay = this.DequeueBagAndPrepareItToDisplay();
         }
       }
     }
 
     protected virtual void RecalculateDisplayedTasksPositions()
     {
-      var currentTop = NotificationWindowTopIndent;
+      var currentTop = this.NotificationWindowTopIndent;
 
       var lockedPositions = new List<int>();
       var nonLockedItems = new List<DisplayTaskBag>();
       //Select locked positions. The item's position is locked if it had a cursor focus at least for one time.
-      foreach (DisplayTaskBag displayedWaitForResultTask in DisplayedWaitForResultTasks)
+      foreach (DisplayTaskBag displayedWaitForResultTask in this.DisplayedWaitForResultTasks)
       {
         if (displayedWaitForResultTask.WindowVM.IsPositionLocked)
         {
@@ -213,54 +264,49 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
         //enumerate to select a free position
         while (lockedPositions.Contains(currentTop))
         {
-          currentTop += NotificationWindowHeight;
+          currentTop += this.NotificationWindowHeight;
         }
         displayTaskBag.PositionSize.Top = currentTop;
-        currentTop += NotificationWindowHeight;
+        currentTop += this.NotificationWindowHeight;
       }
     }
 
-    protected virtual void ProcessPendingQueue()
+    protected virtual void RemoveExpiredTasks()
     {
-      lock (Lock)
+      DateTime expirationThreshold = DateTime.UtcNow.Subtract(this.NonDisplayedTaskExpiration);
+      lock (this.Lock)
       {
-        RemoveExpiredTasks();
-        RecalculateDisplayedTasksPositions();
-        DisplayTaskBag nextBagToDisplay = DequeueBagAndPrepareItToDisplay();
-        while (nextBagToDisplay != null)
+        for (int i = this.QueuedTasks.Count - 1; i > -1; i--)
         {
-          RecalculateDisplayedTasksPositions();
-          LastPreparationsAndVisualizeTask(nextBagToDisplay);
-          nextBagToDisplay = DequeueBagAndPrepareItToDisplay();
+          var bag = this.QueuedTasks[i];
+          if (bag.EnqueueTime < expirationThreshold)
+          {
+            this.QueuedTasks.Remove(bag);
+            bag.Task.State = NotificationState.Expired;
+            bag.Task.SetResult(new NotificationResult(ResultCode.Unspecified));
+          }
         }
       }
     }
 
     protected virtual void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
     {
-      lock (Lock)
+      lock (this.Lock)
       {
         var vmFiredEvent = sender as NotificationWindowVM;
         Assert.IsNotNull(vmFiredEvent, "Result source cannot be null");
-        var correspondingBag = DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
+        var correspondingBag = this.DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
         if (correspondingBag == null)
+        {
           return;
-        DisplayedWaitForResultTasks.Remove(correspondingBag);
+        }
+        this.DisplayedWaitForResultTasks.Remove(correspondingBag);
         correspondingBag.Task.State = NotificationState.Handled;
         correspondingBag.Task.SetResult(vmFiredEvent.Result);
-        ProcessPendingQueue();
+        this.ProcessPendingQueue();
       }
     }
 
-    protected virtual void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
-    {
-      var uiManager = HatcherGuide<IUIManager>.Instance;
-      uiManager.ExecuteActionOnUIThreadAsynchronously(delegate
-        {
-          var window = HatcherGuide<INotificationWindow>.CreateNewInstance();
-          task.WindowVM.ResultObtained += WindowVM_ResultObtained;
-          window.PrepareAndDisplay(task.WindowVM);
-        });
-    }
+    #endregion
   }
 }

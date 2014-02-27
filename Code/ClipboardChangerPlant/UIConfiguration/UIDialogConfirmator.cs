@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,29 +10,24 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
+#endregion
+
 namespace ClipboardChangerPlant.UIConfiguration
 {
   public class UIDialogConfirmator
   {
-    #region Fields
-
-    protected IBoolUserSetting ConfirmationSetting { get; set; }
-
-    #endregion
-
     #region Constructors and Destructors
 
     public UIDialogConfirmator(string confirmationSettingName, Func<IResultProvider> uiDialogConstructor)
     {
       this.UIDialogConstructor = uiDialogConstructor;
       //Moved to constructor because believe that it will be created before the initialization happen
-      this.ConfirmationSetting = BuildConfirmationSetting(confirmationSettingName, confirmationSettingName);
+      this.ConfirmationSetting = this.BuildConfirmationSetting(confirmationSettingName, confirmationSettingName);
     }
 
     #endregion
 
     #region Public Properties
-
 
     public ILordOfNotifications LordOfNotifications
     {
@@ -43,6 +40,8 @@ namespace ClipboardChangerPlant.UIConfiguration
     #endregion
 
     #region Properties
+
+    protected IBoolUserSetting ConfirmationSetting { get; set; }
 
     protected Func<IResultProvider> UIDialogConstructor { get; set; }
 
@@ -67,6 +66,11 @@ namespace ClipboardChangerPlant.UIConfiguration
 
     #region Methods
 
+    protected virtual IBoolUserSetting BuildConfirmationSetting(string name, string title)
+    {
+      return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(name, title, true);
+    }
+
     protected virtual bool? GetConfirmationFromUIDialog()
     {
       IResultProvider dialog = this.UIDialogConstructor();
@@ -89,11 +93,6 @@ namespace ClipboardChangerPlant.UIConfiguration
         this.ConfirmationSetting.Value = false;
       }
       return null;
-    }
-
-    protected virtual IBoolUserSetting BuildConfirmationSetting(string name, string title)
-    {
-      return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(name, title, true);
     }
 
     #endregion

@@ -1,30 +1,49 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Documents;
 using System.Windows.Forms;
+
 using TrayGarden.Helpers;
-using TrayGarden.Reception.Services;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting
 {
   public class MenuEntriesAppender : IMenuEntriesAppender
   {
-    public List<ToolStripMenuItem> OutputItems { get; set; }
+    #region Constructors and Destructors
 
     public MenuEntriesAppender()
     {
-      OutputItems = new List<ToolStripMenuItem>();
+      this.OutputItems = new List<ToolStripMenuItem>();
     }
+
+    #endregion
+
+    #region Public Properties
+
+    public List<ToolStripMenuItem> OutputItems { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public virtual void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler)
     {
       if (text.IsNullOrEmpty() || icon == null || clickHandler == null)
+      {
         return;
+      }
       EventHandler asyncClickHandler = (sender, args) => Task.Factory.StartNew(() => clickHandler(sender, args));
       var menuItem = new ToolStripMenuItem(text, icon.ToBitmap(), asyncClickHandler);
-      OutputItems.Add(menuItem);
+      this.OutputItems.Add(menuItem);
     }
+
+    #endregion
   }
 }

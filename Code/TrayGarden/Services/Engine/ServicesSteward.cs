@@ -62,9 +62,7 @@ namespace TrayGarden.Services.Engine
           }
           else
           {
-            Log.Debug(
-              "service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName),
-              this);
+            Log.Debug("service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName), this);
           }
         }
         catch (Exception ex)
@@ -126,9 +124,7 @@ namespace TrayGarden.Services.Engine
         catch (Exception ex)
         {
           Log.Error(
-            "Failed to init plant '{0}' with service {1}".FormatWith(
-              plantEx.Plant.GetType().FullName,
-              service.GetType().FullName),
+            "Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName, service.GetType().FullName),
             ex,
             this);
         }

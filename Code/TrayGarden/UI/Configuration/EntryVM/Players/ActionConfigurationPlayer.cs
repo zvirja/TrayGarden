@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,13 +10,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
+#endregion
+
 namespace TrayGarden.UI.Configuration.EntryVM.Players
 {
   public class ActionConfigurationPlayer : ConfigurationPlayerBase, IActionConfigurationPlayer
   {
-    public ActionConfigurationPlayer([NotNull] string settingName,
-                                     [NotNull] string title,
-                                     [NotNull] ICommand action, bool readOnly = false)
+    #region Constructors and Destructors
+
+    public ActionConfigurationPlayer([NotNull] string settingName, [NotNull] string title, [NotNull] ICommand action, bool readOnly = false)
       : base(settingName, false, readOnly)
     {
       Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
@@ -24,13 +28,22 @@ namespace TrayGarden.UI.Configuration.EntryVM.Players
       this.Action = action;
     }
 
-    public override void Reset()
-    {
+    #endregion
 
-    }
+    #region Public Properties
 
     public ICommand Action { get; protected set; }
 
     public string ActionTitle { get; protected set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public override void Reset()
+    {
+    }
+
+    #endregion
   }
 }

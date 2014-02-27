@@ -38,11 +38,7 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 
     protected virtual ConfigurationEntryBaseVM ResolveConfigurationEntry(IService service)
     {
-      return new BoolConfigurationEntryVM(new ConfigurationPlayerService(service))
-               {
-                 RestoreDefaultValueTooltip =
-                   "Reset to actual"
-               };
+      return new BoolConfigurationEntryVM(new ConfigurationPlayerService(service)) { RestoreDefaultValueTooltip = "Reset to actual" };
     }
 
     #endregion

@@ -1,18 +1,39 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Pipelines.Engine
 {
   [UsedImplicitly]
   public class Pipeline : IPipeline
   {
+    #region Public Properties
+
     public virtual Type ArgumentType { get; protected set; }
+
     public virtual string Name { get; protected set; }
-    protected virtual List<Processor> Processors { get; set; }
+
+    #endregion
+
+    #region Properties
+
     protected bool Initialized { get; set; }
+
+    protected virtual List<Processor> Processors { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize([NotNull] Type argumentType, [NotNull] string name, List<Processor> processors)
@@ -20,37 +41,49 @@ namespace TrayGarden.Pipelines.Engine
       //Assert.ArgumentNotNull(argumentType, "argumentTypeStr");
       Assert.ArgumentNotNull(name, "name");
       Assert.ArgumentNotNull(processors, "processors");
-      Name = name;
-      if (ArgumentType == null)
-        ArgumentType = argumentType;
-      if (ArgumentType == null)
+      this.Name = name;
+      if (this.ArgumentType == null)
+      {
+        this.ArgumentType = argumentType;
+      }
+      if (this.ArgumentType == null)
+      {
         throw new Exception("Pipeline {0}. Argument type invalid".FormatWith(name));
-      Processors = processors;
-      Initialized = true;
+      }
+      this.Processors = processors;
+      this.Initialized = true;
     }
 
-    public virtual void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions)
-        where TArgumentType : PipelineArgs
+    public virtual void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions) where TArgumentType : PipelineArgs
     {
-      if (!Initialized)
+      if (!this.Initialized)
+      {
         throw new NonInitializedException();
-      if (argument.GetType() != ArgumentType)
+      }
+      if (argument.GetType() != this.ArgumentType)
+      {
         throw new ArgumentException(
-            "This pipeline was designed to work with {0} type. Passed argument of type {1} was passed"
-                .FormatWith(ArgumentType.Name, argument.GetType().Name));
-      foreach (Processor processor in Processors)
+          "This pipeline was designed to work with {0} type. Passed argument of type {1} was passed".FormatWith(
+            this.ArgumentType.Name,
+            argument.GetType().Name));
+      }
+      foreach (Processor processor in this.Processors)
       {
         try
         {
           processor.Invoke(argument);
           if (argument.Aborted)
+          {
             break;
+          }
         }
         catch (Exception ex)
         {
           Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()), ex, this);
           if (maskExceptions)
+          {
             break;
+          }
           throw;
         }
       }
@@ -58,11 +91,14 @@ namespace TrayGarden.Pipelines.Engine
 
     public override string ToString()
     {
-      return Initialized
-                 ? "Processor {0}. ArgumentType: {1}, number of processors {2}".FormatWith(Name,
-                                                                                           ArgumentType.FullName,
-                                                                                           Processors.Count)
-                 : base.ToString();
+      return this.Initialized
+               ? "Processor {0}. ArgumentType: {1}, number of processors {2}".FormatWith(
+                 this.Name,
+                 this.ArgumentType.FullName,
+                 this.Processors.Count)
+               : base.ToString();
     }
+
+    #endregion
   }
 }

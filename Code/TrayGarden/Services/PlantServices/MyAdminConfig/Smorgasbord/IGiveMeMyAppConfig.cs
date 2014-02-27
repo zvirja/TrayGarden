@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord
 {
@@ -10,6 +14,10 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord
   /// </summary>
   public interface IGiveMeMyAppConfig
   {
+    #region Public Methods and Operators
+
     void StoreModuleConfiguration(System.Configuration.Configuration moduleConfiguration);
+
+    #endregion
   }
 }

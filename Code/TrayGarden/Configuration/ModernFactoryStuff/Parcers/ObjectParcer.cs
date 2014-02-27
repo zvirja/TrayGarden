@@ -1,20 +1,40 @@
-﻿using System.Xml;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+#endregion
 
 namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
 {
-    public class ObjectParcer : IParcer
+  public class ObjectParcer : IParcer
+  {
+    #region Constructors and Destructors
+
+    public ObjectParcer(ModernFactory modernFactoryInstance)
     {
-        protected ModernFactory ModernFactoryInstance { get; set; }
-
-        public ObjectParcer(ModernFactory modernFactoryInstance)
-        {
-            ModernFactoryInstance = modernFactoryInstance;
-        }
-
-        public virtual object ParceNodeValue(XmlNode nodeValue)
-        {
-            var instance = ModernFactoryInstance.GetObject(nodeValue);
-            return instance;
-        }
+      this.ModernFactoryInstance = modernFactoryInstance;
     }
+
+    #endregion
+
+    #region Properties
+
+    protected ModernFactory ModernFactoryInstance { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual object ParceNodeValue(XmlNode nodeValue)
+    {
+      var instance = this.ModernFactoryInstance.GetObject(nodeValue);
+      return instance;
+    }
+
+    #endregion
+  }
 }

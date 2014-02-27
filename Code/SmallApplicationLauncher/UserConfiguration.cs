@@ -1,13 +1,16 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Reception.Services;
-using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
+
+#endregion
 
 namespace SmallApplicationLauncher
 {

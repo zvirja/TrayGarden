@@ -11,8 +11,7 @@ using JetBrains.Annotations;
 
 namespace TrayGarden.UI.Configuration.EntryVM.Players
 {
-  public abstract class StringOptionConfigurationPlayer : TypedConfigurationPlayer<string>,
-                                                          IStringOptionConfigurationPlayer
+  public abstract class StringOptionConfigurationPlayer : TypedConfigurationPlayer<string>, IStringOptionConfigurationPlayer
   {
     #region Constructors and Destructors
 

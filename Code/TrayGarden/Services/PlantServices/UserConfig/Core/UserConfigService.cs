@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,6 +9,8 @@ using JetBrains.Annotations;
 
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
@@ -18,8 +22,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     public UserConfigService()
       : base("User Config", "UserConfigService")
     {
-      this.ServiceDescription =
-        "Service provides plant with user-configurable settings. These settings may be configured through UI.";
+      this.ServiceDescription = "Service provides plant with user-configurable settings. These settings may be configured through UI.";
     }
 
     #endregion

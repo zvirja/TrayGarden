@@ -1,5 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using TrayGarden.Services.FleaMarket.IconChanger;
+
+#endregion
 
 namespace TrayGarden.Reception.Services
 {
@@ -8,6 +16,10 @@ namespace TrayGarden.Reception.Services
   /// </summary>
   public interface IChangesGlobalIcon
   {
+    #region Public Methods and Operators
+
     void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient);
+
+    #endregion
   }
 }

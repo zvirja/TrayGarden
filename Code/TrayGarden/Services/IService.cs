@@ -1,23 +1,52 @@
-﻿using System;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using TrayGarden.Plants;
+
+#endregion
 
 namespace TrayGarden.Services
 {
-    public interface IService
-    {
-        string LuggageName { get; }
-        string ServiceName { get; }
-        string ServiceDescription { get; }
-        bool IsEnabled { get; set; }
-        bool IsActuallyEnabled { get; }
-        bool CanBeDisabled { get; }
-        event Action<bool> IsEnabledChanged;
+  public interface IService
+  {
+    #region Public Events
 
-        void InitializePlant(IPlantEx plantEx);
-        void InformInitializeStage();
-        void InformDisplayStage();
-        void InformClosingStage();
+    event Action<bool> IsEnabledChanged;
 
-        bool IsAvailableForPlant(IPlantEx plantEx);
-    }
+    #endregion
+
+    #region Public Properties
+
+    bool CanBeDisabled { get; }
+
+    bool IsActuallyEnabled { get; }
+
+    bool IsEnabled { get; set; }
+
+    string LuggageName { get; }
+
+    string ServiceDescription { get; }
+
+    string ServiceName { get; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    void InformClosingStage();
+
+    void InformDisplayStage();
+
+    void InformInitializeStage();
+
+    void InitializePlant(IPlantEx plantEx);
+
+    bool IsAvailableForPlant(IPlantEx plantEx);
+
+    #endregion
+  }
 }

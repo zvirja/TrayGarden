@@ -1,17 +1,30 @@
-﻿using System.Xml;
+﻿#region
+
+using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Xml;
+
+#endregion
 
 namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
 {
-    public class BoolParcer : IParcer
+  public class BoolParcer : IParcer
+  {
+    #region Public Methods and Operators
+
+    public virtual object ParceNodeValue(XmlNode nodeValue)
     {
-        public virtual object ParceNodeValue(XmlNode nodeValue)
-        {
-            string value = nodeValue.InnerText;
-            bool intValue;
-            if (bool.TryParse(value, out intValue))
-                return intValue;
-            return null;
-        }
+      string value = nodeValue.InnerText;
+      bool intValue;
+      if (bool.TryParse(value, out intValue))
+      {
+        return intValue;
+      }
+      return null;
     }
+
+    #endregion
+  }
 }

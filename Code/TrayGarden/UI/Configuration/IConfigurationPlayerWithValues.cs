@@ -1,10 +1,14 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Input;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
+
+#endregion
 
 namespace TrayGarden.UI.Configuration
 {

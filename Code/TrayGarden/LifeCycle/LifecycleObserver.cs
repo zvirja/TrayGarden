@@ -59,8 +59,7 @@ namespace TrayGarden.LifeCycle
     protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
     {
       return
-        AppDomain.CurrentDomain.GetAssemblies()
-          .FirstOrDefault(x => x.FullName.StartsWith(args.Name, StringComparison.OrdinalIgnoreCase));
+        AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith(args.Name, StringComparison.OrdinalIgnoreCase));
     }
 
     protected virtual void LoadLog4NetFromResources()
@@ -94,9 +93,7 @@ namespace TrayGarden.LifeCycle
       AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomainOnAssemblyResolve;
     }
 
-    private void Current_DispatcherUnhandledException(
-      object sender,
-      System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+    private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
     {
       Log.Error("Thrown exception wasn't catched. Application will be closed", e.Exception, typeof(Application));
       e.Handled = true;

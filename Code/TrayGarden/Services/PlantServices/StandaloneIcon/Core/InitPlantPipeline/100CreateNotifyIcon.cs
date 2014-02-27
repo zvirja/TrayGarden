@@ -1,37 +1,64 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
-using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Helpers;
+using TrayGarden.Reception.Services.StandaloneIcon;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {
   [UsedImplicitly]
   public class CreateNotifyIcon
   {
+    #region Public Methods and Operators
+
     [UsedImplicitly]
     public virtual void Process(InitPlantSIArgs args)
     {
       StandaloneIconPlantBox siBox = args.SIBox;
-      ResolveIAdvanced(args);
+      this.ResolveIAdvanced(args);
       if (siBox.NotifyIcon != null)
+      {
         return;
-      ResolveISimple(args);
+      }
+      this.ResolveISimple(args);
       if (siBox.NotifyIcon == null)
+      {
         args.Abort();
+      }
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
+    {
+      var asAdvanced = args.PlantEx.GetFirstWorkhorseOfType<IAdvancedStandaloneIcon>();
+      if (asAdvanced != null)
+      {
+        args.SIBox.NotifyIcon = asAdvanced.GetNotifyIcon();
+      }
     }
 
     protected virtual void ResolveISimple(InitPlantSIArgs args)
     {
       var asSimple = args.PlantEx.GetFirstWorkhorseOfType<IStandaloneIcon>();
       if (asSimple == null)
+      {
         return;
+      }
       string niTitle;
       Icon niIcon;
       MouseEventHandler niClickHandler;
@@ -54,13 +81,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
       args.SIBox.NotifyIcon = notifyIcon;
     }
 
-    protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
-    {
-      var asAdvanced = args.PlantEx.GetFirstWorkhorseOfType<IAdvancedStandaloneIcon>();
-      if (asAdvanced != null)
-      {
-        args.SIBox.NotifyIcon = asAdvanced.GetNotifyIcon();
-      }
-    }
+    #endregion
   }
 }

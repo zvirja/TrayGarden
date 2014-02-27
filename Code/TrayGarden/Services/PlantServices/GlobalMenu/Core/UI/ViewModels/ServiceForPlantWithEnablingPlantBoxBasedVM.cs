@@ -1,46 +1,78 @@
-﻿using System;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
 using JetBrains.Annotations;
-using TrayGarden.Services.PlantServices.StandaloneIcon.Core;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
+  [UsedImplicitly]
+  public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEnablingVM, IDisposable
+  {
+    #region Constructors and Destructors
+
+    public ServiceForPlantWithEnablingPlantBoxBasedVM(
+      [NotNull] string serviceName,
+      [NotNull] string description,
+      ServicePlantBoxBase plantBox)
+      : base(serviceName, description)
+    {
+      this.AssignedPlantBox = plantBox;
+      this.AssignedPlantBox.IsEnabledChanged += this.AssignedPlantBox_IsEnabledChanged;
+    }
+
+    #endregion
+
+    #region Public Properties
 
     [UsedImplicitly]
-    public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEnablingVM, IDisposable
+    public override bool IsEnabled
     {
-
-        protected ServicePlantBoxBase AssignedPlantBox { get; set; }
-
-
-        [UsedImplicitly]
-        public override bool IsEnabled
+      get
+      {
+        return this.AssignedPlantBox.IsEnabled;
+      }
+      set
+      {
+        if (value.Equals(this.AssignedPlantBox.IsEnabled))
         {
-            get { return AssignedPlantBox.IsEnabled; }
-            set
-            {
-                if (value.Equals(AssignedPlantBox.IsEnabled)) return;
-                AssignedPlantBox.IsEnabled = value;
-                OnPropertyChanged("IsEnabled");
-                OnIsEnabledChanged(value);
-            }
+          return;
         }
-
-        public ServiceForPlantWithEnablingPlantBoxBasedVM([NotNull] string serviceName, [NotNull] string description, ServicePlantBoxBase plantBox)
-            : base(serviceName, description)
-        {
-            AssignedPlantBox = plantBox;
-            AssignedPlantBox.IsEnabledChanged += AssignedPlantBox_IsEnabledChanged;
-        }
-
-        protected virtual void AssignedPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
-        {
-            OnPropertyChanged("IsEnabled");
-        }
-
-
-        public virtual void Dispose()
-        {
-            AssignedPlantBox.IsEnabledChanged -= AssignedPlantBox_IsEnabledChanged;
-        }
+        this.AssignedPlantBox.IsEnabled = value;
+        this.OnPropertyChanged("IsEnabled");
+        this.OnIsEnabledChanged(value);
+      }
     }
+
+    #endregion
+
+    #region Properties
+
+    protected ServicePlantBoxBase AssignedPlantBox { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual void Dispose()
+    {
+      this.AssignedPlantBox.IsEnabledChanged -= this.AssignedPlantBox_IsEnabledChanged;
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected virtual void AssignedPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
+    {
+      this.OnPropertyChanged("IsEnabled");
+    }
+
+    #endregion
+  }
 }

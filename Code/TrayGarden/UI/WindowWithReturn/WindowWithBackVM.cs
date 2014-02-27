@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -7,15 +9,17 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
+using TrayGarden.Helpers;
 using TrayGarden.Helpers.ThreadSwitcher;
-using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.Commands;
-using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.UI.WindowWithReturn
 {
@@ -24,146 +28,168 @@ namespace TrayGarden.UI.WindowWithReturn
   /// </summary>
   public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
-
-    public delegate bool WindowSizePozitionInfoRetriever(
-        out double top, out double left, out double width, out double height, out bool maximized);
-
-
-
-    protected int TimesEnterBulkUpdate { get; set; }
-
-    //protected static bool CommandsEnabledByDefault = true;
-
-    protected delegate void GoAheadWithBackInvokable(WindowStepState newState);
-
-    protected static event GoAheadWithBackInvokable GoAheadTargets;
-
-    public static void GoAheadWithBackIfPossible(WindowStepState newState)
-    {
-      if (GoAheadTargets != null)
-        GoAheadTargets(newState);
-    }
-
-    protected static double GetDoubleValueOrZero(string str)
-    {
-      double result;
-      return double.TryParse(str, out result) ? result : 0;
-    }
-
-
-    protected ISettingsBox SelfSettingsBox { get; set; }
+    #region Fields
 
     protected RelayCommand _backCommand;
-    protected ObservableCollection<ActionCommandVM> _helpActions;
+
     protected string _copyrightTitle;
+
+    protected ObservableCollection<ActionCommandVM> _helpActions;
+
     private Stack<WindowStepState> _steps;
 
+    #endregion
 
-    protected virtual string BackToTitleInternal { get; set; }
-
-    protected virtual bool CanBack
-    {
-      get { return _backCommand.CanExecute(null); }
-      set { _backCommand.CanExecuteMaster = value; }
-    }
-
-    protected virtual Stack<WindowStepState> Steps
-    {
-      get { return _steps; }
-      set { _steps = value; }
-    }
-
-    protected virtual WindowStepState CurrentState
-    {
-      get { return Steps.Count > 0 ? Steps.Peek() : WindowStepState.EmptyState; }
-    }
-
+    #region Constructors and Destructors
 
     public WindowWithBackVM()
     {
+      this._backCommand = new RelayCommand(this.BackExecute, false);
+      this._helpActions = new ObservableCollection<ActionCommandVM>();
+      this._helpActions.CollectionChanged += this.HelpActions_CollectionChanged;
+      this._copyrightTitle = "Zvirja Inc (c)";
+      this._steps = new Stack<WindowStepState>();
+      this.SelfSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("WindowWithBackVMBase");
 
-      _backCommand = new RelayCommand(BackExecute, false);
-      _helpActions = new ObservableCollection<ActionCommandVM>();
-      _helpActions.CollectionChanged += HelpActions_CollectionChanged;
-      _copyrightTitle = "Zvirja Inc (c)";
-      _steps = new Stack<WindowStepState>();
-      SelfSettingsBox =
-          HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("WindowWithBackVMBase");
-
-      GoAheadTargets += GoAheadWithBack;
-
+      GoAheadTargets += this.GoAheadWithBack;
     }
 
+    #endregion
 
+    #region Delegates
+
+    public delegate bool WindowSizePozitionInfoRetriever(
+      out double top,
+      out double left,
+      out double width,
+      out double height,
+      out bool maximized);
+
+    protected delegate void GoAheadWithBackInvokable(WindowStepState newState);
+
+    #endregion
+
+    #region Public Events
 
     public event PropertyChangedEventHandler PropertyChanged;
 
-    public virtual string GlobalTitle
+    #endregion
+
+    #region Events
+
+    protected static event GoAheadWithBackInvokable GoAheadTargets;
+
+    #endregion
+
+    #region Public Properties
+
+    [UsedImplicitly]
+    public virtual RelayCommand BackCommand
     {
-      get { return CurrentState.GlobalTitle; }
+      get
+      {
+        return this._backCommand;
+      }
     }
 
-    public virtual string Header
+    public virtual string BackToTitle
     {
-      get { return CurrentState.Header; }
+      get
+      {
+        return "Back to " + this.BackToTitleInternal;
+      }
+      set
+      {
+        if (value == this.BackToTitleInternal)
+        {
+          return;
+        }
+        this.BackToTitleInternal = value;
+        this.OnPropertyChanged("BackToTitle");
+      }
     }
 
     public virtual object ContentVM
     {
-      get { return CurrentState.ContentVM; }
+      get
+      {
+        return this.CurrentState.ContentVM;
+      }
       set
       {
-        if (CurrentState.ContentVM == value) return;
-        CurrentState.ContentVM = value;
-        OnPropertyChanged("ContentVM");
+        if (this.CurrentState.ContentVM == value)
+        {
+          return;
+        }
+        this.CurrentState.ContentVM = value;
+        this.OnPropertyChanged("ContentVM");
       }
     }
 
     [UsedImplicitly]
     public virtual string CopyrightTitle
     {
-      get { return _copyrightTitle; }
+      get
+      {
+        return this._copyrightTitle;
+      }
       set
       {
-        if (value == _copyrightTitle) return;
-        _copyrightTitle = value;
-        OnPropertyChanged("CopyrightTitle");
+        if (value == this._copyrightTitle)
+        {
+          return;
+        }
+        this._copyrightTitle = value;
+        this.OnPropertyChanged("CopyrightTitle");
       }
     }
 
     //--
-
-    public virtual string BackToTitle
-    {
-      get { return "Back to " + BackToTitleInternal; }
-      set
-      {
-        if (value == BackToTitleInternal) return;
-        BackToTitleInternal = value;
-        OnPropertyChanged("BackToTitle");
-      }
-    }
-
-
-    [UsedImplicitly]
-    public virtual RelayCommand BackCommand
-    {
-      get { return _backCommand; }
-    }
-
-    //--
-
-
-    [UsedImplicitly]
-    public virtual string ExtraActionTitle
-    {
-      get { return CurrentState.SuperAction.Title; }
-    }
 
     [UsedImplicitly]
     public virtual ICommand ExtraActionCommand
     {
-      get { return CurrentState.SuperAction.Command; }
+      get
+      {
+        return this.CurrentState.SuperAction.Command;
+      }
+    }
+
+    [UsedImplicitly]
+    public virtual string ExtraActionTitle
+    {
+      get
+      {
+        return this.CurrentState.SuperAction.Title;
+      }
+    }
+
+    public virtual string GlobalTitle
+    {
+      get
+      {
+        return this.CurrentState.GlobalTitle;
+      }
+    }
+
+    public virtual string Header
+    {
+      get
+      {
+        return this.CurrentState.Header;
+      }
+    }
+
+    public double Height
+    {
+      get
+      {
+        return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowHeight", null));
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetString("WindowHeight", value.ToString(CultureInfo.InvariantCulture));
+      }
     }
 
     //---
@@ -174,182 +200,274 @@ namespace TrayGarden.UI.WindowWithReturn
     {
       get
       {
-        var aggregated = new List<ActionCommandVM>(_helpActions);
-        Assert.IsNotNull(CurrentState.StateSpecificHelpActions, "StateSpecificHelpActions can't be null");
-        aggregated.AddRange(CurrentState.StateSpecificHelpActions);
+        var aggregated = new List<ActionCommandVM>(this._helpActions);
+        Assert.IsNotNull(this.CurrentState.StateSpecificHelpActions, "StateSpecificHelpActions can't be null");
+        aggregated.AddRange(this.CurrentState.StateSpecificHelpActions);
         return aggregated;
       }
     }
 
-
-    #region Size and position
-    public WindowSizePozitionInfoRetriever SizePozitionProvider { get; set; }
-
-    public double Top
-    {
-      get { return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowTop", null)); }
-      protected set { SelfSettingsBox.SetString("WindowTop", value.ToString(CultureInfo.InvariantCulture)); }
-    }
-
     public double Left
     {
-      get { return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowLeft", null)); }
-      protected set { SelfSettingsBox.SetString("WindowLeft", value.ToString(CultureInfo.InvariantCulture)); }
+      get
+      {
+        return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowLeft", null));
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetString("WindowLeft", value.ToString(CultureInfo.InvariantCulture));
+      }
     }
 
-    public double Width
-    {
-      get { return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowWidth", null)); }
-      protected set { SelfSettingsBox.SetString("WindowWidth", value.ToString(CultureInfo.InvariantCulture)); }
-    }
-
-    public double Height
-    {
-      get { return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowHeight", null)); }
-      protected set { SelfSettingsBox.SetString("WindowHeight", value.ToString(CultureInfo.InvariantCulture)); }
-    }
     public bool Maximized
     {
-      get { return SelfSettingsBox.GetBool("WindowMaximized", false); }
-      protected set { SelfSettingsBox.SetBool("WindowMaximized", value); }
+      get
+      {
+        return this.SelfSettingsBox.GetBool("WindowMaximized", false);
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetBool("WindowMaximized", value);
+      }
     }
-
-    public bool SizePropertiesAreValid
-    {
-      get { return SelfSettingsBox.GetBool("WindowPropertiesAreValid", false); }
-      protected set { SelfSettingsBox.SetBool("WindowPropertiesAreValid", value); }
-    }
-
-    #endregion
 
     /// <summary>
     /// Get actions, which are related to whole VM, not to current state.
     /// </summary>
     public ObservableCollection<ActionCommandVM> SelfHelpActions
     {
-      get { return _helpActions; }
+      get
+      {
+        return this._helpActions;
+      }
     }
 
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged(string propertyName)
+    public WindowSizePozitionInfoRetriever SizePozitionProvider { get; set; }
+
+    public bool SizePropertiesAreValid
     {
-      PropertyChangedEventHandler handler = PropertyChanged;
-      if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
+      get
+      {
+        return this.SelfSettingsBox.GetBool("WindowPropertiesAreValid", false);
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetBool("WindowPropertiesAreValid", value);
+      }
     }
 
-
-    public virtual void ReplaceInitialState(WindowStepState newHomeState)
+    public double Top
     {
-      ClearStepsStackWithDisposing();
-      Steps.Push(newHomeState);
-      CanBack = false;
-      NotifyPublicVisibleChanged();
+      get
+      {
+        return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowTop", null));
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetString("WindowTop", value.ToString(CultureInfo.InvariantCulture));
+      }
+    }
+
+    public double Width
+    {
+      get
+      {
+        return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowWidth", null));
+      }
+      protected set
+      {
+        this.SelfSettingsBox.SetString("WindowWidth", value.ToString(CultureInfo.InvariantCulture));
+      }
+    }
+
+    #endregion
+
+    #region Properties
+
+    protected virtual string BackToTitleInternal { get; set; }
+
+    protected virtual bool CanBack
+    {
+      get
+      {
+        return this._backCommand.CanExecute(null);
+      }
+      set
+      {
+        this._backCommand.CanExecuteMaster = value;
+      }
+    }
+
+    protected virtual WindowStepState CurrentState
+    {
+      get
+      {
+        return this.Steps.Count > 0 ? this.Steps.Peek() : WindowStepState.EmptyState;
+      }
+    }
+
+    protected ISettingsBox SelfSettingsBox { get; set; }
+
+    protected virtual Stack<WindowStepState> Steps
+    {
+      get
+      {
+        return this._steps;
+      }
+      set
+      {
+        this._steps = value;
+      }
+    }
+
+    protected int TimesEnterBulkUpdate { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public static void GoAheadWithBackIfPossible(WindowStepState newState)
+    {
+      if (GoAheadTargets != null)
+      {
+        GoAheadTargets(newState);
+      }
+    }
+
+    public virtual void Dispose()
+    {
+      if (this.TimesEnterBulkUpdate == 1)
+      {
+        StackRawSwitcher<BulkUpdateState>.Exit();
+        HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(true);
+        this.TimesEnterBulkUpdate--;
+      }
+      else
+      {
+        Log.Warn("Invalid value of TimesEnterBulkUpdate setting: {0}. Should be 1".FormatWith(this.TimesEnterBulkUpdate + 1), this);
+      }
+      GoAheadTargets -= this.GoAheadWithBack;
+      this.ClearStepsStackWithDisposing();
     }
 
     public virtual void PrepareToShow()
     {
       StackRawSwitcher<BulkUpdateState>.Enter(BulkUpdateState.Enabled);
-      TimesEnterBulkUpdate++;
-      _helpActions.Clear();
-      foreach (ActionCommandVM helpAction in GetHelpActions())
+      this.TimesEnterBulkUpdate++;
+      this._helpActions.Clear();
+      foreach (ActionCommandVM helpAction in this.GetHelpActions())
       {
-        _helpActions.Add(helpAction);
+        this._helpActions.Add(helpAction);
       }
     }
 
-
-    public virtual void Dispose()
+    public virtual void ReplaceInitialState(WindowStepState newHomeState)
     {
-      if (TimesEnterBulkUpdate == 1)
+      this.ClearStepsStackWithDisposing();
+      this.Steps.Push(newHomeState);
+      this.CanBack = false;
+      this.NotifyPublicVisibleChanged();
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected static double GetDoubleValueOrZero(string str)
+    {
+      double result;
+      return double.TryParse(str, out result) ? result : 0;
+    }
+
+    protected virtual void BackExecute(object o)
+    {
+      Assert.IsTrue(this.Steps.Count > 0, "Steps stack is corrupted. Can't be less than 1");
+      var contentVMtoDestroy = this.ContentVM as IDisposable;
+      if (contentVMtoDestroy != null)
       {
-        StackRawSwitcher<BulkUpdateState>.Exit();
-        HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(true);
-        TimesEnterBulkUpdate--;
+        contentVMtoDestroy.Dispose();
       }
-      else
+      this.Steps.Pop();
+      this.CanBack = this.Steps.Count > 1;
+      if (this.CanBack)
       {
-        Log.Warn(
-            "Invalid value of TimesEnterBulkUpdate setting: {0}. Should be 1".FormatWith(TimesEnterBulkUpdate +
-                                                                                         1), this);
+        WindowStepState windowStepState = this.Steps.Where((state, index) => index == 1).FirstOrDefault();
+        if (windowStepState != null)
+        {
+          this.BackToTitle = windowStepState.ShortName;
+        }
+        else
+        {
+          this.BackToTitle = "hell :)";
+        }
       }
-      GoAheadTargets -= GoAheadWithBack;
-      ClearStepsStackWithDisposing();
+      this.NotifyPublicVisibleChanged();
     }
 
     protected virtual void ClearStepsStackWithDisposing()
     {
-      while (Steps.Count > 0)
+      while (this.Steps.Count > 0)
       {
-        WindowStepState currentStep = Steps.Pop();
+        WindowStepState currentStep = this.Steps.Pop();
         var currentStepContentVM = currentStep.ContentVM as IDisposable;
         if (currentStepContentVM != null)
+        {
           currentStepContentVM.Dispose();
+        }
       }
     }
-
-
-    protected virtual void BackExecute(object o)
-    {
-      Assert.IsTrue(Steps.Count > 0, "Steps stack is corrupted. Can't be less than 1");
-      var contentVMtoDestroy = ContentVM as IDisposable;
-      if (contentVMtoDestroy != null)
-        contentVMtoDestroy.Dispose();
-      Steps.Pop();
-      CanBack = Steps.Count > 1;
-      if (CanBack)
-      {
-        WindowStepState windowStepState = Steps.Where((state, index) => index == 1).FirstOrDefault();
-        if (windowStepState != null)
-          BackToTitle = windowStepState.ShortName;
-        else
-          BackToTitle = "hell :)";
-      }
-      NotifyPublicVisibleChanged();
-    }
-
-
-    protected virtual void GoAheadWithBack(WindowStepState newState)
-    {
-      Assert.IsNotNull(newState, "New state cannot be null");
-      BackToTitleInternal = CurrentState.ShortName;
-      Steps.Push(newState);
-      CanBack = true;
-      NotifyPublicVisibleChanged();
-    }
-
-    protected virtual void NotifyPublicVisibleChanged()
-    {
-      OnPropertyChanged("GlobalTitle");
-      OnPropertyChanged("Header");
-      OnPropertyChanged("ContentVM");
-      OnPropertyChanged("BackToTitle");
-      OnPropertyChanged("ExtraActionTitle");
-      OnPropertyChanged("ExtraActionCommand");
-      OnPropertyChanged("HelpActions");
-    }
-
-
-    protected virtual void HelpActions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-    {
-      OnPropertyChanged("HelpActions");
-    }
-
 
     protected virtual List<ActionCommandVM> GetHelpActions()
     {
       return new List<ActionCommandVM>()
-                {
-                    new ActionCommandVM(new RelayCommand(o => Application.Current.Shutdown(), true), "Close app"),
-                    new ActionCommandVM(new RelayCommand(SavePositionAndSize, true), "Save P&S")
-                };
+               {
+                 new ActionCommandVM(new RelayCommand(o => Application.Current.Shutdown(), true), "Close app"),
+                 new ActionCommandVM(new RelayCommand(this.SavePositionAndSize, true), "Save P&S")
+               };
+    }
+
+    protected virtual void GoAheadWithBack(WindowStepState newState)
+    {
+      Assert.IsNotNull(newState, "New state cannot be null");
+      this.BackToTitleInternal = this.CurrentState.ShortName;
+      this.Steps.Push(newState);
+      this.CanBack = true;
+      this.NotifyPublicVisibleChanged();
+    }
+
+    protected virtual void HelpActions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+    {
+      this.OnPropertyChanged("HelpActions");
+    }
+
+    protected virtual void NotifyPublicVisibleChanged()
+    {
+      this.OnPropertyChanged("GlobalTitle");
+      this.OnPropertyChanged("Header");
+      this.OnPropertyChanged("ContentVM");
+      this.OnPropertyChanged("BackToTitle");
+      this.OnPropertyChanged("ExtraActionTitle");
+      this.OnPropertyChanged("ExtraActionCommand");
+      this.OnPropertyChanged("HelpActions");
+    }
+
+    [NotifyPropertyChangedInvocator]
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+      PropertyChangedEventHandler handler = this.PropertyChanged;
+      if (handler != null)
+      {
+        handler(this, new PropertyChangedEventArgs(propertyName));
+      }
     }
 
     protected virtual void SavePositionAndSize(object o)
     {
-      if (SizePozitionProvider == null)
+      if (this.SizePozitionProvider == null)
       {
-        HatcherGuide<IUIManager>.Instance.OKMessageBox("Tray Garden -- Save position and size",
-                                                       "Unable to save position and size. Provider is empty.");
+        HatcherGuide<IUIManager>.Instance.OKMessageBox(
+          "Tray Garden -- Save position and size",
+          "Unable to save position and size. Provider is empty.");
         Log.Warn("SizePozitionProvider of WindowWithBackVMBase is empty. Something is wrong", this);
         return;
       }
@@ -358,15 +476,17 @@ namespace TrayGarden.UI.WindowWithReturn
       double width;
       double height;
       bool maximized;
-      if (SizePozitionProvider(out top, out left, out width, out height, out maximized))
+      if (this.SizePozitionProvider(out top, out left, out width, out height, out maximized))
       {
-        Top = top;
-        Left = left;
-        Width = width;
-        Height = height;
-        Maximized = maximized;
-        SizePropertiesAreValid = true;
+        this.Top = top;
+        this.Left = left;
+        this.Width = width;
+        this.Height = height;
+        this.Maximized = maximized;
+        this.SizePropertiesAreValid = true;
       }
     }
+
+    #endregion
   }
 }

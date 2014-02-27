@@ -39,8 +39,7 @@ namespace TrayGarden.UI.Configuration
       this.SubscribeToEntriesEvents(this.ConfigurationEntries);
       this.CalculateRebootOption = true;
       this.ConfigurationDescription =
-        "here you configure properties for plant. Normally you don't need reboot to apply them.".FormatWith(
-          Environment.NewLine);
+        "here you configure properties for plant. Normally you don't need reboot to apply them.".FormatWith(Environment.NewLine);
     }
 
     #endregion

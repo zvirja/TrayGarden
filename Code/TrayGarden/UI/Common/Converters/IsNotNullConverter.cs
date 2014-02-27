@@ -1,14 +1,20 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
+#endregion
+
 namespace TrayGarden.UI.Common.Converters
 {
-  public class IsNotNullConverter:IValueConverter
+  public class IsNotNullConverter : IValueConverter
   {
+    #region Public Methods and Operators
+
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
       return value != null;
@@ -18,5 +24,7 @@ namespace TrayGarden.UI.Common.Converters
     {
       throw new NotSupportedException();
     }
+
+    #endregion
   }
 }

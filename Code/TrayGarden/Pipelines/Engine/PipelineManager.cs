@@ -1,76 +1,105 @@
+#region
+
 using System;
 using System.Collections.Generic;
-using System.Xml;
+using System.Linq;
+using System.Text;
+
 using JetBrains.Annotations;
-using TrayGarden.Configuration;
+
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Pipelines.Engine
 {
   [UsedImplicitly]
   public class PipelineManager : IPipelineManager
   {
-    protected Dictionary<string, IPipeline> PipelinesInternal { get; set; }
-    protected bool Initialized { get; set; }
+    #region Constructors and Destructors
 
     public PipelineManager()
     {
-      PipelinesInternal = new Dictionary<string, IPipeline>();
+      this.PipelinesInternal = new Dictionary<string, IPipeline>();
     }
+
+    #endregion
+
+    #region Properties
+
+    protected bool Initialized { get; set; }
+
+    protected Dictionary<string, IPipeline> PipelinesInternal { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize(IEnumerable<IPipeline> pipelines)
     {
       Assert.ArgumentNotNull(pipelines, "pipelines");
-      PipelinesInternal = new Dictionary<string, IPipeline>();
+      this.PipelinesInternal = new Dictionary<string, IPipeline>();
       foreach (IPipeline pipeline in pipelines)
       {
-        var pipelineKey = GetPipelineKey(pipeline.Name, pipeline.ArgumentType);
-        PipelinesInternal.Add(pipelineKey, pipeline);
+        var pipelineKey = this.GetPipelineKey(pipeline.Name, pipeline.ArgumentType);
+        this.PipelinesInternal.Add(pipelineKey, pipeline);
       }
-      Initialized = true;
+      this.Initialized = true;
     }
+
+    public virtual void InvokePipeline<TArgumentType>([NotNull] string pipelineName, [NotNull] TArgumentType argument)
+      where TArgumentType : PipelineArgs
+    {
+      Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
+      Assert.ArgumentNotNull(argument, "argument");
+      if (!this.Initialized)
+      {
+        throw new NonInitializedException();
+      }
+      IPipeline pipeline = this.ResolvePipeline(pipelineName, argument.GetType());
+      if (pipeline == null)
+      {
+        return;
+      }
+      pipeline.Invoke(argument, true);
+    }
+
+    public virtual void InvokePipelineUnmaskedExceptions<TArgumentType>([NotNull] string pipelineName, [NotNull] TArgumentType argument)
+      where TArgumentType : PipelineArgs
+    {
+      Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
+      Assert.ArgumentNotNull(argument, "argument");
+      if (!this.Initialized)
+      {
+        throw new NonInitializedException();
+      }
+      IPipeline pipeline = this.ResolvePipeline(pipelineName, argument.GetType());
+      Assert.IsNotNull(pipeline, "Can't resolve pipeline {0}".FormatWith(pipelineName));
+      pipeline.Invoke(argument, false);
+    }
+
+    #endregion
+
+    #region Methods
 
     protected virtual string GetPipelineKey(string pipelineName, Type pipelineArgumentType)
     {
       return string.Format("{0}&&{1}", pipelineName, pipelineArgumentType);
     }
 
-    public virtual void InvokePipeline<TArgumentType>([NotNull] string pipelineName,
-                                                      [NotNull] TArgumentType argument)
-        where TArgumentType : PipelineArgs
-    {
-      Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(argument, "argument");
-      if (!Initialized)
-        throw new NonInitializedException();
-      IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
-      if (pipeline == null)
-        return;
-      pipeline.Invoke(argument, true);
-    }
-
-    public virtual void InvokePipelineUnmaskedExceptions<TArgumentType>([NotNull] string pipelineName,
-                                                                        [NotNull] TArgumentType argument)
-        where TArgumentType : PipelineArgs
-    {
-      Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
-      Assert.ArgumentNotNull(argument, "argument");
-      if (!Initialized)
-        throw new NonInitializedException();
-      IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
-      Assert.IsNotNull(pipeline, "Can't resolve pipeline {0}".FormatWith(pipelineName));
-      pipeline.Invoke(argument, false);
-    }
-
     protected virtual IPipeline ResolvePipeline(string pipelineName, Type argumentType)
     {
-      string key = GetPipelineKey(pipelineName, argumentType);
-      if (!PipelinesInternal.ContainsKey(key))
+      string key = this.GetPipelineKey(pipelineName, argumentType);
+      if (!this.PipelinesInternal.ContainsKey(key))
+      {
         return null;
-      IPipeline pipeline = PipelinesInternal[key];
+      }
+      IPipeline pipeline = this.PipelinesInternal[key];
       return pipeline;
     }
+
+    #endregion
   }
 }

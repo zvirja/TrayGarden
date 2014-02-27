@@ -1,17 +1,24 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
+
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.UI.Common.Converters
 {
   public class TimeSpanSummator : IMultiValueConverter
   {
+    #region Public Methods and Operators
+
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
       TimeSpan resultValue = TimeSpan.Zero;
@@ -20,9 +27,7 @@ namespace TrayGarden.UI.Common.Converters
       {
         if (!(timespanValue is TimeSpan))
         {
-          Log.Debug(
-            "TimeSpanSummator. Passed value type {0} isn't an expected TimeSpan".FormatWith(
-              timespanValue.GetType().FullName), this);
+          Log.Debug("TimeSpanSummator. Passed value type {0} isn't an expected TimeSpan".FormatWith(timespanValue.GetType().FullName), this);
           continue;
         }
         var convertedTimeSpan = (TimeSpan)timespanValue;
@@ -36,5 +41,7 @@ namespace TrayGarden.UI.Common.Converters
     {
       throw new InvalidOperationException("TimeSpanSummator doesn't support such convertion");
     }
+
+    #endregion
   }
 }

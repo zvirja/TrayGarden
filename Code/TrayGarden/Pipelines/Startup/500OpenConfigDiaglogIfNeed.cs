@@ -22,9 +22,7 @@ namespace TrayGarden.Pipelines.Startup
     [UsedImplicitly]
     public void Process(StartupArgs args)
     {
-      if (
-        args.StartupParams.Any(
-          x => x.Equals(StringConstants.OpenConfigDialogStartupKey, StringComparison.OrdinalIgnoreCase)))
+      if (args.StartupParams.Any(x => x.Equals(StringConstants.OpenConfigDialogStartupKey, StringComparison.OrdinalIgnoreCase)))
       {
         this.SilentlyTryToOpenConfigurationWindow();
       }

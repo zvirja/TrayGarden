@@ -59,7 +59,9 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       //remove &fd=1 param which causes download
       const string downloadSuffix = "&fd=1";
       if (validContent.EndsWith(downloadSuffix))
+      {
         validContent = validContent.Substring(0, validContent.Length - downloadSuffix.Length);
+      }
 
       return validContent;
     }

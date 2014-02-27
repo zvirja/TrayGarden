@@ -1,16 +1,29 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning
 {
   public class PositionSize
   {
-    protected double top;
+    #region Fields
+
     protected double left;
-    protected double mandatoryWidth;
+
     protected double mandatoryHeight;
+
+    protected double mandatoryWidth;
+
+    protected double top;
+
+    #endregion
+
+    #region Constructors and Destructors
 
     public PositionSize(double top, double left, double mandatoryWidth, double mandatoryHeight)
     {
@@ -20,53 +33,85 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
       this.mandatoryHeight = mandatoryHeight;
     }
 
+    #endregion
+
+    #region Public Events
+
     public event Action Changed;
 
-    public double Top
-    {
-      get { return top; }
-      set
-      {
-        if (Math.Abs(top - value) < 0.1) return;
-        top = value;
-        OnChanged();
-      }
-    }
+    #endregion
+
+    #region Public Properties
 
     public double Left
     {
-      get { return left; }
-      set
+      get
       {
-        left = value;
-        OnChanged();
+        return this.left;
       }
-    }
-
-    public double MandatoryWidth
-    {
-      get { return mandatoryWidth; }
       set
       {
-        mandatoryWidth = value;
-        OnChanged();
+        this.left = value;
+        this.OnChanged();
       }
     }
 
     public double MandatoryHeight
     {
-      get { return mandatoryHeight; }
+      get
+      {
+        return this.mandatoryHeight;
+      }
       set
       {
-        mandatoryHeight = value;
-        OnChanged();
+        this.mandatoryHeight = value;
+        this.OnChanged();
       }
     }
 
+    public double MandatoryWidth
+    {
+      get
+      {
+        return this.mandatoryWidth;
+      }
+      set
+      {
+        this.mandatoryWidth = value;
+        this.OnChanged();
+      }
+    }
+
+    public double Top
+    {
+      get
+      {
+        return this.top;
+      }
+      set
+      {
+        if (Math.Abs(this.top - value) < 0.1)
+        {
+          return;
+        }
+        this.top = value;
+        this.OnChanged();
+      }
+    }
+
+    #endregion
+
+    #region Methods
+
     protected virtual void OnChanged()
     {
-      Action handler = Changed;
-      if (handler != null) handler();
+      Action handler = this.Changed;
+      if (handler != null)
+      {
+        handler();
+      }
     }
+
+    #endregion
   }
 }

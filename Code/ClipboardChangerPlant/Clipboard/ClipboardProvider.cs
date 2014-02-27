@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ using JetBrains.Annotations;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
+
+#endregion
 
 namespace ClipboardChangerPlant.Clipboard
 {
@@ -65,11 +69,10 @@ namespace ClipboardChangerPlant.Clipboard
 
     public virtual void PostInit()
     {
-      this.ListenClipoardSetting =
-        UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(
-          "listenTheClipboard",
-          ListenClipboardSettingName,
-          true);
+      this.ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(
+        "listenTheClipboard",
+        ListenClipboardSettingName,
+        true);
     }
 
     public virtual void SetValue(string value, bool silent)

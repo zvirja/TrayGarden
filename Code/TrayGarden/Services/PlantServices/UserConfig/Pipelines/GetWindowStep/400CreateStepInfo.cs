@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,8 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.ForSimplerLife;
 using TrayGarden.UI.WindowWithReturn;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {
@@ -40,9 +44,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
     [UsedImplicitly]
     public virtual void Process(GetUCStepPipelineArgs args)
     {
-      Assert.IsNotNull(
-        args.ConfigurationConstructInfo.ResultControlVM,
-        "args.ConfigurationConstructInfo.ResultControlVM");
+      Assert.IsNotNull(args.ConfigurationConstructInfo.ResultControlVM, "args.ConfigurationConstructInfo.ResultControlVM");
       WindowWithBackStateConstructInfo stateInfo = args.StateConstructInfo;
       stateInfo.ResultState = new WindowStepState(
         this.GetGlobalTitle(args),

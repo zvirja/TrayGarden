@@ -1,7 +1,11 @@
+#region
+
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
@@ -9,10 +13,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
   {
     #region Public Methods and Operators
 
-    void Initialize(
-      ITypedUserSettingMetadata<T> typedMetadata,
-      IUserSettingStorage<T> storage,
-      List<IUserSettingBase> activityCriterias);
+    void Initialize(ITypedUserSettingMetadata<T> typedMetadata, IUserSettingStorage<T> storage, List<IUserSettingBase> activityCriterias);
 
     #endregion
   }

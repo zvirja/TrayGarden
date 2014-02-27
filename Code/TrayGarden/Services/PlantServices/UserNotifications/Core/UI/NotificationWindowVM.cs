@@ -1,205 +1,232 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
+
 using JetBrains.Annotations;
+
 using TrayGarden.Diagnostics;
-using TrayGarden.RuntimeSettings;
+using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.Commands;
-using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 {
   public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResultProvider
   {
-    protected string permanentCloseDescription;
-    protected PositionSize positionAndSize;
+    #region Fields
+
     protected bool isAlive;
 
+    protected string permanentCloseDescription;
+
+    protected PositionSize positionAndSize;
+
+    #endregion
+
+    #region Constructors and Destructors
+
+    public NotificationWindowVM(
+      [NotNull] PositionSize actualPositionAndSize,
+      [NotNull] IResultProvider nestedNotificationVM,
+      [NotNull] string originator)
+    {
+      Assert.ArgumentNotNull(actualPositionAndSize, "actualPositionAndSize");
+      Assert.ArgumentNotNull(nestedNotificationVM, "nestedNotificationVM");
+      Assert.ArgumentNotNullOrEmpty(originator, "originator");
+      this.positionAndSize = actualPositionAndSize;
+      this.positionAndSize.Changed += this.PositionAndSizeOnChanged;
+      this.NestedNotificationVM = nestedNotificationVM;
+      this.NestedNotificationVM.ResultObtained += this.OnResultObtainedFromNestedNotification;
+      this.isAlive = true;
+      this.permanentCloseDescription = this.GetPermanentCloseDescription(originator);
+      this.Result = new NotificationResult(ResultCode.Unspecified);
+
+      this.CloseCommand = new RelayCommand(this.OnCloseCommandExecute, true);
+      this.PermanentCloseCommand = new RelayCommand(this.OnPermanentlyCloseExecute, true);
+    }
+
+    #endregion
+
+    #region Public Events
+
     public event PropertyChangedEventHandler PropertyChanged;
+
     public event EventHandler<ResultObtainedEventArgs> ResultObtained;
 
-
+    #endregion
 
     #region Public Properties
 
     public ICommand CloseCommand { get; set; }
-    public ICommand PermanentCloseCommand { get; set; }
 
-    public NotificationResult Result { get; protected set; }
-    public IResultProvider NestedNotificationVM { get; set; }
-
-    [UsedImplicitly]
-    public virtual bool IsAlive
+    public virtual TimeSpan DelayBeforeForceClosing
     {
-      get { return isAlive; }
-      set
+      get
       {
-        if (value.Equals(isAlive)) return;
-        isAlive = value;
-        OnPropertyChanged("IsAlive");
+        return this.DelayBeforeForceFading + this.ForceFadingDuration.TimeSpan;
       }
     }
 
-    public bool IsPositionLocked { get; set; }
-
-    public virtual PositionSize PositionAndSize
+    public virtual TimeSpan DelayBeforeForceFading
     {
-      get { return positionAndSize; }
+      get
+      {
+        return UserNotificationsConfiguration.DelayBeforeForceFading.Value;
+      }
       set
       {
-        if (Equals(value, positionAndSize)) return;
-        positionAndSize = value;
-        OnPropertyChanged("PositionAndSize");
+        UserNotificationsConfiguration.DelayBeforeForceFading.Value = value;
       }
     }
 
-    public virtual string PermanentCloseDescription
+    public virtual TimeSpan DelayBeforeNormalClosing
     {
-      get { return permanentCloseDescription; }
+      get
+      {
+        return this.DelayBeforeNormalFading + this.NormalFadingDuration.TimeSpan;
+      }
+    }
+
+    public virtual TimeSpan DelayBeforeNormalFading
+    {
+      get
+      {
+        return UserNotificationsConfiguration.DelayBeforeNormalFading.Value;
+      }
       set
       {
-        if (value == permanentCloseDescription) return;
-        permanentCloseDescription = value;
-        OnPropertyChanged("PermanentCloseDescription");
+        UserNotificationsConfiguration.DelayBeforeNormalFading.Value = value;
       }
     }
 
     public virtual bool DisplayPermanentlyCloseButton
     {
-      get { return UserNotificationsConfiguration.DisplayPermanentCloseButton.Value; }
-    }
-
-
-    #region Close animation
-
-    public virtual TimeSpan DelayBeforeNormalFading
-    {
-      get { return UserNotificationsConfiguration.DelayBeforeNormalFading.Value; }
-      set { UserNotificationsConfiguration.DelayBeforeNormalFading.Value = value; }
-    }
-
-    public virtual TimeSpan DelayBeforeForceFading
-    {
-      get { return UserNotificationsConfiguration.DelayBeforeForceFading.Value; }
-      set { UserNotificationsConfiguration.DelayBeforeForceFading.Value = value; }
-    }
-
-    public virtual Duration NormalFadingDuration
-    {
-      get { return UserNotificationsConfiguration.NormalFadingDuration.Value; }
-      set { UserNotificationsConfiguration.NormalFadingDuration.Value = value.TimeSpan; }
+      get
+      {
+        return UserNotificationsConfiguration.DisplayPermanentCloseButton.Value;
+      }
     }
 
     public virtual Duration ForceFadingDuration
     {
-      get { return UserNotificationsConfiguration.ForceFadingDuration.Value; }
-      set { UserNotificationsConfiguration.ForceFadingDuration.Value = value.TimeSpan; }
+      get
+      {
+        return UserNotificationsConfiguration.ForceFadingDuration.Value;
+      }
+      set
+      {
+        UserNotificationsConfiguration.ForceFadingDuration.Value = value.TimeSpan;
+      }
     }
 
-    public virtual TimeSpan DelayBeforeNormalClosing
+    [UsedImplicitly]
+    public virtual bool IsAlive
     {
-      get { return DelayBeforeNormalFading + NormalFadingDuration.TimeSpan; }
+      get
+      {
+        return this.isAlive;
+      }
+      set
+      {
+        if (value.Equals(this.isAlive))
+        {
+          return;
+        }
+        this.isAlive = value;
+        this.OnPropertyChanged("IsAlive");
+      }
     }
 
-    public virtual TimeSpan DelayBeforeForceClosing
+    public bool IsPositionLocked { get; set; }
+
+    public IResultProvider NestedNotificationVM { get; set; }
+
+    public virtual Duration NormalFadingDuration
     {
-      get { return DelayBeforeForceFading + ForceFadingDuration.TimeSpan; }
+      get
+      {
+        return UserNotificationsConfiguration.NormalFadingDuration.Value;
+      }
+      set
+      {
+        UserNotificationsConfiguration.NormalFadingDuration.Value = value.TimeSpan;
+      }
     }
+
+    public ICommand PermanentCloseCommand { get; set; }
+
+    public virtual string PermanentCloseDescription
+    {
+      get
+      {
+        return this.permanentCloseDescription;
+      }
+      set
+      {
+        if (value == this.permanentCloseDescription)
+        {
+          return;
+        }
+        this.permanentCloseDescription = value;
+        this.OnPropertyChanged("PermanentCloseDescription");
+      }
+    }
+
+    public virtual PositionSize PositionAndSize
+    {
+      get
+      {
+        return this.positionAndSize;
+      }
+      set
+      {
+        if (Equals(value, this.positionAndSize))
+        {
+          return;
+        }
+        this.positionAndSize = value;
+        this.OnPropertyChanged("PositionAndSize");
+      }
+    }
+
+    public NotificationResult Result { get; protected set; }
 
     #endregion
 
-
-    #endregion
-
-
-
-    public NotificationWindowVM([NotNull] PositionSize actualPositionAndSize, 
-                                [NotNull] IResultProvider nestedNotificationVM,
-                                [NotNull] string originator)
-    {
-      Assert.ArgumentNotNull(actualPositionAndSize, "actualPositionAndSize");
-      Assert.ArgumentNotNull(nestedNotificationVM, "nestedNotificationVM");
-      Assert.ArgumentNotNullOrEmpty(originator, "originator");
-      positionAndSize = actualPositionAndSize;
-      positionAndSize.Changed +=PositionAndSizeOnChanged;
-      NestedNotificationVM = nestedNotificationVM;
-      NestedNotificationVM.ResultObtained += OnResultObtainedFromNestedNotification;
-      isAlive = true;
-      permanentCloseDescription = GetPermanentCloseDescription(originator);
-      Result = new NotificationResult(ResultCode.Unspecified);
-
-      CloseCommand = new RelayCommand(OnCloseCommandExecute, true);
-      PermanentCloseCommand = new RelayCommand(OnPermanentlyCloseExecute,true);
-    }
-
-    
-
+    #region Public Methods and Operators
 
     public virtual void Dispose()
     {
       //Check whether this result was accepted. Otherwise no sense to inform listeners that we received it.
-      bool arrivedOnTime = SetResultIfStillNeed(new NotificationResult(ResultCode.NoReaction));
-      var nestedAsDisposable = NestedNotificationVM as IDisposable;
-      if(nestedAsDisposable != null)
+      bool arrivedOnTime = this.SetResultIfStillNeed(new NotificationResult(ResultCode.NoReaction));
+      var nestedAsDisposable = this.NestedNotificationVM as IDisposable;
+      if (nestedAsDisposable != null)
+      {
         nestedAsDisposable.Dispose();
-      if(arrivedOnTime)
-        FireFireworkWeHaveResult();
+      }
+      if (arrivedOnTime)
+      {
+        this.FireFireworkWeHaveResult();
+      }
     }
 
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-      PropertyChangedEventHandler handler = PropertyChanged;
-      if (handler != null) handler(this, new PropertyChangedEventArgs(propertyName));
-    }
+    #endregion
 
-    protected virtual void OnResultObtained(NotificationResult result)
-    {
-      EventHandler<ResultObtainedEventArgs> handler = ResultObtained;
-      if (handler != null) handler(this, new ResultObtainedEventArgs(result));
-    }
-
-    protected virtual void OnPermanentlyCloseExecute(object obj)
-    {
-      SetResultIfStillNeed(new NotificationResult(ResultCode.PermanentlyClose));
-      IsAlive = false;
-      FireFireworkWeHaveResult();
-    }
-
-    protected virtual void OnCloseCommandExecute(object o)
-    {
-      SetResultIfStillNeed(new NotificationResult(ResultCode.Close));
-      IsAlive = false;
-      FireFireworkWeHaveResult();
-    }
-
-    protected virtual void OnResultObtainedFromNestedNotification(object sender, ResultObtainedEventArgs e)
-    {
-      SetResultIfStillNeed(e.Result);
-      IsAlive = false;
-      FireFireworkWeHaveResult();
-    }
-
-    protected virtual bool SetResultIfStillNeed(NotificationResult result)
-    {
-      if (Result.Code != ResultCode.Unspecified)
-        return false;
-      Result = result;
-      return true;
-    }
+    #region Methods
 
     protected virtual void FireFireworkWeHaveResult()
     {
-      OnResultObtained(Result);
+      this.OnResultObtained(this.Result);
     }
 
     protected string GetPermanentCloseDescription(string originator)
@@ -207,9 +234,61 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
       return UserNotificationsConfiguration.PermanentCloseDescriptionPattern.Value.FormatWith(originator);
     }
 
+    protected virtual void OnCloseCommandExecute(object o)
+    {
+      this.SetResultIfStillNeed(new NotificationResult(ResultCode.Close));
+      this.IsAlive = false;
+      this.FireFireworkWeHaveResult();
+    }
+
+    protected virtual void OnPermanentlyCloseExecute(object obj)
+    {
+      this.SetResultIfStillNeed(new NotificationResult(ResultCode.PermanentlyClose));
+      this.IsAlive = false;
+      this.FireFireworkWeHaveResult();
+    }
+
+    [NotifyPropertyChangedInvocator]
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+      PropertyChangedEventHandler handler = this.PropertyChanged;
+      if (handler != null)
+      {
+        handler(this, new PropertyChangedEventArgs(propertyName));
+      }
+    }
+
+    protected virtual void OnResultObtained(NotificationResult result)
+    {
+      EventHandler<ResultObtainedEventArgs> handler = this.ResultObtained;
+      if (handler != null)
+      {
+        handler(this, new ResultObtainedEventArgs(result));
+      }
+    }
+
+    protected virtual void OnResultObtainedFromNestedNotification(object sender, ResultObtainedEventArgs e)
+    {
+      this.SetResultIfStillNeed(e.Result);
+      this.IsAlive = false;
+      this.FireFireworkWeHaveResult();
+    }
+
     protected virtual void PositionAndSizeOnChanged()
     {
-      OnPropertyChanged("PositionAndSize");
+      this.OnPropertyChanged("PositionAndSize");
     }
+
+    protected virtual bool SetResultIfStillNeed(NotificationResult result)
+    {
+      if (this.Result.Code != ResultCode.Unspecified)
+      {
+        return false;
+      }
+      this.Result = result;
+      return true;
+    }
+
+    #endregion
   }
 }

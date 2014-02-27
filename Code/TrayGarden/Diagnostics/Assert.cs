@@ -1,9 +1,13 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Diagnostics
 {

@@ -1,19 +1,18 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Data;
-using TrayGarden.Resources;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
+
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.Converters;
 using TrayGarden.UI.Common.VMtoVMapping;
-using TrayGarden.Helpers;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 {
@@ -22,33 +21,23 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
   /// </summary>
   public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMappingsSource
   {
+    #region Static Fields
 
-    public static readonly DependencyProperty ReadyToBeClosedProperty =
-      DependencyProperty.Register("ReadyToBeClosed", typeof(bool), typeof(NotificationWindow), new PropertyMetadata(default(bool), ReadyToBeClosedChanged));
+    public static readonly DependencyProperty ReadyToBeClosedProperty = DependencyProperty.Register(
+      "ReadyToBeClosed",
+      typeof(bool),
+      typeof(NotificationWindow),
+      new PropertyMetadata(default(bool), ReadyToBeClosedChanged));
 
-    protected static void ReadyToBeClosedChanged(DependencyObject dependencyObject, DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
-    {
-      var newBoolValue = (bool)dependencyPropertyChangedEventArgs.NewValue;
-      var senderWindow = (NotificationWindow)dependencyObject;
-      if (newBoolValue)
-        senderWindow.Close();
-    }
+    #endregion
 
-    public bool ReadyToBeClosed
-    {
-      get { return (bool)GetValue(ReadyToBeClosedProperty); }
-      set { SetValue(ReadyToBeClosedProperty, value); }
-    }
-
-    public List<IViewModelToViewMapping> Mappings { get; protected set; }
+    #region Constructors and Destructors
 
     public NotificationWindow()
     {
-      SetBinding(ReadyToBeClosedProperty,
-                 new Binding("IsAlive") {Mode = BindingMode.OneWay, Converter = new BooleanNotConverter()});
-      
-      //Visibility = Visibility.Visible;
+      this.SetBinding(ReadyToBeClosedProperty, new Binding("IsAlive") { Mode = BindingMode.OneWay, Converter = new BooleanNotConverter() });
 
+      //Visibility = Visibility.Visible;
 
       /*var img =
         ImageHelper.GetBitmapImageFromBitmap(
@@ -75,60 +64,103 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 
 
      // InitializeComponent();*/
-
-
-
-
     }
 
-    
+    #endregion
 
-    public virtual void PrepareAndDisplay(NotificationWindowVM viewModel)
+    #region Public Properties
+
+    public List<IViewModelToViewMapping> Mappings { get; protected set; }
+
+    public bool ReadyToBeClosed
     {
-      DataContext = viewModel;
-      InitializeComponent();
-      Show();
+      get
+      {
+        return (bool)this.GetValue(ReadyToBeClosedProperty);
+      }
+      set
+      {
+        this.SetValue(ReadyToBeClosedProperty, value);
+      }
+    }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual List<IViewModelToViewMapping> GetMappings()
+    {
+      return this.Mappings
+             ?? new List<IViewModelToViewMapping>()
+                  {
+                    new ViewModelToViewMappingResolverBased(
+                      typeof(InformNotificationVM),
+                      o => new InformNotification() { DataContext = o }),
+                    new ViewModelToViewMappingResolverBased(
+                      typeof(ActionNotificationVM),
+                      o => new ActionNotification() { DataContext = o }),
+                    new ViewModelToViewMappingResolverBased(
+                      typeof(YesNoNotificationVM),
+                      o => new YesNoNotification() { DataContext = o }),
+                  };
     }
 
     public virtual void Initialize(List<IViewModelToViewMapping> mappings)
     {
-      Mappings = mappings;
+      this.Mappings = mappings;
     }
 
-    public virtual List<IViewModelToViewMapping> GetMappings()
+    public virtual void PrepareAndDisplay(NotificationWindowVM viewModel)
     {
-      return Mappings ?? new List<IViewModelToViewMapping>()
-        {
-          new ViewModelToViewMappingResolverBased(typeof(InformNotificationVM), o => new InformNotification() { DataContext = o }),
-          new ViewModelToViewMappingResolverBased(typeof(ActionNotificationVM), o => new ActionNotification() { DataContext = o }),
-          new ViewModelToViewMappingResolverBased(typeof(YesNoNotificationVM), o => new YesNoNotification() { DataContext = o }),
-        };
+      this.DataContext = viewModel;
+      this.InitializeComponent();
+      this.Show();
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected static void ReadyToBeClosedChanged(
+      DependencyObject dependencyObject,
+      DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
+    {
+      var newBoolValue = (bool)dependencyPropertyChangedEventArgs.NewValue;
+      var senderWindow = (NotificationWindow)dependencyObject;
+      if (newBoolValue)
+      {
+        senderWindow.Close();
+      }
     }
 
     protected override void OnClosed(EventArgs e)
     {
-      var datacontextAsDisposable = DataContext as IDisposable;
-      if(datacontextAsDisposable != null)
+      var datacontextAsDisposable = this.DataContext as IDisposable;
+      if (datacontextAsDisposable != null)
+      {
         datacontextAsDisposable.Dispose();
+      }
       base.OnClosed(e);
     }
 
     protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
     {
-      var dataContextAsNotificationVM = DataContext as NotificationWindowVM;
+      var dataContextAsNotificationVM = this.DataContext as NotificationWindowVM;
       if (dataContextAsNotificationVM != null)
+      {
         dataContextAsNotificationVM.IsPositionLocked = true;
+      }
       base.OnMouseEnter(e);
     }
 
-   /* protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
+    #endregion
+
+    /* protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
     {
       var dataContextAsNotificationVM = DataContext as NotificationWindowVM;
       if (dataContextAsNotificationVM != null)
         dataContextAsNotificationVM.IsPositionLocked = false;
       base.OnMouseLeave(e);
     }*/
-
-
   }
 }

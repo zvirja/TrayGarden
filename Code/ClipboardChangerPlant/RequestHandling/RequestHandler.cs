@@ -1,45 +1,93 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
-using System.Runtime.Remoting.Lifetime;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Xml;
+
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.RequestHandling.PipelineModel;
-using ClipboardChangerPlant.UIConfiguration;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+
+#endregion
 
 namespace ClipboardChangerPlant.RequestHandling
 {
   public class RequestHandler : INeedCongurationNode
   {
+    #region Fields
+
     protected XmlHelper ConfigurationHelper;
 
-    public virtual bool? Match(ProcessorArgs args)
+    #endregion
+
+    #region Public Properties
+
+    public virtual Icon DefaultHandlerIcon
     {
-      string inputValue = args.ResultUrl;
-      return RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
+      get
+      {
+        return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess"));
+      }
     }
 
     public virtual bool IsShorterEnabled
     {
-      get { return ConfigurationHelper.GetBoolValue("ShouldBeShorted", false); }
+      get
+      {
+        return this.ConfigurationHelper.GetBoolValue("ShouldBeShorted", false);
+      }
     }
+
+    public string Name { get; set; }
 
     public virtual string[] RegularExpressionsToMatch
     {
-      get { return ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty).Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries); }
+      get
+      {
+        return this.ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty)
+          .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
+      }
     }
 
-    public virtual Icon DefaultHandlerIcon
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual bool? Match(ProcessorArgs args)
     {
-      get { return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess")); }
+      string inputValue = args.ResultUrl;
+      return this.RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
+    }
+
+    public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
+    {
+      return true;
+    }
+
+    public virtual void PostInit()
+    {
+    }
+
+    public virtual bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
+    {
+      return false;
     }
 
     public virtual bool PreExecute(string operableUrl, bool isClipboardRequest)
     {
       return true;
+    }
+
+    public virtual void PreInit()
+    {
+    }
+
+    public virtual void SetConfigurationNode(XmlNode configurationNode)
+    {
+      this.ConfigurationHelper = new XmlHelper(configurationNode);
     }
 
     public virtual bool TryProcess(string inputValue, out string result)
@@ -48,32 +96,6 @@ namespace ClipboardChangerPlant.RequestHandling
       return true;
     }
 
-    public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
-    {
-      return true;
-    }
-
-    public virtual bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
-    {
-      return false;
-    }
-
-    public virtual void SetConfigurationNode(XmlNode configurationNode)
-    {
-      ConfigurationHelper = new XmlHelper(configurationNode);
-    }
-
-    public string Name { get; set; }
-
-    public virtual void PreInit()
-    {
-
-    }
-
-    public virtual void PostInit()
-    {
-
-    }
+    #endregion
   }
 }
-

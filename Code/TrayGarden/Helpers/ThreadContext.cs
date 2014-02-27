@@ -1,25 +1,39 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
+#endregion
+
 namespace TrayGarden.Helpers
 {
-    public static class ThreadContext
-    {
-        [ThreadStatic]
-        private static Hashtable _hashtable;
+  public static class ThreadContext
+  {
+    #region Static Fields
 
-        public static Hashtable ContextItems
+    [ThreadStatic]
+    private static Hashtable _hashtable;
+
+    #endregion
+
+    #region Public Properties
+
+    public static Hashtable ContextItems
+    {
+      get
+      {
+        if (_hashtable != null)
         {
-            get
-            {
-                if (_hashtable != null)
-                    return _hashtable;
-                _hashtable = new Hashtable();
-                return _hashtable;
-            }
+          return _hashtable;
         }
+        _hashtable = new Hashtable();
+        return _hashtable;
+      }
     }
+
+    #endregion
+  }
 }

@@ -1,36 +1,42 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 using TrayGarden.TypesHatcher;
 
+#endregion
+
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants
 {
   public class LordOfNotifications : ILordOfNotifications
   {
-    protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
+    #region Constructors and Destructors
 
     public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
     {
-      RelatedPlantBox = relatedPlantBox;
+      this.RelatedPlantBox = relatedPlantBox;
     }
 
-    public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
-    {
-      if(!RelatedPlantBox.IsEnabled || !RelatedPlantBox.RelatedPlantEx.IsEnabled)
-        return new FakeNotificationResultCourier();
-      return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(notificationBlank,
-                                                                  RelatedPlantBox.RelatedPlantEx.Plant
-                                                                                 .HumanSupportingName);
-    }
+    #endregion
+
+    #region Properties
+
+    protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public virtual IActionNotification CreateActionNotification(string headerText, string buttonText)
     {
-      return new ActionNotificationVM(headerText,buttonText);
+      return new ActionNotificationVM(headerText, buttonText);
     }
 
     public virtual IInformNotification CreateInformNotification(string textToDisplay)
@@ -42,5 +48,18 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants
     {
       return new YesNoNotificationVM(headerText);
     }
+
+    public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
+    {
+      if (!this.RelatedPlantBox.IsEnabled || !this.RelatedPlantBox.RelatedPlantEx.IsEnabled)
+      {
+        return new FakeNotificationResultCourier();
+      }
+      return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(
+        notificationBlank,
+        this.RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
+    }
+
+    #endregion
   }
 }

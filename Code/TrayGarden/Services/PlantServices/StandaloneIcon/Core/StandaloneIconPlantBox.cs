@@ -1,35 +1,55 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-using TrayGarden.Plants;
-using TrayGarden.RuntimeSettings;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 {
-    public class StandaloneIconPlantBox : ServicePlantBoxBase
+  public class StandaloneIconPlantBox : ServicePlantBoxBase
+  {
+    #region Constructors and Destructors
+
+    public StandaloneIconPlantBox()
     {
-        public NotifyIcon NotifyIcon { get; set; }
-
-        public StandaloneIconPlantBox()
-        {
-            base.IsEnabledChanged += StandaloneIconPlantBox_IsEnabledChanged;
-        }
-
-        protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
-        {
-            FixNIVisibility();
-        }
-
-
-        public virtual void FixNIVisibility()
-        {
-            if (RelatedPlantEx.IsEnabled)
-                NotifyIcon.Visible = IsEnabled;
-            else
-                NotifyIcon.Visible = false;
-        }
-
+      base.IsEnabledChanged += this.StandaloneIconPlantBox_IsEnabledChanged;
     }
+
+    #endregion
+
+    #region Public Properties
+
+    public NotifyIcon NotifyIcon { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual void FixNIVisibility()
+    {
+      if (this.RelatedPlantEx.IsEnabled)
+      {
+        this.NotifyIcon.Visible = this.IsEnabled;
+      }
+      else
+      {
+        this.NotifyIcon.Visible = false;
+      }
+    }
+
+    #endregion
+
+    #region Methods
+
+    protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
+    {
+      this.FixNIVisibility();
+    }
+
+    #endregion
+  }
 }

@@ -234,8 +234,7 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
                                         {
                                           WorksHungry = clipboardListener,
                                           RelatedPlantEx = plant,
-                                          SettingsBox =
-                                            plant.MySettingsBox.GetSubBox(this.LuggageName)
+                                          SettingsBox = plant.MySettingsBox.GetSubBox(this.LuggageName)
                                         };
       plant.PutLuggage(this.LuggageName, clipboardObserverPlantBox);
     }

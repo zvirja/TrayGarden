@@ -21,8 +21,7 @@ namespace TrayGarden.UI.WindowWithReturn.Integration
 
     public ExitOnCloseSetting()
     {
-      this.SettingDescription =
-        "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
+      this.SettingDescription = "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
     }
 
     #endregion

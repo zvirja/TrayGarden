@@ -1,7 +1,10 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
 using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
@@ -9,21 +12,23 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.TypesHatcher;
 
+#endregion
+
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core
 {
   public class UserNotificationsService : PlantServiceBase<UserNotificationsServicePlantBox>
   {
+    #region Constructors and Destructors
+
     public UserNotificationsService()
       : base("User notifications", UserNotificationsConfiguration.SettingsBoxName)
     {
-      ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
+      this.ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
     }
 
-    public override void InitializePlant(TrayGarden.Plants.IPlantEx plantEx)
-    {
-      base.InitializePlant(plantEx);
-      InitializePlantInternal(plantEx);
-    }
+    #endregion
+
+    #region Public Methods and Operators
 
     public override void InformClosingStage()
     {
@@ -31,19 +36,33 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core
       HatcherGuide<IUserNotificationsGate>.Instance.DiscardAllTasks();
     }
 
+    public override void InitializePlant(TrayGarden.Plants.IPlantEx plantEx)
+    {
+      base.InitializePlant(plantEx);
+      this.InitializePlantInternal(plantEx);
+    }
+
+    #endregion
+
+    #region Methods
+
     protected virtual void InitializePlantInternal(IPlantEx plant)
     {
       var workhorse = plant.GetFirstWorkhorseOfType<IGetPowerOfUserNotifications>();
       if (workhorse == null)
+      {
         return;
+      }
       var plantBox = new UserNotificationsServicePlantBox()
-        {
-          RelatedPlantEx = plant,
-          SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
-        };
+                       {
+                         RelatedPlantEx = plant,
+                         SettingsBox = plant.MySettingsBox.GetSubBox(this.LuggageName)
+                       };
       var lord = new LordOfNotifications(plantBox);
-      plant.PutLuggage(LuggageName, plantBox);
+      plant.PutLuggage(this.LuggageName, plantBox);
       workhorse.StoreLordOfNotifications(lord);
     }
+
+    #endregion
   }
 }

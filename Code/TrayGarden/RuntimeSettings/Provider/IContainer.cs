@@ -1,19 +1,36 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+
+#endregion
 
 namespace TrayGarden.RuntimeSettings.Provider
 {
-    public interface IContainer
-    {
-        string Name { get; }
+  public interface IContainer
+  {
+    #region Public Properties
 
-        string GetStringSetting(string name);
-        void SetStringSetting(string name, string value);
+    string Name { get; }
 
-        IEnumerable<string> GetPresentStringSettingNames();
-        IEnumerable<string> GetPresentSubContainerNames();
+    #endregion
 
+    #region Public Methods and Operators
 
-        IContainer GetNamedSubContainer(string name);
-        void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers);
-    }
+    IContainer GetNamedSubContainer(string name);
+
+    IEnumerable<string> GetPresentStringSettingNames();
+
+    IEnumerable<string> GetPresentSubContainerNames();
+
+    string GetStringSetting(string name);
+
+    void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers);
+
+    void SetStringSetting(string name, string value);
+
+    #endregion
+  }
 }

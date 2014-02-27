@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,6 +12,8 @@ using TrayGarden.Diagnostics;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration;
 using TrayGarden.UI.ForSimplerLife;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {

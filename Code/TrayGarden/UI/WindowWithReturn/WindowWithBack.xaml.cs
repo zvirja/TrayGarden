@@ -44,8 +44,7 @@ namespace TrayGarden.UI.WindowWithReturn
 
     static WindowWithBack()
     {
-      WindowWithBackSettingsBox =
-        HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("windowWithBackSettingsBox");
+      WindowWithBackSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("windowWithBackSettingsBox");
       _exitOnClose = WindowWithBackSettingsBox.GetBool("exitOnClose", false);
     }
 
@@ -207,12 +206,7 @@ namespace TrayGarden.UI.WindowWithReturn
       this.WindowState = this.StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
     }
 
-    protected virtual bool SizePozitionProvider(
-      out double top,
-      out double left,
-      out double width,
-      out double height,
-      out bool maximized)
+    protected virtual bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
     {
       if (this.WindowState == WindowState.Maximized)
       {

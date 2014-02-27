@@ -1,39 +1,52 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
+using System.Windows.Media;
+
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
-using Brush = System.Windows.Media.Brush;
-using Brushes = System.Windows.Media.Brushes;
-using FontStyle = System.Windows.FontStyle;
-using Image = System.Windows.Controls.Image;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
-  public class InformNotificationVM:SpecializedNotificationVMBase, IInformNotification
+  public class InformNotificationVM : SpecializedNotificationVMBase, IInformNotification
   {
-    public string TextToDisplay { get; set; }
+    #region Constructors and Destructors
+
+    public InformNotificationVM(string textToDisplay)
+    {
+      this.TextToDisplay = textToDisplay;
+      this.OnTextClick = new RelayCommand(this.OnTextClicked, true);
+      this.TextDisplayFont = new TextDisplayOptions(Brushes.DimGray, 20.0) { Margins = new Thickness(7) };
+    }
+
+    #endregion
+
+    #region Public Properties
+
     public ICommand OnTextClick { get; protected set; }
 
     public TextDisplayOptions TextDisplayFont { get; set; }
 
-    public InformNotificationVM(string textToDisplay)
-    {
-      TextToDisplay = textToDisplay;
-      OnTextClick = new RelayCommand(OnTextClicked, true);
-      TextDisplayFont = new TextDisplayOptions(Brushes.DimGray, 20.0) { Margins = new Thickness(7) };
-    }
+    public string TextToDisplay { get; set; }
+
+    #endregion
+
+    #region Methods
 
     protected virtual void OnTextClicked(object obj)
     {
-      SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
+      this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
     }
+
+    #endregion
   }
 }

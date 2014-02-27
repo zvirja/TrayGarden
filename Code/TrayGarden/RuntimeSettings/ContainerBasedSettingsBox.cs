@@ -1,37 +1,82 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
+using System.Text;
+
 using TrayGarden.RuntimeSettings.Provider;
+
+#endregion
 
 namespace TrayGarden.RuntimeSettings
 {
   public class ContainerBasedSettingsBox : ISettingsBox
   {
-    protected IContainer UnderlyingContainer { get; set; }
-    protected Dictionary<string, ContainerBasedSettingsBox> SubBoxes { get; set; }
-    protected ISettingsBox ParentBox { get; set; }
-
-    public event Action OnSaving;
+    #region Constructors and Destructors
 
     public ContainerBasedSettingsBox()
     {
-      SubBoxes = new Dictionary<string, ContainerBasedSettingsBox>();
+      this.SubBoxes = new Dictionary<string, ContainerBasedSettingsBox>();
     }
 
-    public virtual void Initialize(IContainer container)
-    {
-      UnderlyingContainer = container;
-    }
+    #endregion
+
+    #region Public Events
+
+    public event Action OnSaving;
+
+    #endregion
+
+    #region Properties
+
+    protected ISettingsBox ParentBox { get; set; }
+
+    protected Dictionary<string, ContainerBasedSettingsBox> SubBoxes { get; set; }
+
+    protected IContainer UnderlyingContainer { get; set; }
+
+    #endregion
+
+    #region Public Indexers
 
     public virtual string this[string settingName]
     {
-      get { return UnderlyingContainer.GetStringSetting(settingName); }
+      get
+      {
+        return this.UnderlyingContainer.GetStringSetting(settingName);
+      }
       set
       {
-        UnderlyingContainer.SetStringSetting(settingName, value);
+        this.UnderlyingContainer.SetStringSetting(settingName, value);
         if (BulkSettingsUpdate.CurrentValue != BulkUpdateState.Enabled)
-          Save();
+        {
+          this.Save();
+        }
       }
+    }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public virtual bool GetBool(string settingName, bool fallbackValue)
+    {
+      bool value;
+      return this.TryGetBool(settingName, out value) ? value : fallbackValue;
+    }
+
+    public double GetDouble(string settingName, double fallbackValue)
+    {
+      double value;
+      return this.TryGetDouble(settingName, out value) ? value : fallbackValue;
+    }
+
+    public virtual int GetInt(string settingName, int fallbackValue)
+    {
+      int value;
+      return this.TryGetInt(settingName, out value) ? value : fallbackValue;
     }
 
     public virtual string GetString(string settingName, string fallbackValue)
@@ -40,37 +85,33 @@ namespace TrayGarden.RuntimeSettings
       return value ?? fallbackValue;
     }
 
-    public virtual void SetString(string settingName, string settingValue)
+    public virtual ISettingsBox GetSubBox(string boxName)
     {
-      this[settingName] = settingValue;
+      var boxNameUppercased = boxName.ToLowerInvariant();
+      if (this.SubBoxes.ContainsKey(boxNameUppercased))
+      {
+        return this.SubBoxes[boxName];
+      }
+      var subContainer = this.UnderlyingContainer.GetNamedSubContainer(boxNameUppercased);
+      var newBox = new ContainerBasedSettingsBox();
+      newBox.Initialize(subContainer);
+      newBox.ParentBox = this;
+      this.SubBoxes[boxName] = newBox;
+      return newBox;
     }
 
-    public virtual int GetInt(string settingName, int fallbackValue)
+    public virtual void Initialize(IContainer container)
     {
-      int value;
-      return TryGetInt(settingName, out value) ? value : fallbackValue;
+      this.UnderlyingContainer = container;
     }
 
-    public virtual void SetInt(string settingName, int value)
+    public virtual void Save()
     {
-      this[settingName] = value.ToString(CultureInfo.InvariantCulture);
-    }
-
-    public double GetDouble(string settingName, double fallbackValue)
-    {
-      double value;
-      return TryGetDouble(settingName, out value) ? value : fallbackValue;
-    }
-
-    public void SetDouble(string settingName, double value)
-    {
-      this[settingName] = value.ToString(CultureInfo.InvariantCulture);
-    }
-
-    public virtual bool GetBool(string settingName, bool fallbackValue)
-    {
-      bool value;
-      return TryGetBool(settingName, out value) ? value : fallbackValue;
+      this.CallOnSaving();
+      if (this.ParentBox != null)
+      {
+        this.ParentBox.Save();
+      }
     }
 
     public virtual void SetBool(string settingName, bool value)
@@ -78,51 +119,61 @@ namespace TrayGarden.RuntimeSettings
       this[settingName] = value.ToString(CultureInfo.InvariantCulture);
     }
 
+    public void SetDouble(string settingName, double value)
+    {
+      this[settingName] = value.ToString(CultureInfo.InvariantCulture);
+    }
+
+    public virtual void SetInt(string settingName, int value)
+    {
+      this[settingName] = value.ToString(CultureInfo.InvariantCulture);
+    }
+
+    public virtual void SetString(string settingName, string settingValue)
+    {
+      this[settingName] = settingValue;
+    }
+
     public virtual bool TryGetBool(string settingName, out bool value)
     {
       if (bool.TryParse(this[settingName], out value))
+      {
         return true;
-      return false;
-    }
-
-    public virtual bool TryGetInt(string settingName, out int value)
-    {
-      if (int.TryParse(this[settingName], out value))
-        return true;
+      }
       return false;
     }
 
     public bool TryGetDouble(string settingName, out double value)
     {
       if (double.TryParse(this[settingName], out value))
+      {
         return true;
+      }
       return false;
     }
 
-    public virtual ISettingsBox GetSubBox(string boxName)
+    public virtual bool TryGetInt(string settingName, out int value)
     {
-      var boxNameUppercased = boxName.ToLowerInvariant();
-      if (SubBoxes.ContainsKey(boxNameUppercased))
-        return SubBoxes[boxName];
-      var subContainer = UnderlyingContainer.GetNamedSubContainer(boxNameUppercased);
-      var newBox = new ContainerBasedSettingsBox();
-      newBox.Initialize(subContainer);
-      newBox.ParentBox = this;
-      SubBoxes[boxName] = newBox;
-      return newBox;
+      if (int.TryParse(this[settingName], out value))
+      {
+        return true;
+      }
+      return false;
     }
 
-    public virtual void Save()
-    {
-      CallOnSaving();
-      if (ParentBox != null)
-        ParentBox.Save();
-    }
+    #endregion
+
+    #region Methods
 
     protected virtual void CallOnSaving()
     {
-      Action handler = OnSaving;
-      if (handler != null) handler();
+      Action handler = this.OnSaving;
+      if (handler != null)
+      {
+        handler();
+      }
     }
+
+    #endregion
   }
 }

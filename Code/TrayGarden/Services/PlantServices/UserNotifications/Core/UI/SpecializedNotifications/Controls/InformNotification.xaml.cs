@@ -1,16 +1,12 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls
 {
@@ -19,9 +15,13 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
   /// </summary>
   public partial class InformNotification : UserControl
   {
+    #region Constructors and Destructors
+
     public InformNotification()
     {
-      InitializeComponent();
+      this.InitializeComponent();
     }
+
+    #endregion
   }
 }

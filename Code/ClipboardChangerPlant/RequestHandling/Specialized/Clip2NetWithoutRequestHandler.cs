@@ -63,8 +63,9 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
 
     protected override IResultProvider GetRevertDialog()
     {
-      IActionNotification revertDialog =
-        this.RevertConfirmator.LordOfNotifications.CreateActionNotification(this.revertDialogHeader, "Revert value");
+      IActionNotification revertDialog = this.RevertConfirmator.LordOfNotifications.CreateActionNotification(
+        this.revertDialogHeader,
+        "Revert value");
       revertDialog.LayoutType = ImageTextOrder.HorizontalTextImage;
 
       TextDisplayOptions headerTextDisplayStyle = revertDialog.HeaderTextDisplayStyle;

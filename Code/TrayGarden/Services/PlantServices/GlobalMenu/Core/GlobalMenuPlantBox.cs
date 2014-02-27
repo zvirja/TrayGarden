@@ -1,27 +1,49 @@
-﻿using System.Collections.Generic;
+﻿#region
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Forms;
-using TrayGarden.Plants;
-using TrayGarden.RuntimeSettings;
+
 using TrayGarden.Services.FleaMarket.IconChanger;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 {
   public class GlobalMenuPlantBox : ServicePlantBoxBase
   {
+    #region Fields
+
     private INotifyIconChangerMaster _globalNotifyIconChanger;
-    public List<ToolStripItem> ToolStripMenuItems { get; set; }
-    public bool IsGlobalIconChangingEnabled { get; set; }
+
+    #endregion
+
+    #region Constructors and Destructors
+
+    public GlobalMenuPlantBox()
+    {
+      base.IsEnabledChanged += this.GlobalMenuPlantBox_IsEnabledChanged;
+    }
+
+    #endregion
+
+    #region Public Properties
+
     public INotifyIconChangerMaster GlobalNotifyIconChanger
     {
       get
       {
-        return _globalNotifyIconChanger;
+        return this._globalNotifyIconChanger;
       }
       set
       {
-        _globalNotifyIconChanger = value;
-        if (_globalNotifyIconChanger != null)
-          _globalNotifyIconChanger.IsEnabled = GlobalNotifyIconChangerEnabled;
+        this._globalNotifyIconChanger = value;
+        if (this._globalNotifyIconChanger != null)
+        {
+          this._globalNotifyIconChanger.IsEnabled = this.GlobalNotifyIconChangerEnabled;
+        }
       }
     }
 
@@ -29,38 +51,53 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     {
       get
       {
-        bool isEnabled = SettingsBox.GetBool("notifyIconChangerEnabled", true);
-        if (GlobalNotifyIconChanger != null)
-          GlobalNotifyIconChanger.IsEnabled = isEnabled;
+        bool isEnabled = this.SettingsBox.GetBool("notifyIconChangerEnabled", true);
+        if (this.GlobalNotifyIconChanger != null)
+        {
+          this.GlobalNotifyIconChanger.IsEnabled = isEnabled;
+        }
         return isEnabled;
       }
       set
       {
-        SettingsBox.SetBool("notifyIconChangerEnabled", value);
-        if (GlobalNotifyIconChanger != null)
-          GlobalNotifyIconChanger.IsEnabled = value;
+        this.SettingsBox.SetBool("notifyIconChangerEnabled", value);
+        if (this.GlobalNotifyIconChanger != null)
+        {
+          this.GlobalNotifyIconChanger.IsEnabled = value;
+        }
       }
     }
 
-    public GlobalMenuPlantBox()
-    {
-      base.IsEnabledChanged += GlobalMenuPlantBox_IsEnabledChanged;
-    }
+    public bool IsGlobalIconChangingEnabled { get; set; }
 
-    void GlobalMenuPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
-    {
-      FixVisibility();
-    }
+    public List<ToolStripItem> ToolStripMenuItems { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
 
     public virtual void FixVisibility()
     {
-      if (ToolStripMenuItems == null)
+      if (this.ToolStripMenuItems == null)
+      {
         return;
-      var shouldBeVisible = RelatedPlantEx.IsEnabled && IsEnabled;
-      foreach (ToolStripItem toolStripMenuItem in ToolStripMenuItems)
+      }
+      var shouldBeVisible = this.RelatedPlantEx.IsEnabled && this.IsEnabled;
+      foreach (ToolStripItem toolStripMenuItem in this.ToolStripMenuItems)
       {
         toolStripMenuItem.Visible = shouldBeVisible;
       }
     }
+
+    #endregion
+
+    #region Methods
+
+    private void GlobalMenuPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
+    {
+      this.FixVisibility();
+    }
+
+    #endregion
   }
 }

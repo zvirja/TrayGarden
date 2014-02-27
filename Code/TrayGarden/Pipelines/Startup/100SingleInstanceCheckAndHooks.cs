@@ -42,10 +42,7 @@ namespace TrayGarden.Pipelines.Startup
       else
       {
         monitor.AttemptFromAnotherProcess +=
-          delegate(object sender, EventArgs eventArgs)
-            {
-              this.UISynchronizationContext.Post(this.OpenConfigurationWindow, null);
-            };
+          delegate(object sender, EventArgs eventArgs) { this.UISynchronizationContext.Post(this.OpenConfigurationWindow, null); };
       }
     }
 

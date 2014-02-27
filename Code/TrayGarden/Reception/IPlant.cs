@@ -1,7 +1,11 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+
+#endregion
 
 namespace TrayGarden.Reception
 {
@@ -10,9 +14,20 @@ namespace TrayGarden.Reception
   /// </summary>
   public interface IPlant
   {
-    string HumanSupportingName { get; }
+    #region Public Properties
+
     string Description { get; }
+
+    string HumanSupportingName { get; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
     void Initialize();
+
     void PostServicesInitialize();
+
+    #endregion
   }
 }

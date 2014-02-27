@@ -1,47 +1,57 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
+#endregion
+
 namespace ClipboardChangerPlant.Configuration
 {
   public class XmlHelper
   {
-    public static string GetStringValue(XmlNode parent, string nodePath, string defaultValue)
+    #region Constructors and Destructors
+
+    public XmlHelper(XmlNode parentNode)
     {
-      var innerNode = SmartSelectSingleNode(parent, nodePath);
-      return innerNode == null ? defaultValue : innerNode.InnerText;
+      this.ParentNode = parentNode;
     }
 
-    public static XmlNode SmartSelectSingleNode(XmlNode parent, string nodePath)
-    {
-      var innerNode = parent.SelectSingleNode(nodePath);
-      if (innerNode != null)
-        return innerNode;
-      nodePath = FixNodePath(parent, nodePath);
-      innerNode = parent.SelectSingleNode(nodePath);
-      return innerNode;
-    }
+    #endregion
 
-    public static XmlNodeList SmartSelectNodes(XmlNode parent, string nodePath)
+    #region Public Properties
+
+    public XmlNode ParentNode { get; set; }
+
+    #endregion
+
+    #region Public Methods and Operators
+
+    public static string FixNodePath(XmlNode parent, string nodePath)
     {
-      var innerNodes = parent.SelectNodes(nodePath);
-      if (innerNodes.Count > 0)
-        return innerNodes;
-      nodePath = FixNodePath(parent, nodePath);
-      innerNodes = parent.SelectNodes(nodePath);
-      return innerNodes;
+      var asDocument = parent as XmlDocument;
+      string prefix = asDocument != null ? asDocument.FirstChild.Name : parent.Name;
+      if (nodePath.StartsWith(prefix))
+      {
+        return nodePath;
+      }
+      return prefix + "/" + nodePath;
     }
 
     public static bool GetBoolValue(XmlNode parent, string nodePath, bool defaultValue)
     {
       var strValue = GetStringValue(parent, nodePath, null);
       if (strValue == null)
+      {
         return defaultValue;
+      }
       bool result;
       if (bool.TryParse(strValue, out result))
+      {
         return result;
+      }
       return defaultValue;
     }
 
@@ -49,42 +59,62 @@ namespace ClipboardChangerPlant.Configuration
     {
       var strValue = GetStringValue(parent, nodePath, null);
       if (strValue == null)
+      {
         return defaultValue;
+      }
       int result;
       if (int.TryParse(strValue, out result))
+      {
         return result;
+      }
       return defaultValue;
     }
 
-    public static string FixNodePath(XmlNode parent, string nodePath)
+    public static string GetStringValue(XmlNode parent, string nodePath, string defaultValue)
     {
-      var asDocument = parent as XmlDocument;
-      string prefix = asDocument != null ? asDocument.FirstChild.Name : parent.Name;
-      if (nodePath.StartsWith(prefix))
-        return nodePath;
-      return prefix + "/" + nodePath;
+      var innerNode = SmartSelectSingleNode(parent, nodePath);
+      return innerNode == null ? defaultValue : innerNode.InnerText;
     }
 
-    public XmlNode ParentNode { get; set; }
-
-    public XmlHelper(XmlNode parentNode)
+    public static XmlNodeList SmartSelectNodes(XmlNode parent, string nodePath)
     {
-      ParentNode = parentNode;
+      var innerNodes = parent.SelectNodes(nodePath);
+      if (innerNodes.Count > 0)
+      {
+        return innerNodes;
+      }
+      nodePath = FixNodePath(parent, nodePath);
+      innerNodes = parent.SelectNodes(nodePath);
+      return innerNodes;
     }
 
-    public string GetStringValue(string nodePath, string defaultValue)
+    public static XmlNode SmartSelectSingleNode(XmlNode parent, string nodePath)
     {
-      return GetStringValue(ParentNode, nodePath, defaultValue);
+      var innerNode = parent.SelectSingleNode(nodePath);
+      if (innerNode != null)
+      {
+        return innerNode;
+      }
+      nodePath = FixNodePath(parent, nodePath);
+      innerNode = parent.SelectSingleNode(nodePath);
+      return innerNode;
     }
 
     public bool GetBoolValue(string nodePath, bool defaultValue)
     {
-      return GetBoolValue(ParentNode, nodePath, defaultValue);
+      return GetBoolValue(this.ParentNode, nodePath, defaultValue);
     }
 
     public int GetIntValue(string nodePath, int defaultValue)
     {
-      return GetIntValue(ParentNode, nodePath, defaultValue);
+      return GetIntValue(this.ParentNode, nodePath, defaultValue);
     }
+
+    public string GetStringValue(string nodePath, string defaultValue)
+    {
+      return GetStringValue(this.ParentNode, nodePath, defaultValue);
+    }
+
+    #endregion
   }
 }

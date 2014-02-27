@@ -1,4 +1,6 @@
-﻿using System;
+﻿#region
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,6 +11,8 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
+
+#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {

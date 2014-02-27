@@ -29,14 +29,6 @@ namespace TrayGarden.UI.Configuration.EntryVM
 
     #endregion
 
-
-    protected new IActionConfigurationPlayer RealPlayer { get; set; }
-
-    protected override void OnUnderlyingSettingValueChanged()
-    {
-      //here we do nothing. 
-    }
-
     #region Public Properties
 
     public ICommand Action
@@ -61,6 +53,21 @@ namespace TrayGarden.UI.Configuration.EntryVM
       {
         return true;
       }
+    }
+
+    #endregion
+
+    #region Properties
+
+    protected new IActionConfigurationPlayer RealPlayer { get; set; }
+
+    #endregion
+
+    #region Methods
+
+    protected override void OnUnderlyingSettingValueChanged()
+    {
+      //here we do nothing. 
     }
 
     #endregion
