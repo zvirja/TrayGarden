@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 
 using TrayGarden.Resources;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 using TrayGarden.TypesHatcher;
 
 #endregion
@@ -51,12 +52,13 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
 
     #region Public Methods and Operators
 
-    public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
+    public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
     {
       var contextMenuStrip = new ContextMenuStrip();
       this.BuildContextMenuPrefix(contextMenuStrip);
-      this.EnumeratePlantBoxes(plantBoxes, contextMenuStrip);
+      this.EnumeratePlantBoxes(plantBoxes, contextMenuStrip, dynamicStateWatcher);
       this.BuildContextMenuSuffix(contextMenuStrip);
+      dynamicStateWatcher.BindToMenuStrip(contextMenuStrip);
       return contextMenuStrip;
     }
 
@@ -101,7 +103,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
         };
     }
 
-    protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip)
+    protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip, IDynamicStateWatcher dynamicStateWatcher)
     {
       foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
       {
@@ -110,6 +112,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
           foreach (ToolStripItem contextMenuItem in globalMenuPlantBox.ToolStripMenuItems)
           {
             menuStrip.Items.Add(contextMenuItem);
+            var extendedMenuStrip = contextMenuItem as ExtendedToolStripMenuItem;
+            if (extendedMenuStrip != null)
+            {
+              dynamicStateWatcher.AddStipToWatch(extendedMenuStrip);
+            }
           }
         }
       }

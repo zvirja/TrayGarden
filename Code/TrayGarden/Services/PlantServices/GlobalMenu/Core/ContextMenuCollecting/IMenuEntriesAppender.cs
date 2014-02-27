@@ -6,6 +6,8 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
+
 #endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting
@@ -14,7 +16,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
   {
     #region Public Methods and Operators
 
-    void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler);
+    void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler, IDynamicStateProvider dynamicStateProvider = null);
 
     #endregion
   }

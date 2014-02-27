@@ -9,6 +9,7 @@ using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.Properties;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 
 #endregion
 
@@ -26,8 +27,12 @@ namespace ClipboardChangerPlant.NotificationIcon
 
     public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
     {
-      menuAppender.AppentMenuStripItem("Short clipboard url", Resources.klipperShortedv5, this.ShortUrl);
-      menuAppender.AppentMenuStripItem("Handle clipboard value (Clipboard changer)", Resources.processClipboard, this.HandleClipboard);
+      menuAppender.AppentMenuStripItem(
+        "Short clipboard url",
+        Resources.klipperShortedv5,
+        this.ShortUrl,
+        new SimpleDynamicStateProvider() { CurrentRelevanceLevel = RelevanceLevel.Low });
+      menuAppender.AppentMenuStripItem("Handle clipboard value (Clipboard changer)", Resources.processClipboard, this.HandleClipboard, new IsUrlInClipboardWatcher());
       return true;
     }
 

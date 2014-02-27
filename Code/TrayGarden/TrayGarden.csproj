@@ -149,8 +149,16 @@
     </Compile>
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\IClipboardValueProvider.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\ContextMenuBuilder.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\ExtendedToolStripMenuItem.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\IMenuEntriesAppender.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\ContextMenuCollecting\MenuEntriesAppender.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\DynamicStateDecorator.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\DynamicStateWatcher.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\IDynamicStateProvider.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\IDynamicStateDecorator.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\IDynamicStateWatcher.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\RelevanceLevel.cs" />
+    <Compile Include="Services\PlantServices\GlobalMenu\Core\DynamicState\SimpleDynamicStateProvider.cs" />
     <Compile Include="Services\PlantServices\MyAdminConfig\Smorgasbord\IGiveMeMyAppConfig.cs" />
     <Compile Include="RuntimeSettings\BulkSettingsUpdate.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\BaseSettingMediator.cs" />
@@ -518,6 +526,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>GlobalResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

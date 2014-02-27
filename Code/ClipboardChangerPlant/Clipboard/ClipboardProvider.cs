@@ -28,6 +28,12 @@ namespace ClipboardChangerPlant.Clipboard
 
     #region Public Events
 
+    /// <summary>
+    /// This event is raised even if update is initiated internally and actually hasn't been updated yet.
+    /// Was introduced to properly handle context menu items relevance.
+    /// </summary>
+    public event Action<string> ClipboardValueUpdatedService;
+
     public event Action<string> OnClipboardValueChanged;
 
     #endregion
@@ -63,20 +69,31 @@ namespace ClipboardChangerPlant.Clipboard
     {
       if (this.ListenClipboad)
       {
+        this.OnClipboardValueUpdatedService(newClipboardValue);
         this.OnOnClipboardValueChanged(newClipboardValue);
+      }
+    }
+
+    public virtual void OnClipboardValueUpdatedService(string newValue)
+    {
+      Action<string> handler = this.ClipboardValueUpdatedService;
+      if (handler != null)
+      {
+        handler(newValue);
       }
     }
 
     public virtual void PostInit()
     {
-      this.ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(
-        "listenTheClipboard",
-        ListenClipboardSettingName,
-        true);
+      this.ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting("listenTheClipboard", ListenClipboardSettingName, true);
     }
 
     public virtual void SetValue(string value, bool silent)
     {
+      if (silent)
+      {
+        this.OnClipboardValueUpdatedService(value);
+      }
       this.ActualProvider.SetCurrentClipboardText(value, silent);
     }
 

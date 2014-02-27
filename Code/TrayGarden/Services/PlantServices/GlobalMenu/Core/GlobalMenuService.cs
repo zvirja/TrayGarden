@@ -14,6 +14,7 @@ using TrayGarden.Plants;
 using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.MainWindow;
 
@@ -33,8 +34,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
     {
       this.IconText = "Tray Garden";
       this.TrayIconResourceName = "gardenIcon";
-      this.ServiceDescription =
-        "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
+      this.ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
     }
 
     #endregion
@@ -131,7 +131,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       Assert.IsNotNull(this.ContextMenuBuilder, "Builder cannot be null, something is wrong");
       this.ContextMenuBuilder.ConfigureContextItemOnClick = this.ConfigureContextItemOnClick;
       this.ContextMenuBuilder.ExitContextItemOnClick = this.ExitContextItemOnClick;
-      return this.ContextMenuBuilder.BuildContextMenu(plantBoxes);
+      IDynamicStateWatcher stateWatcher = HatcherGuide<IDynamicStateWatcher>.CreateNewInstance();
+      return this.ContextMenuBuilder.BuildContextMenu(plantBoxes, stateWatcher);
     }
 
     protected virtual void ConfigureContextItemOnClick(object sender, EventArgs eventArgs)

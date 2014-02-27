@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 
 using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Configuration;
@@ -49,6 +50,7 @@ namespace ClipboardChangerPlant.Engine
       notifyManager.MainActionRequested += this.NotifyManagerOnMainActionRequested;
       notifyManager.ShorteningRequested += this.NotifyManagerOnShorteningRequested;
       ClipboardManager.Provider.OnClipboardValueChanged += this.ProviderOnOnClipboardValueChanged;
+      Task.Factory.StartNew(() => ClipboardManager.Provider.OnClipboardValueUpdatedService(ClipboardManager.GetValue()));
     }
 
     public virtual void PreInit()
