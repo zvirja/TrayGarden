@@ -142,6 +142,7 @@
     <Compile Include="Plants\Pipeline\ResolveIPlant.cs" />
     <Compile Include="Plants\PlantEnabledChangedEvent.cs" />
     <Compile Include="Reception\Services\IClipboardWorks.cs" />
+    <Compile Include="Reception\Services\IProvidesRareCommands.cs" />
     <Compile Include="RuntimeSettings\FastPropertyWrapper\DoubleSettingMediator.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardProvider.cs" />
     <Compile Include="Services\PlantServices\ClipboardObserver\Core\ClipboardMonitor.cs">
@@ -215,6 +216,15 @@
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMArgs.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\InitPlantGMPipeline.cs" />
     <Compile Include="Services\PlantServices\GlobalMenu\Core\InitPlantPipeline\200ProvideWithIconChanger.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Core\IRareCommand.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Core\SimpleRareCommand.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Core\RareCommandsService.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Core\RareCommandsServicePlantBox.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Pipelines\PlantInit\100CollectRareCommands.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Pipelines\PlantInit\InitPlantRareCommands.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\Pipelines\PlantInit\InitPlantRareCommandsArgs.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\UI\RareCommandsPresenter.cs" />
+    <Compile Include="Services\PlantServices\RareCommands\UI\RareCommandWrapper.cs" />
     <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\StringOptionUserSettingPlayer.cs" />
     <Compile Include="Services\PlantServices\UserConfig\UI\UserSettingPlayers\TypedUserSettingPlayer.cs" />
     <Compile Include="UI\Configuration\EntryVM\Players\ActionConfigurationPlayer.cs" />
