@@ -31,6 +31,17 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers
 
     #region Public Properties
 
+    public override string SettingDescription
+    {
+      get
+      {
+        return this.UserSetting.Description;
+      }
+      protected set
+      {
+      }
+    }
+
     public ITypedUserSetting<TValue> UserSetting { get; set; }
 
     public override TValue Value
