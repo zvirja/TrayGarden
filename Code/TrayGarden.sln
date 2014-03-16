@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClipboardChangerPlant", "Cl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallApplicationLauncher", "SmallApplicationLauncher\SmallApplicationLauncher.csproj", "{243DE217-3CC2-47EB-812D-B954519EE585}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsLangHotKeysSetter", "WindowsLangHotKeysSetter\WindowsLangHotKeysSetter.csproj", "{CF8E2038-5D28-45C6-A51C-22F234703D8D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{243DE217-3CC2-47EB-812D-B954519EE585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{243DE217-3CC2-47EB-812D-B954519EE585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{243DE217-3CC2-47EB-812D-B954519EE585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF8E2038-5D28-45C6-A51C-22F234703D8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF8E2038-5D28-45C6-A51C-22F234703D8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF8E2038-5D28-45C6-A51C-22F234703D8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF8E2038-5D28-45C6-A51C-22F234703D8D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

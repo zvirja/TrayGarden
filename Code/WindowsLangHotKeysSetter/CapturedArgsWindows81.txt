@@ -1,0 +1,6 @@
+﻿I've captured the following values in my Winodows 8.1 installation:
+English - 00000100,0000c005,00000031,04090409 
+Russian - 00000101,0000c005,00000032,04190419
+Ukraine - 00000102,0000c005,00000033,f0a80422
+
+For each lang: Alt + Shift + [1,2,3]'
