@@ -73,7 +73,8 @@ namespace WindowsLangHotKeysSetter
         "ArgsSets",
         "Parameters sets",
         "00000100,0000c005,00000031,04090409|00000101,0000c005,00000032,04190419|00000102,0000c005,00000033,f0a80422",
-        "Here you should specify parameters sets for the CliImmSetHotKey method calls. The format of string is following: dwID-UINT,uModifiers-UINT,uVirtualKey-UINT,hkl-UINT|... Parameter values should be specified in HEX without prefix.");
+        "Here you should specify parameters sets for the CliImmSetHotKey method calls.{0}The format of string is following: dwID-UINT,uModifiers-UINT,uVirtualKey-UINT,hkl-UINT|...{0}Parameter values should be specified in HEX without prefix."
+          .FormatWith(Environment.NewLine));
     }
 
     protected Tuple<uint, uint, uint, IntPtr> ParseSet(string rawSet)
