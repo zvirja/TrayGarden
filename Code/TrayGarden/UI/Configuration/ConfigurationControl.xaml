@@ -213,7 +213,7 @@
           <!-- String setting markup -->
           <DataTemplate DataType="{x:Type entryVMs:StringConfigurationEntryVM}">
             <ContentControl ContentTemplate="{StaticResource SettingLayoutRegular}">
-              <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=Value}" />
+              <TextBox Style="{StaticResource SettingValueStyle}" Text="{Binding Path=Value}" TextWrapping="Wrap" VerticalScrollBarVisibility="Auto" AcceptsReturn="True"/>
             </ContentControl>
           </DataTemplate>
 
