@@ -43,16 +43,16 @@ namespace WindowsLangHotKeysSetter
 
     protected IRareCommand GetExecuteCommand()
     {
-      return new SimpleRareCommand("Set predefined hotkeys", "This command applies hotkeys from configuration (refer to the plant's settings) to Windows.", this.SetHotKeys);
+      return new SimpleRareCommand("Set predefined hotkeys", "This command applies hotkeys from configuration (refer to the plant's settings) to Windows.", () => this.SetHotKeys(true));
     }
 
-    protected void SetHotKeys()
+    internal bool SetHotKeys(bool displaySuccessDialog)
     {
       List<Tuple<uint, uint, uint, IntPtr>> argsSets = ParamsConfigurator.Instance.GetArgsTuples();
       if (argsSets == null || argsSets.Count == 0)
       {
         this.DisplayResult("Unable to run because of improper configuration.", true);
-        return;
+        return false;
       }
       bool errorPresent = false;
       foreach (Tuple<uint, uint, uint, IntPtr> argsSet in argsSets)
@@ -66,11 +66,14 @@ namespace WindowsLangHotKeysSetter
       if (errorPresent)
       {
         this.DisplayResult("Successfully called method for each set, but some of calls returned false result.", true);
+        return false;
       }
-      else
+      if(displaySuccessDialog)
       {
         this.DisplayResult("Successfully applied all the combinations.", false);
       }
+
+      return true;
     }
 
     [DllImport("user32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]

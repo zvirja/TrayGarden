@@ -39,7 +39,7 @@ namespace WindowsLangHotKeysSetter
 
     public virtual List<object> GetServiceDelegates()
     {
-      return new List<object>() { ParamsConfigurator.Instance, HotKeysCommandRunner.Instance };
+      return new List<object>() { ParamsConfigurator.Instance, HotKeysCommandRunner.Instance, GlobalMenuOption.Instance };
     }
 
   }

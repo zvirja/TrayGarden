@@ -12,6 +12,7 @@ using System.Windows.Forms;
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Resources;
 
 #endregion
 
@@ -49,6 +50,8 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
 
     protected Icon BackIcon { get; set; }
 
+    protected Icon SuccessIcon { get; set; }
+
     protected bool Initialized { get; set; }
 
     protected NotifyIcon OperableNIcon { get; set; }
@@ -62,7 +65,13 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
       Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
       this.OperableNIcon = operableNIcon;
       this.BackIcon = this.OperableNIcon.Icon;
+      this.SuccessIcon = GlobalResourcesManager.GetIconByName("mockAction");
       this.Initialized = true;
+    }
+
+    public void NotifySuccess(int msTimeout = 0)
+    {
+      this.SetIcon(this.SuccessIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
     }
 
     public virtual void SetIcon(Icon newIcon, int msTimeout)
