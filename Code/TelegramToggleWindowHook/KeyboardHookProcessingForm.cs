@@ -2,6 +2,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -16,10 +17,15 @@ namespace TelegramToggleWindowHook
   {
     #region Fields
 
+    private const int GWL_STYLE = -16;
+
     private const uint MOD_CONTROL = 0x0002;
 
 
     private const uint WM_HOTKEY = 0x0312;
+
+    private const int WS_MINIMIZE = 0x20000000;
+    private IntPtr _lastForegroundWindow;
 
     #endregion
 
@@ -49,6 +55,12 @@ namespace TelegramToggleWindowHook
     [DllImport("user32.dll", SetLastError = true)]
     private static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
+    [DllImport("user32.dll")]
+    private static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError = true)]
+    private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
 
     [DllImport("user32.dll", SetLastError = true)]
     [return: MarshalAs(UnmanagedType.Bool)]
@@ -64,14 +76,48 @@ namespace TelegramToggleWindowHook
 
     private void ToggleTelegramWindow()
     {
-      var telegramWindow = FindWindow("Qt5QWindowIcon", "Telegram");
+      var telegramProcess = Process.GetProcessesByName("telegram").FirstOrDefault();
+
+      if (telegramProcess == null)
+      {
+        return;
+      }
+
+      var telegramWindow = telegramProcess.MainWindowHandle;
       if (telegramWindow == IntPtr.Zero)
       {
         return;
       }
 
-      ShowWindow(telegramWindow, WindowShowStyle.ShowNormal);
-      SetForegroundWindow(telegramWindow);
+
+      var isMinimizedNow = (GetWindowLong(telegramWindow, GWL_STYLE) & WS_MINIMIZE) != 0;
+      var foregroundWindow = GetForegroundWindow();
+
+      if (foregroundWindow == telegramWindow)
+      {
+        //If we are hiding this window - try to switch to the previous one.
+        if (isMinimizedNow)
+        {
+          ShowWindow(telegramWindow, WindowShowStyle.ShowNormal);
+        }
+        else
+        {
+          ShowWindow(telegramWindow, WindowShowStyle.ShowMinimized);
+          if (this._lastForegroundWindow != IntPtr.Zero)
+          {
+            SetForegroundWindow(this._lastForegroundWindow);
+            this._lastForegroundWindow = IntPtr.Zero;
+          }
+        }
+      }
+      else
+      {
+        //Make the telegram window active. Store the current active window.
+        this._lastForegroundWindow = GetForegroundWindow();
+
+        ShowWindow(telegramWindow, WindowShowStyle.ShowNormal);
+        SetForegroundWindow(telegramWindow);
+      }
     }
 
     #endregion
