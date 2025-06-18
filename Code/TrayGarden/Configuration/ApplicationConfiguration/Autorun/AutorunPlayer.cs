@@ -7,31 +7,30 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
+namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun;
+
+public class AutorunPlayer : TypedConfigurationPlayer<bool>
 {
-  public class AutorunPlayer : TypedConfigurationPlayer<bool>
+  public AutorunPlayer([NotNull] string settingName, string settingDescription)
+    : base(settingName, false, false)
   {
-    public AutorunPlayer([NotNull] string settingName, string settingDescription)
-      : base(settingName, false, false)
-    {
-      base.SettingDescription = settingDescription;
-    }
+    base.SettingDescription = settingDescription;
+  }
 
-    public override bool Value
+  public override bool Value
+  {
+    get
     {
-      get
-      {
-        return ActualAppProperties.RunAtStartup;
-      }
-      set
-      {
-        ActualAppProperties.RunAtStartup = value;
-        this.OnValueChanged();
-      }
+      return ActualAppProperties.RunAtStartup;
     }
+    set
+    {
+      ActualAppProperties.RunAtStartup = value;
+      this.OnValueChanged();
+    }
+  }
 
-    public override void Reset()
-    {
-    }
+  public override void Reset()
+  {
   }
 }

@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
+namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core;
+
+public interface IClipboardProvider
 {
-  public interface IClipboardProvider
-  {
-    string GetCurrentClipboardText();
+  string GetCurrentClipboardText();
 
-    string GetCurrentClipboardTextIgnoreSizeRestrictions();
+  string GetCurrentClipboardTextIgnoreSizeRestrictions();
 
-    void SetCurrentClipboardText(string newValue, bool silent);
-  }
+  void SetCurrentClipboardText(string newValue, bool silent);
 }

@@ -9,23 +9,22 @@ using TrayGarden.Diagnostics;
 using TrayGarden.UI.ForSimplerLife;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline
+namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
+
+[UsedImplicitly]
+public class CreateStep
 {
   [UsedImplicitly]
-  public class CreateStep
+  public virtual void Process(GetApplicationConfigStepArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(GetApplicationConfigStepArgs args)
-    {
-      Assert.IsNotNull(args.StepConstructInfo.ContentVM != null, "args.StepConstructInfo.ContentVM is not null");
-      WindowWithBackStateConstructInfo stepInfo = args.StepConstructInfo;
-      stepInfo.ResultState = new WindowStepState(
-        stepInfo.GlobalTitle,
-        stepInfo.Header,
-        stepInfo.ShortName,
-        stepInfo.ContentVM,
-        stepInfo.SuperAction,
-        stepInfo.StateSpecificHelpActions);
-    }
+    Assert.IsNotNull(args.StepConstructInfo.ContentVM != null, "args.StepConstructInfo.ContentVM is not null");
+    WindowWithBackStateConstructInfo stepInfo = args.StepConstructInfo;
+    stepInfo.ResultState = new WindowStepState(
+      stepInfo.GlobalTitle,
+      stepInfo.Header,
+      stepInfo.ShortName,
+      stepInfo.ContentVM,
+      stepInfo.SuperAction,
+      stepInfo.StateSpecificHelpActions);
   }
 }

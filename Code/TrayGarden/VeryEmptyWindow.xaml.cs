@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Windows;
 
-namespace TrayGarden
+namespace TrayGarden;
+
+/// <summary>
+/// Interaction logic for VeryEmptyWindow.xaml
+/// </summary>
+public partial class VeryEmptyWindow : Window
 {
-  /// <summary>
-  /// Interaction logic for VeryEmptyWindow.xaml
-  /// </summary>
-  public partial class VeryEmptyWindow : Window
+  public VeryEmptyWindow()
   {
-    public VeryEmptyWindow()
-    {
-      this.InitializeComponent();
-      this.Hide();
-    }
+    this.InitializeComponent();
+    this.Hide();
   }
 }

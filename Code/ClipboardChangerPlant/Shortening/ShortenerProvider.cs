@@ -6,31 +6,30 @@ using System.Xml;
 
 using ClipboardChangerPlant.Configuration;
 
-namespace ClipboardChangerPlant.Shortening
+namespace ClipboardChangerPlant.Shortening;
+
+public class ShortenerProvider : INeedCongurationNode
 {
-  public class ShortenerProvider : INeedCongurationNode
+  protected XmlHelper ConfigurationHelper;
+
+  public virtual string ApiKey
   {
-    protected XmlHelper ConfigurationHelper;
-
-    public virtual string ApiKey
+    get
     {
-      get
-      {
-        return this.ConfigurationHelper.GetStringValue("ApiKey", string.Empty);
-      }
+      return this.ConfigurationHelper.GetStringValue("ApiKey", string.Empty);
     }
+  }
 
-    public string Name { get; set; }
+  public string Name { get; set; }
 
-    public void SetConfigurationNode(XmlNode configurationNode)
-    {
-      this.ConfigurationHelper = new XmlHelper(configurationNode);
-    }
+  public void SetConfigurationNode(XmlNode configurationNode)
+  {
+    this.ConfigurationHelper = new XmlHelper(configurationNode);
+  }
 
-    public virtual bool TryShortUrl(string originalUrl, out string shortedUrl)
-    {
-      shortedUrl = originalUrl;
-      return true;
-    }
+  public virtual bool TryShortUrl(string originalUrl, out string shortedUrl)
+  {
+    shortedUrl = originalUrl;
+    return true;
   }
 }

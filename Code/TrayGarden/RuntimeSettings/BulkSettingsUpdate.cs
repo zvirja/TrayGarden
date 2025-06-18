@@ -6,29 +6,28 @@ using System.Text;
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.RuntimeSettings
-{
-  public enum BulkUpdateState
-  {
-    Disabled,
+namespace TrayGarden.RuntimeSettings;
 
-    Enabled
+public enum BulkUpdateState
+{
+  Disabled,
+
+  Enabled
+}
+
+/// <summary>
+/// Normally, runtime setting values are saved each time you assing some value. Context allows to disable per-operation saving and perform saving once, at the end.
+/// </summary>
+public class BulkSettingsUpdate : Switcher<BulkUpdateState>
+{
+  public BulkSettingsUpdate()
+    : base(BulkUpdateState.Enabled)
+  {
   }
 
-  /// <summary>
-  /// Normally, runtime setting values are saved each time you assing some value. Context allows to disable per-operation saving and perform saving once, at the end.
-  /// </summary>
-  public class BulkSettingsUpdate : Switcher<BulkUpdateState>
+  public override void Dispose()
   {
-    public BulkSettingsUpdate()
-      : base(BulkUpdateState.Enabled)
-    {
-    }
-
-    public override void Dispose()
-    {
-      base.Dispose();
-      HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
-    }
+    base.Dispose();
+    HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
   }
 }

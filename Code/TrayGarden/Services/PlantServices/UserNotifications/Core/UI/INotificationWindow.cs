@@ -5,11 +5,10 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI;
+
+[UsedImplicitly]
+public interface INotificationWindow
 {
-  [UsedImplicitly]
-  public interface INotificationWindow
-  {
-    void PrepareAndDisplay(NotificationWindowVM viewModel);
-  }
+  void PrepareAndDisplay(NotificationWindowVM viewModel);
 }

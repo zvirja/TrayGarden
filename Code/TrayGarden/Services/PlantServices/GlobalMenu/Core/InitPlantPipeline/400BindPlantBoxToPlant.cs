@@ -5,22 +5,21 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
+
+[UsedImplicitly]
+public class BindPlantBoxToPlant
 {
   [UsedImplicitly]
-  public class BindPlantBoxToPlant
+  public virtual void Process(InitPlantGMArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitPlantGMArgs args)
+    if (!(args.IsAdvancedMenuExtendingInUse || args.IsMenuExtendingInUse || args.IsNotifyIconChangerInUse))
     {
-      if (!(args.IsAdvancedMenuExtendingInUse || args.IsMenuExtendingInUse || args.IsNotifyIconChangerInUse))
-      {
-        args.Abort();
-        return;
-      }
-      GlobalMenuPlantBox globalMenuPlantBox = args.GMBox;
-      globalMenuPlantBox.RelatedPlantEx = args.PlantEx;
-      globalMenuPlantBox.RelatedPlantEx.PutLuggage(args.LuggageName, globalMenuPlantBox);
+      args.Abort();
+      return;
     }
+    GlobalMenuPlantBox globalMenuPlantBox = args.GMBox;
+    globalMenuPlantBox.RelatedPlantEx = args.PlantEx;
+    globalMenuPlantBox.RelatedPlantEx.PutLuggage(args.LuggageName, globalMenuPlantBox);
   }
 }

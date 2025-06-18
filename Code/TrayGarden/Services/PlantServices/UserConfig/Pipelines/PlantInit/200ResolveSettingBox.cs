@@ -7,27 +7,26 @@ using JetBrains.Annotations;
 
 using TrayGarden.Helpers;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
+namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
+
+[UsedImplicitly]
+public class ResolveSettingBox
 {
   [UsedImplicitly]
-  public class ResolveSettingBox
+  public string SettingBoxName { get; set; }
+
+  [UsedImplicitly]
+  public virtual void Process(InitPlantUCPipelineArg args)
   {
-    [UsedImplicitly]
-    public string SettingBoxName { get; set; }
+    args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(this.GetSettingName());
+  }
 
-    [UsedImplicitly]
-    public virtual void Process(InitPlantUCPipelineArg args)
+  protected virtual string GetSettingName()
+  {
+    if (this.SettingBoxName.NotNullNotEmpty())
     {
-      args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(this.GetSettingName());
+      return this.SettingBoxName;
     }
-
-    protected virtual string GetSettingName()
-    {
-      if (this.SettingBoxName.NotNullNotEmpty())
-      {
-        return this.SettingBoxName;
-      }
-      return "UserConfigService";
-    }
+    return "UserConfigService";
   }
 }

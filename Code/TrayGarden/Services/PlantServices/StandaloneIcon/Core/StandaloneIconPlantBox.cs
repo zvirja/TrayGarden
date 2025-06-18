@@ -4,32 +4,31 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
+namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core;
+
+public class StandaloneIconPlantBox : ServicePlantBoxBase
 {
-  public class StandaloneIconPlantBox : ServicePlantBoxBase
+  public StandaloneIconPlantBox()
   {
-    public StandaloneIconPlantBox()
-    {
-      base.IsEnabledChanged += this.StandaloneIconPlantBox_IsEnabledChanged;
-    }
+    base.IsEnabledChanged += this.StandaloneIconPlantBox_IsEnabledChanged;
+  }
 
-    public NotifyIcon NotifyIcon { get; set; }
+  public NotifyIcon NotifyIcon { get; set; }
 
-    public virtual void FixNIVisibility()
+  public virtual void FixNIVisibility()
+  {
+    if (this.RelatedPlantEx.IsEnabled)
     {
-      if (this.RelatedPlantEx.IsEnabled)
-      {
-        this.NotifyIcon.Visible = this.IsEnabled;
-      }
-      else
-      {
-        this.NotifyIcon.Visible = false;
-      }
+      this.NotifyIcon.Visible = this.IsEnabled;
     }
+    else
+    {
+      this.NotifyIcon.Visible = false;
+    }
+  }
 
-    protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
-    {
-      this.FixNIVisibility();
-    }
+  protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
+  {
+    this.FixNIVisibility();
   }
 }

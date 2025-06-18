@@ -7,13 +7,12 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.UI.Configuration.EntryVM
+namespace TrayGarden.UI.Configuration.EntryVM;
+
+public class StringConfigurationEntryVM : TypedConfigurationEntryVM<string>
 {
-  public class StringConfigurationEntryVM : TypedConfigurationEntryVM<string>
+  public StringConfigurationEntryVM([NotNull] ITypedConfigurationPlayer<string> realPlayer)
+    : base(realPlayer)
   {
-    public StringConfigurationEntryVM([NotNull] ITypedConfigurationPlayer<string> realPlayer)
-      : base(realPlayer)
-    {
-    }
   }
 }

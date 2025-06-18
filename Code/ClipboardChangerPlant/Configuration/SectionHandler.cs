@@ -4,17 +4,16 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace ClipboardChangerPlant.Configuration
-{
-  public class SectionHandler : System.Configuration.ConfigurationSection
-  {
-    public XmlDocument XmlRepresentation { get; set; }
+namespace ClipboardChangerPlant.Configuration;
 
-    protected override void DeserializeSection(XmlReader reader)
-    {
-      var document = new XmlDocument();
-      document.Load(reader);
-      this.XmlRepresentation = document;
-    }
+public class SectionHandler : System.Configuration.ConfigurationSection
+{
+  public XmlDocument XmlRepresentation { get; set; }
+
+  protected override void DeserializeSection(XmlReader reader)
+  {
+    var document = new XmlDocument();
+    document.Load(reader);
+    this.XmlRepresentation = document;
   }
 }

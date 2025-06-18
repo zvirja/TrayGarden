@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.CustomSettings.Core
+namespace TrayGarden.Services.PlantServices.CustomSettings.Core;
+
+public class CustomSettingsServicePlantBox : ServicePlantBoxBase
 {
-  public class CustomSettingsServicePlantBox : ServicePlantBoxBase
-  {
-  }
 }

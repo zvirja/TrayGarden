@@ -3,30 +3,29 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
+namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core;
+
+public class ClipboardProvider : IClipboardProvider
 {
-  public class ClipboardProvider : IClipboardProvider
+  public ClipboardProvider(ClipboardObserverService service)
   {
-    public ClipboardProvider(ClipboardObserverService service)
-    {
-      this.Service = service;
-    }
+    this.Service = service;
+  }
 
-    protected ClipboardObserverService Service { get; set; }
+  protected ClipboardObserverService Service { get; set; }
 
-    public virtual string GetCurrentClipboardText()
-    {
-      return this.Service.GetClipboardValue(false);
-    }
+  public virtual string GetCurrentClipboardText()
+  {
+    return this.Service.GetClipboardValue(false);
+  }
 
-    public virtual string GetCurrentClipboardTextIgnoreSizeRestrictions()
-    {
-      return this.Service.GetClipboardValue(true);
-    }
+  public virtual string GetCurrentClipboardTextIgnoreSizeRestrictions()
+  {
+    return this.Service.GetClipboardValue(true);
+  }
 
-    public virtual void SetCurrentClipboardText(string newValue, bool silent)
-    {
-      this.Service.SetClipboardValue(newValue, silent);
-    }
+  public virtual void SetCurrentClipboardText(string newValue, bool silent)
+  {
+    this.Service.SetClipboardValue(newValue, silent);
   }
 }

@@ -9,24 +9,23 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
+namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
+
+[UsedImplicitly]
+public class CreatePersonalSettingsSteward
 {
   [UsedImplicitly]
-  public class CreatePersonalSettingsSteward
+  public IUserSettingsBuilder SettingsBuilder { get; set; }
+
+  [UsedImplicitly]
+  public virtual void Process(InitPlantUCPipelineArg args)
   {
-    [UsedImplicitly]
-    public IUserSettingsBuilder SettingsBuilder { get; set; }
+    IUserSettingsBuilder settingsBuilder = this.GetSettingBuilder(args.SettingBox);
+    args.PersonalSettingsSteward = new PersonalUserSettingsSteward(settingsBuilder);
+  }
 
-    [UsedImplicitly]
-    public virtual void Process(InitPlantUCPipelineArg args)
-    {
-      IUserSettingsBuilder settingsBuilder = this.GetSettingBuilder(args.SettingBox);
-      args.PersonalSettingsSteward = new PersonalUserSettingsSteward(settingsBuilder);
-    }
-
-    protected IUserSettingsBuilder GetSettingBuilder(ISettingsBox settingBox)
-    {
-      return this.SettingsBuilder ?? new UserSettingsBuilder(settingBox);
-    }
+  protected IUserSettingsBuilder GetSettingBuilder(ISettingsBox settingBox)
+  {
+    return this.SettingsBuilder ?? new UserSettingsBuilder(settingBox);
   }
 }

@@ -6,13 +6,12 @@ using System.Text;
 using TrayGarden.Services.Engine;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Pipelines.Shutdown
+namespace TrayGarden.Pipelines.Shutdown;
+
+public class PlantServicesInformClose
 {
-  public class PlantServicesInformClose
+  public void Process(ShutdownArgs args)
   {
-    public void Process(ShutdownArgs args)
-    {
-      HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
-    }
+    HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
   }
 }

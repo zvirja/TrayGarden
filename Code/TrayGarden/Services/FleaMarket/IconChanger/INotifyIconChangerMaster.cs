@@ -6,14 +6,13 @@ using System.Windows.Forms;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.FleaMarket.IconChanger
+namespace TrayGarden.Services.FleaMarket.IconChanger;
+
+public interface INotifyIconChangerMaster : INotifyIconChangerClient
 {
-  public interface INotifyIconChangerMaster : INotifyIconChangerClient
-  {
-    int DefaultDelayMsec { get; set; }
+  int DefaultDelayMsec { get; set; }
 
-    bool IsEnabled { get; set; }
+  bool IsEnabled { get; set; }
 
-    void Initialize([NotNull] NotifyIcon operableNIcon);
-  }
+  void Initialize([NotNull] NotifyIcon operableNIcon);
 }

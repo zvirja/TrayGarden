@@ -9,77 +9,76 @@ using System.Xml;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
-namespace ClipboardChangerPlant.RequestHandling
+namespace ClipboardChangerPlant.RequestHandling;
+
+public class RequestHandler : INeedCongurationNode
 {
-  public class RequestHandler : INeedCongurationNode
+  protected XmlHelper ConfigurationHelper;
+
+  public virtual Icon DefaultHandlerIcon
   {
-    protected XmlHelper ConfigurationHelper;
-
-    public virtual Icon DefaultHandlerIcon
+    get
     {
-      get
-      {
-        return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess"));
-      }
+      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess"));
     }
+  }
 
-    public virtual bool IsShorterEnabled
+  public virtual bool IsShorterEnabled
+  {
+    get
     {
-      get
-      {
-        return this.ConfigurationHelper.GetBoolValue("ShouldBeShorted", false);
-      }
+      return this.ConfigurationHelper.GetBoolValue("ShouldBeShorted", false);
     }
+  }
 
-    public string Name { get; set; }
+  public string Name { get; set; }
 
-    public virtual string[] RegularExpressionsToMatch
+  public virtual string[] RegularExpressionsToMatch
+  {
+    get
     {
-      get
-      {
-        return this.ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty)
-          .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
-      }
+      return this.ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty)
+        .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
     }
+  }
 
-    public virtual bool? Match(ProcessorArgs args)
-    {
-      string inputValue = args.ResultUrl;
-      return this.RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
-    }
+  public virtual bool? Match(ProcessorArgs args)
+  {
+    string inputValue = args.ResultUrl;
+    return this.RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
+  }
 
-    public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
-    {
-      return true;
-    }
+  public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
+  {
+    return true;
+  }
 
-    public virtual void PostInit()
-    {
-    }
+  public virtual void PostInit()
+  {
+  }
 
-    public virtual bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
-    {
-      return false;
-    }
+  public virtual bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
+  {
+    return false;
+  }
 
-    public virtual bool PreExecute(string operableUrl, bool isClipboardRequest)
-    {
-      return true;
-    }
+  public virtual bool PreExecute(string operableUrl, bool isClipboardRequest)
+  {
+    return true;
+  }
 
-    public virtual void PreInit()
-    {
-    }
+  public virtual void PreInit()
+  {
+  }
 
-    public virtual void SetConfigurationNode(XmlNode configurationNode)
-    {
-      this.ConfigurationHelper = new XmlHelper(configurationNode);
-    }
+  public virtual void SetConfigurationNode(XmlNode configurationNode)
+  {
+    this.ConfigurationHelper = new XmlHelper(configurationNode);
+  }
 
-    public virtual bool TryProcess(string inputValue, out string result)
-    {
-      result = inputValue;
-      return true;
-    }
+  public virtual bool TryProcess(string inputValue, out string result)
+  {
+    result = inputValue;
+    return true;
   }
 }

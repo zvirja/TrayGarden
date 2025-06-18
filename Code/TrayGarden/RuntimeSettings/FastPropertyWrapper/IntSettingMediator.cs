@@ -5,28 +5,27 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
+namespace TrayGarden.RuntimeSettings.FastPropertyWrapper;
+
+public class IntSettingMediator : BaseSettingMediator
 {
-  public class IntSettingMediator : BaseSettingMediator
+  public IntSettingMediator([NotNull] string key, int defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
+    : base(key, settingsBoxResolver)
   {
-    public IntSettingMediator([NotNull] string key, int defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
-      : base(key, settingsBoxResolver)
+    this.DefaultValue = defaultValue;
+  }
+
+  public int DefaultValue { get; set; }
+
+  public int Value
+  {
+    get
     {
-      this.DefaultValue = defaultValue;
+      return this.SettingsBox.GetInt(this.Key, this.DefaultValue);
     }
-
-    public int DefaultValue { get; set; }
-
-    public int Value
+    set
     {
-      get
-      {
-        return this.SettingsBox.GetInt(this.Key, this.DefaultValue);
-      }
-      set
-      {
-        this.SettingsBox.SetInt(this.Key, value);
-      }
+      this.SettingsBox.SetInt(this.Key, value);
     }
   }
 }

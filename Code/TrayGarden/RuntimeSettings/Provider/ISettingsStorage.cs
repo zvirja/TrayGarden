@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider;
+
+public interface ISettingsStorage
 {
-  public interface ISettingsStorage
-  {
-    IContainer GetRootContainer();
+  IContainer GetRootContainer();
 
-    void LoadSettings();
+  void LoadSettings();
 
-    bool SaveSettings();
-  }
+  bool SaveSettings();
 }

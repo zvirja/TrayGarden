@@ -8,41 +8,40 @@ using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
-namespace SmallApplicationLauncher
+namespace SmallApplicationLauncher;
+
+public class UserConfiguration : IUserConfiguration
 {
-  public class UserConfiguration : IUserConfiguration
+  private static UserConfiguration configuration;
+
+  private UserConfiguration()
   {
-    private static UserConfiguration configuration;
+    this.Applications = new Dictionary<string, string>();
+  }
 
-    private UserConfiguration()
+  public static UserConfiguration Configuration
+  {
+    get
     {
-      this.Applications = new Dictionary<string, string>();
+      return configuration ?? (configuration = new UserConfiguration());
     }
+  }
 
-    public static UserConfiguration Configuration
+  public Dictionary<string, string> Applications { get; private set; }
+
+  public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
+  {
+    IStringUserSetting userSetting = personalSettingsSteward.DeclareStringSetting(
+      "Path to Small Apps folder",
+      "Path to Small Apps folder",
+      @"C:\Apps");
+    var folderInfo = new DirectoryInfo(userSetting.Value);
+    this.Applications = new Dictionary<string, string>();
+    if (folderInfo.Exists)
     {
-      get
+      foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
       {
-        return configuration ?? (configuration = new UserConfiguration());
-      }
-    }
-
-    public Dictionary<string, string> Applications { get; private set; }
-
-    public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
-    {
-      IStringUserSetting userSetting = personalSettingsSteward.DeclareStringSetting(
-        "Path to Small Apps folder",
-        "Path to Small Apps folder",
-        @"C:\Apps");
-      var folderInfo = new DirectoryInfo(userSetting.Value);
-      this.Applications = new Dictionary<string, string>();
-      if (folderInfo.Exists)
-      {
-        foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
-        {
-          this.Applications.Add(app.Name, app.FullName);
-        }
+        this.Applications.Add(app.Name, app.FullName);
       }
     }
   }

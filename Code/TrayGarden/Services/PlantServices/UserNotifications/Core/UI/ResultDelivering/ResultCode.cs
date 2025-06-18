@@ -3,24 +3,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+
+public enum ResultCode
 {
-  public enum ResultCode
-  {
-    Unspecified,
+  Unspecified,
 
-    NoReaction,
+  NoReaction,
 
-    OK,
+  OK,
 
-    Yes,
+  Yes,
 
-    No,
+  No,
 
-    Close,
+  Close,
 
-    PermanentlyClose,
+  PermanentlyClose,
 
-    Custom
-  }
+  Custom
 }

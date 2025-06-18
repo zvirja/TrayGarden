@@ -9,26 +9,25 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Reception;
 
-namespace TrayGarden.Plants.Pipeline
+namespace TrayGarden.Plants.Pipeline;
+
+[UsedImplicitly]
+public class ResolveWorkhorses
 {
   [UsedImplicitly]
-  public class ResolveWorkhorses
+  public virtual void Process(InitializePlantArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitializePlantArgs args)
+    var workhorses = new List<object> { args.PlantObject };
+    var asExpected = args.PlantObject as IServicesDelegation;
+    if (asExpected != null)
     {
-      var workhorses = new List<object> { args.PlantObject };
-      var asExpected = args.PlantObject as IServicesDelegation;
-      if (asExpected != null)
+      List<object> workhorseCandidates = asExpected.GetServiceDelegates();
+      if (workhorseCandidates != null)
       {
-        List<object> workhorseCandidates = asExpected.GetServiceDelegates();
-        if (workhorseCandidates != null)
-        {
-          workhorses.AddRange(workhorseCandidates);
-        }
-        Log.Debug("Plant {0} supports service delegation".FormatWith(args.PlantObject.GetType().FullName), this);
+        workhorses.AddRange(workhorseCandidates);
       }
-      args.Workhorses = workhorses;
+      Log.Debug("Plant {0} supports service delegation".FormatWith(args.PlantObject.GetType().FullName), this);
     }
+    args.Workhorses = workhorses;
   }
 }

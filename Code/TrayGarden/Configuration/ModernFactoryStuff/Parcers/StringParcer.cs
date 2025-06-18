@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
+namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers;
+
+public class StringParcer : IParcer
 {
-  public class StringParcer : IParcer
+  public virtual object ParceNodeValue(XmlNode nodeValue)
   {
-    public virtual object ParceNodeValue(XmlNode nodeValue)
-    {
-      var value = nodeValue.InnerText;
-      return value;
-    }
+    var value = nodeValue.InnerText;
+    return value;
   }
 }

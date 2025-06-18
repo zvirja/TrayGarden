@@ -11,112 +11,111 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Plants;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+
+public class SinglePlantVM : INotifyPropertyChanged
 {
-  public class SinglePlantVM : INotifyPropertyChanged
+  protected string _description;
+
+  protected string _name;
+
+  protected ObservableCollection<ServiceForPlantVMBase> _servicesVM;
+
+  public SinglePlantVM()
   {
-    protected string _description;
+    this.ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
+  }
 
-    protected string _name;
+  public event PropertyChangedEventHandler PropertyChanged;
 
-    protected ObservableCollection<ServiceForPlantVMBase> _servicesVM;
-
-    public SinglePlantVM()
+  public string Description
+  {
+    get
     {
-      this.ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
+      return this._description;
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public string Description
+    set
     {
-      get
+      if (value == this._description)
       {
-        return this._description;
+        return;
       }
-      set
-      {
-        if (value == this._description)
-        {
-          return;
-        }
-        this._description = value;
-        this.OnPropertyChanged("Description");
-      }
+      this._description = value;
+      this.OnPropertyChanged("Description");
     }
+  }
 
-    [UsedImplicitly]
-    public bool IsEnabled
+  [UsedImplicitly]
+  public bool IsEnabled
+  {
+    get
     {
-      get
-      {
-        return this.UnderlyingPlant != null ? this.UnderlyingPlant.IsEnabled : false;
-      }
-      set
-      {
-        this.UnderlyingPlant.IsEnabled = value;
-        this.OnPropertyChanged("IsEnabled");
-      }
+      return this.UnderlyingPlant != null ? this.UnderlyingPlant.IsEnabled : false;
     }
-
-    public string Name
+    set
     {
-      get
-      {
-        return this._name;
-      }
-      set
-      {
-        if (value == this._name)
-        {
-          return;
-        }
-        this._name = value;
-        this.OnPropertyChanged("Name");
-      }
+      this.UnderlyingPlant.IsEnabled = value;
+      this.OnPropertyChanged("IsEnabled");
     }
+  }
 
-    public ObservableCollection<ServiceForPlantVMBase> ServicesVM
+  public string Name
+  {
+    get
     {
-      get
-      {
-        return this._servicesVM;
-      }
-      set
-      {
-        if (Equals(value, this._servicesVM))
-        {
-          return;
-        }
-        this._servicesVM = value;
-        this.OnPropertyChanged("ServicesVM");
-      }
+      return this._name;
     }
-
-    public IPlantEx UnderlyingPlant { get; set; }
-
-    public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
+    set
     {
-      Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
-      this.UnderlyingPlant = underlyingPlant;
-      this.Name = underlyingPlant.Plant.HumanSupportingName.GetValueOrDefault("<unspecified name>");
-      this.Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
-      underlyingPlant.EnabledChanged += this.UnderlyingPlant_EnabledChanged;
-    }
-
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged(string propertyName)
-    {
-      PropertyChangedEventHandler handler = this.PropertyChanged;
-      if (handler != null)
+      if (value == this._name)
       {
-        handler(this, new PropertyChangedEventArgs(propertyName));
+        return;
       }
+      this._name = value;
+      this.OnPropertyChanged("Name");
     }
+  }
 
-    protected virtual void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+  public ObservableCollection<ServiceForPlantVMBase> ServicesVM
+  {
+    get
     {
+      return this._servicesVM;
+    }
+    set
+    {
+      if (Equals(value, this._servicesVM))
+      {
+        return;
+      }
+      this._servicesVM = value;
       this.OnPropertyChanged("ServicesVM");
     }
+  }
+
+  public IPlantEx UnderlyingPlant { get; set; }
+
+  public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
+  {
+    Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
+    this.UnderlyingPlant = underlyingPlant;
+    this.Name = underlyingPlant.Plant.HumanSupportingName.GetValueOrDefault("<unspecified name>");
+    this.Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
+    underlyingPlant.EnabledChanged += this.UnderlyingPlant_EnabledChanged;
+  }
+
+  [NotifyPropertyChangedInvocator]
+  protected virtual void OnPropertyChanged(string propertyName)
+  {
+    PropertyChangedEventHandler handler = this.PropertyChanged;
+    if (handler != null)
+    {
+      handler(this, new PropertyChangedEventArgs(propertyName));
+    }
+  }
+
+  protected virtual void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+  {
+    this.OnPropertyChanged("ServicesVM");
   }
 }

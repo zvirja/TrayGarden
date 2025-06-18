@@ -11,64 +11,63 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.Services.PlantServices.RareCommands.Core;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.RareCommands.UI
+namespace TrayGarden.Services.PlantServices.RareCommands.UI;
+
+public class RareCommandsPresenter
 {
-  public class RareCommandsPresenter
+  public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
   {
-    public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
+    var service = (RareCommandsService)HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(x => x.GetType().IsAssignableFrom(typeof(RareCommandsService)));
+    if (service == null)
     {
-      var service = (RareCommandsService)HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(x => x.GetType().IsAssignableFrom(typeof(RareCommandsService)));
-      if (service == null)
-      {
-        return;
-      }
-      if (!service.IsActuallyEnabled)
-      {
-        return;
-      }
-      if (!service.IsAvailableForPlant(args.PlantEx))
-      {
-        return;
-      }
-      List<ServiceForPlantVMBase> resultVMs = this.GetActionsVM(service, args.PlantEx);
-      if (resultVMs == null)
-      {
-        return;
-      }
-      foreach (ServiceForPlantVMBase vmBase in resultVMs)
-      {
-        args.PlantVM.ServicesVM.Add(vmBase);
-      }
+      return;
     }
+    if (!service.IsActuallyEnabled)
+    {
+      return;
+    }
+    if (!service.IsAvailableForPlant(args.PlantEx))
+    {
+      return;
+    }
+    List<ServiceForPlantVMBase> resultVMs = this.GetActionsVM(service, args.PlantEx);
+    if (resultVMs == null)
+    {
+      return;
+    }
+    foreach (ServiceForPlantVMBase vmBase in resultVMs)
+    {
+      args.PlantVM.ServicesVM.Add(vmBase);
+    }
+  }
 
-    protected virtual List<ServiceForPlantVMBase> GetActionsVM(RareCommandsService serviceInstance, IPlantEx plantEx)
+  protected virtual List<ServiceForPlantVMBase> GetActionsVM(RareCommandsService serviceInstance, IPlantEx plantEx)
+  {
+    RareCommandsServicePlantBox luggage = serviceInstance.GetPlantLuggage(plantEx);
+    List<IRareCommand> settings = luggage.RareCommands;
+    if (settings == null)
     {
-      RareCommandsServicePlantBox luggage = serviceInstance.GetPlantLuggage(plantEx);
-      List<IRareCommand> settings = luggage.RareCommands;
-      if (settings == null)
-      {
-        return null;
-      }
-      if (settings.Count == 0)
-      {
-        return null;
-      }
-      var result = new List<ServiceForPlantVMBase>();
-      foreach (IRareCommand rareCommand in settings)
-      {
-        result.Add(this.GetRareCommandActionVM(rareCommand));
-      }
-      return result;
+      return null;
     }
+    if (settings.Count == 0)
+    {
+      return null;
+    }
+    var result = new List<ServiceForPlantVMBase>();
+    foreach (IRareCommand rareCommand in settings)
+    {
+      result.Add(this.GetRareCommandActionVM(rareCommand));
+    }
+    return result;
+  }
 
-    protected virtual ICommand GetCommandWrapper(IRareCommand rareCommand)
-    {
-      return new RareCommandWrapper(rareCommand);
-    }
+  protected virtual ICommand GetCommandWrapper(IRareCommand rareCommand)
+  {
+    return new RareCommandWrapper(rareCommand);
+  }
 
-    protected virtual ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
-    {
-      return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, this.GetCommandWrapper(rareCommand));
-    }
+  protected virtual ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
+  {
+    return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, this.GetCommandWrapper(rareCommand));
   }
 }

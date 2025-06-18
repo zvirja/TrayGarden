@@ -13,93 +13,92 @@ using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+
+public class ServiceForPlantVMBase : INotifyPropertyChanged
 {
-  public class ServiceForPlantVMBase : INotifyPropertyChanged
+  protected string _description;
+
+  protected string _serviceName;
+
+  protected ICommand _showDescription;
+
+  public ServiceForPlantVMBase([NotNull] string serviceName, [NotNull] string description)
   {
-    protected string _description;
+    Assert.ArgumentNotNullOrEmpty(serviceName, "serviceName");
+    Assert.ArgumentNotNullOrEmpty(description, "description");
+    this.ServiceName = serviceName;
+    this.Description = description;
+    this.ShowDescription = new RelayCommand(this.ShowDescriptionAction, true);
+  }
 
-    protected string _serviceName;
+  public event PropertyChangedEventHandler PropertyChanged;
 
-    protected ICommand _showDescription;
-
-    public ServiceForPlantVMBase([NotNull] string serviceName, [NotNull] string description)
+  public string Description
+  {
+    get
     {
-      Assert.ArgumentNotNullOrEmpty(serviceName, "serviceName");
-      Assert.ArgumentNotNullOrEmpty(description, "description");
-      this.ServiceName = serviceName;
-      this.Description = description;
-      this.ShowDescription = new RelayCommand(this.ShowDescriptionAction, true);
+      return this._description;
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public string Description
+    set
     {
-      get
+      if (value == this._description)
       {
-        return this._description;
+        return;
       }
-      set
-      {
-        if (value == this._description)
-        {
-          return;
-        }
-        this._description = value;
-        this.OnPropertyChanged("Description");
-      }
+      this._description = value;
+      this.OnPropertyChanged("Description");
     }
+  }
 
-    public object Luggage { get; set; }
+  public object Luggage { get; set; }
 
-    public string ServiceName
+  public string ServiceName
+  {
+    get
     {
-      get
-      {
-        return this._serviceName;
-      }
-      set
-      {
-        if (value == this._serviceName)
-        {
-          return;
-        }
-        this._serviceName = value;
-        this.OnPropertyChanged("ServiceName");
-      }
+      return this._serviceName;
     }
-
-    public ICommand ShowDescription
+    set
     {
-      get
+      if (value == this._serviceName)
       {
-        return this._showDescription;
+        return;
       }
-      set
-      {
-        if (Equals(value, this._showDescription))
-        {
-          return;
-        }
-        this._showDescription = value;
-        this.OnPropertyChanged("ShowDescription");
-      }
+      this._serviceName = value;
+      this.OnPropertyChanged("ServiceName");
     }
+  }
 
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged(string propertyName)
+  public ICommand ShowDescription
+  {
+    get
     {
-      PropertyChangedEventHandler handler = this.PropertyChanged;
-      if (handler != null)
+      return this._showDescription;
+    }
+    set
+    {
+      if (Equals(value, this._showDescription))
       {
-        handler(this, new PropertyChangedEventArgs(propertyName));
+        return;
       }
+      this._showDescription = value;
+      this.OnPropertyChanged("ShowDescription");
     }
+  }
 
-    protected virtual void ShowDescriptionAction(object o)
+  [NotifyPropertyChangedInvocator]
+  protected virtual void OnPropertyChanged(string propertyName)
+  {
+    PropertyChangedEventHandler handler = this.PropertyChanged;
+    if (handler != null)
     {
-      HatcherGuide<IUIManager>.Instance.OKMessageBox(this.ServiceName, this.Description, MessageBoxImage.Question);
+      handler(this, new PropertyChangedEventArgs(propertyName));
     }
+  }
+
+  protected virtual void ShowDescriptionAction(object o)
+  {
+    HatcherGuide<IUIManager>.Instance.OKMessageBox(this.ServiceName, this.Description, MessageBoxImage.Question);
   }
 }

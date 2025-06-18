@@ -5,14 +5,13 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline;
+
+[UsedImplicitly]
+public class StoreOriginalUrlValue : Processor
 {
-  [UsedImplicitly]
-  public class StoreOriginalUrlValue : Processor
+  public override void Process(ProcessorArgs args)
   {
-    public override void Process(ProcessorArgs args)
-    {
-      args.OriginalUrl = args.ResultUrl;
-    }
+    args.OriginalUrl = args.ResultUrl;
   }
 }

@@ -5,15 +5,14 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
+namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
+
+[UsedImplicitly]
+public class CreateSIPlantBox
 {
   [UsedImplicitly]
-  public class CreateSIPlantBox
+  public virtual void Process(InitPlantSIArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitPlantSIArgs args)
-    {
-      args.SIBox = new StandaloneIconPlantBox();
-    }
+    args.SIBox = new StandaloneIconPlantBox();
   }
 }

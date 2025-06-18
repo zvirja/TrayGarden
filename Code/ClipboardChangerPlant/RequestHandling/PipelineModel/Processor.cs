@@ -6,47 +6,46 @@ using System.Text;
 
 using ClipboardChangerPlant.NotificationIcon;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel;
+
+public class Processor
 {
-  public class Processor
+  protected virtual Icon ErrorTrayIcon
   {
-    protected virtual Icon ErrorTrayIcon
+    get
     {
-      get
-      {
-        return NotifyIconManager.ActualManager.ErrorTrayIcon;
-      }
+      return NotifyIconManager.ActualManager.ErrorTrayIcon;
     }
+  }
 
-    protected virtual Icon NotFoundTrayIcon
+  protected virtual Icon NotFoundTrayIcon
+  {
+    get
     {
-      get
-      {
-        return NotifyIconManager.ActualManager.NotFoundTrayIcon;
-      }
+      return NotifyIconManager.ActualManager.NotFoundTrayIcon;
     }
+  }
 
-    protected virtual Icon SuccessTrayIcon
+  protected virtual Icon SuccessTrayIcon
+  {
+    get
     {
-      get
-      {
-        return NotifyIconManager.ActualManager.SuccessTrayIcon;
-      }
+      return NotifyIconManager.ActualManager.SuccessTrayIcon;
     }
+  }
 
-    public virtual void Process(ProcessorArgs args)
-    {
-    }
+  public virtual void Process(ProcessorArgs args)
+  {
+  }
 
-    protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
-    {
-      args.CurrentNotifyIconChangerClient.SetIcon(errorIcon);
-      args.Abort();
-    }
+  protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
+  {
+    args.CurrentNotifyIconChangerClient.SetIcon(errorIcon);
+    args.Abort();
+  }
 
-    protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args)
-    {
-      this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
-    }
+  protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args)
+  {
+    this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
   }
 }

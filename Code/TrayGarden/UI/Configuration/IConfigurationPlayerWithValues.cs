@@ -6,26 +6,25 @@ using System.Windows.Input;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.UI.Configuration
+namespace TrayGarden.UI.Configuration;
+
+public interface IConfigurationPlayerWithValues : IConfigurationPlayer
 {
-  public interface IConfigurationPlayerWithValues : IConfigurationPlayer
-  {
-    ICommand Action { get; }
+  ICommand Action { get; }
 
-    string ActionTitle { get; }
+  string ActionTitle { get; }
 
-    bool BoolValue { get; set; }
+  bool BoolValue { get; set; }
 
-    double DoubleValue { get; set; }
+  double DoubleValue { get; set; }
 
-    int IntValue { get; set; }
+  int IntValue { get; set; }
 
-    object ObjectValue { get; set; }
+  object ObjectValue { get; set; }
 
-    string StringOptionValue { get; set; }
+  string StringOptionValue { get; set; }
 
-    object StringOptions { get; }
+  object StringOptions { get; }
 
-    string StringValue { get; set; }
-  }
+  string StringValue { get; set; }
 }

@@ -6,18 +6,17 @@ using System.Text;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.ForSimplerLife;
 
-namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
+namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
+
+public class GetStateForServicesConfigurationPipelineArgs : PipelineArgs
 {
-  public class GetStateForServicesConfigurationPipelineArgs : PipelineArgs
+  public GetStateForServicesConfigurationPipelineArgs()
   {
-    public GetStateForServicesConfigurationPipelineArgs()
-    {
-      this.StateConstructInfo = new WindowWithBackStateConstructInfo();
-      this.ConfigConstructInfo = new ConfigurationControlConstructInfo();
-    }
-
-    public ConfigurationControlConstructInfo ConfigConstructInfo { get; set; }
-
-    public WindowWithBackStateConstructInfo StateConstructInfo { get; set; }
+    this.StateConstructInfo = new WindowWithBackStateConstructInfo();
+    this.ConfigConstructInfo = new ConfigurationControlConstructInfo();
   }
+
+  public ConfigurationControlConstructInfo ConfigConstructInfo { get; set; }
+
+  public WindowWithBackStateConstructInfo StateConstructInfo { get; set; }
 }

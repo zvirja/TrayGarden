@@ -13,41 +13,40 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMP
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
+namespace TrayGarden.UI.MainWindow.ResolveVMPipeline;
+
+public class ResolvePlantsConfigVM
 {
-  public class ResolvePlantsConfigVM
+  [UsedImplicitly]
+  public virtual void Process(GetMainVMPipelineArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(GetMainVMPipelineArgs args)
-    {
-      var plantsConfig = new PlantsConfigVM();
-      plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(this.GetSinglePlantVMs());
-      args.PlantsConfigVM = plantsConfig;
-    }
+    var plantsConfig = new PlantsConfigVM();
+    plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(this.GetSinglePlantVMs());
+    args.PlantsConfigVM = plantsConfig;
+  }
 
-    protected virtual SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
-    {
-      return ResolveSinglePlantVMPipelineRunner.Run(new ResolveSinglePlantVMPipelineArgs(plantEx));
-    }
+  protected virtual SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
+  {
+    return ResolveSinglePlantVMPipelineRunner.Run(new ResolveSinglePlantVMPipelineArgs(plantEx));
+  }
 
-    protected virtual List<SinglePlantVM> GetSinglePlantVMs()
+  protected virtual List<SinglePlantVM> GetSinglePlantVMs()
+  {
+    var result = new List<SinglePlantVM>();
+    var plantExAll = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+    foreach (IPlantEx plantEx in plantExAll)
     {
-      var result = new List<SinglePlantVM>();
-      var plantExAll = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
-      foreach (IPlantEx plantEx in plantExAll)
+      var resolvedPlantVM = this.GetSinglePlantVM(plantEx);
+      if (resolvedPlantVM == null)
       {
-        var resolvedPlantVM = this.GetSinglePlantVM(plantEx);
-        if (resolvedPlantVM == null)
-        {
-          Log.Warn("VM for plant wasn't resolved. Plant type: {0}".FormatWith(plantEx.Plant.GetType()), this);
-        }
-        else
-        {
-          result.Add(resolvedPlantVM);
-        }
+        Log.Warn("VM for plant wasn't resolved. Plant type: {0}".FormatWith(plantEx.Plant.GetType()), this);
       }
-
-      return result;
+      else
+      {
+        result.Add(resolvedPlantVM);
+      }
     }
+
+    return result;
   }
 }

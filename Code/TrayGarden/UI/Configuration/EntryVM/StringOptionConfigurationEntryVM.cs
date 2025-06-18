@@ -7,29 +7,28 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.UI.Configuration.EntryVM
+namespace TrayGarden.UI.Configuration.EntryVM;
+
+public class StringOptionConfigurationEntryVM : TypedConfigurationEntryVM<string>
 {
-  public class StringOptionConfigurationEntryVM : TypedConfigurationEntryVM<string>
+  public StringOptionConfigurationEntryVM([NotNull] IStringOptionConfigurationPlayer realPlayer)
+    : base(realPlayer)
   {
-    public StringOptionConfigurationEntryVM([NotNull] IStringOptionConfigurationPlayer realPlayer)
-      : base(realPlayer)
-    {
-      this.RealPlayer = realPlayer;
-    }
+    this.RealPlayer = realPlayer;
+  }
 
-    public List<string> AllPossibleOptions
+  public List<string> AllPossibleOptions
+  {
+    get
     {
-      get
-      {
-        return this.GetAllPossibleOptions();
-      }
+      return this.GetAllPossibleOptions();
     }
+  }
 
-    protected new IStringOptionConfigurationPlayer RealPlayer { get; set; }
+  protected new IStringOptionConfigurationPlayer RealPlayer { get; set; }
 
-    protected virtual List<string> GetAllPossibleOptions()
-    {
-      return this.RealPlayer.Options;
-    }
+  protected virtual List<string> GetAllPossibleOptions()
+  {
+    return this.RealPlayer.Options;
   }
 }

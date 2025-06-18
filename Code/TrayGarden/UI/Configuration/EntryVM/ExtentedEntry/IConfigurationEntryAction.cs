@@ -5,14 +5,13 @@ using System.Text;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace TrayGarden.UI.Configuration.EntryVM.ExtentedEntry
+namespace TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
+
+public interface IConfigurationEntryAction
 {
-  public interface IConfigurationEntryAction
-  {
-    ICommand Action { get; }
+  ICommand Action { get; }
 
-    string Hint { get; }
+  string Hint { get; }
 
-    ImageSource LabelImage { get; }
-  }
+  ImageSource LabelImage { get; }
 }

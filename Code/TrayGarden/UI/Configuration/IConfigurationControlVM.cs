@@ -6,12 +6,11 @@ using System.Windows.Input;
 
 using TrayGarden.UI.Configuration.EntryVM;
 
-namespace TrayGarden.UI.Configuration
-{
-  public interface IConfigurationControlVM
-  {
-    List<ConfigurationEntryBaseVM> ConfigurationEntries { get; }
+namespace TrayGarden.UI.Configuration;
 
-    ICommand ResetAll { get; }
-  }
+public interface IConfigurationControlVM
+{
+  List<ConfigurationEntryBaseVM> ConfigurationEntries { get; }
+
+  ICommand ResetAll { get; }
 }

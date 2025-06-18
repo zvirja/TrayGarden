@@ -3,91 +3,90 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
+
+public class PositionSize
 {
-  public class PositionSize
+  protected double left;
+
+  protected double mandatoryHeight;
+
+  protected double mandatoryWidth;
+
+  protected double top;
+
+  public PositionSize(double top, double left, double mandatoryWidth, double mandatoryHeight)
   {
-    protected double left;
+    this.top = top;
+    this.left = left;
+    this.mandatoryWidth = mandatoryWidth;
+    this.mandatoryHeight = mandatoryHeight;
+  }
 
-    protected double mandatoryHeight;
+  public event Action Changed;
 
-    protected double mandatoryWidth;
-
-    protected double top;
-
-    public PositionSize(double top, double left, double mandatoryWidth, double mandatoryHeight)
+  public double Left
+  {
+    get
     {
-      this.top = top;
-      this.left = left;
-      this.mandatoryWidth = mandatoryWidth;
-      this.mandatoryHeight = mandatoryHeight;
+      return this.left;
     }
-
-    public event Action Changed;
-
-    public double Left
+    set
     {
-      get
-      {
-        return this.left;
-      }
-      set
-      {
-        this.left = value;
-        this.OnChanged();
-      }
+      this.left = value;
+      this.OnChanged();
     }
+  }
 
-    public double MandatoryHeight
+  public double MandatoryHeight
+  {
+    get
     {
-      get
-      {
-        return this.mandatoryHeight;
-      }
-      set
-      {
-        this.mandatoryHeight = value;
-        this.OnChanged();
-      }
+      return this.mandatoryHeight;
     }
-
-    public double MandatoryWidth
+    set
     {
-      get
-      {
-        return this.mandatoryWidth;
-      }
-      set
-      {
-        this.mandatoryWidth = value;
-        this.OnChanged();
-      }
+      this.mandatoryHeight = value;
+      this.OnChanged();
     }
+  }
 
-    public double Top
+  public double MandatoryWidth
+  {
+    get
     {
-      get
-      {
-        return this.top;
-      }
-      set
-      {
-        if (Math.Abs(this.top - value) < 0.1)
-        {
-          return;
-        }
-        this.top = value;
-        this.OnChanged();
-      }
+      return this.mandatoryWidth;
     }
-
-    protected virtual void OnChanged()
+    set
     {
-      Action handler = this.Changed;
-      if (handler != null)
+      this.mandatoryWidth = value;
+      this.OnChanged();
+    }
+  }
+
+  public double Top
+  {
+    get
+    {
+      return this.top;
+    }
+    set
+    {
+      if (Math.Abs(this.top - value) < 0.1)
       {
-        handler();
+        return;
       }
+      this.top = value;
+      this.OnChanged();
+    }
+  }
+
+  protected virtual void OnChanged()
+  {
+    Action handler = this.Changed;
+    if (handler != null)
+    {
+      handler();
     }
   }
 }

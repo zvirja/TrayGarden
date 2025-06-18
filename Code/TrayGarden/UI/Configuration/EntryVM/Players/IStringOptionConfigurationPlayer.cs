@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.UI.Configuration.EntryVM.Players
+namespace TrayGarden.UI.Configuration.EntryVM.Players;
+
+public interface IStringOptionConfigurationPlayer : ITypedConfigurationPlayer<string>
 {
-  public interface IStringOptionConfigurationPlayer : ITypedConfigurationPlayer<string>
-  {
-    List<string> Options { get; }
-  }
+  List<string> Options { get; }
 }

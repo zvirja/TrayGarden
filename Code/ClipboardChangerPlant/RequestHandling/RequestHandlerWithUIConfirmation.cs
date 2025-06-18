@@ -10,115 +10,114 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 
-namespace ClipboardChangerPlant.RequestHandling
+namespace ClipboardChangerPlant.RequestHandling;
+
+public class RequestHandlerWithUIConfirmation : RequestHandler
 {
-  public class RequestHandlerWithUIConfirmation : RequestHandler
+  protected bool EnableConfirmation
   {
-    protected bool EnableConfirmation
+    get
     {
-      get
-      {
-        return this.ConfigurationHelper.GetBoolValue("EnableConfirmation", true);
-      }
+      return this.ConfigurationHelper.GetBoolValue("EnableConfirmation", true);
     }
+  }
 
-    protected bool EnableReverting
+  protected bool EnableReverting
+  {
+    get
     {
-      get
-      {
-        return this.ConfigurationHelper.GetBoolValue("EnableReverting", true);
-      }
+      return this.ConfigurationHelper.GetBoolValue("EnableReverting", true);
     }
+  }
 
-    protected bool Enabled
+  protected bool Enabled
+  {
+    get
     {
-      get
-      {
-        return this.EnabledSetting.Value;
-      }
+      return this.EnabledSetting.Value;
     }
+  }
 
-    protected IBoolUserSetting EnabledSetting { get; set; }
+  protected IBoolUserSetting EnabledSetting { get; set; }
 
-    protected UIDialogConfirmator ExecuteConfirmator { get; set; }
+  protected UIDialogConfirmator ExecuteConfirmator { get; set; }
 
-    protected UIDialogConfirmator RevertConfirmator { get; set; }
+  protected UIDialogConfirmator RevertConfirmator { get; set; }
 
-    public override void PostInit()
+  public override void PostInit()
+  {
+    base.PostInit();
+    this.EnabledSetting = this.DeclareEnabledSetting();
+    if (this.EnableConfirmation)
     {
-      base.PostInit();
-      this.EnabledSetting = this.DeclareEnabledSetting();
-      if (this.EnableConfirmation)
-      {
-        this.ExecuteConfirmator = new UIDialogConfirmator(this.GetExecuteConfirmatorSettingName(), this.GetConfirmationDialog);
-      }
-      if (this.EnableReverting)
-      {
-        this.RevertConfirmator = new UIDialogConfirmator(this.GetRevertConfirmatorSettingName(), this.GetRevertDialog);
-      }
+      this.ExecuteConfirmator = new UIDialogConfirmator(this.GetExecuteConfirmatorSettingName(), this.GetConfirmationDialog);
     }
-
-    //Use it to initialize handler
-
-    public override bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
+    if (this.EnableReverting)
     {
-      if (!isClipboardRequest)
-      {
-        return false;
-      }
-      if (this.RevertConfirmator != null)
-      {
-        return this.RevertConfirmator.ConfirmThroughUI() == true;
-      }
-      return base.PostmortemRevertValue(currentUrl, originalUrl, isClipboardRequest);
+      this.RevertConfirmator = new UIDialogConfirmator(this.GetRevertConfirmatorSettingName(), this.GetRevertDialog);
     }
+  }
 
-    public override bool PreExecute(string operableUrl, bool isClipboardRequest)
-    {
-      if (!isClipboardRequest)
-      {
-        return true;
-      }
-      if (!this.Enabled)
-      {
-        return false;
-      }
-      if (this.ExecuteConfirmator != null)
-      {
-        return this.ExecuteConfirmator.ConfirmThroughUI() == true;
-      }
-      return base.PreExecute(operableUrl, isClipboardRequest);
-    }
+  //Use it to initialize handler
 
-    protected virtual IBoolUserSetting DeclareEnabledSetting()
+  public override bool PostmortemRevertValue(string currentUrl, string originalUrl, bool isClipboardRequest)
+  {
+    if (!isClipboardRequest)
     {
-      string settingNameAndTitle = this.GetEnabledSettingName();
-      return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(settingNameAndTitle, settingNameAndTitle, true);
+      return false;
     }
+    if (this.RevertConfirmator != null)
+    {
+      return this.RevertConfirmator.ConfirmThroughUI() == true;
+    }
+    return base.PostmortemRevertValue(currentUrl, originalUrl, isClipboardRequest);
+  }
 
-    protected virtual IResultProvider GetConfirmationDialog()
+  public override bool PreExecute(string operableUrl, bool isClipboardRequest)
+  {
+    if (!isClipboardRequest)
     {
-      return new YesNoNotificationVM("Process clipboard value?");
+      return true;
     }
+    if (!this.Enabled)
+    {
+      return false;
+    }
+    if (this.ExecuteConfirmator != null)
+    {
+      return this.ExecuteConfirmator.ConfirmThroughUI() == true;
+    }
+    return base.PreExecute(operableUrl, isClipboardRequest);
+  }
 
-    protected virtual string GetEnabledSettingName()
-    {
-      return "Enable " + this.Name;
-    }
+  protected virtual IBoolUserSetting DeclareEnabledSetting()
+  {
+    string settingNameAndTitle = this.GetEnabledSettingName();
+    return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(settingNameAndTitle, settingNameAndTitle, true);
+  }
 
-    protected virtual string GetExecuteConfirmatorSettingName()
-    {
-      return "Confirm {0} execution".FormatWith(this.Name);
-    }
+  protected virtual IResultProvider GetConfirmationDialog()
+  {
+    return new YesNoNotificationVM("Process clipboard value?");
+  }
 
-    protected virtual string GetRevertConfirmatorSettingName()
-    {
-      return "Enable {0} reverting dialog".FormatWith(this.Name);
-    }
+  protected virtual string GetEnabledSettingName()
+  {
+    return "Enable " + this.Name;
+  }
 
-    protected virtual IResultProvider GetRevertDialog()
-    {
-      return new YesNoNotificationVM("Revert processed value?");
-    }
+  protected virtual string GetExecuteConfirmatorSettingName()
+  {
+    return "Confirm {0} execution".FormatWith(this.Name);
+  }
+
+  protected virtual string GetRevertConfirmatorSettingName()
+  {
+    return "Enable {0} reverting dialog".FormatWith(this.Name);
+  }
+
+  protected virtual IResultProvider GetRevertDialog()
+  {
+    return new YesNoNotificationVM("Revert processed value?");
   }
 }

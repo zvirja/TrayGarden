@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Configuration
+namespace TrayGarden.Configuration;
+
+public class Factory
 {
-  public class Factory
+  public static IFactory Instance
   {
-    public static IFactory Instance
+    get
     {
-      get
-      {
-        return ModernFactory.ActualInstance;
-      }
+      return ModernFactory.ActualInstance;
     }
   }
 }

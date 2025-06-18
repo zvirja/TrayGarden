@@ -9,68 +9,67 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.UI.Common.Commands
+namespace TrayGarden.UI.Common.Commands;
+
+public class RelayCommand : ICommand
 {
-  public class RelayCommand : ICommand
+  protected readonly Predicate<object> _canExecute;
+
+  protected readonly Action<object> _execute;
+
+  protected bool _canExecuteMaster;
+
+  public RelayCommand([NotNull] Action<object> execute, bool canExecute = true)
   {
-    protected readonly Predicate<object> _canExecute;
+    Assert.ArgumentNotNull(execute, "execute");
+    this._canExecuteMaster = canExecute;
+    this._execute = execute;
+  }
 
-    protected readonly Action<object> _execute;
+  public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+  {
+    Assert.ArgumentNotNull(execute, "execute");
+    this._execute = execute;
+    this._canExecute = canExecute;
+  }
 
-    protected bool _canExecuteMaster;
-
-    public RelayCommand([NotNull] Action<object> execute, bool canExecute = true)
+  public event EventHandler CanExecuteChanged
+  {
+    add
     {
-      Assert.ArgumentNotNull(execute, "execute");
-      this._canExecuteMaster = canExecute;
-      this._execute = execute;
+      CommandManager.RequerySuggested += value;
     }
-
-    public RelayCommand(Action<object> execute, Predicate<object> canExecute)
+    remove
     {
-      Assert.ArgumentNotNull(execute, "execute");
-      this._execute = execute;
-      this._canExecute = canExecute;
+      CommandManager.RequerySuggested -= value;
     }
+  }
 
-    public event EventHandler CanExecuteChanged
+  public bool CanExecuteMaster
+  {
+    get
     {
-      add
+      return this._canExecuteMaster;
+    }
+    set
+    {
+      if (this._canExecuteMaster == value)
       {
-        CommandManager.RequerySuggested += value;
+        return;
       }
-      remove
-      {
-        CommandManager.RequerySuggested -= value;
-      }
+      this._canExecuteMaster = value;
+      CommandManager.InvalidateRequerySuggested();
     }
+  }
 
-    public bool CanExecuteMaster
-    {
-      get
-      {
-        return this._canExecuteMaster;
-      }
-      set
-      {
-        if (this._canExecuteMaster == value)
-        {
-          return;
-        }
-        this._canExecuteMaster = value;
-        CommandManager.InvalidateRequerySuggested();
-      }
-    }
+  [DebuggerStepThrough]
+  public virtual bool CanExecute(object parameter)
+  {
+    return this._canExecute != null ? this._canExecute(parameter) : this.CanExecuteMaster;
+  }
 
-    [DebuggerStepThrough]
-    public virtual bool CanExecute(object parameter)
-    {
-      return this._canExecute != null ? this._canExecute(parameter) : this.CanExecuteMaster;
-    }
-
-    public virtual void Execute(object parameter)
-    {
-      this._execute(parameter);
-    }
+  public virtual void Execute(object parameter)
+  {
+    this._execute(parameter);
   }
 }

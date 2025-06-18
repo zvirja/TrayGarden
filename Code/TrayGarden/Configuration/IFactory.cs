@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Configuration
+namespace TrayGarden.Configuration;
+
+public interface IFactory
 {
-  public interface IFactory
-  {
-    object GetObject(string objectIdentificator);
+  object GetObject(string objectIdentificator);
 
-    T GetObject<T>(string objectIdentificator) where T : class;
+  T GetObject<T>(string objectIdentificator) where T : class;
 
-    object GetPurelyNewObject(string objectIdentificator);
+  object GetPurelyNewObject(string objectIdentificator);
 
-    T GetPurelyNewObject<T>(string objectIdentificator) where T : class;
+  T GetPurelyNewObject<T>(string objectIdentificator) where T : class;
 
-    string GetStringSetting(string settingName, string defaultValue);
-  }
+  string GetStringSetting(string settingName, string defaultValue);
 }

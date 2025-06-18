@@ -5,10 +5,9 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
+namespace TrayGarden.Services.PlantServices.UserConfig.Core;
+
+public class UserConfigServicePlantBox : ServicePlantBoxBase
 {
-  public class UserConfigServicePlantBox : ServicePlantBoxBase
-  {
-    public IPersonalUserSettingsSteward SettingsSteward { get; set; }
-  }
+  public IPersonalUserSettingsSteward SettingsSteward { get; set; }
 }

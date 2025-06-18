@@ -7,16 +7,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
+namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
+
+[UsedImplicitly]
+public class ProvidePlantWithSteward
 {
   [UsedImplicitly]
-  public class ProvidePlantWithSteward
+  public virtual void Process(InitPlantUCPipelineArg args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitPlantUCPipelineArg args)
-    {
-      Assert.IsNotNull(args.PersonalSettingsSteward, "Steward cannot be null");
-      args.Workhorse.StoreAndFillPersonalSettingsSteward(args.PersonalSettingsSteward);
-    }
+    Assert.IsNotNull(args.PersonalSettingsSteward, "Steward cannot be null");
+    args.Workhorse.StoreAndFillPersonalSettingsSteward(args.PersonalSettingsSteward);
   }
 }

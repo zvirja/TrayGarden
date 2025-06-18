@@ -6,34 +6,33 @@ using System.Windows.Forms;
 
 using TrayGarden.Helpers;
 
-namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
+namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core;
+
+public class ClipboardMonitor : Form
 {
-  public class ClipboardMonitor : Form
+  public ClipboardMonitor()
   {
-    public ClipboardMonitor()
-    {
-      NativeHelper.SetParent(this.Handle, NativeHelper.HWND_MESSAGE);
-      NativeHelper.AddClipboardFormatListener(this.Handle);
-    }
+    NativeHelper.SetParent(this.Handle, NativeHelper.HWND_MESSAGE);
+    NativeHelper.AddClipboardFormatListener(this.Handle);
+  }
 
-    public event EventHandler ClipboardValueChanged;
+  public event EventHandler ClipboardValueChanged;
 
-    protected virtual void OnClipboardValueChanged()
+  protected virtual void OnClipboardValueChanged()
+  {
+    EventHandler handler = this.ClipboardValueChanged;
+    if (handler != null)
     {
-      EventHandler handler = this.ClipboardValueChanged;
-      if (handler != null)
-      {
-        handler(this, EventArgs.Empty);
-      }
+      handler(this, EventArgs.Empty);
     }
+  }
 
-    protected override void WndProc(ref Message m)
+  protected override void WndProc(ref Message m)
+  {
+    if (m.Msg == NativeHelper.WM_CLIPBOARDUPDATE)
     {
-      if (m.Msg == NativeHelper.WM_CLIPBOARDUPDATE)
-      {
-        this.OnClipboardValueChanged();
-      }
-      base.WndProc(ref m);
+      this.OnClipboardValueChanged();
     }
+    base.WndProc(ref m);
   }
 }

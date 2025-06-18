@@ -5,10 +5,9 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.RareCommands.Core;
 
-namespace TrayGarden.Reception.Services
+namespace TrayGarden.Reception.Services;
+
+public interface IProvidesRareCommands
 {
-  public interface IProvidesRareCommands
-  {
-    List<IRareCommand> GetRareCommands();
-  }
+  List<IRareCommand> GetRareCommands();
 }

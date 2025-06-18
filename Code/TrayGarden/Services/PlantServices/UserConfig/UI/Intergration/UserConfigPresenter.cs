@@ -16,55 +16,54 @@ using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
+namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration;
+
+public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
 {
-  public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
+  public UserConfigPresenter()
   {
-    public UserConfigPresenter()
+    this.ServiceName = "Runtime user settings";
+    this.ServiceDescription = "This service allows to configure user settings for plant";
+  }
+
+  protected virtual ICommand GetCommand(object plantEx)
+  {
+    var relayCommand = new RelayCommand(this.RunServiceForPlant, true);
+    return new CommandProxyForCustomParam(relayCommand, plantEx);
+  }
+
+  protected override ServiceForPlantVMBase GetServiceVM(UserConfigService serviceInstance, IPlantEx plantEx)
+  {
+    UserConfigServicePlantBox userConfigServicePlantBox = serviceInstance.GetPlantLuggage(plantEx);
+    if (userConfigServicePlantBox == null)
     {
-      this.ServiceName = "Runtime user settings";
-      this.ServiceDescription = "This service allows to configure user settings for plant";
+      return null;
     }
-
-    protected virtual ICommand GetCommand(object plantEx)
+    if (userConfigServicePlantBox.SettingsSteward.DefinedSettings.Count == 0)
     {
-      var relayCommand = new RelayCommand(this.RunServiceForPlant, true);
-      return new CommandProxyForCustomParam(relayCommand, plantEx);
+      return null;
     }
+    return new ServiceForPlantActionPerformVM(this.ServiceName, this.ServiceDescription, this.GetCommand(userConfigServicePlantBox));
+  }
 
-    protected override ServiceForPlantVMBase GetServiceVM(UserConfigService serviceInstance, IPlantEx plantEx)
+  protected virtual void RunServiceForPlant(object argument)
+  {
+    var userConfigServicePlantBox = argument as UserConfigServicePlantBox;
+    Assert.IsNotNull(userConfigServicePlantBox, "Wrong argument. Shouldn't be null");
+
+    var args = new GetUCStepPipelineArgs(userConfigServicePlantBox);
+    GetUCStepPipelineRunner.Run(args);
+    if (args.Aborted || args.StateConstructInfo.ResultState == null)
     {
-      UserConfigServicePlantBox userConfigServicePlantBox = serviceInstance.GetPlantLuggage(plantEx);
-      if (userConfigServicePlantBox == null)
-      {
-        return null;
-      }
-      if (userConfigServicePlantBox.SettingsSteward.DefinedSettings.Count == 0)
-      {
-        return null;
-      }
-      return new ServiceForPlantActionPerformVM(this.ServiceName, this.ServiceDescription, this.GetCommand(userConfigServicePlantBox));
+      HatcherGuide<IUIManager>.Instance.OKMessageBox(
+        "Plant configuration",
+        "Plant configuration service wasn't able to resolve next step. Please contact dev",
+        MessageBoxImage.Error);
     }
-
-    protected virtual void RunServiceForPlant(object argument)
+    else
     {
-      var userConfigServicePlantBox = argument as UserConfigServicePlantBox;
-      Assert.IsNotNull(userConfigServicePlantBox, "Wrong argument. Shouldn't be null");
-
-      var args = new GetUCStepPipelineArgs(userConfigServicePlantBox);
-      GetUCStepPipelineRunner.Run(args);
-      if (args.Aborted || args.StateConstructInfo.ResultState == null)
-      {
-        HatcherGuide<IUIManager>.Instance.OKMessageBox(
-          "Plant configuration",
-          "Plant configuration service wasn't able to resolve next step. Please contact dev",
-          MessageBoxImage.Error);
-      }
-      else
-      {
-        var nextStep = args.StateConstructInfo.ResultState;
-        WindowWithBackVM.GoAheadWithBackIfPossible(nextStep);
-      }
+      var nextStep = args.StateConstructInfo.ResultState;
+      WindowWithBackVM.GoAheadWithBackIfPossible(nextStep);
     }
   }
 }

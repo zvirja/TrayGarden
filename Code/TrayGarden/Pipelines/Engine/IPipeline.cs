@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Pipelines.Engine
+namespace TrayGarden.Pipelines.Engine;
+
+public interface IPipeline
 {
-  public interface IPipeline
-  {
-    Type ArgumentType { get; }
+  Type ArgumentType { get; }
 
-    string Name { get; }
+  string Name { get; }
 
-    void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions) where TArgumentType : PipelineArgs;
-  }
+  void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions) where TArgumentType : PipelineArgs;
 }

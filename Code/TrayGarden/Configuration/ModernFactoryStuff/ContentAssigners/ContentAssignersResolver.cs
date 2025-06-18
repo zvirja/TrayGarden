@@ -3,67 +3,66 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
+namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners;
+
+public class ContentAssignersResolver
 {
-  public class ContentAssignersResolver
+  public ContentAssignersResolver()
   {
-    public ContentAssignersResolver()
+    this.Assigners = new Dictionary<string, IContentAssigner>();
+  }
+
+  protected Dictionary<string, IContentAssigner> Assigners { get; set; }
+
+  public virtual IContentAssigner GetDirectAssigner(string hintValue)
+  {
+    var uppercased = hintValue.ToUpperInvariant();
+    var key = "D:" + uppercased;
+    if (this.Assigners.ContainsKey(key))
     {
-      this.Assigners = new Dictionary<string, IContentAssigner>();
+      return this.Assigners[key];
     }
+    IContentAssigner assigner = this.ResolveDirectAssigner(uppercased);
+    this.Assigners[key] = assigner;
+    return assigner;
+  }
 
-    protected Dictionary<string, IContentAssigner> Assigners { get; set; }
-
-    public virtual IContentAssigner GetDirectAssigner(string hintValue)
+  public virtual IContentAssigner GetPropertyAssigner(string hintValue)
+  {
+    var uppercased = hintValue.ToUpperInvariant();
+    var key = "P:" + uppercased;
+    if (this.Assigners.ContainsKey(key))
     {
-      var uppercased = hintValue.ToUpperInvariant();
-      var key = "D:" + uppercased;
-      if (this.Assigners.ContainsKey(key))
-      {
-        return this.Assigners[key];
-      }
-      IContentAssigner assigner = this.ResolveDirectAssigner(uppercased);
-      this.Assigners[key] = assigner;
-      return assigner;
+      return this.Assigners[key];
     }
+    IContentAssigner assigner = this.ResolvePropertyAssigner(uppercased);
+    this.Assigners[key] = assigner;
+    return assigner;
+  }
 
-    public virtual IContentAssigner GetPropertyAssigner(string hintValue)
+  protected virtual IContentAssigner ResolveDirectAssigner(string hintValue)
+  {
+    switch (hintValue)
     {
-      var uppercased = hintValue.ToUpperInvariant();
-      var key = "P:" + uppercased;
-      if (this.Assigners.ContainsKey(key))
-      {
-        return this.Assigners[key];
-      }
-      IContentAssigner assigner = this.ResolvePropertyAssigner(uppercased);
-      this.Assigners[key] = assigner;
-      return assigner;
+      case "NEWLIST":
+        return new NewListDirectAssigner();
+      case "OBJECTFACTORY":
+        return new ObjectFactoryAssigner();
+      default:
+        return null;
     }
+  }
 
-    protected virtual IContentAssigner ResolveDirectAssigner(string hintValue)
+  protected virtual IContentAssigner ResolvePropertyAssigner(string hintValue)
+  {
+    switch (hintValue)
     {
-      switch (hintValue)
-      {
-        case "NEWLIST":
-          return new NewListDirectAssigner();
-        case "OBJECTFACTORY":
-          return new ObjectFactoryAssigner();
-        default:
-          return null;
-      }
-    }
-
-    protected virtual IContentAssigner ResolvePropertyAssigner(string hintValue)
-    {
-      switch (hintValue)
-      {
-        case "INVOKE":
-          return new MethodAssigner();
-        case "ADDLIST":
-          return new AddListAssigner();
-        default:
-          return new SimpleAssigner();
-      }
+      case "INVOKE":
+        return new MethodAssigner();
+      case "ADDLIST":
+        return new AddListAssigner();
+      default:
+        return new SimpleAssigner();
     }
   }
 }

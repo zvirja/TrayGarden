@@ -9,21 +9,20 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Reception;
 
-namespace TrayGarden.Plants.Pipeline
+namespace TrayGarden.Plants.Pipeline;
+
+[UsedImplicitly]
+public class ValidatePlant
 {
   [UsedImplicitly]
-  public class ValidatePlant
+  public virtual void Process(InitializePlantArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitializePlantArgs args)
+    IPlant plant = args.IPlantObject;
+    if (plant.Description.IsNullOrEmpty() || plant.HumanSupportingName.IsNullOrEmpty())
     {
-      IPlant plant = args.IPlantObject;
-      if (plant.Description.IsNullOrEmpty() || plant.HumanSupportingName.IsNullOrEmpty())
-      {
-        Log.Warn("Plant '{0}' doesn't provide correct name and description. It will be disabed".FormatWith(args.PlantID), this);
-        args.Abort();
-        args.ResolvedPlantEx = null;
-      }
+      Log.Warn("Plant '{0}' doesn't provide correct name and description. It will be disabed".FormatWith(args.PlantID), this);
+      args.Abort();
+      args.ResolvedPlantEx = null;
     }
   }
 }

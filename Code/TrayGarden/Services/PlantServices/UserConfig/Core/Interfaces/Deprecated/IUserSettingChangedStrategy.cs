@@ -6,11 +6,10 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+[Obsolete]
+public interface IUserSettingChangedStrategy
 {
-  [Obsolete]
-    public interface IUserSettingChangedStrategy
-    {
-        void NotifySettingChanged([CanBeNull] IUserSetting before, IUserSetting after, IUserSettingsBridgeMaster originator);
-    }
+    void NotifySettingChanged([CanBeNull] IUserSetting before, IUserSetting after, IUserSettingsBridgeMaster originator);
 }

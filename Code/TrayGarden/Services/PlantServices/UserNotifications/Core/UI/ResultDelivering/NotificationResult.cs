@@ -3,23 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
+
+public class NotificationResult
 {
-  public class NotificationResult
+  public NotificationResult(ResultCode code)
+    : this(code, null)
   {
-    public NotificationResult(ResultCode code)
-      : this(code, null)
-    {
-    }
-
-    public NotificationResult(ResultCode code, object customData)
-    {
-      this.Code = code;
-      this.CustomData = customData;
-    }
-
-    public ResultCode Code { get; set; }
-
-    public object CustomData { get; set; }
   }
+
+  public NotificationResult(ResultCode code, object customData)
+  {
+    this.Code = code;
+    this.CustomData = customData;
+  }
+
+  public ResultCode Code { get; set; }
+
+  public object CustomData { get; set; }
 }

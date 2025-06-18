@@ -5,12 +5,11 @@ using System.Text;
 
 using TrayGarden.Configuration;
 
-namespace TrayGarden.TypesHatcher
-{
-  public interface IMapping
-  {
-    Type InterfaceType { get; }
+namespace TrayGarden.TypesHatcher;
 
-    IObjectFactory ObjectFactory { get; }
-  }
+public interface IMapping
+{
+  Type InterfaceType { get; }
+
+  IObjectFactory ObjectFactory { get; }
 }

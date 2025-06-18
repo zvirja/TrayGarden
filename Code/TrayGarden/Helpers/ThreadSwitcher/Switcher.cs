@@ -3,26 +3,25 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Helpers.ThreadSwitcher
+namespace TrayGarden.Helpers.ThreadSwitcher;
+
+public class Switcher<TSwitchValue> : IDisposable
 {
-  public class Switcher<TSwitchValue> : IDisposable
+  public Switcher(TSwitchValue newValue)
   {
-    public Switcher(TSwitchValue newValue)
-    {
-      StackRawSwitcher<TSwitchValue>.Enter(newValue);
-    }
+    StackRawSwitcher<TSwitchValue>.Enter(newValue);
+  }
 
-    public static TSwitchValue CurrentValue
+  public static TSwitchValue CurrentValue
+  {
+    get
     {
-      get
-      {
-        return StackRawSwitcher<TSwitchValue>.CurrentState;
-      }
+      return StackRawSwitcher<TSwitchValue>.CurrentState;
     }
+  }
 
-    public virtual void Dispose()
-    {
-      StackRawSwitcher<TSwitchValue>.Exit();
-    }
+  public virtual void Dispose()
+  {
+    StackRawSwitcher<TSwitchValue>.Exit();
   }
 }

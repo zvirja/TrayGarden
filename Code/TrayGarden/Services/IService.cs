@@ -5,32 +5,31 @@ using System.Text;
 
 using TrayGarden.Plants;
 
-namespace TrayGarden.Services
+namespace TrayGarden.Services;
+
+public interface IService
 {
-  public interface IService
-  {
-    event Action<bool> IsEnabledChanged;
+  event Action<bool> IsEnabledChanged;
 
-    bool CanBeDisabled { get; }
+  bool CanBeDisabled { get; }
 
-    bool IsActuallyEnabled { get; }
+  bool IsActuallyEnabled { get; }
 
-    bool IsEnabled { get; set; }
+  bool IsEnabled { get; set; }
 
-    string LuggageName { get; }
+  string LuggageName { get; }
 
-    string ServiceDescription { get; }
+  string ServiceDescription { get; }
 
-    string ServiceName { get; }
+  string ServiceName { get; }
 
-    void InformClosingStage();
+  void InformClosingStage();
 
-    void InformDisplayStage();
+  void InformDisplayStage();
 
-    void InformInitializeStage();
+  void InformInitializeStage();
 
-    void InitializePlant(IPlantEx plantEx);
+  void InitializePlant(IPlantEx plantEx);
 
-    bool IsAvailableForPlant(IPlantEx plantEx);
-  }
+  bool IsAvailableForPlant(IPlantEx plantEx);
 }

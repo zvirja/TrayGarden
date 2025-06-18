@@ -5,22 +5,21 @@ using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace TrayGarden.UI
+namespace TrayGarden.UI;
+
+public interface IUIManager
 {
-  public interface IUIManager
-  {
-    DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action);
+  DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action);
 
-    void ExecuteActionOnUIThreadSynchronously(Action action);
+  void ExecuteActionOnUIThreadSynchronously(Action action);
 
-    void OKMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Information);
+  void OKMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Information);
 
-    bool? ShowDialog(Window window);
+  bool? ShowDialog(Window window);
 
-    void ShowWindow(Window window);
+  void ShowWindow(Window window);
 
-    DispatcherOperation ShowWindowAsync(Window window);
+  DispatcherOperation ShowWindowAsync(Window window);
 
-    bool YesNoMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Question);
-  }
+  bool YesNoMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Question);
 }

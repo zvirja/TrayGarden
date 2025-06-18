@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.Engine
+namespace TrayGarden.Services.Engine;
+
+public interface IServicesSteward
 {
-  public interface IServicesSteward
-  {
-    List<IService> Services { get; set; }
+  List<IService> Services { get; set; }
 
-    void InformClosingStage();
+  void InformClosingStage();
 
-    void InformDisplayStage();
+  void InformDisplayStage();
 
-    void InformInitializeStage();
-  }
+  void InformInitializeStage();
 }

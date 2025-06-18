@@ -6,10 +6,9 @@ using System.Xml;
 
 using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
+namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners;
+
+public interface IContentAssigner
 {
-  public interface IContentAssigner
-  {
-    void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver);
-  }
+  void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver);
 }

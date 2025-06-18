@@ -8,50 +8,49 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.UI.Common.VMtoVMapping
+namespace TrayGarden.UI.Common.VMtoVMapping;
+
+public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
 {
-  public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
+  protected Type _acceptableViewModelType;
+
+  protected Func<object, Control> _resoler;
+
+  public ViewModelToViewMappingResolverBased([NotNull] Type acceptableViewModelType, [NotNull] Func<object, Control> resolver)
+
   {
-    protected Type _acceptableViewModelType;
+    Assert.ArgumentNotNull(acceptableViewModelType, "acceptableViewModelType");
+    Assert.ArgumentNotNull(resolver, "resolver");
+    this._acceptableViewModelType = acceptableViewModelType;
+    this._resoler = resolver;
+  }
 
-    protected Func<object, Control> _resoler;
-
-    public ViewModelToViewMappingResolverBased([NotNull] Type acceptableViewModelType, [NotNull] Func<object, Control> resolver)
-
+  public virtual Type AcceptableViewModelType
+  {
+    get
     {
-      Assert.ArgumentNotNull(acceptableViewModelType, "acceptableViewModelType");
-      Assert.ArgumentNotNull(resolver, "resolver");
-      this._acceptableViewModelType = acceptableViewModelType;
-      this._resoler = resolver;
+      return this._acceptableViewModelType;
     }
-
-    public virtual Type AcceptableViewModelType
+    protected set
     {
-      get
-      {
-        return this._acceptableViewModelType;
-      }
-      protected set
-      {
-        this._acceptableViewModelType = value;
-      }
+      this._acceptableViewModelType = value;
     }
+  }
 
-    protected Func<object, Control> Resoler
+  protected Func<object, Control> Resoler
+  {
+    get
     {
-      get
-      {
-        return this._resoler;
-      }
-      set
-      {
-        this._resoler = value;
-      }
+      return this._resoler;
     }
+    set
+    {
+      this._resoler = value;
+    }
+  }
 
-    public virtual Control GetControl(object contextVM)
-    {
-      return this.Resoler(contextVM);
-    }
+  public virtual Control GetControl(object contextVM)
+  {
+    return this.Resoler(contextVM);
   }
 }

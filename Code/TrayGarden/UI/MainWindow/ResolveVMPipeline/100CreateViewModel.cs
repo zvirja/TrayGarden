@@ -7,14 +7,13 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
+namespace TrayGarden.UI.MainWindow.ResolveVMPipeline;
+
+public class CreateViewModel
 {
-  public class CreateViewModel
+  [UsedImplicitly]
+  public virtual void Process(GetMainVMPipelineArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(GetMainVMPipelineArgs args)
-    {
-      args.ResultVM = new WindowWithBackVM();
-    }
+    args.ResultVM = new WindowWithBackVM();
   }
 }

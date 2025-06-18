@@ -9,41 +9,40 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
+
+public class LordOfNotifications : ILordOfNotifications
 {
-  public class LordOfNotifications : ILordOfNotifications
+  public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
   {
-    public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
-    {
-      this.RelatedPlantBox = relatedPlantBox;
-    }
+    this.RelatedPlantBox = relatedPlantBox;
+  }
 
-    protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
+  protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
 
-    public virtual IActionNotification CreateActionNotification(string headerText, string buttonText)
-    {
-      return new ActionNotificationVM(headerText, buttonText);
-    }
+  public virtual IActionNotification CreateActionNotification(string headerText, string buttonText)
+  {
+    return new ActionNotificationVM(headerText, buttonText);
+  }
 
-    public virtual IInformNotification CreateInformNotification(string textToDisplay)
-    {
-      return new InformNotificationVM(textToDisplay);
-    }
+  public virtual IInformNotification CreateInformNotification(string textToDisplay)
+  {
+    return new InformNotificationVM(textToDisplay);
+  }
 
-    public virtual IYesNoNotification CreateYesNoNotification(string headerText)
-    {
-      return new YesNoNotificationVM(headerText);
-    }
+  public virtual IYesNoNotification CreateYesNoNotification(string headerText)
+  {
+    return new YesNoNotificationVM(headerText);
+  }
 
-    public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
+  public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
+  {
+    if (!this.RelatedPlantBox.IsEnabled || !this.RelatedPlantBox.RelatedPlantEx.IsEnabled)
     {
-      if (!this.RelatedPlantBox.IsEnabled || !this.RelatedPlantBox.RelatedPlantEx.IsEnabled)
-      {
-        return new FakeNotificationResultCourier();
-      }
-      return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(
-        notificationBlank,
-        this.RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
+      return new FakeNotificationResultCourier();
     }
+    return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(
+      notificationBlank,
+      this.RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
   }
 }

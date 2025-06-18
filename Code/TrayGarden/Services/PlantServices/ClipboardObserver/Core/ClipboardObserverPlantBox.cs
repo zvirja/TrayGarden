@@ -6,18 +6,17 @@ using System.Threading.Tasks;
 
 using TrayGarden.Reception.Services;
 
-namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
-{
-  public class ClipboardObserverPlantBox : ServicePlantBoxBase
-  {
-    public IClipboardListener WorksHungry { get; set; }
+namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 
-    public virtual void InformNewClipboardValue(string newClipboardValue)
+public class ClipboardObserverPlantBox : ServicePlantBoxBase
+{
+  public IClipboardListener WorksHungry { get; set; }
+
+  public virtual void InformNewClipboardValue(string newClipboardValue)
+  {
+    if (this.IsEnabled)
     {
-      if (this.IsEnabled)
-      {
-        Task.Factory.StartNew(() => this.WorksHungry.OnClipboardTextChanged(newClipboardValue));
-      }
+      Task.Factory.StartNew(() => this.WorksHungry.OnClipboardTextChanged(newClipboardValue));
     }
   }
 }

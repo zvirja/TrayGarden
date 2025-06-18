@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 
-namespace TrayGarden.UI.Common.VMtoVMapping
-{
-  public interface IViewModelToViewMapping
-  {
-    Type AcceptableViewModelType { get; }
+namespace TrayGarden.UI.Common.VMtoVMapping;
 
-    Control GetControl(object contextVM);
-  }
+public interface IViewModelToViewMapping
+{
+  Type AcceptableViewModelType { get; }
+
+  Control GetControl(object contextVM);
 }

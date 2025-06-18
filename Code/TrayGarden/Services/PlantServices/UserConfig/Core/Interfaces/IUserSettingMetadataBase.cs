@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+public interface IUserSettingMetadataBase
 {
-  public interface IUserSettingMetadataBase
-  {
-    object AdditionalParams { get; }
+  object AdditionalParams { get; }
 
-    string Description { get; }
+  string Description { get; }
 
-    IUserSettingHallmark Hallmark { get; }
+  IUserSettingHallmark Hallmark { get; }
 
-    string Name { get; }
+  string Name { get; }
 
-    string Title { get; }
-  }
+  string Title { get; }
 }

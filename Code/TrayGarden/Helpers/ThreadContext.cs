@@ -4,24 +4,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Helpers
-{
-  public static class ThreadContext
-  {
-    [ThreadStatic]
-    private static Hashtable _hashtable;
+namespace TrayGarden.Helpers;
 
-    public static Hashtable ContextItems
+public static class ThreadContext
+{
+  [ThreadStatic]
+  private static Hashtable _hashtable;
+
+  public static Hashtable ContextItems
+  {
+    get
     {
-      get
+      if (_hashtable != null)
       {
-        if (_hashtable != null)
-        {
-          return _hashtable;
-        }
-        _hashtable = new Hashtable();
         return _hashtable;
       }
+      _hashtable = new Hashtable();
+      return _hashtable;
     }
   }
 }

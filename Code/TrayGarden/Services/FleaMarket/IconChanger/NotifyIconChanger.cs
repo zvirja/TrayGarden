@@ -12,105 +12,104 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Resources;
 
-namespace TrayGarden.Services.FleaMarket.IconChanger
+namespace TrayGarden.Services.FleaMarket.IconChanger;
+
+public class NotifyIconChanger : INotifyIconChangerMaster
 {
-  public class NotifyIconChanger : INotifyIconChangerMaster
+  protected CancellationTokenSource _currentCancellationTokenSource;
+
+  protected Task _currentUpdateIconTask;
+
+  public NotifyIconChanger()
   {
-    protected CancellationTokenSource _currentCancellationTokenSource;
+    this.DefaultDelayMsec = 400;
+    this.IsEnabled = true;
+  }
 
-    protected Task _currentUpdateIconTask;
+  public int DefaultDelayMsec { get; set; }
 
-    public NotifyIconChanger()
-    {
-      this.DefaultDelayMsec = 400;
-      this.IsEnabled = true;
-    }
+  public bool IsEnabled { get; set; }
 
-    public int DefaultDelayMsec { get; set; }
+  protected Icon BackIcon { get; set; }
 
-    public bool IsEnabled { get; set; }
-
-    protected Icon BackIcon { get; set; }
-
-    protected Icon SuccessIcon { get; set; }
+  protected Icon SuccessIcon { get; set; }
     
-    protected Icon FailedIcon { get; set; }
+  protected Icon FailedIcon { get; set; }
 
-    protected bool Initialized { get; set; }
+  protected bool Initialized { get; set; }
 
-    protected NotifyIcon OperableNIcon { get; set; }
+  protected NotifyIcon OperableNIcon { get; set; }
 
-    public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
-    {
-      Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
-      this.OperableNIcon = operableNIcon;
-      this.BackIcon = this.OperableNIcon.Icon;
-      this.SuccessIcon = GlobalResourcesManager.GetIconByName("mockAction");
-      this.FailedIcon = GlobalResourcesManager.GetIconByName("mockActionFailed");
-      this.Initialized = true;
-    }
+  public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
+  {
+    Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
+    this.OperableNIcon = operableNIcon;
+    this.BackIcon = this.OperableNIcon.Icon;
+    this.SuccessIcon = GlobalResourcesManager.GetIconByName("mockAction");
+    this.FailedIcon = GlobalResourcesManager.GetIconByName("mockActionFailed");
+    this.Initialized = true;
+  }
 
-    public void NotifySuccess(int msTimeout = 0)
-    {
-      this.SetIcon(this.SuccessIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
-    }
+  public void NotifySuccess(int msTimeout = 0)
+  {
+    this.SetIcon(this.SuccessIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
+  }
     
-    public void NotifyFailed(int msTimeout = 0)
-    {
-      this.SetIcon(this.FailedIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
-    }
+  public void NotifyFailed(int msTimeout = 0)
+  {
+    this.SetIcon(this.FailedIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
+  }
 
-    public virtual void SetIcon(Icon newIcon, int msTimeout)
+  public virtual void SetIcon(Icon newIcon, int msTimeout)
+  {
+    this.AssertInitialized();
+    if (!this.IsEnabled)
     {
-      this.AssertInitialized();
-      if (!this.IsEnabled)
-      {
-        return;
-      }
-      this.SetIconInternal(newIcon ?? this.BackIcon, this.BackIcon, msTimeout);
+      return;
     }
+    this.SetIconInternal(newIcon ?? this.BackIcon, this.BackIcon, msTimeout);
+  }
 
-    public virtual void SetIcon(Icon newIcon)
+  public virtual void SetIcon(Icon newIcon)
+  {
+    this.AssertInitialized();
+    if (!this.IsEnabled)
     {
-      this.AssertInitialized();
-      if (!this.IsEnabled)
-      {
-        return;
-      }
-      this.SetIcon(newIcon, this.DefaultDelayMsec);
+      return;
     }
+    this.SetIcon(newIcon, this.DefaultDelayMsec);
+  }
 
-    protected virtual void AssertInitialized()
+  protected virtual void AssertInitialized()
+  {
+    if (!this.Initialized)
     {
-      if (!this.Initialized)
-      {
-        throw new NonInitializedException();
-      }
+      throw new NonInitializedException();
     }
+  }
 
-    protected virtual void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
+  protected virtual void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
+  {
+    if (newIcon == null || backIcon == null)
     {
-      if (newIcon == null || backIcon == null)
-      {
-        return;
-      }
-      if (this._currentUpdateIconTask != null && !this._currentUpdateIconTask.IsCompleted)
-      {
-        this._currentCancellationTokenSource.Cancel();
-      }
-      this._currentCancellationTokenSource = new CancellationTokenSource();
-      this._currentUpdateIconTask = Task.Factory.StartNew(
-        () =>
-          {
-            var cancellationToken = this._currentCancellationTokenSource.Token;
-            this.OperableNIcon.Icon = newIcon;
-            Thread.Sleep(msTimeout);
-            if (!cancellationToken.IsCancellationRequested)
-            {
-              this.OperableNIcon.Icon = backIcon;
-            }
-          },
-        this._currentCancellationTokenSource.Token);
+      return;
     }
+    if (this._currentUpdateIconTask != null && !this._currentUpdateIconTask.IsCompleted)
+    {
+      this._currentCancellationTokenSource.Cancel();
+    }
+    this._currentCancellationTokenSource = new CancellationTokenSource();
+    this._currentUpdateIconTask = Task.Factory.StartNew(
+      () =>
+      {
+        var cancellationToken = this._currentCancellationTokenSource.Token;
+        this.OperableNIcon.Icon = newIcon;
+        Thread.Sleep(msTimeout);
+        if (!cancellationToken.IsCancellationRequested)
+        {
+          this.OperableNIcon.Icon = backIcon;
+        }
+      },
+      this._currentCancellationTokenSource.Token);
   }
 }

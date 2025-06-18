@@ -4,14 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 
-namespace TrayGarden.Helpers
+namespace TrayGarden.Helpers;
+
+public interface ISingleInstanceMonitor
 {
-  public interface ISingleInstanceMonitor
-  {
-    event EventHandler AttemptFromAnotherProcess;
+  event EventHandler AttemptFromAnotherProcess;
 
-    ManualResetEventSlim EnqueueMonitorDisabling();
+  ManualResetEventSlim EnqueueMonitorDisabling();
 
-    bool TryAcquireOwnershipNotifyIfFail();
-  }
+  bool TryAcquireOwnershipNotifyIfFail();
 }

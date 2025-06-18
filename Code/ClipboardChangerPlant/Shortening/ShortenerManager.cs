@@ -5,45 +5,44 @@ using System.Text;
 
 using ClipboardChangerPlant.Configuration;
 
-namespace ClipboardChangerPlant.Shortening
+namespace ClipboardChangerPlant.Shortening;
+
+public class ShortenerManager
 {
-  public class ShortenerManager
+  private static object _lock = new object();
+
+  private static List<ShortenerProvider> _providers;
+
+  public static List<ShortenerProvider> Providers
   {
-    private static object _lock = new object();
-
-    private static List<ShortenerProvider> _providers;
-
-    public static List<ShortenerProvider> Providers
+    get
     {
-      get
+      if (_providers != null)
+      {
+        return _providers;
+      }
+      lock (_lock)
       {
         if (_providers != null)
         {
           return _providers;
         }
-        lock (_lock)
-        {
-          if (_providers != null)
-          {
-            return _providers;
-          }
-          _providers = Factory.ActualFactory.GetShortenerProviders();
-        }
-        return _providers;
+        _providers = Factory.ActualFactory.GetShortenerProviders();
       }
+      return _providers;
     }
+  }
 
-    public static bool TryShorterUrl(string inputUrl, out string outputUrl)
+  public static bool TryShorterUrl(string inputUrl, out string outputUrl)
+  {
+    foreach (var shortenerProvider in Providers)
     {
-      foreach (var shortenerProvider in Providers)
+      if (shortenerProvider.TryShortUrl(inputUrl, out outputUrl))
       {
-        if (shortenerProvider.TryShortUrl(inputUrl, out outputUrl))
-        {
-          return true;
-        }
+        return true;
       }
-      outputUrl = inputUrl;
-      return false;
     }
+    outputUrl = inputUrl;
+    return false;
   }
 }

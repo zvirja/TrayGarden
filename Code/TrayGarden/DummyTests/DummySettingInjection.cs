@@ -12,28 +12,27 @@ using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.DummyTests
+namespace TrayGarden.DummyTests;
+
+[UsedImplicitly]
+public class DummySettingInjection
 {
-  [UsedImplicitly]
-  public class DummySettingInjection
+  public virtual void Process(GetApplicationConfigStepArgs args)
   {
-    public virtual void Process(GetApplicationConfigStepArgs args)
-    {
 #if(DEBUG)
       args.ConfigurationConstructInfo.ConfigurationEntries.Add(this.GetActionConfigurationEntry());
 #endif
-    }
+  }
 
-    protected ConfigurationEntryBaseVM GetActionConfigurationEntry()
-    {
-      var realPlayer = new ActionConfigurationPlayer(
-        "Dummy setting",
-        "Dummy action",
-        new RelayCommand(
-          delegate(object obj) { HatcherGuide<IUIManager>.Instance.OKMessageBox("Dummy action", "Dummy action performed"); },
-          true));
+  protected ConfigurationEntryBaseVM GetActionConfigurationEntry()
+  {
+    var realPlayer = new ActionConfigurationPlayer(
+      "Dummy setting",
+      "Dummy action",
+      new RelayCommand(
+        delegate(object obj) { HatcherGuide<IUIManager>.Instance.OKMessageBox("Dummy action", "Dummy action performed"); },
+        true));
 
-      return new ActionConfigurationEntry(realPlayer);
-    }
+    return new ActionConfigurationEntry(realPlayer);
   }
 }

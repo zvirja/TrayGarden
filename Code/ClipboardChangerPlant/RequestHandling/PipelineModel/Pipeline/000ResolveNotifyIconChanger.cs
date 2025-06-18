@@ -7,24 +7,23 @@ using ClipboardChangerPlant.NotificationIcon;
 
 using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline;
+
+[UsedImplicitly]
+public class ResolveNotifyIconChanger : Processor
 {
-  [UsedImplicitly]
-  public class ResolveNotifyIconChanger : Processor
+  public override void Process(ProcessorArgs args)
   {
-    public override void Process(ProcessorArgs args)
+    NotifyIconManager notifyIconManager = NotifyIconManager.ActualManager;
+    if (args.ClipboardEvent)
     {
-      NotifyIconManager notifyIconManager = NotifyIconManager.ActualManager;
-      if (args.ClipboardEvent)
-      {
-        args.CurrentNotifyIconChangerClient = notifyIconManager.GlobalNotifyIconChangerClient;
-      }
-      else
-      {
-        args.CurrentNotifyIconChangerClient = args.OriginatorIsGlobalIcon
-                                                ? notifyIconManager.GlobalNotifyIconChangerClient
-                                                : notifyIconManager.NotifyIconChangerClient;
-      }
+      args.CurrentNotifyIconChangerClient = notifyIconManager.GlobalNotifyIconChangerClient;
+    }
+    else
+    {
+      args.CurrentNotifyIconChangerClient = args.OriginatorIsGlobalIcon
+        ? notifyIconManager.GlobalNotifyIconChangerClient
+        : notifyIconManager.NotifyIconChangerClient;
     }
   }
 }

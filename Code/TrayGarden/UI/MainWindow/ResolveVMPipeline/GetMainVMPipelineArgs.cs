@@ -8,22 +8,21 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
+namespace TrayGarden.UI.MainWindow.ResolveVMPipeline;
+
+public class GetMainVMPipelineArgs : PipelineArgs
 {
-  public class GetMainVMPipelineArgs : PipelineArgs
+  public GetMainVMPipelineArgs()
   {
-    public GetMainVMPipelineArgs()
-    {
-      this.SuperAction = null;
-      this.StateSpecificHelpActions = new List<ActionCommandVM>();
-    }
-
-    public PlantsConfigVM PlantsConfigVM { get; set; }
-
-    public WindowWithBackVM ResultVM { get; set; }
-
-    public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
-
-    public ActionCommandVM SuperAction { get; set; }
+    this.SuperAction = null;
+    this.StateSpecificHelpActions = new List<ActionCommandVM>();
   }
+
+  public PlantsConfigVM PlantsConfigVM { get; set; }
+
+  public WindowWithBackVM ResultVM { get; set; }
+
+  public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
+
+  public ActionCommandVM SuperAction { get; set; }
 }

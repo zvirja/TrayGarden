@@ -10,15 +10,14 @@ using TrayGarden.Pipelines.Engine;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
+namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
+
+internal static class GetStateForServicesConfiguration
 {
-  internal static class GetStateForServicesConfiguration
+  public static WindowStepState Run([NotNull] GetStateForServicesConfigurationPipelineArgs args)
   {
-    public static WindowStepState Run([NotNull] GetStateForServicesConfigurationPipelineArgs args)
-    {
-      Assert.ArgumentNotNull(args, "args");
-      HatcherGuide<IPipelineManager>.Instance.InvokePipeline("getStateForServicesConfiguration", args);
-      return args.Aborted ? null : args.Result as WindowStepState ?? args.StateConstructInfo.ResultState;
-    }
+    Assert.ArgumentNotNull(args, "args");
+    HatcherGuide<IPipelineManager>.Instance.InvokePipeline("getStateForServicesConfiguration", args);
+    return args.Aborted ? null : args.Result as WindowStepState ?? args.StateConstructInfo.ResultState;
   }
 }

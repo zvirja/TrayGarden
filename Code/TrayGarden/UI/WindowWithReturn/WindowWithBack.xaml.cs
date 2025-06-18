@@ -15,186 +15,185 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.VMtoVMapping;
 
-namespace TrayGarden.UI.WindowWithReturn
+namespace TrayGarden.UI.WindowWithReturn;
+
+/// <summary>
+/// Interaction logic for WindowWithBack.xaml
+/// </summary>
+public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithBack
 {
-  /// <summary>
-  /// Interaction logic for WindowWithBack.xaml
-  /// </summary>
-  public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithBack
+  protected static bool _exitOnClose;
+
+  /*protected MappingsBasedContentValueConverter ViewModelToViewConverter { get; set; }*/
+
+  protected string iconResourceKey;
+
+  static WindowWithBack()
   {
-    protected static bool _exitOnClose;
+    WindowWithBackSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("windowWithBackSettingsBox");
+    _exitOnClose = WindowWithBackSettingsBox.GetBool("exitOnClose", false);
+  }
 
-    /*protected MappingsBasedContentValueConverter ViewModelToViewConverter { get; set; }*/
+  public WindowWithBack()
+  {
+    this.InitializeComponent();
+    this.IconResourceKey = "gardenIconV5";
+    this.StateToRestore = this.WindowState;
+    this.Hide();
+    this.SetIcon();
+  }
 
-    protected string iconResourceKey;
-
-    static WindowWithBack()
+  public static bool ExitOnClose
+  {
+    get
     {
-      WindowWithBackSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("windowWithBackSettingsBox");
-      _exitOnClose = WindowWithBackSettingsBox.GetBool("exitOnClose", false);
+      return _exitOnClose;
     }
-
-    public WindowWithBack()
+    set
     {
-      this.InitializeComponent();
-      this.IconResourceKey = "gardenIconV5";
-      this.StateToRestore = this.WindowState;
-      this.Hide();
+      _exitOnClose = value;
+      WindowWithBackSettingsBox.SetBool("exitOnClose", value);
+    }
+  }
+
+  public string IconResourceKey
+  {
+    get
+    {
+      return this.iconResourceKey;
+    }
+    set
+    {
+      this.iconResourceKey = value;
       this.SetIcon();
     }
+  }
 
-    public static bool ExitOnClose
+  public bool IsCurrentlyDisplayed
+  {
+    get
     {
-      get
-      {
-        return _exitOnClose;
-      }
-      set
-      {
-        _exitOnClose = value;
-        WindowWithBackSettingsBox.SetBool("exitOnClose", value);
-      }
+      return this.DataContext != null;
     }
+  }
 
-    public string IconResourceKey
+  protected static ISettingsBox WindowWithBackSettingsBox { get; set; }
+
+  protected List<IViewModelToViewMapping> Mappings { get; set; }
+
+  protected WindowState StateToRestore { get; set; }
+
+  public void BringToFront()
+  {
+    if (this.IsCurrentlyDisplayed)
     {
-      get
+      if (this.WindowState == WindowState.Minimized)
       {
-        return this.iconResourceKey;
+        this.WindowState = WindowState.Normal;
       }
-      set
-      {
-        this.iconResourceKey = value;
-        this.SetIcon();
-      }
+      this.Activate();
     }
+  }
 
-    public bool IsCurrentlyDisplayed
+  public virtual List<IViewModelToViewMapping> GetMappings()
+  {
+    return this.Mappings ?? new List<IViewModelToViewMapping>();
+  }
+
+  public virtual void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings)
+  {
+    Assert.ArgumentNotNull(mvtovmappings, "mvtovmappings");
+    this.Mappings = mvtovmappings;
+  }
+
+  public virtual void PrepareAndShow(WindowWithBackVM viewModel)
+  {
+    this.CleanupAndDisposeDataContext();
+    this.DataContext = viewModel;
+    viewModel.SizePozitionProvider = this.SizePozitionProvider;
+    viewModel.PrepareToShow();
+    this.SetSizeAndPos(viewModel);
+    this.Show();
+    this.WindowState = this.StateToRestore;
+  }
+
+  protected virtual void CleanupAndDisposeDataContext()
+  {
+    var currentDataContextAsDisposable = this.DataContext as IDisposable;
+    this.DataContext = null;
+    if (currentDataContextAsDisposable != null)
     {
-      get
-      {
-        return this.DataContext != null;
-      }
+      currentDataContextAsDisposable.Dispose();
     }
+  }
 
-    protected static ISettingsBox WindowWithBackSettingsBox { get; set; }
+  protected override void OnClosing(CancelEventArgs e)
+  {
+    e.Cancel = !ExitOnClose;
+    this.Hide();
 
-    protected List<IViewModelToViewMapping> Mappings { get; set; }
+    this.CleanupAndDisposeDataContext();
+    base.OnClosing(e);
+  }
 
-    protected WindowState StateToRestore { get; set; }
-
-    public void BringToFront()
+  protected override void OnStateChanged(EventArgs e)
+  {
+    if (this.WindowState == WindowState.Minimized && ExitOnClose)
     {
-      if (this.IsCurrentlyDisplayed)
-      {
-        if (this.WindowState == WindowState.Minimized)
-        {
-          this.WindowState = WindowState.Normal;
-        }
-        this.Activate();
-      }
+      this.Close();
     }
-
-    public virtual List<IViewModelToViewMapping> GetMappings()
+    else
     {
-      return this.Mappings ?? new List<IViewModelToViewMapping>();
+      this.StateToRestore = this.WindowState;
     }
+    base.OnStateChanged(e);
+  }
 
-    public virtual void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings)
+  protected void SetIcon()
+  {
+    if (this.IconResourceKey.IsNullOrEmpty())
     {
-      Assert.ArgumentNotNull(mvtovmappings, "mvtovmappings");
-      this.Mappings = mvtovmappings;
+      return;
     }
-
-    public virtual void PrepareAndShow(WindowWithBackVM viewModel)
+    Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.IconResourceKey, null);
+    if (resource == null)
     {
-      this.CleanupAndDisposeDataContext();
-      this.DataContext = viewModel;
-      viewModel.SizePozitionProvider = this.SizePozitionProvider;
-      viewModel.PrepareToShow();
-      this.SetSizeAndPos(viewModel);
-      this.Show();
-      this.WindowState = this.StateToRestore;
+      return;
     }
+    this.Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
+  }
 
-    protected virtual void CleanupAndDisposeDataContext()
+  protected virtual void SetSizeAndPos(WindowWithBackVM viewModel)
+  {
+    if (!viewModel.SizePropertiesAreValid)
     {
-      var currentDataContextAsDisposable = this.DataContext as IDisposable;
-      this.DataContext = null;
-      if (currentDataContextAsDisposable != null)
-      {
-        currentDataContextAsDisposable.Dispose();
-      }
+      return;
     }
+    this.Top = viewModel.Top;
+    this.Left = viewModel.Left;
+    this.Height = viewModel.Height;
+    this.Width = viewModel.Width;
+    this.WindowState = this.StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
+  }
 
-    protected override void OnClosing(CancelEventArgs e)
+  protected virtual bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
+  {
+    if (this.WindowState == WindowState.Maximized)
     {
-      e.Cancel = !ExitOnClose;
-      this.Hide();
-
-      this.CleanupAndDisposeDataContext();
-      base.OnClosing(e);
+      top = this.RestoreBounds.Top;
+      left = this.RestoreBounds.Left;
+      height = this.RestoreBounds.Height;
+      width = this.RestoreBounds.Width;
+      maximized = true;
     }
-
-    protected override void OnStateChanged(EventArgs e)
+    else
     {
-      if (this.WindowState == WindowState.Minimized && ExitOnClose)
-      {
-        this.Close();
-      }
-      else
-      {
-        this.StateToRestore = this.WindowState;
-      }
-      base.OnStateChanged(e);
+      top = this.Top;
+      left = this.Left;
+      height = this.Height;
+      width = this.Width;
+      maximized = false;
     }
-
-    protected void SetIcon()
-    {
-      if (this.IconResourceKey.IsNullOrEmpty())
-      {
-        return;
-      }
-      Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.IconResourceKey, null);
-      if (resource == null)
-      {
-        return;
-      }
-      this.Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
-    }
-
-    protected virtual void SetSizeAndPos(WindowWithBackVM viewModel)
-    {
-      if (!viewModel.SizePropertiesAreValid)
-      {
-        return;
-      }
-      this.Top = viewModel.Top;
-      this.Left = viewModel.Left;
-      this.Height = viewModel.Height;
-      this.Width = viewModel.Width;
-      this.WindowState = this.StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
-    }
-
-    protected virtual bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
-    {
-      if (this.WindowState == WindowState.Maximized)
-      {
-        top = this.RestoreBounds.Top;
-        left = this.RestoreBounds.Left;
-        height = this.RestoreBounds.Height;
-        width = this.RestoreBounds.Width;
-        maximized = true;
-      }
-      else
-      {
-        top = this.Top;
-        left = this.Left;
-        height = this.Height;
-        width = this.Width;
-        maximized = false;
-      }
-      return true;
-    }
+    return true;
   }
 }

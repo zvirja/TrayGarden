@@ -6,14 +6,13 @@ using System.Text;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Pipelines.Shutdown
+namespace TrayGarden.Pipelines.Shutdown;
+
+public class ShutdownPipeline
 {
-  public class ShutdownPipeline
+  public static void Run()
   {
-    public static void Run()
-    {
-      var args = new ShutdownArgs();
-      HatcherGuide<IPipelineManager>.Instance.InvokePipeline("shutdown", args);
-    }
+    var args = new ShutdownArgs();
+    HatcherGuide<IPipelineManager>.Instance.InvokePipeline("shutdown", args);
   }
 }

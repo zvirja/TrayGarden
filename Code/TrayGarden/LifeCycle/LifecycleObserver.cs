@@ -11,68 +11,67 @@ using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
 using TrayGarden.Resources;
 
-namespace TrayGarden.LifeCycle
+namespace TrayGarden.LifeCycle;
+
+public class LifecycleObserver
 {
-  public class LifecycleObserver
+  protected static LifecycleObserver Observer { get; set; }
+
+  public static void NotifyStartup(string[] args)
   {
-    protected static LifecycleObserver Observer { get; set; }
-
-    public static void NotifyStartup(string[] args)
+    if (Observer != null)
     {
-      if (Observer != null)
-      {
-        return;
-      }
-      Observer = new LifecycleObserver();
-      Observer.SetAssembliesHook();
-      Observer.NotifyStartupInternal(args);
+      return;
     }
+    Observer = new LifecycleObserver();
+    Observer.SetAssembliesHook();
+    Observer.NotifyStartupInternal(args);
+  }
 
-    public static void RestartApp(string[] paramsToAdd)
+  public static void RestartApp(string[] paramsToAdd)
+  {
+    RestartAppPipeline.Run(paramsToAdd);
+  }
+
+  protected virtual void ApplicationExit(object sender, ExitEventArgs e)
+  {
+    if (e.ApplicationExitCode == 0)
     {
-      RestartAppPipeline.Run(paramsToAdd);
+      ShutdownPipeline.Run();
     }
+  }
 
-    protected virtual void ApplicationExit(object sender, ExitEventArgs e)
+  protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+  {
+    var name = new AssemblyName(args.Name);
+
+    return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == name.Name);
+  }
+
+  protected virtual void NotifyStartupInternal(string[] args)
+  {
+    try
     {
-      if (e.ApplicationExitCode == 0)
-      {
-        ShutdownPipeline.Run();
-      }
+      Application.Current.DispatcherUnhandledException += this.Current_DispatcherUnhandledException;
+      StartupPipeline.Run(args);
+      Application.Current.Exit += this.ApplicationExit;
     }
-
-    protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+    catch (Exception ex)
     {
-      var name = new AssemblyName(args.Name);
-
-      return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == name.Name);
-    }
-
-    protected virtual void NotifyStartupInternal(string[] args)
-    {
-      try
-      {
-        Application.Current.DispatcherUnhandledException += this.Current_DispatcherUnhandledException;
-        StartupPipeline.Run(args);
-        Application.Current.Exit += this.ApplicationExit;
-      }
-      catch (Exception ex)
-      {
-        Log.Error("Error at startup", ex, this);
-        Application.Current.Shutdown(1);
-      }
-    }
-
-    protected virtual void SetAssembliesHook()
-    {
-      AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomainOnAssemblyResolve;
-    }
-
-    private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
-    {
-      Log.Error("Thrown exception wasn't catched. Application will be closed", e.Exception, typeof(Application));
-      e.Handled = true;
+      Log.Error("Error at startup", ex, this);
       Application.Current.Shutdown(1);
     }
+  }
+
+  protected virtual void SetAssembliesHook()
+  {
+    AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomainOnAssemblyResolve;
+  }
+
+  private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
+  {
+    Log.Error("Thrown exception wasn't catched. Application will be closed", e.Exception, typeof(Application));
+    e.Handled = true;
+    Application.Current.Shutdown(1);
   }
 }

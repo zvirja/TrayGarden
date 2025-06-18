@@ -11,34 +11,33 @@ using TrayGarden.Helpers;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.MainWindow;
 
-namespace TrayGarden.Pipelines.Startup
+namespace TrayGarden.Pipelines.Startup;
+
+public class SingleInstanceCheckAndHooks
 {
-  public class SingleInstanceCheckAndHooks
+  protected SynchronizationContext UISynchronizationContext { get; set; }
+
+  [UsedImplicitly]
+  public void Process(StartupArgs args)
   {
-    protected SynchronizationContext UISynchronizationContext { get; set; }
+    this.UISynchronizationContext = SynchronizationContext.Current;
 
-    [UsedImplicitly]
-    public void Process(StartupArgs args)
+    var monitor = HatcherGuide<ISingleInstanceMonitor>.Instance;
+    bool isFirstInstance = monitor.TryAcquireOwnershipNotifyIfFail();
+    if (!isFirstInstance)
     {
-      this.UISynchronizationContext = SynchronizationContext.Current;
-
-      var monitor = HatcherGuide<ISingleInstanceMonitor>.Instance;
-      bool isFirstInstance = monitor.TryAcquireOwnershipNotifyIfFail();
-      if (!isFirstInstance)
-      {
-        Application.Current.Shutdown(2);
-        args.Abort();
-      }
-      else
-      {
-        monitor.AttemptFromAnotherProcess +=
-          delegate(object sender, EventArgs eventArgs) { this.UISynchronizationContext.Post(this.OpenConfigurationWindow, null); };
-      }
+      Application.Current.Shutdown(2);
+      args.Abort();
     }
-
-    protected virtual void OpenConfigurationWindow(object obj)
+    else
     {
-      HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
+      monitor.AttemptFromAnotherProcess +=
+        delegate(object sender, EventArgs eventArgs) { this.UISynchronizationContext.Post(this.OpenConfigurationWindow, null); };
     }
+  }
+
+  protected virtual void OpenConfigurationWindow(object obj)
+  {
+    HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
   }
 }

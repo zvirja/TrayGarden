@@ -7,44 +7,43 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+
+public class PlantsConfigVM : INotifyPropertyChanged
 {
-  public class PlantsConfigVM : INotifyPropertyChanged
+  protected ObservableCollection<SinglePlantVM> _plantVMs;
+
+  public PlantsConfigVM()
   {
-    protected ObservableCollection<SinglePlantVM> _plantVMs;
+    this.PlantVMs = new ObservableCollection<SinglePlantVM>();
+  }
 
-    public PlantsConfigVM()
+  public event PropertyChangedEventHandler PropertyChanged;
+
+  public ObservableCollection<SinglePlantVM> PlantVMs
+  {
+    get
     {
-      this.PlantVMs = new ObservableCollection<SinglePlantVM>();
+      return this._plantVMs;
     }
-
-    public event PropertyChangedEventHandler PropertyChanged;
-
-    public ObservableCollection<SinglePlantVM> PlantVMs
+    set
     {
-      get
+      if (Equals(value, this._plantVMs))
       {
-        return this._plantVMs;
+        return;
       }
-      set
-      {
-        if (Equals(value, this._plantVMs))
-        {
-          return;
-        }
-        this._plantVMs = value;
-        this.OnPropertyChanged("PlantVMs");
-      }
+      this._plantVMs = value;
+      this.OnPropertyChanged("PlantVMs");
     }
+  }
 
-    [NotifyPropertyChangedInvocator]
-    protected virtual void OnPropertyChanged(string propertyName)
+  [NotifyPropertyChangedInvocator]
+  protected virtual void OnPropertyChanged(string propertyName)
+  {
+    PropertyChangedEventHandler handler = this.PropertyChanged;
+    if (handler != null)
     {
-      PropertyChangedEventHandler handler = this.PropertyChanged;
-      if (handler != null)
-      {
-        handler(this, new PropertyChangedEventArgs(propertyName));
-      }
+      handler(this, new PropertyChangedEventArgs(propertyName));
     }
   }
 }

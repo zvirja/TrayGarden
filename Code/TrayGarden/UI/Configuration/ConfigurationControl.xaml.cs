@@ -4,16 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Windows.Controls;
 
-namespace TrayGarden.UI.Configuration
+namespace TrayGarden.UI.Configuration;
+
+/// <summary>
+/// Interaction logic for ConfigurationControl.xaml
+/// </summary>
+public partial class ConfigurationControl : UserControl
 {
-  /// <summary>
-  /// Interaction logic for ConfigurationControl.xaml
-  /// </summary>
-  public partial class ConfigurationControl : UserControl
+  public ConfigurationControl()
   {
-    public ConfigurationControl()
-    {
-      this.InitializeComponent();
-    }
+    this.InitializeComponent();
   }
 }

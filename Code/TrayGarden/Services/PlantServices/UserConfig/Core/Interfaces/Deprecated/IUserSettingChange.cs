@@ -7,18 +7,17 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+[Obsolete]
+public interface IUserSettingChange
 {
-  [Obsolete]
-  public interface IUserSettingChange
-  {
-    #region Public Properties
+  #region Public Properties
 
-    IUserSetting NewUserSetting { get; }
+  IUserSetting NewUserSetting { get; }
 
-    [CanBeNull]
-    IUserSetting OldUserSetting { get; }
+  [CanBeNull]
+  IUserSetting OldUserSetting { get; }
 
-    #endregion
-  }
+  #endregion
 }

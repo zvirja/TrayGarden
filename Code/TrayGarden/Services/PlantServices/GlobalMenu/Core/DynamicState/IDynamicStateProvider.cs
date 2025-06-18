@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState
-{
-  public interface IDynamicStateProvider
-  {
-    event EventHandler RelevanceChanged;
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 
-    RelevanceLevel CurrentRelevanceLevel { get; }
-  }
+public interface IDynamicStateProvider
+{
+  event EventHandler RelevanceChanged;
+
+  RelevanceLevel CurrentRelevanceLevel { get; }
 }

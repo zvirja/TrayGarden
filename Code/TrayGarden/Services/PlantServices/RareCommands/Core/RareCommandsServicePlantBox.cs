@@ -7,16 +7,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.Services.PlantServices.RareCommands.Core
-{
-  public class RareCommandsServicePlantBox : ServicePlantBoxBase
-  {
-    public RareCommandsServicePlantBox([NotNull] List<IRareCommand> rareCommands)
-    {
-      Assert.ArgumentNotNull(rareCommands, "rareCommands");
-      this.RareCommands = rareCommands;
-    }
+namespace TrayGarden.Services.PlantServices.RareCommands.Core;
 
-    public List<IRareCommand> RareCommands { get; set; }
+public class RareCommandsServicePlantBox : ServicePlantBoxBase
+{
+  public RareCommandsServicePlantBox([NotNull] List<IRareCommand> rareCommands)
+  {
+    Assert.ArgumentNotNull(rareCommands, "rareCommands");
+    this.RareCommands = rareCommands;
   }
+
+  public List<IRareCommand> RareCommands { get; set; }
 }

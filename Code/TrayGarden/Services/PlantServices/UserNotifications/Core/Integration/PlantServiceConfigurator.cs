@@ -17,46 +17,45 @@ using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration;
+
+[UsedImplicitly]
+public class PlantServiceConfigurator
 {
-  [UsedImplicitly]
-  public class PlantServiceConfigurator
+  public PlantServiceConfigurator()
   {
-    public PlantServiceConfigurator()
-    {
-      this.Description = "Configure service";
-    }
+    this.Description = "Configure service";
+  }
 
-    public string Description { get; set; }
+  public string Description { get; set; }
 
-    [UsedImplicitly]
-    public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
-    {
-      //Find setting, related to UserConfiguration service
-      var entryRelatedToService =
-        args.ConfigConstructInfo.ConfigurationEntries.FirstOrDefault(
-          x => ((ConfigurationPlayerService)x.RealPlayer).InfoSource is UserNotificationsService);
-      Assert.IsNotNull(entryRelatedToService, "Entry cannot be unresloved");
-      this.FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
-    }
+  [UsedImplicitly]
+  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  {
+    //Find setting, related to UserConfiguration service
+    var entryRelatedToService =
+      args.ConfigConstructInfo.ConfigurationEntries.FirstOrDefault(
+        x => ((ConfigurationPlayerService)x.RealPlayer).InfoSource is UserNotificationsService);
+    Assert.IsNotNull(entryRelatedToService, "Entry cannot be unresloved");
+    this.FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
+  }
 
-    protected virtual void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
-    {
-      realPlayer.AdditionalActions.Add(this.GetConfigurationAction());
-    }
+  protected virtual void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
+  {
+    realPlayer.AdditionalActions.Add(this.GetConfigurationAction());
+  }
 
-    protected virtual IConfigurationEntryAction GetConfigurationAction()
-    {
-      var configureIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("configureV1", null);
-      Assert.IsNotNull(configureIcon, "Resolved image cannot be null");
-      var imageSource = ImageHelper.GetBitmapImageFromBitmapThreadSafe(configureIcon.ToBitmap(), ImageFormat.Png);
-      return new SimpleConfigurationEntryAction(imageSource, this.ShowConfigurationWindow, true, null, this.Description);
-    }
+  protected virtual IConfigurationEntryAction GetConfigurationAction()
+  {
+    var configureIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("configureV1", null);
+    Assert.IsNotNull(configureIcon, "Resolved image cannot be null");
+    var imageSource = ImageHelper.GetBitmapImageFromBitmapThreadSafe(configureIcon.ToBitmap(), ImageFormat.Png);
+    return new SimpleConfigurationEntryAction(imageSource, this.ShowConfigurationWindow, true, null, this.Description);
+  }
 
-    protected virtual void ShowConfigurationWindow(object obj)
-    {
-      WindowStepState windowStepState = UNConfigurationStepPipeline.Run();
-      WindowWithBackVM.GoAheadWithBackIfPossible(windowStepState);
-    }
+  protected virtual void ShowConfigurationWindow(object obj)
+  {
+    WindowStepState windowStepState = UNConfigurationStepPipeline.Run();
+    WindowWithBackVM.GoAheadWithBackIfPossible(windowStepState);
   }
 }

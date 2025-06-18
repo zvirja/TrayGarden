@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Configuration
-{
-  public interface IObjectFactory
-  {
-    object GetObject();
+namespace TrayGarden.Configuration;
 
-    object GetPurelyNewObject();
-  }
+public interface IObjectFactory
+{
+  object GetObject();
+
+  object GetPurelyNewObject();
 }

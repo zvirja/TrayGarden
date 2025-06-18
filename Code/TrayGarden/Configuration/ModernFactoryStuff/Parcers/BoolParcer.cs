@@ -4,19 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
+namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers;
+
+public class BoolParcer : IParcer
 {
-  public class BoolParcer : IParcer
+  public virtual object ParceNodeValue(XmlNode nodeValue)
   {
-    public virtual object ParceNodeValue(XmlNode nodeValue)
+    string value = nodeValue.InnerText;
+    bool intValue;
+    if (bool.TryParse(value, out intValue))
     {
-      string value = nodeValue.InnerText;
-      bool intValue;
-      if (bool.TryParse(value, out intValue))
-      {
-        return intValue;
-      }
-      return null;
+      return intValue;
     }
+    return null;
   }
 }

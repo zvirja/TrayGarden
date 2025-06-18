@@ -9,33 +9,32 @@ using JetBrains.Annotations;
 
 using TrayGarden.Helpers;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline;
+
+[UsedImplicitly]
+public class PullValueFromClipboard : Processor
 {
-  [UsedImplicitly]
-  public class PullValueFromClipboard : Processor
+  public override void Process(ProcessorArgs args)
   {
-    public override void Process(ProcessorArgs args)
+    if (args.ClipboardEvent)
     {
-      if (args.ClipboardEvent)
+      if (args.PredefinedClipboardValue.IsNullOrEmpty())
       {
-        if (args.PredefinedClipboardValue.IsNullOrEmpty())
-        {
-          args.Abort();
-          return;
-        }
-        args.ResultUrl = args.PredefinedClipboardValue;
+        args.Abort();
+        return;
+      }
+      args.ResultUrl = args.PredefinedClipboardValue;
+    }
+    else
+    {
+      string currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
+      if (currentValue.IsNullOrEmpty())
+      {
+        this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
       }
       else
       {
-        string currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
-        if (currentValue.IsNullOrEmpty())
-        {
-          this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
-        }
-        else
-        {
-          args.ResultUrl = currentValue;
-        }
+        args.ResultUrl = currentValue;
       }
     }
   }

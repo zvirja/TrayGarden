@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
+namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers;
+
+public interface IParcer
 {
-  public interface IParcer
-  {
-    object ParceNodeValue(XmlNode nodeValue);
-  }
+  object ParceNodeValue(XmlNode nodeValue);
 }

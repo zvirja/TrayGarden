@@ -8,28 +8,27 @@ using System.Windows.Media;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
+
+public interface IYesNoNotification : IResultProvider
 {
-  public interface IYesNoNotification : IResultProvider
-  {
-    ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
+  ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
 
-    TextDisplayOptions ButtonTextsOptions { get; set; }
+  TextDisplayOptions ButtonTextsOptions { get; set; }
 
-    ImageTextOrder ButtonsLayoutKind { get; set; }
+  ImageTextOrder ButtonsLayoutKind { get; set; }
 
-    string HeaderText { get; set; }
+  string HeaderText { get; set; }
 
-    TextDisplayOptions HeaderTextOptions { get; set; }
+  TextDisplayOptions HeaderTextOptions { get; set; }
 
-    ICommand NoAction { get; set; }
+  ICommand NoAction { get; set; }
 
-    ImageSource NoButtonImage { get; set; }
+  ImageSource NoButtonImage { get; set; }
 
-    string NoButtonText { get; set; }
+  string NoButtonText { get; set; }
 
-    ImageSource YesButtonImage { get; set; }
+  ImageSource YesButtonImage { get; set; }
 
-    string YesButtonText { get; set; }
-  }
+  string YesButtonText { get; set; }
 }

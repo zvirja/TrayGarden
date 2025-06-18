@@ -7,16 +7,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
+
+[UsedImplicitly]
+public class CreatePlantVM
 {
   [UsedImplicitly]
-  public class CreatePlantVM
+  public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
-    {
-      args.PlantVM = new SinglePlantVM();
-      args.PlantVM.InitPlantVMWithPlantEx(args.PlantEx);
-    }
+    args.PlantVM = new SinglePlantVM();
+    args.PlantVM.InitPlantVMWithPlantEx(args.PlantEx);
   }
 }

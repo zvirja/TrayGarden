@@ -5,61 +5,60 @@ using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
+
+public class TextDisplayOptions
 {
-  public class TextDisplayOptions
+  private Brush brush;
+
+  public TextDisplayOptions(Brush brush, double size)
   {
-    private Brush brush;
+    this.ValidateBrushWithException(brush);
+    this.Brush = brush;
+    this.Size = size;
+    this.Weight = FontWeights.Normal;
+    this.Style = FontStyles.Normal;
+    this.Margins = new Thickness();
+    this.HorizontalAlignment = HorizontalAlignment.Center;
+    this.VerticalAlignment = VerticalAlignment.Center;
+    this.TextAlignment = TextAlignment.Center;
+    this.Wrapping = TextWrapping.Wrap;
+  }
 
-    public TextDisplayOptions(Brush brush, double size)
+  public Brush Brush
+  {
+    get
     {
-      this.ValidateBrushWithException(brush);
-      this.Brush = brush;
-      this.Size = size;
-      this.Weight = FontWeights.Normal;
-      this.Style = FontStyles.Normal;
-      this.Margins = new Thickness();
-      this.HorizontalAlignment = HorizontalAlignment.Center;
-      this.VerticalAlignment = VerticalAlignment.Center;
-      this.TextAlignment = TextAlignment.Center;
-      this.Wrapping = TextWrapping.Wrap;
+      return this.brush;
     }
-
-    public Brush Brush
+    set
     {
-      get
-      {
-        return this.brush;
-      }
-      set
-      {
-        this.ValidateBrushWithException(this.brush);
-        this.brush = value;
-      }
+      this.ValidateBrushWithException(this.brush);
+      this.brush = value;
     }
+  }
 
-    public HorizontalAlignment HorizontalAlignment { get; set; }
+  public HorizontalAlignment HorizontalAlignment { get; set; }
 
-    public Thickness Margins { get; set; }
+  public Thickness Margins { get; set; }
 
-    public double Size { get; set; }
+  public double Size { get; set; }
 
-    public FontStyle Style { get; set; }
+  public FontStyle Style { get; set; }
 
-    public TextAlignment TextAlignment { get; set; }
+  public TextAlignment TextAlignment { get; set; }
 
-    public VerticalAlignment VerticalAlignment { get; set; }
+  public VerticalAlignment VerticalAlignment { get; set; }
 
-    public FontWeight Weight { get; set; }
+  public FontWeight Weight { get; set; }
 
-    public TextWrapping Wrapping { get; set; }
+  public TextWrapping Wrapping { get; set; }
 
-    protected void ValidateBrushWithException(Brush brush)
+  protected void ValidateBrushWithException(Brush brush)
+  {
+    if (brush != null && !brush.IsFrozen)
     {
-      if (brush != null && !brush.IsFrozen)
-      {
-        throw new ArgumentException("Brush have to be frozen!");
-      }
+      throw new ArgumentException("Brush have to be frozen!");
     }
   }
 }

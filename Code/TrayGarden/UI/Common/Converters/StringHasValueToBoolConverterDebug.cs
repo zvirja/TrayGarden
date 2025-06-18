@@ -7,19 +7,18 @@ using System.Windows.Data;
 
 using TrayGarden.Helpers;
 
-namespace TrayGarden.UI.Common.Converters
-{
-  public class StringHasValueToBoolConverterDebug : IValueConverter
-  {
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      var valueAsStr = value as string;
-      return valueAsStr.NotNullNotEmpty();
-    }
+namespace TrayGarden.UI.Common.Converters;
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      throw new NotSupportedException();
-    }
+public class StringHasValueToBoolConverterDebug : IValueConverter
+{
+  public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    var valueAsStr = value as string;
+    return valueAsStr.NotNullNotEmpty();
+  }
+
+  public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    throw new NotSupportedException();
   }
 }

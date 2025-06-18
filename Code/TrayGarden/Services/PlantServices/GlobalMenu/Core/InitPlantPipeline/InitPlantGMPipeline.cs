@@ -8,15 +8,14 @@ using TrayGarden.Plants;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
+
+public static class InitPlantGMPipeline
 {
-  public static class InitPlantGMPipeline
+  public static InitPlantGMArgs Run(IPlantEx plantEx, string luggageName, INotifyIconChangerMaster globalNotifyIconChanger)
   {
-    public static InitPlantGMArgs Run(IPlantEx plantEx, string luggageName, INotifyIconChangerMaster globalNotifyIconChanger)
-    {
-      var args = new InitPlantGMArgs(plantEx, luggageName, globalNotifyIconChanger);
-      HatcherGuide<IPipelineManager>.Instance.InvokePipeline("globalMenuServiceInitPlant", args);
-      return args;
-    }
+    var args = new InitPlantGMArgs(plantEx, luggageName, globalNotifyIconChanger);
+    HatcherGuide<IPipelineManager>.Instance.InvokePipeline("globalMenuServiceInitPlant", args);
+    return args;
   }
 }

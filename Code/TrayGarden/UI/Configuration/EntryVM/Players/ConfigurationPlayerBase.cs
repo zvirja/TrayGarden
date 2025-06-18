@@ -8,79 +8,78 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 
-namespace TrayGarden.UI.Configuration.EntryVM.Players
+namespace TrayGarden.UI.Configuration.EntryVM.Players;
+
+public abstract class ConfigurationPlayerBase : IConfigurationPlayer
 {
-  public abstract class ConfigurationPlayerBase : IConfigurationPlayer
+  private List<IConfigurationEntryAction> additionalActions;
+
+  private bool supportsReset;
+
+  public ConfigurationPlayerBase([NotNull] string settingName, bool supportsReset, bool readOnly)
   {
-    private List<IConfigurationEntryAction> additionalActions;
+    Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
+    this.SettingName = settingName;
+    this.supportsReset = supportsReset;
+    this.ReadOnly = readOnly;
+    this.additionalActions = new List<IConfigurationEntryAction>();
+  }
 
-    private bool supportsReset;
+  public event Action RequiresApplicationRebootChanged;
 
-    public ConfigurationPlayerBase([NotNull] string settingName, bool supportsReset, bool readOnly)
+  public event Action ValueChanged;
+
+  public virtual List<IConfigurationEntryAction> AdditionalActions
+  {
+    get
     {
-      Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
-      this.SettingName = settingName;
-      this.supportsReset = supportsReset;
-      this.ReadOnly = readOnly;
-      this.additionalActions = new List<IConfigurationEntryAction>();
+      return this.additionalActions;
     }
-
-    public event Action RequiresApplicationRebootChanged;
-
-    public event Action ValueChanged;
-
-    public virtual List<IConfigurationEntryAction> AdditionalActions
+    protected set
     {
-      get
-      {
-        return this.additionalActions;
-      }
-      protected set
-      {
-        this.additionalActions = value;
-      }
+      this.additionalActions = value;
     }
+  }
 
-    public virtual bool HideReset { get; protected set; }
+  public virtual bool HideReset { get; protected set; }
 
-    public bool ReadOnly { get; protected set; }
+  public bool ReadOnly { get; protected set; }
 
-    public virtual bool RequiresApplicationReboot { get; protected set; }
+  public virtual bool RequiresApplicationReboot { get; protected set; }
 
-    public virtual string SettingDescription { get; protected set; }
+  public virtual string SettingDescription { get; protected set; }
 
-    public string SettingName { get; protected set; }
+  public string SettingName { get; protected set; }
 
-    public virtual bool SupportsReset
+  public virtual bool SupportsReset
+  {
+    get
     {
-      get
-      {
-        return this.supportsReset;
-      }
-      protected set
-      {
-        this.supportsReset = value;
-      }
+      return this.supportsReset;
     }
-
-    public abstract void Reset();
-
-    protected virtual void OnRequiresApplicationRebootChanged()
+    protected set
     {
-      Action handler = this.RequiresApplicationRebootChanged;
-      if (handler != null)
-      {
-        handler();
-      }
+      this.supportsReset = value;
     }
+  }
 
-    protected virtual void OnValueChanged()
+  public abstract void Reset();
+
+  protected virtual void OnRequiresApplicationRebootChanged()
+  {
+    Action handler = this.RequiresApplicationRebootChanged;
+    if (handler != null)
     {
-      Action handler = this.ValueChanged;
-      if (handler != null)
-      {
-        handler();
-      }
+      handler();
+    }
+  }
+
+  protected virtual void OnValueChanged()
+  {
+    Action handler = this.ValueChanged;
+    if (handler != null)
+    {
+      handler();
     }
   }
 }

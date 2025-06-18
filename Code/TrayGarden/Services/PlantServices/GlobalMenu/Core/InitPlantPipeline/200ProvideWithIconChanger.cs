@@ -8,23 +8,22 @@ using JetBrains.Annotations;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
+
+[UsedImplicitly]
+public class ProvideWithIconChanger
 {
   [UsedImplicitly]
-  public class ProvideWithIconChanger
+  public virtual void Process(InitPlantGMArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitPlantGMArgs args)
+    var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IChangesGlobalIcon>();
+    if (asExpected == null)
     {
-      var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IChangesGlobalIcon>();
-      if (asExpected == null)
-      {
-        return;
-      }
-      INotifyIconChangerMaster globalNotifyIconChanger = args.GlobalNotifyIconChanger;
-      asExpected.StoreGlobalIconChangingAssignee(globalNotifyIconChanger);
-      args.GMBox.GlobalNotifyIconChanger = globalNotifyIconChanger;
-      args.IsNotifyIconChangerInUse = true;
+      return;
     }
+    INotifyIconChangerMaster globalNotifyIconChanger = args.GlobalNotifyIconChanger;
+    asExpected.StoreGlobalIconChangingAssignee(globalNotifyIconChanger);
+    args.GMBox.GlobalNotifyIconChanger = globalNotifyIconChanger;
+    args.IsNotifyIconChangerInUse = true;
   }
 }

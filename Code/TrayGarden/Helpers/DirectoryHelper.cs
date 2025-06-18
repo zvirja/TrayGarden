@@ -5,23 +5,22 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 
-namespace TrayGarden.Helpers
-{
-  public class DirectoryHelper
-  {
-    private static string currentDirectory;
+namespace TrayGarden.Helpers;
 
-    public static string CurrentDirectory
+public class DirectoryHelper
+{
+  private static string currentDirectory;
+
+  public static string CurrentDirectory
+  {
+    get
     {
-      get
+      if (currentDirectory != null)
       {
-        if (currentDirectory != null)
-        {
-          return currentDirectory;
-        }
-        currentDirectory = new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName;
         return currentDirectory;
       }
+      currentDirectory = new FileInfo(Assembly.GetEntryAssembly().Location).DirectoryName;
+      return currentDirectory;
     }
   }
 }

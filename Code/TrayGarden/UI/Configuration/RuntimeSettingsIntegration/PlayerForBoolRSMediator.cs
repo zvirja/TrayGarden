@@ -8,34 +8,33 @@ using JetBrains.Annotations;
 using TrayGarden.RuntimeSettings.FastPropertyWrapper;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.UI.Configuration.RuntimeSettingsIntegration
+namespace TrayGarden.UI.Configuration.RuntimeSettingsIntegration;
+
+public class PlayerForBoolRSMediator : TypedConfigurationPlayer<bool>
 {
-  public class PlayerForBoolRSMediator : TypedConfigurationPlayer<bool>
+  public PlayerForBoolRSMediator([NotNull] string settingName, BoolSettingMediator mediator)
+    : base(settingName, true, false)
   {
-    public PlayerForBoolRSMediator([NotNull] string settingName, BoolSettingMediator mediator)
-      : base(settingName, true, false)
-    {
-      this.Mediator = mediator;
-    }
+    this.Mediator = mediator;
+  }
 
-    public override bool Value
+  public override bool Value
+  {
+    get
     {
-      get
-      {
-        return this.Mediator.Value;
-      }
-      set
-      {
-        this.Mediator.Value = value;
-      }
+      return this.Mediator.Value;
     }
-
-    protected BoolSettingMediator Mediator { get; set; }
-
-    public override void Reset()
+    set
     {
-      this.Value = this.Mediator.DefaultValue;
-      this.OnValueChanged();
+      this.Mediator.Value = value;
     }
+  }
+
+  protected BoolSettingMediator Mediator { get; set; }
+
+  public override void Reset()
+  {
+    this.Value = this.Mediator.DefaultValue;
+    this.OnValueChanged();
   }
 }

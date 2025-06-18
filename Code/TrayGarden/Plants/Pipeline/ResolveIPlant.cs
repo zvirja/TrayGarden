@@ -7,23 +7,22 @@ using JetBrains.Annotations;
 
 using TrayGarden.Reception;
 
-namespace TrayGarden.Plants.Pipeline
+namespace TrayGarden.Plants.Pipeline;
+
+[UsedImplicitly]
+public class ResolveIPlant
 {
   [UsedImplicitly]
-  public class ResolveIPlant
+  public virtual void Process(InitializePlantArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(InitializePlantArgs args)
+    var iPlant = args.PlantObject as IPlant;
+    if (iPlant != null)
     {
-      var iPlant = args.PlantObject as IPlant;
-      if (iPlant != null)
-      {
-        args.IPlantObject = iPlant;
-      }
-      else
-      {
-        args.Abort();
-      }
+      args.IPlantObject = iPlant;
+    }
+    else
+    {
+      args.Abort();
     }
   }
 }

@@ -6,23 +6,22 @@ using System.Windows;
 
 using TrayGarden.Pipelines.Engine;
 
-namespace TrayGarden.Pipelines.Startup
+namespace TrayGarden.Pipelines.Startup;
+
+public class StartupArgs : PipelineArgs
 {
-  public class StartupArgs : PipelineArgs
+  public StartupArgs(string[] startParams)
   {
-    public StartupArgs(string[] startParams)
-    {
-      this.StartupParams = startParams;
-    }
-
-    public Application App
-    {
-      get
-      {
-        return Application.Current;
-      }
-    }
-
-    public string[] StartupParams { get; set; }
+    this.StartupParams = startParams;
   }
+
+  public Application App
+  {
+    get
+    {
+      return Application.Current;
+    }
+  }
+
+  public string[] StartupParams { get; set; }
 }

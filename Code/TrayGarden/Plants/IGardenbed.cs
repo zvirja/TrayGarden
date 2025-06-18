@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Plants
+namespace TrayGarden.Plants;
+
+public interface IGardenbed
 {
-  public interface IGardenbed
-  {
-    bool AutoDetectPlants { get; set; }
+  bool AutoDetectPlants { get; set; }
 
-    List<IPlantEx> GetAllPlants();
+  List<IPlantEx> GetAllPlants();
 
-    List<IPlantEx> GetEnabledPlants();
+  List<IPlantEx> GetEnabledPlants();
 
-    void InformPostInitStage();
+  void InformPostInitStage();
 
-    void Initialize(List<object> plants);
-  }
+  void Initialize(List<object> plants);
 }

@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Configuration
+namespace TrayGarden.Configuration;
+
+public interface ISupportPrototyping
 {
-  public interface ISupportPrototyping
-  {
-    object CreateNewInializedInstance();
-  }
+  object CreateNewInializedInstance();
 }

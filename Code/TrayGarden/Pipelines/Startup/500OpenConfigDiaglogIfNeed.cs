@@ -9,22 +9,21 @@ using TrayGarden.Configuration;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.MainWindow;
 
-namespace TrayGarden.Pipelines.Startup
-{
-  public class OpenConfigDiaglogIfNeed
-  {
-    [UsedImplicitly]
-    public void Process(StartupArgs args)
-    {
-      if (args.StartupParams.Any(x => x.Equals(StringConstants.OpenConfigDialogStartupKey, StringComparison.OrdinalIgnoreCase)))
-      {
-        this.SilentlyTryToOpenConfigurationWindow();
-      }
-    }
+namespace TrayGarden.Pipelines.Startup;
 
-    protected virtual void SilentlyTryToOpenConfigurationWindow()
+public class OpenConfigDiaglogIfNeed
+{
+  [UsedImplicitly]
+  public void Process(StartupArgs args)
+  {
+    if (args.StartupParams.Any(x => x.Equals(StringConstants.OpenConfigDialogStartupKey, StringComparison.OrdinalIgnoreCase)))
     {
-      HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
+      this.SilentlyTryToOpenConfigurationWindow();
     }
+  }
+
+  protected virtual void SilentlyTryToOpenConfigurationWindow()
+  {
+    HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
   }
 }

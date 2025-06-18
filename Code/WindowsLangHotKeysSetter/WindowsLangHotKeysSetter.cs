@@ -6,41 +6,40 @@ using System.Text;
 
 using TrayGarden.Reception;
 
-namespace WindowsLangHotKeysSetter
+namespace WindowsLangHotKeysSetter;
+
+public class WindowsLangHotKeysSetter : IPlant, TrayGarden.Reception.IServicesDelegation
 {
-  public class WindowsLangHotKeysSetter : IPlant, TrayGarden.Reception.IServicesDelegation
+  public string Description
   {
-    public string Description
+    get
     {
-      get
-      {
-        return "If you set quick hotkeys for Windows languages switching (e.g. EN - Alt + Shift + 4), sometimes Windows could reset those setting."
-          + "This plant restores the combination thorought the WinAPI call of the CliImmSetHotKey method.";
-      }
+      return "If you set quick hotkeys for Windows languages switching (e.g. EN - Alt + Shift + 4), sometimes Windows could reset those setting."
+             + "This plant restores the combination thorought the WinAPI call of the CliImmSetHotKey method.";
     }
+  }
 
-    public string HumanSupportingName
+  public string HumanSupportingName
+  {
+    get
     {
-      get
-      {
-        return "Windows Lang switch hotkeys setter";
-      }
+      return "Windows Lang switch hotkeys setter";
     }
+  }
 
-    public void Initialize()
-    {
-
-    }
-
-    public void PostServicesInitialize()
-    {
-
-    }
-
-    public virtual List<object> GetServiceDelegates()
-    {
-      return new List<object>() { ParamsConfigurator.Instance, HotKeysCommandRunner.Instance, GlobalMenuOption.Instance };
-    }
+  public void Initialize()
+  {
 
   }
+
+  public void PostServicesInitialize()
+  {
+
+  }
+
+  public virtual List<object> GetServiceDelegates()
+  {
+    return new List<object>() { ParamsConfigurator.Instance, HotKeysCommandRunner.Instance, GlobalMenuOption.Instance };
+  }
+
 }

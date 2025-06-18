@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+public interface ITypedUserSettingMaster<T> : ITypedUserSetting<T>
 {
-  public interface ITypedUserSettingMaster<T> : ITypedUserSetting<T>
-  {
-    void Initialize(ITypedUserSettingMetadata<T> typedMetadata, IUserSettingStorage<T> storage, List<IUserSettingBase> activityCriterias);
-  }
+  void Initialize(ITypedUserSettingMetadata<T> typedMetadata, IUserSettingStorage<T> storage, List<IUserSettingBase> activityCriterias);
 }

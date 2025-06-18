@@ -6,32 +6,31 @@ using System.Text;
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
-namespace TrayGarden.Plants
+namespace TrayGarden.Plants;
+
+public interface IPlantEx
 {
-  public interface IPlantEx
-  {
-    event PlantEnabledChangedEvent EnabledChanged;
+  event PlantEnabledChangedEvent EnabledChanged;
 
-    string ID { get; }
+  string ID { get; }
 
-    bool IsEnabled { get; set; }
+  bool IsEnabled { get; set; }
 
-    ISettingsBox MySettingsBox { get; }
+  ISettingsBox MySettingsBox { get; }
 
-    IPlant Plant { get; }
+  IPlant Plant { get; }
 
-    List<object> Workhorses { get; }
+  List<object> Workhorses { get; }
 
-    T GetFirstWorkhorseOfType<T>();
+  T GetFirstWorkhorseOfType<T>();
 
-    object GetLuggage(string name);
+  object GetLuggage(string name);
 
-    T GetLuggage<T>(string name) where T : class;
+  T GetLuggage<T>(string name) where T : class;
 
-    bool HasLuggage(string name);
+  bool HasLuggage(string name);
 
-    void Initialize(IPlant plant, List<object> workhorses, string id, ISettingsBox mySettingsBox);
+  void Initialize(IPlant plant, List<object> workhorses, string id, ISettingsBox mySettingsBox);
 
-    void PutLuggage(string name, object luggage);
-  }
+  void PutLuggage(string name, object luggage);
 }

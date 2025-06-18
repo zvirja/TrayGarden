@@ -5,15 +5,14 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core
-{
-  public class UserSettingBaseChange : EventArgs
-  {
-    public UserSettingBaseChange(IUserSettingBase origin)
-    {
-      this.Origin = origin;
-    }
+namespace TrayGarden.Services.PlantServices.UserConfig.Core;
 
-    public IUserSettingBase Origin { get; set; }
+public class UserSettingBaseChange : EventArgs
+{
+  public UserSettingBaseChange(IUserSettingBase origin)
+  {
+    this.Origin = origin;
   }
+
+  public IUserSettingBase Origin { get; set; }
 }

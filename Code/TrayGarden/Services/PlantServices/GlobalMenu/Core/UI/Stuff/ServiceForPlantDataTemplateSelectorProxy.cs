@@ -9,25 +9,24 @@ using TrayGarden.Diagnostics;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff;
+
+public class ServiceForPlantDataTemplateSelectorProxy : DataTemplateSelector, IDataTemplateSelector
 {
-  public class ServiceForPlantDataTemplateSelectorProxy : DataTemplateSelector, IDataTemplateSelector
+  public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
   {
-    public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
+    var selector = HatcherGuide<IDataTemplateSelector>.Instance;
+    if (selector != null)
     {
-      var selector = HatcherGuide<IDataTemplateSelector>.Instance;
-      if (selector != null)
+      DataTemplate resolvedTemplate = selector.SelectTemplate(item, container);
+      if (resolvedTemplate != null && resolvedTemplate != DependencyProperty.UnsetValue)
       {
-        DataTemplate resolvedTemplate = selector.SelectTemplate(item, container);
-        if (resolvedTemplate != null && resolvedTemplate != DependencyProperty.UnsetValue)
-        {
-          return resolvedTemplate;
-        }
+        return resolvedTemplate;
       }
-      var asFrameworkElement = container as FrameworkElement;
-      Assert.IsNotNull(asFrameworkElement, "Strange.. passed dependency object isn't framework element");
-      DataTemplate defaultDataTemplate = asFrameworkElement.TryFindResource("DefaultMode") as DataTemplate;
-      return defaultDataTemplate ?? base.SelectTemplate(item, container);
     }
+    var asFrameworkElement = container as FrameworkElement;
+    Assert.IsNotNull(asFrameworkElement, "Strange.. passed dependency object isn't framework element");
+    DataTemplate defaultDataTemplate = asFrameworkElement.TryFindResource("DefaultMode") as DataTemplate;
+    return defaultDataTemplate ?? base.SelectTemplate(item, container);
   }
 }

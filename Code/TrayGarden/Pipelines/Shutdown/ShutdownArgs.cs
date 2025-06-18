@@ -6,16 +6,15 @@ using System.Windows;
 
 using TrayGarden.Pipelines.Engine;
 
-namespace TrayGarden.Pipelines.Shutdown
+namespace TrayGarden.Pipelines.Shutdown;
+
+public class ShutdownArgs : PipelineArgs
 {
-  public class ShutdownArgs : PipelineArgs
+  public Application App
   {
-    public Application App
+    get
     {
-      get
-      {
-        return Application.Current;
-      }
+      return Application.Current;
     }
   }
 }

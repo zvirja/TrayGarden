@@ -5,14 +5,13 @@ using System.Text;
 
 using TrayGarden.RuntimeSettings;
 
-namespace TrayGarden.Reception.Services
+namespace TrayGarden.Reception.Services;
+
+/// <summary>
+/// This service provides plant with custom data storage.
+/// There are no ways to change this value through UI, this is only for plant internal usage.
+/// </summary>
+public interface IGetCustomSettingsStorage
 {
-  /// <summary>
-  /// This service provides plant with custom data storage.
-  /// There are no ways to change this value through UI, this is only for plant internal usage.
-  /// </summary>
-  public interface IGetCustomSettingsStorage
-  {
-    void StoreCustomSettingsStorage(ISettingsBox settingsStorage);
-  }
+  void StoreCustomSettingsStorage(ISettingsBox settingsStorage);
 }

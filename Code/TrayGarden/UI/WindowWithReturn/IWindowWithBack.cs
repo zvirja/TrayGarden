@@ -7,16 +7,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.Common.VMtoVMapping;
 
-namespace TrayGarden.UI.WindowWithReturn
+namespace TrayGarden.UI.WindowWithReturn;
+
+public interface IWindowWithBack
 {
-  public interface IWindowWithBack
-  {
-    bool IsCurrentlyDisplayed { get; }
+  bool IsCurrentlyDisplayed { get; }
 
-    void BringToFront();
+  void BringToFront();
 
-    void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings);
+  void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings);
 
-    void PrepareAndShow(WindowWithBackVM viewModel);
-  }
+  void PrepareAndShow(WindowWithBackVM viewModel);
 }

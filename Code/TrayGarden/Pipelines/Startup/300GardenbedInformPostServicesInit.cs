@@ -8,15 +8,14 @@ using JetBrains.Annotations;
 using TrayGarden.Plants;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Pipelines.Startup
+namespace TrayGarden.Pipelines.Startup;
+
+[UsedImplicitly]
+public class GardenbedInformPostServicesInit
 {
   [UsedImplicitly]
-  public class GardenbedInformPostServicesInit
+  public void Process(StartupArgs args)
   {
-    [UsedImplicitly]
-    public void Process(StartupArgs args)
-    {
-      HatcherGuide<IGardenbed>.Instance.InformPostInitStage();
-    }
+    HatcherGuide<IGardenbed>.Instance.InformPostInitStage();
   }
 }

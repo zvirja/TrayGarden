@@ -3,16 +3,15 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
+
+public enum RelevanceLevel
 {
-  public enum RelevanceLevel
-  {
-    Normal = 0,
+  Normal = 0,
 
-    High = 1,
+  High = 1,
 
-    Low = 2,
+  Low = 2,
 
-    Irrelevant = 3
-  }
+  Irrelevant = 3
 }

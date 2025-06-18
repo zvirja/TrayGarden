@@ -8,43 +8,42 @@ using System.Windows.Data;
 
 using TrayGarden.Helpers;
 
-namespace TrayGarden.UI.Common.Converters
+namespace TrayGarden.UI.Common.Converters;
+
+public class BooleanToVisibilityConverter : IValueConverter
 {
-  public class BooleanToVisibilityConverter : IValueConverter
+  public BooleanToVisibilityConverter()
   {
-    public BooleanToVisibilityConverter()
-    {
-      this.DefaultNonVisibleVisibility = Visibility.Hidden;
-    }
+    this.DefaultNonVisibleVisibility = Visibility.Hidden;
+  }
 
-    public Visibility DefaultNonVisibleVisibility { get; set; }
+  public Visibility DefaultNonVisibleVisibility { get; set; }
 
-    public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+  public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    if (!(value is bool))
     {
-      if (!(value is bool))
-      {
-        return Visibility.Visible;
-      }
-      var boolean = (bool)value;
-      if (boolean)
-      {
-        return Visibility.Visible;
-      }
-      var visibilityParam = parameter as string;
-      if (visibilityParam.IsNullOrEmpty())
-      {
-        return this.DefaultNonVisibleVisibility;
-      }
-      if (visibilityParam.Equals("collapsed", StringComparison.OrdinalIgnoreCase))
-      {
-        return Visibility.Collapsed;
-      }
-      return Visibility.Hidden;
+      return Visibility.Visible;
     }
+    var boolean = (bool)value;
+    if (boolean)
+    {
+      return Visibility.Visible;
+    }
+    var visibilityParam = parameter as string;
+    if (visibilityParam.IsNullOrEmpty())
+    {
+      return this.DefaultNonVisibleVisibility;
+    }
+    if (visibilityParam.Equals("collapsed", StringComparison.OrdinalIgnoreCase))
+    {
+      return Visibility.Collapsed;
+    }
+    return Visibility.Hidden;
+  }
 
-    public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-    {
-      throw new NotSupportedException();
-    }
+  public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+  {
+    throw new NotSupportedException();
   }
 }

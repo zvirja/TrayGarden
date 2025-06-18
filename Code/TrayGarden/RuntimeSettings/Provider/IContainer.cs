@@ -3,22 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.RuntimeSettings.Provider
+namespace TrayGarden.RuntimeSettings.Provider;
+
+public interface IContainer
 {
-  public interface IContainer
-  {
-    string Name { get; }
+  string Name { get; }
 
-    IContainer GetNamedSubContainer(string name);
+  IContainer GetNamedSubContainer(string name);
 
-    IEnumerable<string> GetPresentStringSettingNames();
+  IEnumerable<string> GetPresentStringSettingNames();
 
-    IEnumerable<string> GetPresentSubContainerNames();
+  IEnumerable<string> GetPresentSubContainerNames();
 
-    string GetStringSetting(string name);
+  string GetStringSetting(string name);
 
-    void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers);
+  void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers);
 
-    void SetStringSetting(string name, string value);
-  }
+  void SetStringSetting(string name, string value);
 }

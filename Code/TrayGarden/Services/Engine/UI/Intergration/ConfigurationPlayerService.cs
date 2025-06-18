@@ -5,56 +5,55 @@ using System.Text;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.Services.Engine.UI.Intergration
+namespace TrayGarden.Services.Engine.UI.Intergration;
+
+public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
 {
-  public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
+  public ConfigurationPlayerService(IService serviceToManage)
+    : base(serviceToManage.ServiceName, serviceToManage.CanBeDisabled, !serviceToManage.CanBeDisabled)
   {
-    public ConfigurationPlayerService(IService serviceToManage)
-      : base(serviceToManage.ServiceName, serviceToManage.CanBeDisabled, !serviceToManage.CanBeDisabled)
-    {
-      this.InfoSource = serviceToManage;
-      this.InfoSource.IsEnabledChanged += x => this.OnValueChanged();
-    }
+    this.InfoSource = serviceToManage;
+    this.InfoSource.IsEnabledChanged += x => this.OnValueChanged();
+  }
 
-    public IService InfoSource { get; set; }
+  public IService InfoSource { get; set; }
 
-    public override bool RequiresApplicationReboot
+  public override bool RequiresApplicationReboot
+  {
+    get
     {
-      get
-      {
-        return this.InfoSource.IsEnabled != this.InfoSource.IsActuallyEnabled;
-      }
+      return this.InfoSource.IsEnabled != this.InfoSource.IsActuallyEnabled;
     }
+  }
 
-    public override string SettingDescription
+  public override string SettingDescription
+  {
+    get
     {
-      get
-      {
-        return this.InfoSource.ServiceDescription;
-      }
-      protected set
-      {
-        //Description should be changed. 
-      }
+      return this.InfoSource.ServiceDescription;
     }
+    protected set
+    {
+      //Description should be changed. 
+    }
+  }
 
-    public override bool Value
+  public override bool Value
+  {
+    get
     {
-      get
-      {
-        return this.InfoSource.IsEnabled;
-      }
-      set
-      {
-        this.InfoSource.IsEnabled = value;
-        this.OnRequiresApplicationRebootChanged();
-      }
+      return this.InfoSource.IsEnabled;
     }
+    set
+    {
+      this.InfoSource.IsEnabled = value;
+      this.OnRequiresApplicationRebootChanged();
+    }
+  }
 
-    public override void Reset()
-    {
-      this.Value = this.InfoSource.IsActuallyEnabled;
-      this.OnValueChanged();
-    }
+  public override void Reset()
+  {
+    this.Value = this.InfoSource.IsActuallyEnabled;
+    this.OnValueChanged();
   }
 }

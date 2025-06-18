@@ -9,60 +9,59 @@ using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
 using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling
+namespace ClipboardChangerPlant.RequestHandling;
+
+[UsedImplicitly]
+public class ProcessManager : INeedCongurationNode
 {
-  [UsedImplicitly]
-  public class ProcessManager : INeedCongurationNode
+  private static readonly Lazy<ProcessManager> _actualProcessManager =
+    new Lazy<ProcessManager>(() => Factory.ActualFactory.GetRequestProcessManager());
+
+  protected XmlHelper ConfigurationHelper;
+
+  protected List<Processor> Processors;
+
+  public static ProcessManager ActualManager
   {
-    private static readonly Lazy<ProcessManager> _actualProcessManager =
-      new Lazy<ProcessManager>(() => Factory.ActualFactory.GetRequestProcessManager());
-
-    protected XmlHelper ConfigurationHelper;
-
-    protected List<Processor> Processors;
-
-    public static ProcessManager ActualManager
+    get
     {
-      get
-      {
-        return _actualProcessManager.Value;
-      }
+      return _actualProcessManager.Value;
     }
+  }
 
-    public string Name { get; set; }
+  public string Name { get; set; }
 
-    public virtual void ProcessRequest(
-      bool onlyShorteningRequired,
-      bool clipboardEvent,
-      string predefinedClipboardValue,
-      bool globalIconIsOriginator)
+  public virtual void ProcessRequest(
+    bool onlyShorteningRequired,
+    bool clipboardEvent,
+    string predefinedClipboardValue,
+    bool globalIconIsOriginator)
+  {
+    try
     {
-      try
+      var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue, globalIconIsOriginator);
+      foreach (var processor in this.Processors)
       {
-        var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue, globalIconIsOriginator);
-        foreach (var processor in this.Processors)
+        processor.Process(processorsArgs);
+        if (processorsArgs.Aborted)
         {
-          processor.Process(processorsArgs);
-          if (processorsArgs.Aborted)
-          {
-            break;
-          }
+          break;
         }
       }
-      catch
-      {
-        var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
-        notifyManager.SetNewIcon(notifyManager.ErrorTrayIcon, 250);
-      }
     }
-
-    public virtual void SetConfigurationNode(XmlNode configurationNode)
+    catch
     {
-      this.ConfigurationHelper = new XmlHelper(configurationNode);
-      var processors =
-        Factory.ActualFactory.RawFactory.GetObjectsCollectionFromConfigurationNode<Processor>(
-          configurationNode.Name + "/pipeline/processor");
-      this.Processors = processors;
+      var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
+      notifyManager.SetNewIcon(notifyManager.ErrorTrayIcon, 250);
     }
+  }
+
+  public virtual void SetConfigurationNode(XmlNode configurationNode)
+  {
+    this.ConfigurationHelper = new XmlHelper(configurationNode);
+    var processors =
+      Factory.ActualFactory.RawFactory.GetObjectsCollectionFromConfigurationNode<Processor>(
+        configurationNode.Name + "/pipeline/processor");
+    this.Processors = processors;
   }
 }

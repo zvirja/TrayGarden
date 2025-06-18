@@ -4,12 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 
-namespace ClipboardChangerPlant.Configuration
-{
-  public interface INeedCongurationNode
-  {
-    string Name { get; set; }
+namespace ClipboardChangerPlant.Configuration;
 
-    void SetConfigurationNode(XmlNode configurationNode);
-  }
+public interface INeedCongurationNode
+{
+  string Name { get; set; }
+
+  void SetConfigurationNode(XmlNode configurationNode);
 }

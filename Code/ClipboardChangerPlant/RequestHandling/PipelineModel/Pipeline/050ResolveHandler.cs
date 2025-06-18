@@ -5,27 +5,26 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
+namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline;
+
+[UsedImplicitly]
+public class ResolveHandler : Processor
 {
-  [UsedImplicitly]
-  public class ResolveHandler : Processor
+  public override void Process(ProcessorArgs args)
   {
-    public override void Process(ProcessorArgs args)
+    RequestHandler resolvedHandler;
+    if (!RequestHandlerChief.TryToResolveHandler(args, out resolvedHandler))
     {
-      RequestHandler resolvedHandler;
-      if (!RequestHandlerChief.TryToResolveHandler(args, out resolvedHandler))
+      if (!args.ClipboardEvent)
       {
-        if (!args.ClipboardEvent)
-        {
-          this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
-        }
-        else
-        {
-          args.Abort();
-        }
-        return;
+        this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
       }
-      args.ResolvedHandler = resolvedHandler;
+      else
+      {
+        args.Abort();
+      }
+      return;
     }
+    args.ResolvedHandler = resolvedHandler;
   }
 }

@@ -9,46 +9,45 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers
+namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers;
+
+public class TypedUserSettingPlayer<TValue> : TypedConfigurationPlayer<TValue>
 {
-  public class TypedUserSettingPlayer<TValue> : TypedConfigurationPlayer<TValue>
+  public TypedUserSettingPlayer([NotNull] ITypedUserSetting<TValue> userSetting)
+    : base(userSetting.Title, true, false)
   {
-    public TypedUserSettingPlayer([NotNull] ITypedUserSetting<TValue> userSetting)
-      : base(userSetting.Title, true, false)
-    {
-      Assert.ArgumentNotNull(userSetting, "userSetting");
-      this.UserSetting = userSetting;
-      this.UserSetting.ValueChanged += (before, after) => this.OnValueChanged();
-    }
+    Assert.ArgumentNotNull(userSetting, "userSetting");
+    this.UserSetting = userSetting;
+    this.UserSetting.ValueChanged += (before, after) => this.OnValueChanged();
+  }
 
-    public override string SettingDescription
+  public override string SettingDescription
+  {
+    get
     {
-      get
-      {
-        return this.UserSetting.Description;
-      }
-      protected set
-      {
-      }
+      return this.UserSetting.Description;
     }
-
-    public ITypedUserSetting<TValue> UserSetting { get; set; }
-
-    public override TValue Value
+    protected set
     {
-      get
-      {
-        return this.UserSetting.Value;
-      }
-      set
-      {
-        this.UserSetting.Value = value;
-      }
     }
+  }
 
-    public override void Reset()
+  public ITypedUserSetting<TValue> UserSetting { get; set; }
+
+  public override TValue Value
+  {
+    get
     {
-      this.UserSetting.ResetToDefault();
+      return this.UserSetting.Value;
     }
+    set
+    {
+      this.UserSetting.Value = value;
+    }
+  }
+
+  public override void Reset()
+  {
+    this.UserSetting.ResetToDefault();
   }
 }

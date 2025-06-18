@@ -5,29 +5,28 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
+
+public class FakeNotificationResultCourier : INotificationResultCourier
 {
-  public class FakeNotificationResultCourier : INotificationResultCourier
+  public virtual bool DiscardIfNotDisplayedYet()
   {
-    public virtual bool DiscardIfNotDisplayedYet()
-    {
-      return false;
-    }
+    return false;
+  }
 
-    public virtual bool DiscardNotificationInAnyCase()
-    {
-      return false;
-    }
+  public virtual bool DiscardNotificationInAnyCase()
+  {
+    return false;
+  }
 
-    public virtual NotificationResult GetResultWithWait()
-    {
-      return new NotificationResult(ResultCode.Unspecified);
-    }
+  public virtual NotificationResult GetResultWithWait()
+  {
+    return new NotificationResult(ResultCode.Unspecified);
+  }
 
-    public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
-    {
-      result = this.GetResultWithWait();
-      return true;
-    }
+  public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
+  {
+    result = this.GetResultWithWait();
+    return true;
   }
 }

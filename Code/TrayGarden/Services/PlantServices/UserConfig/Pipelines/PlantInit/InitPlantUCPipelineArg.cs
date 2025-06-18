@@ -10,26 +10,25 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
+namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
+
+public class InitPlantUCPipelineArg : PipelineArgs
 {
-  public class InitPlantUCPipelineArg : PipelineArgs
+  public InitPlantUCPipelineArg(string luggageName, IPlantEx relatedPlant)
   {
-    public InitPlantUCPipelineArg(string luggageName, IPlantEx relatedPlant)
-    {
-      this.LuggageName = luggageName;
-      this.RelatedPlant = relatedPlant;
-    }
-
-    public string LuggageName { get; set; }
-
-    public IPersonalUserSettingsSteward PersonalSettingsSteward { get; set; }
-
-    public UserConfigServicePlantBox PlantBox { get; set; }
-
-    public IPlantEx RelatedPlant { get; set; }
-
-    public ISettingsBox SettingBox { get; set; }
-
-    public IUserConfiguration Workhorse { get; set; }
+    this.LuggageName = luggageName;
+    this.RelatedPlant = relatedPlant;
   }
+
+  public string LuggageName { get; set; }
+
+  public IPersonalUserSettingsSteward PersonalSettingsSteward { get; set; }
+
+  public UserConfigServicePlantBox PlantBox { get; set; }
+
+  public IPlantEx RelatedPlant { get; set; }
+
+  public ISettingsBox SettingBox { get; set; }
+
+  public IUserConfiguration Workhorse { get; set; }
 }

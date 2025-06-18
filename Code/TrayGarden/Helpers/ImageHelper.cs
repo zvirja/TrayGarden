@@ -9,45 +9,44 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-namespace TrayGarden.Helpers
+namespace TrayGarden.Helpers;
+
+public static class ImageHelper
 {
-  public static class ImageHelper
+  public static BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
   {
-    public static BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
+    IntPtr hBitmap = bitmap.GetHbitmap(System.Drawing.Color.Aqua);
+    BitmapSource retval;
+
+    try
     {
-      IntPtr hBitmap = bitmap.GetHbitmap(System.Drawing.Color.Aqua);
-      BitmapSource retval;
-
-      try
-      {
-        retval = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
-      }
-      finally
-      {
-        NativeHelper.DeleteObject(hBitmap);
-      }
-
-      return retval;
+      retval = Imaging.CreateBitmapSourceFromHBitmap(hBitmap, IntPtr.Zero, Int32Rect.Empty, BitmapSizeOptions.FromEmptyOptions());
+    }
+    finally
+    {
+      NativeHelper.DeleteObject(hBitmap);
     }
 
-    public static BitmapImage GetBitmapImageFromBitmapThreadSafe(Bitmap bitmap, ImageFormat imageFormat)
-    {
-      if (bitmap == null)
-      {
-        return null;
-      }
-      var memoryStream = new MemoryStream();
-      bitmap.Save(memoryStream, imageFormat);
-      memoryStream.Position = 0;
+    return retval;
+  }
 
-      var result = new BitmapImage();
-      result.BeginInit();
-      result.StreamSource = memoryStream;
-      result.CacheOption = BitmapCacheOption.OnLoad;
-      result.EndInit();
-      memoryStream.Close();
-      result.Freeze();
-      return result;
+  public static BitmapImage GetBitmapImageFromBitmapThreadSafe(Bitmap bitmap, ImageFormat imageFormat)
+  {
+    if (bitmap == null)
+    {
+      return null;
     }
+    var memoryStream = new MemoryStream();
+    bitmap.Save(memoryStream, imageFormat);
+    memoryStream.Position = 0;
+
+    var result = new BitmapImage();
+    result.BeginInit();
+    result.StreamSource = memoryStream;
+    result.CacheOption = BitmapCacheOption.OnLoad;
+    result.EndInit();
+    memoryStream.Close();
+    result.Freeze();
+    return result;
   }
 }

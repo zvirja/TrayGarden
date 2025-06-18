@@ -9,47 +9,46 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.UI.Configuration.EntryVM
+namespace TrayGarden.UI.Configuration.EntryVM;
+
+public class ActionConfigurationEntry : ConfigurationEntryBaseVM
 {
-  public class ActionConfigurationEntry : ConfigurationEntryBaseVM
+  public ActionConfigurationEntry([NotNull] IActionConfigurationPlayer realPlayer)
+    : base(realPlayer)
   {
-    public ActionConfigurationEntry([NotNull] IActionConfigurationPlayer realPlayer)
-      : base(realPlayer)
-    {
-      Assert.IsNotNull(realPlayer.Action, "Action cannot be null");
-      Assert.IsNotNullOrEmpty(realPlayer.ActionTitle, "Action title cannot be null or empty");
-      this.RealPlayer = realPlayer;
-    }
+    Assert.IsNotNull(realPlayer.Action, "Action cannot be null");
+    Assert.IsNotNullOrEmpty(realPlayer.ActionTitle, "Action title cannot be null or empty");
+    this.RealPlayer = realPlayer;
+  }
 
-    public ICommand Action
+  public ICommand Action
+  {
+    get
     {
-      get
-      {
-        return this.RealPlayer.Action;
-      }
+      return this.RealPlayer.Action;
     }
+  }
 
-    public string ActionTitle
+  public string ActionTitle
+  {
+    get
     {
-      get
-      {
-        return this.RealPlayer.ActionTitle;
-      }
+      return this.RealPlayer.ActionTitle;
     }
+  }
 
-    public override bool HideResetButton
+  public override bool HideResetButton
+  {
+    get
     {
-      get
-      {
-        return true;
-      }
+      return true;
     }
+  }
 
-    protected new IActionConfigurationPlayer RealPlayer { get; set; }
+  protected new IActionConfigurationPlayer RealPlayer { get; set; }
 
-    protected override void OnUnderlyingSettingValueChanged()
-    {
-      //here we do nothing. 
-    }
+  protected override void OnUnderlyingSettingValueChanged()
+  {
+    //here we do nothing. 
   }
 }

@@ -4,10 +4,9 @@ using System.Linq;
 using System.Resources;
 using System.Text;
 
-namespace TrayGarden.Resources
+namespace TrayGarden.Resources;
+
+public interface ISource
 {
-  public interface ISource
-  {
-    ResourceManager Source { get; }
-  }
+  ResourceManager Source { get; }
 }

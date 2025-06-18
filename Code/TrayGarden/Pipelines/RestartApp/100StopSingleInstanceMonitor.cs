@@ -9,15 +9,14 @@ using JetBrains.Annotations;
 using TrayGarden.Helpers;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Pipelines.RestartApp
+namespace TrayGarden.Pipelines.RestartApp;
+
+public class StopSingleInstanceMonitor
 {
-  public class StopSingleInstanceMonitor
+  [UsedImplicitly]
+  public virtual void Process(RestartAppArgs args)
   {
-    [UsedImplicitly]
-    public virtual void Process(RestartAppArgs args)
-    {
-      ManualResetEventSlim monitor = HatcherGuide<ISingleInstanceMonitor>.Instance.EnqueueMonitorDisabling();
-      monitor.Wait();
-    }
+    ManualResetEventSlim monitor = HatcherGuide<ISingleInstanceMonitor>.Instance.EnqueueMonitorDisabling();
+    monitor.Wait();
   }
 }

@@ -6,39 +6,38 @@ using System.Text;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 
-namespace TrayGarden.Services
+namespace TrayGarden.Services;
+
+public class ServicePlantBoxBase
 {
-  public class ServicePlantBoxBase
+  public delegate void ServicePlantBoxEnabledChanged(ServicePlantBoxBase sender, bool newValue);
+
+  public event ServicePlantBoxEnabledChanged IsEnabledChanged;
+
+  public virtual bool IsEnabled
   {
-    public delegate void ServicePlantBoxEnabledChanged(ServicePlantBoxBase sender, bool newValue);
-
-    public event ServicePlantBoxEnabledChanged IsEnabledChanged;
-
-    public virtual bool IsEnabled
+    get
     {
-      get
-      {
-        return this.SettingsBox.GetBool("enabled", true);
-      }
-      //TODO FIX BUG. Settings Box may be null if we just set initial IsEnabled value
-      set
-      {
-        this.SettingsBox.SetBool("enabled", value);
-        this.OnIsEnabledChanged(value);
-      }
+      return this.SettingsBox.GetBool("enabled", true);
     }
-
-    public IPlantEx RelatedPlantEx { get; set; }
-
-    public ISettingsBox SettingsBox { get; set; }
-
-    protected virtual void OnIsEnabledChanged(bool newValue)
+    //TODO FIX BUG. Settings Box may be null if we just set initial IsEnabled value
+    set
     {
-      ServicePlantBoxEnabledChanged handler = this.IsEnabledChanged;
-      if (handler != null)
-      {
-        handler(this, newValue);
-      }
+      this.SettingsBox.SetBool("enabled", value);
+      this.OnIsEnabledChanged(value);
+    }
+  }
+
+  public IPlantEx RelatedPlantEx { get; set; }
+
+  public ISettingsBox SettingsBox { get; set; }
+
+  protected virtual void OnIsEnabledChanged(bool newValue)
+  {
+    ServicePlantBoxEnabledChanged handler = this.IsEnabledChanged;
+    if (handler != null)
+    {
+      handler(this, newValue);
     }
   }
 }

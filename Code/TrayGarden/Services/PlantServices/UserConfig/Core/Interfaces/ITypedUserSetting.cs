@@ -5,16 +5,15 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core.TypeSpecific;
 
-namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
+namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
+
+public interface ITypedUserSetting<T> : IUserSettingBase
 {
-  public interface ITypedUserSetting<T> : IUserSettingBase
-  {
-    new event EventHandler<TypedUserSettingChange<T>> ValueChanged;
+  new event EventHandler<TypedUserSettingChange<T>> ValueChanged;
 
-    new ITypedUserSettingMetadata<T> Metadata { get; set; }
+  new ITypedUserSettingMetadata<T> Metadata { get; set; }
 
-    IUserSettingStorage<T> Storage { get; }
+  IUserSettingStorage<T> Storage { get; }
 
-    T Value { get; set; }
-  }
+  T Value { get; set; }
 }

@@ -6,22 +6,21 @@ using System.Text;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-namespace TrayGarden.UI.ForSimplerLife
+namespace TrayGarden.UI.ForSimplerLife;
+
+public class WindowWithBackStateConstructInfo
 {
-  public class WindowWithBackStateConstructInfo
-  {
-    public object ContentVM { get; set; }
+  public object ContentVM { get; set; }
 
-    public string GlobalTitle { get; set; }
+  public string GlobalTitle { get; set; }
 
-    public string Header { get; set; }
+  public string Header { get; set; }
 
-    public WindowStepState ResultState { get; set; }
+  public WindowStepState ResultState { get; set; }
 
-    public string ShortName { get; set; }
+  public string ShortName { get; set; }
 
-    public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
+  public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
 
-    public ActionCommandVM SuperAction { get; set; }
-  }
+  public ActionCommandVM SuperAction { get; set; }
 }

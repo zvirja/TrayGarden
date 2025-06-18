@@ -7,130 +7,129 @@ using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 
-namespace TrayGarden.Services
+namespace TrayGarden.Services;
+
+public abstract class PlantServiceBase<TPlantLuggageType> : IService
+  where TPlantLuggageType : class
 {
-  public abstract class PlantServiceBase<TPlantLuggageType> : IService
-    where TPlantLuggageType : class
+  protected static readonly string AllServiceSettingsContainerName = "PlantServices";
+
+  protected bool? _isActuallyEnabled;
+
+  protected ISettingsBox _serviceSettingsBox;
+
+  protected PlantServiceBase(string serviceName, string luggageName)
   {
-    protected static readonly string AllServiceSettingsContainerName = "PlantServices";
+    this.ServiceName = serviceName;
+    this.LuggageName = luggageName;
+  }
 
-    protected bool? _isActuallyEnabled;
+  public event Action<bool> IsEnabledChanged;
 
-    protected ISettingsBox _serviceSettingsBox;
-
-    protected PlantServiceBase(string serviceName, string luggageName)
+  public virtual bool CanBeDisabled
+  {
+    get
     {
-      this.ServiceName = serviceName;
-      this.LuggageName = luggageName;
+      return true;
     }
+  }
 
-    public event Action<bool> IsEnabledChanged;
-
-    public virtual bool CanBeDisabled
+  public bool IsActuallyEnabled
+  {
+    get
     {
-      get
+      if (this._isActuallyEnabled != null)
       {
-        return true;
-      }
-    }
-
-    public bool IsActuallyEnabled
-    {
-      get
-      {
-        if (this._isActuallyEnabled != null)
-        {
-          return this._isActuallyEnabled.Value;
-        }
-        this._isActuallyEnabled = this.IsEnabled;
         return this._isActuallyEnabled.Value;
       }
-      protected set
+      this._isActuallyEnabled = this.IsEnabled;
+      return this._isActuallyEnabled.Value;
+    }
+    protected set
+    {
+      if (this._isActuallyEnabled == null)
       {
-        if (this._isActuallyEnabled == null)
-        {
-          this._isActuallyEnabled = value;
-        }
+        this._isActuallyEnabled = value;
       }
     }
+  }
 
-    public bool IsEnabled
+  public bool IsEnabled
+  {
+    get
     {
-      get
-      {
-        return this.ServiceSettingsBox.GetBool("IsEnabled", true);
-      }
-      set
-      {
-        this.IsActuallyEnabled = this.IsEnabled;
-        this.ServiceSettingsBox.SetBool("IsEnabled", value);
-        this.OnIsEnabledChanged(value);
-      }
+      return this.ServiceSettingsBox.GetBool("IsEnabled", true);
     }
-
-    public string LuggageName { get; set; }
-
-    public string ServiceDescription { get; protected set; }
-
-    public string ServiceName { get; protected set; }
-
-    protected virtual ISettingsBox ServiceSettingsBox
+    set
     {
-      get
+      this.IsActuallyEnabled = this.IsEnabled;
+      this.ServiceSettingsBox.SetBool("IsEnabled", value);
+      this.OnIsEnabledChanged(value);
+    }
+  }
+
+  public string LuggageName { get; set; }
+
+  public string ServiceDescription { get; protected set; }
+
+  public string ServiceName { get; protected set; }
+
+  protected virtual ISettingsBox ServiceSettingsBox
+  {
+    get
+    {
+      if (this._serviceSettingsBox != null)
       {
-        if (this._serviceSettingsBox != null)
-        {
-          return this._serviceSettingsBox;
-        }
-        var key = this.GetType().Name;
-        var settingsRootBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox(AllServiceSettingsContainerName);
-        this._serviceSettingsBox = settingsRootBox.GetSubBox(key);
         return this._serviceSettingsBox;
       }
+      var key = this.GetType().Name;
+      var settingsRootBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox(AllServiceSettingsContainerName);
+      this._serviceSettingsBox = settingsRootBox.GetSubBox(key);
+      return this._serviceSettingsBox;
     }
+  }
 
-    public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
+  public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
+  {
+    if (!plantEx.HasLuggage(this.LuggageName))
     {
-      if (!plantEx.HasLuggage(this.LuggageName))
-      {
-        return null;
-      }
-      return plantEx.GetLuggage<TPlantLuggageType>(this.LuggageName);
+      return null;
     }
+    return plantEx.GetLuggage<TPlantLuggageType>(this.LuggageName);
+  }
 
-    public virtual void InformClosingStage()
-    {
-    }
+  public virtual void InformClosingStage()
+  {
+  }
 
-    public virtual void InformDisplayStage()
-    {
-    }
+  public virtual void InformDisplayStage()
+  {
+  }
 
-    public virtual void InformInitializeStage()
-    {
-    }
+  public virtual void InformInitializeStage()
+  {
+  }
 
-    public virtual void InitializePlant(IPlantEx plantEx)
-    {
-      plantEx.EnabledChanged += this.PlantOnEnabledChanged;
-    }
+  public virtual void InitializePlant(IPlantEx plantEx)
+  {
+    plantEx.EnabledChanged += this.PlantOnEnabledChanged;
+  }
 
-    public virtual bool IsAvailableForPlant(IPlantEx plantEx)
-    {
-      return this.GetPlantLuggage(plantEx) != null;
-    }
+  public virtual bool IsAvailableForPlant(IPlantEx plantEx)
+  {
+    return this.GetPlantLuggage(plantEx) != null;
+  }
 
-    protected virtual void OnIsEnabledChanged(bool obj)
+  protected virtual void OnIsEnabledChanged(bool obj)
+  {
+    Action<bool> handler = this.IsEnabledChanged;
+    if (handler != null)
     {
-      Action<bool> handler = this.IsEnabledChanged;
-      if (handler != null)
-      {
-        handler(obj);
-      }
+      handler(obj);
     }
+  }
 
-    protected virtual void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
-    {
-    }
+  protected virtual void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
+  {
   }
 }

@@ -5,16 +5,15 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
+namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
+
+public interface INotificationResultCourier
 {
-  public interface INotificationResultCourier
-  {
-    bool DiscardIfNotDisplayedYet();
+  bool DiscardIfNotDisplayedYet();
 
-    bool DiscardNotificationInAnyCase();
+  bool DiscardNotificationInAnyCase();
 
-    NotificationResult GetResultWithWait();
+  NotificationResult GetResultWithWait();
 
-    bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result);
-  }
+  bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result);
 }

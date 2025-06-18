@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using JetBrains.Annotations;
 
-namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
+namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
+
+[UsedImplicitly]
+public class Processor
 {
     [UsedImplicitly]
-    public class Processor
+    public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
     {
-        [UsedImplicitly]
-        public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
-        {
             
-        }
     }
 }

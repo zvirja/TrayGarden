@@ -8,34 +8,33 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+
+public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
 {
-  public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
+  protected ICommand _performServiceAction;
+
+  public ServiceForPlantActionPerformVM([NotNull] string serviceName, [NotNull] string description, [NotNull] ICommand action)
+    : base(serviceName, description)
   {
-    protected ICommand _performServiceAction;
+    Assert.ArgumentNotNull(action, "action");
+    this._performServiceAction = action;
+  }
 
-    public ServiceForPlantActionPerformVM([NotNull] string serviceName, [NotNull] string description, [NotNull] ICommand action)
-      : base(serviceName, description)
+  public ICommand PerformServiceAction
+  {
+    get
     {
-      Assert.ArgumentNotNull(action, "action");
-      this._performServiceAction = action;
+      return this._performServiceAction;
     }
-
-    public ICommand PerformServiceAction
+    set
     {
-      get
+      if (Equals(value, this._performServiceAction))
       {
-        return this._performServiceAction;
+        return;
       }
-      set
-      {
-        if (Equals(value, this._performServiceAction))
-        {
-          return;
-        }
-        this._performServiceAction = value;
-        this.OnPropertyChanged("PerformServiceAction");
-      }
+      this._performServiceAction = value;
+      this.OnPropertyChanged("PerformServiceAction");
     }
   }
 }

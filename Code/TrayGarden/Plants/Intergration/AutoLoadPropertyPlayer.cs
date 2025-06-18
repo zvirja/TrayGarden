@@ -8,30 +8,29 @@ using JetBrains.Annotations;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-namespace TrayGarden.Plants.Intergration
+namespace TrayGarden.Plants.Intergration;
+
+public class AutoLoadPropertyPlayer : TypedConfigurationPlayer<bool>
 {
-  public class AutoLoadPropertyPlayer : TypedConfigurationPlayer<bool>
+  public AutoLoadPropertyPlayer([NotNull] string settingName, string settingDescription)
+    : base(settingName, false, false)
   {
-    public AutoLoadPropertyPlayer([NotNull] string settingName, string settingDescription)
-      : base(settingName, false, false)
-    {
-      base.SettingDescription = settingDescription;
-    }
+    base.SettingDescription = settingDescription;
+  }
 
-    public override bool Value
+  public override bool Value
+  {
+    get
     {
-      get
-      {
-        return HatcherGuide<IGardenbed>.Instance.AutoDetectPlants;
-      }
-      set
-      {
-        HatcherGuide<IGardenbed>.Instance.AutoDetectPlants = value;
-      }
+      return HatcherGuide<IGardenbed>.Instance.AutoDetectPlants;
     }
+    set
+    {
+      HatcherGuide<IGardenbed>.Instance.AutoDetectPlants = value;
+    }
+  }
 
-    public override void Reset()
-    {
-    }
+  public override void Reset()
+  {
   }
 }

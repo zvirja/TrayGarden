@@ -5,28 +5,27 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
+namespace TrayGarden.RuntimeSettings.FastPropertyWrapper;
+
+public class DoubleSettingMediator : BaseSettingMediator
 {
-  public class DoubleSettingMediator : BaseSettingMediator
+  public DoubleSettingMediator([NotNull] string key, double defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
+    : base(key, settingsBoxResolver)
   {
-    public DoubleSettingMediator([NotNull] string key, double defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
-      : base(key, settingsBoxResolver)
+    this.DefaultValue = defaultValue;
+  }
+
+  public double DefaultValue { get; set; }
+
+  public double Value
+  {
+    get
     {
-      this.DefaultValue = defaultValue;
+      return this.SettingsBox.GetDouble(this.Key, this.DefaultValue);
     }
-
-    public double DefaultValue { get; set; }
-
-    public double Value
+    set
     {
-      get
-      {
-        return this.SettingsBox.GetDouble(this.Key, this.DefaultValue);
-      }
-      set
-      {
-        this.SettingsBox.SetDouble(this.Key, value);
-      }
+      this.SettingsBox.SetDouble(this.Key, value);
     }
   }
 }

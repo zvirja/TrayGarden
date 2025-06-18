@@ -3,19 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace TrayGarden.Reception
+namespace TrayGarden.Reception;
+
+/// <summary>
+/// The base interface, which indicates that your object is a Plant. If declared object doesn't implement this interface, it justly will be ignored.
+/// </summary>
+public interface IPlant
 {
-  /// <summary>
-  /// The base interface, which indicates that your object is a Plant. If declared object doesn't implement this interface, it justly will be ignored.
-  /// </summary>
-  public interface IPlant
-  {
-    string Description { get; }
+  string Description { get; }
 
-    string HumanSupportingName { get; }
+  string HumanSupportingName { get; }
 
-    void Initialize();
+  void Initialize();
 
-    void PostServicesInitialize();
-  }
+  void PostServicesInitialize();
 }

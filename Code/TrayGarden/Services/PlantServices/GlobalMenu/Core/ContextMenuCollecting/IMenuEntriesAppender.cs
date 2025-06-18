@@ -6,10 +6,9 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 
-namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting
+namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
+
+public interface IMenuEntriesAppender
 {
-  public interface IMenuEntriesAppender
-  {
-    void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler, IDynamicStateProvider dynamicStateProvider = null);
-  }
+  void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler, IDynamicStateProvider dynamicStateProvider = null);
 }

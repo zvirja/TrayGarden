@@ -5,28 +5,27 @@ using System.Text;
 
 using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 
-namespace TrayGarden.UI.Configuration.EntryVM.Players
+namespace TrayGarden.UI.Configuration.EntryVM.Players;
+
+public interface IConfigurationPlayer
 {
-  public interface IConfigurationPlayer
-  {
-    event Action RequiresApplicationRebootChanged;
+  event Action RequiresApplicationRebootChanged;
 
-    event Action ValueChanged;
+  event Action ValueChanged;
 
-    List<IConfigurationEntryAction> AdditionalActions { get; }
+  List<IConfigurationEntryAction> AdditionalActions { get; }
 
-    bool HideReset { get; }
+  bool HideReset { get; }
 
-    bool ReadOnly { get; }
+  bool ReadOnly { get; }
 
-    bool RequiresApplicationReboot { get; }
+  bool RequiresApplicationReboot { get; }
 
-    string SettingDescription { get; }
+  string SettingDescription { get; }
 
-    string SettingName { get; }
+  string SettingName { get; }
 
-    bool SupportsReset { get; }
+  bool SupportsReset { get; }
 
-    void Reset();
-  }
+  void Reset();
 }
