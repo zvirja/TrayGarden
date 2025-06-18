@@ -124,6 +124,9 @@
   <data name="mockAction" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>mockAction.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
+  <data name="mockActionFailed" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>mockActionFailed.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  </data>
   <data name="gardenIcon" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>gardenIcon.ico;System.Drawing.Icon, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
   </data>
