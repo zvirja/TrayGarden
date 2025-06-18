@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -60,33 +61,35 @@ internal class KeyboardHookProcessingForm : Form
 
   private void ToggleTelegramWindow()
   {
-    var telegramProcess = Process.GetProcessesByName("telegram").FirstOrDefault();
+    var targetAppProcess = Process.GetProcessesByName(PlantConfiguration.Instance.ProcessName.Value)
+      .OrderBy(x => x.StartTime)
+      .FirstOrDefault();
 
-    if (telegramProcess == null)
+    if (targetAppProcess == null)
     {
       return;
     }
 
-    var telegramWindow = telegramProcess.MainWindowHandle;
-    if (telegramWindow == IntPtr.Zero)
+    var targetAppWindow = targetAppProcess.MainWindowHandle;
+    if (targetAppWindow == IntPtr.Zero)
     {
       return;
     }
 
 
-    var isMinimizedNow = (GetWindowLong(telegramWindow, GWL_STYLE) & WS_MINIMIZE) != 0;
+    var isMinimizedNow = (GetWindowLong(targetAppWindow, GWL_STYLE) & WS_MINIMIZE) != 0;
     var foregroundWindow = GetForegroundWindow();
 
-    if (foregroundWindow == telegramWindow)
+    if (foregroundWindow == targetAppWindow)
     {
-      //If we are hiding this window - try to switch to the previous one.
+      // If we are hiding this window - try to switch to the previous one.
       if (isMinimizedNow)
       {
-        ShowWindow(telegramWindow, WindowShowStyle.ShowNormal);
+        ShowWindow(targetAppWindow, PlantConfiguration.Instance.ShowMaximized.Value ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
       }
       else
       {
-        ShowWindow(telegramWindow, WindowShowStyle.ShowMinimized);
+        ShowWindow(targetAppWindow, WindowShowStyle.ShowMinimized);
         if (this._lastForegroundWindow != IntPtr.Zero)
         {
           SetForegroundWindow(this._lastForegroundWindow);
@@ -96,11 +99,11 @@ internal class KeyboardHookProcessingForm : Form
     }
     else
     {
-      //Make the telegram window active. Store the current active window.
+      //Make the app window active. Store the current active window.
       this._lastForegroundWindow = GetForegroundWindow();
 
-      ShowWindow(telegramWindow, WindowShowStyle.ShowNormal);
-      SetForegroundWindow(telegramWindow);
+      ShowWindow(targetAppWindow, PlantConfiguration.Instance.ShowMaximized.Value ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
+      SetForegroundWindow(targetAppWindow);
     }
   }
 

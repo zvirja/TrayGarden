@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SmallApplicationLauncher", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WindowsLangHotKeysSetter", "WindowsLangHotKeysSetter\WindowsLangHotKeysSetter.csproj", "{CF8E2038-5D28-45C6-A51C-22F234703D8D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TelegramToggleWindowHook", "TelegramToggleWindowHook\TelegramToggleWindowHook.csproj", "{054EEE3C-F939-4E30-8359-15AAA772B1E7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ToggleMainWindowShortcut", "ToggleMainWindowShortcut\ToggleMainWindowShortcut.csproj", "{054EEE3C-F939-4E30-8359-15AAA772B1E7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CluedInAuthTokenPlant", "CluedInAuthTokenPlant\CluedInAuthTokenPlant.csproj", "{97F73972-A23E-4C28-A8D1-CA8C457DF1E7}"
 EndProject
