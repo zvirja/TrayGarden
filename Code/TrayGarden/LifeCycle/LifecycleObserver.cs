@@ -24,7 +24,6 @@ namespace TrayGarden.LifeCycle
         return;
       }
       Observer = new LifecycleObserver();
-      Observer.LoadLog4NetFromResources();
       Observer.SetAssembliesHook();
       Observer.NotifyStartupInternal(args);
     }
@@ -44,19 +43,7 @@ namespace TrayGarden.LifeCycle
 
     protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
     {
-      return
-        AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith(args.Name, StringComparison.OrdinalIgnoreCase));
-    }
-
-    protected virtual void LoadLog4NetFromResources()
-    {
-      var alreadyLoaded = AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith("log4net"));
-      if (alreadyLoaded != null)
-      {
-        return;
-      }
-      byte[] log4Net = GlobalResources.log4net;
-      Assembly.Load(log4Net);
+      return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith(args.Name, StringComparison.OrdinalIgnoreCase));
     }
 
     protected virtual void NotifyStartupInternal(string[] args)

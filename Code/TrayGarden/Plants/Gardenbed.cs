@@ -131,6 +131,12 @@ namespace TrayGarden.Plants
       }
       foreach (FileInfo assemblyFileInfo in assembliesFileInfos)
       {
+        // We do not want to load entry assembly one more time, as it's already loaded
+        if (string.Equals(assemblyFileInfo.FullName, Assembly.GetEntryAssembly()?.Location))
+        {
+          continue;
+        }
+        
         List<IPlant> plantsInAssembly = this.GetPlantsFromAssemblyFile(assemblyFileInfo);
         if (plantsInAssembly != null && plantsInAssembly.Count > 0)
         {
