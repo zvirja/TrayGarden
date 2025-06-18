@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,11 @@ using JetBrains.Annotations;
 
 using TrayGarden.Reception.Services;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
 {
   [UsedImplicitly]
   public class ResolveWorkhorse
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(InitPlantUCPipelineArg args)
     {
@@ -29,7 +23,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
       }
       args.Workhorse = appropriateWorkhorse;
     }
-
-    #endregion
   }
 }

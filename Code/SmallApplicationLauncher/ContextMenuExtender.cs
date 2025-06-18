@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Drawing;
@@ -9,14 +7,10 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
-#endregion
-
 namespace SmallApplicationLauncher
 {
   public class ContextMenuExtender : TrayGarden.Reception.Services.IExtendsGlobalMenu
   {
-    #region Public Methods and Operators
-
     public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
     {
       foreach (KeyValuePair<string, string> application in UserConfiguration.Configuration.Applications)
@@ -31,7 +25,5 @@ namespace SmallApplicationLauncher
 
       return true;
     }
-
-    #endregion
   }
 }

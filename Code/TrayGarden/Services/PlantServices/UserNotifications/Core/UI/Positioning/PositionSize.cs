@@ -1,18 +1,12 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning
 {
   public class PositionSize
   {
-    #region Fields
-
     protected double left;
 
     protected double mandatoryHeight;
@@ -20,10 +14,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
     protected double mandatoryWidth;
 
     protected double top;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public PositionSize(double top, double left, double mandatoryWidth, double mandatoryHeight)
     {
@@ -33,15 +23,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
       this.mandatoryHeight = mandatoryHeight;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event Action Changed;
-
-    #endregion
-
-    #region Public Properties
 
     public double Left
     {
@@ -99,10 +81,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
       }
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnChanged()
     {
       Action handler = this.Changed;
@@ -111,7 +89,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
         handler();
       }
     }
-
-    #endregion
   }
 }

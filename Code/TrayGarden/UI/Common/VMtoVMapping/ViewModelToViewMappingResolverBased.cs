@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,21 +8,13 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.UI.Common.VMtoVMapping
 {
   public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
   {
-    #region Fields
-
     protected Type _acceptableViewModelType;
 
     protected Func<object, Control> _resoler;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ViewModelToViewMappingResolverBased([NotNull] Type acceptableViewModelType, [NotNull] Func<object, Control> resolver)
 
@@ -34,10 +24,6 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       this._acceptableViewModelType = acceptableViewModelType;
       this._resoler = resolver;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public virtual Type AcceptableViewModelType
     {
@@ -51,10 +37,6 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected Func<object, Control> Resoler
     {
       get
@@ -67,15 +49,9 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual Control GetControl(object contextVM)
     {
       return this.Resoler(contextVM);
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +9,17 @@ using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.Configuration.RuntimeSettingsIntegration;
 using TrayGarden.UI.ForSimplerLife;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline
 {
   [UsedImplicitly]
   public class AddConfigurationEntries
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(UNConfigurationStepArgs args)
     {
       ConfigurationControlConstructInfo constructInfo = args.ConfigurationConstructInfo;
       this.AddEntries(constructInfo.ConfigurationEntries);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void AddEntries(List<ConfigurationEntryBaseVM> output)
     {
@@ -68,7 +58,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
         new IntConfigurationEntryVM(
           new PlayerForTimespanMediator("Force fading duration (ms)", UserNotificationsConfiguration.ForceFadingDuration)));
     }
-
-    #endregion
   }
 }

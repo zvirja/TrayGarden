@@ -1,24 +1,14 @@
-﻿#region
-
-//using System.Linq;
+﻿//using System.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#endregion
-
 namespace TrayGarden.Helpers.ThreadSwitcher
 {
   public static class StackRawSwitcher<TSwitchValue>
   {
-    #region Static Fields
-
     private static string _itemKey;
-
-    #endregion
-
-    #region Public Properties
 
     public static TSwitchValue CurrentState
     {
@@ -27,10 +17,6 @@ namespace TrayGarden.Helpers.ThreadSwitcher
         return GetCurrentSwitchState();
       }
     }
-
-    #endregion
-
-    #region Properties
 
     private static string ItemKey
     {
@@ -44,10 +30,6 @@ namespace TrayGarden.Helpers.ThreadSwitcher
         return _itemKey;
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static void Enter(TSwitchValue newValue)
     {
@@ -63,10 +45,6 @@ namespace TrayGarden.Helpers.ThreadSwitcher
       }
       stack.Pop();
     }
-
-    #endregion
-
-    #region Methods
 
     private static TSwitchValue GetCurrentSwitchState()
     {
@@ -89,7 +67,5 @@ namespace TrayGarden.Helpers.ThreadSwitcher
       ThreadContext.ContextItems[ItemKey] = currentStack;
       return currentStack;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +10,10 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDeliveri
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
   public class YesNoNotificationVM : SpecializedNotificationVMBase, IYesNoNotification
   {
-    #region Constructors and Destructors
-
     public YesNoNotificationVM(string headerText)
     {
       //Common init
@@ -37,10 +31,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
       this.NoButtonText = "NO";
       this.NoAction = new RelayCommand(this.OnNoAction, true);
     }
-
-    #endregion
-
-    #region Public Properties
 
     public ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
 
@@ -64,10 +54,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
 
     public string YesButtonText { get; set; }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnNoAction(object o)
     {
       this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
@@ -77,7 +63,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
     {
       this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
     }
-
-    #endregion
   }
 }

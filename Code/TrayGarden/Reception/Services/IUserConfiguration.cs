@@ -1,13 +1,9 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
-
-#endregion
 
 namespace TrayGarden.Reception.Services
 {
@@ -16,8 +12,6 @@ namespace TrayGarden.Reception.Services
   /// </summary>
   public interface IUserConfiguration
   {
-    #region Public Methods and Operators
-
     /// <summary>
     /// This method allows plant to store and use personal settings steward.
     /// Steward should be used to declare user settings.
@@ -25,7 +19,5 @@ namespace TrayGarden.Reception.Services
     /// </summary>
     /// <param name="personalSettingsSteward"></param>
     void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward);
-
-    #endregion
   }
 }

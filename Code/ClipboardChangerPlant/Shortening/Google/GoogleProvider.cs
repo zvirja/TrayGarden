@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
 
-#endregion
-
 namespace ClipboardChangerPlant.Shortening.Google
 {
   public class GoogleProvider : ShortenerProvider
   {
-    #region Public Properties
-
     public string RequestUrl
     {
       get
@@ -23,19 +17,11 @@ namespace ClipboardChangerPlant.Shortening.Google
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public override bool TryShortUrl(string originalUrl, out string shortedUrl)
     {
       shortedUrl = this.ShortUrl(originalUrl);
       return !string.IsNullOrEmpty(shortedUrl);
     }
-
-    #endregion
-
-    #region Methods
 
     protected string ShortUrl(string longUrl)
     {
@@ -72,7 +58,5 @@ namespace ClipboardChangerPlant.Shortening.Google
       }
       return wr;
     }
-
-    #endregion
   }
 }

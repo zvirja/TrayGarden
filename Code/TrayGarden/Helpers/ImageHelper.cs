@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
@@ -11,14 +9,10 @@ using System.Windows;
 using System.Windows.Interop;
 using System.Windows.Media.Imaging;
 
-#endregion
-
 namespace TrayGarden.Helpers
 {
   public static class ImageHelper
   {
-    #region Public Methods and Operators
-
     public static BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
     {
       IntPtr hBitmap = bitmap.GetHbitmap(System.Drawing.Color.Aqua);
@@ -55,7 +49,5 @@ namespace TrayGarden.Helpers
       result.Freeze();
       return result;
     }
-
-    #endregion
   }
 }

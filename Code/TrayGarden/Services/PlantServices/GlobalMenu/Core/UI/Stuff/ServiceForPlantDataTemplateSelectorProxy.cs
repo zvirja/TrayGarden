@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +9,10 @@ using TrayGarden.Diagnostics;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
 {
   public class ServiceForPlantDataTemplateSelectorProxy : DataTemplateSelector, IDataTemplateSelector
   {
-    #region Public Methods and Operators
-
     public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
     {
       var selector = HatcherGuide<IDataTemplateSelector>.Instance;
@@ -35,7 +29,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
       DataTemplate defaultDataTemplate = asFrameworkElement.TryFindResource("DefaultMode") as DataTemplate;
       return defaultDataTemplate ?? base.SelectTemplate(item, container);
     }
-
-    #endregion
   }
 }

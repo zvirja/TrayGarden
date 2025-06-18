@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,14 +9,10 @@ using System.Windows.Data;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.UI.Common.Converters
 {
   public class TimeSpanSummator : IMultiValueConverter
   {
-    #region Public Methods and Operators
-
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
       TimeSpan resultValue = TimeSpan.Zero;
@@ -41,7 +35,5 @@ namespace TrayGarden.UI.Common.Converters
     {
       throw new InvalidOperationException("TimeSpanSummator doesn't support such convertion");
     }
-
-    #endregion
   }
 }

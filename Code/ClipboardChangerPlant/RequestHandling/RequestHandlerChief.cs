@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,21 +8,13 @@ using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling
 {
   [UsedImplicitly]
   public class RequestHandlerChief
   {
-    #region Static Fields
-
     private static readonly Lazy<List<RequestHandler>> _handlers =
       new Lazy<List<RequestHandler>>(() => Factory.ActualFactory.GetRequestHandlers());
-
-    #endregion
-
-    #region Public Properties
 
     public static List<RequestHandler> Handlers
     {
@@ -33,10 +23,6 @@ namespace ClipboardChangerPlant.RequestHandling
         return _handlers.Value;
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static void PostInit()
     {
@@ -72,7 +58,5 @@ namespace ClipboardChangerPlant.RequestHandling
       handler = null;
       return false;
     }
-
-    #endregion
   }
 }

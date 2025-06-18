@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,35 +13,19 @@ using TrayGarden.Services.PlantServices.RareCommands.Core;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.RareCommands.UI
 {
   public class RareCommandWrapper : ICommand
   {
-    #region Constructors and Destructors
-
     public RareCommandWrapper([NotNull] IRareCommand rareCommand)
     {
       Assert.ArgumentNotNull(rareCommand, "rareCommand");
       this.RareCommand = rareCommand;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event EventHandler CanExecuteChanged;
 
-    #endregion
-
-    #region Properties
-
     protected IRareCommand RareCommand { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual bool CanExecute(object parameter)
     {
@@ -65,7 +47,5 @@ namespace TrayGarden.Services.PlantServices.RareCommands.UI
           MessageBoxImage.Error);
       }
     }
-
-    #endregion
   }
 }

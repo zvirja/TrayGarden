@@ -1,25 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent
 {
   public class TextDisplayOptions
   {
-    #region Fields
-
     private Brush brush;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public TextDisplayOptions(Brush brush, double size)
     {
@@ -34,10 +24,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
       this.TextAlignment = TextAlignment.Center;
       this.Wrapping = TextWrapping.Wrap;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public Brush Brush
     {
@@ -68,10 +54,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
 
     public TextWrapping Wrapping { get; set; }
 
-    #endregion
-
-    #region Methods
-
     protected void ValidateBrushWithException(Brush brush)
     {
       if (brush != null && !brush.IsFrozen)
@@ -79,7 +61,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
         throw new ArgumentException("Brush have to be frozen!");
       }
     }
-
-    #endregion
   }
 }

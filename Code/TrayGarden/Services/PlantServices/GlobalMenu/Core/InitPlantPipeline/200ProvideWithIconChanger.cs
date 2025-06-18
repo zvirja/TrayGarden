@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,15 +8,11 @@ using JetBrains.Annotations;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
   [UsedImplicitly]
   public class ProvideWithIconChanger
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(InitPlantGMArgs args)
     {
@@ -32,7 +26,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       args.GMBox.GlobalNotifyIconChanger = globalNotifyIconChanger;
       args.IsNotifyIconChangerInUse = true;
     }
-
-    #endregion
   }
 }

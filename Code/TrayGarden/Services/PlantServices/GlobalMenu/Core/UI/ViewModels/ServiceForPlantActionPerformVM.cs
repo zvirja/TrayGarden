@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,19 +8,11 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
   public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
   {
-    #region Fields
-
     protected ICommand _performServiceAction;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ServiceForPlantActionPerformVM([NotNull] string serviceName, [NotNull] string description, [NotNull] ICommand action)
       : base(serviceName, description)
@@ -30,10 +20,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
       Assert.ArgumentNotNull(action, "action");
       this._performServiceAction = action;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public ICommand PerformServiceAction
     {
@@ -51,7 +37,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
         this.OnPropertyChanged("PerformServiceAction");
       }
     }
-
-    #endregion
   }
 }

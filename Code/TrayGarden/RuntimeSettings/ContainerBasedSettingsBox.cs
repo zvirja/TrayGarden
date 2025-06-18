@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,38 +6,22 @@ using System.Text;
 
 using TrayGarden.RuntimeSettings.Provider;
 
-#endregion
-
 namespace TrayGarden.RuntimeSettings
 {
   public class ContainerBasedSettingsBox : ISettingsBox
   {
-    #region Constructors and Destructors
-
     public ContainerBasedSettingsBox()
     {
       this.SubBoxes = new Dictionary<string, ContainerBasedSettingsBox>();
     }
 
-    #endregion
-
-    #region Public Events
-
     public event Action OnSaving;
-
-    #endregion
-
-    #region Properties
 
     protected ISettingsBox ParentBox { get; set; }
 
     protected Dictionary<string, ContainerBasedSettingsBox> SubBoxes { get; set; }
 
     protected IContainer UnderlyingContainer { get; set; }
-
-    #endregion
-
-    #region Public Indexers
 
     public virtual string this[string settingName]
     {
@@ -56,10 +38,6 @@ namespace TrayGarden.RuntimeSettings
         }
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual bool GetBool(string settingName, bool fallbackValue)
     {
@@ -161,10 +139,6 @@ namespace TrayGarden.RuntimeSettings
       return false;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void CallOnSaving()
     {
       Action handler = this.OnSaving;
@@ -173,7 +147,5 @@ namespace TrayGarden.RuntimeSettings
         handler();
       }
     }
-
-    #endregion
   }
 }

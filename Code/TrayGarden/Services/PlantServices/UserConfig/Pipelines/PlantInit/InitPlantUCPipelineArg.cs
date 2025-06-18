@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,23 +10,15 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
 {
   public class InitPlantUCPipelineArg : PipelineArgs
   {
-    #region Constructors and Destructors
-
     public InitPlantUCPipelineArg(string luggageName, IPlantEx relatedPlant)
     {
       this.LuggageName = luggageName;
       this.RelatedPlant = relatedPlant;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public string LuggageName { get; set; }
 
@@ -41,7 +31,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit
     public ISettingsBox SettingBox { get; set; }
 
     public IUserConfiguration Workhorse { get; set; }
-
-    #endregion
   }
 }

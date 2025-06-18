@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -8,23 +6,15 @@ using System.Reflection;
 using System.Text;
 using System.Xml;
 
-#endregion
-
 namespace ClipboardChangerPlant.Configuration
 {
   public class ConfigurationBasedFactoryRaw
   {
-    #region Static Fields
-
     private static ConfigurationBasedFactoryRaw _instance;
 
     private static object _lock = new object();
 
     private static XmlDocument _mainConfigurationNode;
-
-    #endregion
-
-    #region Public Properties
 
     public static ConfigurationBasedFactoryRaw ActualFactory
     {
@@ -70,10 +60,6 @@ namespace ClipboardChangerPlant.Configuration
         return _mainConfigurationNode;
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public bool GetBoolSetting(string settingName, bool defaultValue = false)
     {
@@ -147,10 +133,6 @@ namespace ClipboardChangerPlant.Configuration
       return setting;
     }
 
-    #endregion
-
-    #region Methods
-
     private static System.Configuration.Configuration GetCurrentConfiguration()
     {
       try
@@ -171,7 +153,5 @@ namespace ClipboardChangerPlant.Configuration
       document.LoadXml(ResourcesOperator.GetStringByName("XmlConfiguration"));
       return document;
     }
-
-    #endregion
   }
 }

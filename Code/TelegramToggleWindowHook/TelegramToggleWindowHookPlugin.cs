@@ -1,24 +1,14 @@
-﻿#region Usings
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TrayGarden.Reception;
 
-#endregion
-
 namespace TelegramToggleWindowHook
 {
   public class TelegramToggleWindowHookPlant : IPlant
   {
-    #region Fields
-
     private KeyboardHookProcessingForm _form;
-
-    #endregion
-
-    #region Interface Impl
 
     public string Description
     {
@@ -38,7 +28,5 @@ namespace TelegramToggleWindowHook
     public void PostServicesInitialize()
     {
     }
-
-    #endregion
   }
 }

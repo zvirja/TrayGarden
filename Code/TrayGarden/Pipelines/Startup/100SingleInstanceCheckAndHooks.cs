@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +11,11 @@ using TrayGarden.Helpers;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.MainWindow;
 
-#endregion
-
 namespace TrayGarden.Pipelines.Startup
 {
   public class SingleInstanceCheckAndHooks
   {
-    #region Properties
-
     protected SynchronizationContext UISynchronizationContext { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public void Process(StartupArgs args)
@@ -46,15 +36,9 @@ namespace TrayGarden.Pipelines.Startup
       }
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OpenConfigurationWindow(object obj)
     {
       HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
     }
-
-    #endregion
   }
 }

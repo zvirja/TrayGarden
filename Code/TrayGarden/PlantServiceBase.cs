@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,28 +7,16 @@ using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services
 {
   public abstract class PlantServiceBase<TPlantLuggageType> : IService
     where TPlantLuggageType : class
   {
-    #region Static Fields
-
     protected static readonly string AllServiceSettingsContainerName = "PlantServices";
-
-    #endregion
-
-    #region Fields
 
     protected bool? _isActuallyEnabled;
 
     protected ISettingsBox _serviceSettingsBox;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     protected PlantServiceBase(string serviceName, string luggageName)
     {
@@ -38,15 +24,7 @@ namespace TrayGarden.Services
       this.LuggageName = luggageName;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event Action<bool> IsEnabledChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual bool CanBeDisabled
     {
@@ -96,10 +74,6 @@ namespace TrayGarden.Services
 
     public string ServiceName { get; protected set; }
 
-    #endregion
-
-    #region Properties
-
     protected virtual ISettingsBox ServiceSettingsBox
     {
       get
@@ -114,10 +88,6 @@ namespace TrayGarden.Services
         return this._serviceSettingsBox;
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
     {
@@ -150,10 +120,6 @@ namespace TrayGarden.Services
       return this.GetPlantLuggage(plantEx) != null;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnIsEnabledChanged(bool obj)
     {
       Action<bool> handler = this.IsEnabledChanged;
@@ -166,7 +132,5 @@ namespace TrayGarden.Services
     protected virtual void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
     {
     }
-
-    #endregion
   }
 }

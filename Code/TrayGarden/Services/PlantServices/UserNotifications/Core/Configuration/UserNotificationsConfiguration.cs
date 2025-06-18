@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,14 +7,10 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.RuntimeSettings.FastPropertyWrapper;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 {
   public static class UserNotificationsConfiguration
   {
-    #region Static Fields
-
     public static readonly TimeSpanSettingMediator DelayBeforeForceFading = new TimeSpanSettingMediator(
       "DelayBeforeForceFading",
       3000,
@@ -77,10 +71,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 
     private static ISettingsBox _serviceSettingsBox;
 
-    #endregion
-
-    #region Public Properties
-
     public static ISettingsBox ServiceSettingsBox
     {
       get
@@ -95,15 +85,9 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
       }
     }
 
-    #endregion
-
-    #region Methods
-
     private static ISettingsBox GetServiceSettingsBox()
     {
       return ServiceSettingsBox;
     }
-
-    #endregion
   }
 }

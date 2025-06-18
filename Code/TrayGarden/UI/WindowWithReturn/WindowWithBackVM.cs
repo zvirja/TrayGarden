@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -19,8 +17,6 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.UI.WindowWithReturn
 {
   /// <summary>
@@ -28,8 +24,6 @@ namespace TrayGarden.UI.WindowWithReturn
   /// </summary>
   public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
-    #region Fields
-
     protected RelayCommand _backCommand;
 
     protected string _copyrightTitle;
@@ -37,10 +31,6 @@ namespace TrayGarden.UI.WindowWithReturn
     protected ObservableCollection<ActionCommandVM> _helpActions;
 
     private Stack<WindowStepState> _steps;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public WindowWithBackVM()
     {
@@ -54,10 +44,6 @@ namespace TrayGarden.UI.WindowWithReturn
       GoAheadTargets += this.GoAheadWithBack;
     }
 
-    #endregion
-
-    #region Delegates
-
     public delegate bool WindowSizePozitionInfoRetriever(
       out double top,
       out double left,
@@ -67,21 +53,9 @@ namespace TrayGarden.UI.WindowWithReturn
 
     protected delegate void GoAheadWithBackInvokable(WindowStepState newState);
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
 
-    #endregion
-
-    #region Events
-
     protected static event GoAheadWithBackInvokable GoAheadTargets;
-
-    #endregion
-
-    #region Public Properties
 
     [UsedImplicitly]
     public virtual RelayCommand BackCommand
@@ -280,10 +254,6 @@ namespace TrayGarden.UI.WindowWithReturn
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected virtual string BackToTitleInternal { get; set; }
 
     protected virtual bool CanBack
@@ -321,10 +291,6 @@ namespace TrayGarden.UI.WindowWithReturn
     }
 
     protected int TimesEnterBulkUpdate { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static void GoAheadWithBackIfPossible(WindowStepState newState)
     {
@@ -368,10 +334,6 @@ namespace TrayGarden.UI.WindowWithReturn
       this.CanBack = false;
       this.NotifyPublicVisibleChanged();
     }
-
-    #endregion
-
-    #region Methods
 
     protected static double GetDoubleValueOrZero(string str)
     {
@@ -486,7 +448,5 @@ namespace TrayGarden.UI.WindowWithReturn
         this.SizePropertiesAreValid = true;
       }
     }
-
-    #endregion
   }
 }

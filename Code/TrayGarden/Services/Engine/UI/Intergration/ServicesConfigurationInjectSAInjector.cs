@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,24 +11,16 @@ using TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Services.Engine.UI.Intergration
 {
   [UsedImplicitly]
   public class ServicesConfigurationInjectSAInjector
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetApplicationConfigStepArgs args)
     {
       args.StepConstructInfo.SuperAction = this.GetSuperAction();
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ConfigureServices(object o)
     {
@@ -48,7 +38,5 @@ namespace TrayGarden.Services.Engine.UI.Intergration
     {
       return new ActionCommandVM(new RelayCommand(this.ConfigureServices, true), "Configure services");
     }
-
-    #endregion
   }
 }

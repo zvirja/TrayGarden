@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,21 +8,13 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 
-#endregion
-
 namespace TrayGarden.UI.Configuration.EntryVM.Players
 {
   public abstract class ConfigurationPlayerBase : IConfigurationPlayer
   {
-    #region Fields
-
     private List<IConfigurationEntryAction> additionalActions;
 
     private bool supportsReset;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ConfigurationPlayerBase([NotNull] string settingName, bool supportsReset, bool readOnly)
     {
@@ -35,17 +25,9 @@ namespace TrayGarden.UI.Configuration.EntryVM.Players
       this.additionalActions = new List<IConfigurationEntryAction>();
     }
 
-    #endregion
-
-    #region Public Events
-
     public event Action RequiresApplicationRebootChanged;
 
     public event Action ValueChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual List<IConfigurationEntryAction> AdditionalActions
     {
@@ -81,15 +63,7 @@ namespace TrayGarden.UI.Configuration.EntryVM.Players
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public abstract void Reset();
-
-    #endregion
-
-    #region Methods
 
     protected virtual void OnRequiresApplicationRebootChanged()
     {
@@ -108,7 +82,5 @@ namespace TrayGarden.UI.Configuration.EntryVM.Players
         handler();
       }
     }
-
-    #endregion
   }
 }

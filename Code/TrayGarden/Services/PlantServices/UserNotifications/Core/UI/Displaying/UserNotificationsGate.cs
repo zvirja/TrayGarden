@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,22 +8,14 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 {
   [UsedImplicitly]
   public class UserNotificationsGate : IUserNotificationsGate
   {
-    #region Properties
-
     protected bool Initialized { get; set; }
 
     protected IDisplayQueueProvider Provider { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void DiscardAllTasks()
     {
@@ -53,10 +43,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       this.Initialized = true;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual bool AddToDisplayQueue(NotificationDisplayTask task)
     {
       return this.Provider.EnqueueToDisplay(task);
@@ -74,7 +60,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
     {
       return new NotificationDisplayTask(notificationVM, originator);
     }
-
-    #endregion
   }
 }

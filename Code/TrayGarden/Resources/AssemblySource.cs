@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,28 +10,16 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Resources
 {
   [UsedImplicitly]
   public class AssemblySource : ISource
   {
-    #region Public Properties
-
     public ResourceManager Source { get; protected set; }
-
-    #endregion
-
-    #region Properties
 
     protected string AssemblyName { get; set; }
 
     protected string ResourcePath { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize([NotNull] string assemblyName, [NotNull] string resourcePath)
@@ -48,10 +34,6 @@ namespace TrayGarden.Resources
         this.Source = new ResourceManager(this.ResourcePath, assembly);
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual Assembly ResolveAssembly(string assemblyName)
     {
@@ -75,7 +57,5 @@ namespace TrayGarden.Resources
       }
       return assembly;
     }
-
-    #endregion
   }
 }

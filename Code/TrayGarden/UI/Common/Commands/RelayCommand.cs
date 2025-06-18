@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,23 +9,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.UI.Common.Commands
 {
   public class RelayCommand : ICommand
   {
-    #region Fields
-
     protected readonly Predicate<object> _canExecute;
 
     protected readonly Action<object> _execute;
 
     protected bool _canExecuteMaster;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public RelayCommand([NotNull] Action<object> execute, bool canExecute = true)
     {
@@ -43,10 +33,6 @@ namespace TrayGarden.UI.Common.Commands
       this._canExecute = canExecute;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event EventHandler CanExecuteChanged
     {
       add
@@ -58,10 +44,6 @@ namespace TrayGarden.UI.Common.Commands
         CommandManager.RequerySuggested -= value;
       }
     }
-
-    #endregion
-
-    #region Public Properties
 
     public bool CanExecuteMaster
     {
@@ -80,10 +62,6 @@ namespace TrayGarden.UI.Common.Commands
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     [DebuggerStepThrough]
     public virtual bool CanExecute(object parameter)
     {
@@ -94,7 +72,5 @@ namespace TrayGarden.UI.Common.Commands
     {
       this._execute(parameter);
     }
-
-    #endregion
   }
 }

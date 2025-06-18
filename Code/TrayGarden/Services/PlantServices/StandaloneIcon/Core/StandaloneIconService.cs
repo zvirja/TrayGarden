@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,23 +11,15 @@ using TrayGarden.TypesHatcher;
 
 using Application = System.Windows.Application;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
 {
   public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   {
-    #region Constructors and Destructors
-
     public StandaloneIconService()
       : base("Standalone icon", "StandaloneIconService")
     {
       this.ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override void InformClosingStage()
     {
@@ -66,10 +56,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
       this.InitializePlantFromPipeline(plantEx);
     }
 
-    #endregion
-
-    #region Methods
-
     protected void CloseComponentClick(object sender, EventArgs eventArgs)
     {
       var toolStrip = sender as ToolStripItem;
@@ -97,7 +83,5 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core
         siBox.FixNIVisibility();
       }
     }
-
-    #endregion
   }
 }

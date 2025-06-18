@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +10,10 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling
 {
   public class RequestHandlerWithUIConfirmation : RequestHandler
   {
-    #region Properties
-
     protected bool EnableConfirmation
     {
       get
@@ -49,10 +43,6 @@ namespace ClipboardChangerPlant.RequestHandling
     protected UIDialogConfirmator ExecuteConfirmator { get; set; }
 
     protected UIDialogConfirmator RevertConfirmator { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override void PostInit()
     {
@@ -100,10 +90,6 @@ namespace ClipboardChangerPlant.RequestHandling
       return base.PreExecute(operableUrl, isClipboardRequest);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual IBoolUserSetting DeclareEnabledSetting()
     {
       string settingNameAndTitle = this.GetEnabledSettingName();
@@ -134,7 +120,5 @@ namespace ClipboardChangerPlant.RequestHandling
     {
       return new YesNoNotificationVM("Revert processed value?");
     }
-
-    #endregion
   }
 }

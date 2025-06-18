@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +11,10 @@ using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 {
   public class InitPlantGMArgs : PipelineArgs
   {
-    #region Constructors and Destructors
-
     public InitPlantGMArgs(
       [NotNull] IPlantEx plantEx,
       [NotNull] string luggageName,
@@ -33,10 +27,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       this.LuggageName = luggageName;
       this.GlobalNotifyIconChanger = globalNotifyIconChanger;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public GlobalMenuPlantBox GMBox { get; set; }
 
@@ -52,10 +42,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
 
     public IPlantEx PlantEx { get; protected set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
     {
       if (this.GMBox.ToolStripMenuItems == null)
@@ -64,7 +50,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline
       }
       this.GMBox.ToolStripMenuItems.AddRange(newItem);
     }
-
-    #endregion
   }
 }

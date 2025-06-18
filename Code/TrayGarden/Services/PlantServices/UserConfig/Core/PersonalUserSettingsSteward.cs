@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,14 +10,10 @@ using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
   {
-    #region Constructors and Destructors
-
     public PersonalUserSettingsSteward()
     {
       this.DefinedSettings = new Dictionary<string, IUserSettingBase>();
@@ -32,21 +26,9 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       this.SettingsBuilder = settingsBuilder;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public Dictionary<string, IUserSettingBase> DefinedSettings { get; set; }
 
-    #endregion
-
-    #region Properties
-
     protected IUserSettingsBuilder SettingsBuilder { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IBoolUserSetting DeclareBoolSetting(
       string name,
@@ -164,10 +146,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       return presentValue is TSetting ? (TSetting)presentValue : default(TSetting);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void RegisterSetting(IUserSettingBase newSetting)
     {
       if (this.DefinedSettings.ContainsKey(newSetting.Name))
@@ -176,7 +154,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       }
       this.DefinedSettings.Add(newSetting.Name, newSetting);
     }
-
-    #endregion
   }
 }

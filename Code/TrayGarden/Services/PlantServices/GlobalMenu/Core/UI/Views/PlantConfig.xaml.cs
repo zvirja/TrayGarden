@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Controls;
-
-#endregion
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views
 {
@@ -15,14 +11,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views
   /// </summary>
   public partial class PlantConfig : UserControl
   {
-    #region Static Fields
-
     private static string mockDesc =
       "Short description of plant. For instance, here you may find info what plant do and why it's recommended to not disable it";
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public PlantConfig()
     {
@@ -36,7 +26,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views
 
             PlantItems.ItemsSource = new List<PlantsConfigVM>() { plantVM, plantVM, plantVM, plantVM };*/
     }
-
-    #endregion
   }
 }

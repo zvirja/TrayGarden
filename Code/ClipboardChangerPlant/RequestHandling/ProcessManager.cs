@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,29 +9,17 @@ using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling
 {
   [UsedImplicitly]
   public class ProcessManager : INeedCongurationNode
   {
-    #region Static Fields
-
     private static readonly Lazy<ProcessManager> _actualProcessManager =
       new Lazy<ProcessManager>(() => Factory.ActualFactory.GetRequestProcessManager());
-
-    #endregion
-
-    #region Fields
 
     protected XmlHelper ConfigurationHelper;
 
     protected List<Processor> Processors;
-
-    #endregion
-
-    #region Public Properties
 
     public static ProcessManager ActualManager
     {
@@ -44,10 +30,6 @@ namespace ClipboardChangerPlant.RequestHandling
     }
 
     public string Name { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void ProcessRequest(
       bool onlyShorteningRequired,
@@ -82,7 +64,5 @@ namespace ClipboardChangerPlant.RequestHandling
           configurationNode.Name + "/pipeline/processor");
       this.Processors = processors;
     }
-
-    #endregion
   }
 }

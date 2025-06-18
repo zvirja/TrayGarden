@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +8,6 @@ using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
-#endregion
-
 namespace TrayGarden
 {
   /// <summary>
@@ -19,8 +15,6 @@ namespace TrayGarden
   /// </summary>
   public partial class MainWindow : Window
   {
-    #region Constructors and Destructors
-
     public MainWindow()
     {
       this.InitializeComponent();
@@ -121,27 +115,17 @@ namespace TrayGarden
       //int a = 19;
     }
 
-    #endregion
-
-    #region Methods
-
     private void MainWindow_Closing(object sender, System.ComponentModel.CancelEventArgs e)
     {
       // HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
     }
-
-    #endregion
   }
 
   internal class IntSv : Switcher<int>
   {
-    #region Constructors and Destructors
-
     public IntSv(int newValue)
       : base(newValue)
     {
     }
-
-    #endregion
   }
 }

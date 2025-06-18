@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,28 +8,16 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 using TrayGarden.Services.PlantServices.UserConfig.Core.TypeSpecific;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   public class UserSettingsBuilder : IUserSettingsBuilder
   {
-    #region Constructors and Destructors
-
     public UserSettingsBuilder(ISettingsBox underlyingBox)
     {
       this.UnderlyingBox = underlyingBox;
     }
 
-    #endregion
-
-    #region Properties
-
     private ISettingsBox UnderlyingBox { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IBoolUserSetting BuildBoolSetting(
       string settingName,
@@ -158,10 +144,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       return setting;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual ITypedUserSettingMetadata<T> BuildMetadata<T>(
       string name,
       string title,
@@ -179,7 +161,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     {
       return new UserSettingMetadata<T>();
     }
-
-    #endregion
   }
 }

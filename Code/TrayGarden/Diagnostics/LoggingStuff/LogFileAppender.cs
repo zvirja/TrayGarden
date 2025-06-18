@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.IO;
@@ -13,20 +11,12 @@ using log4net.Appender;
 
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Diagnostics.LoggingStuff
 {
   [UsedImplicitly]
   public class LogFileAppender : FileAppender
   {
-    #region Static Fields
-
     protected static string DirectoryName = ResolveDirectoryName();
-
-    #endregion
-
-    #region Public Properties
 
     public override string File
     {
@@ -39,10 +29,6 @@ namespace TrayGarden.Diagnostics.LoggingStuff
         base.File = GetLogFileNameFull();
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected static string GetLogFileName()
     {
@@ -74,7 +60,5 @@ namespace TrayGarden.Diagnostics.LoggingStuff
       directory = Path.Combine(directory, "Logs");
       return directory;
     }
-
-    #endregion
   }
 }

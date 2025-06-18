@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -14,14 +12,10 @@ using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-#endregion
-
 namespace TrayGarden.UI.Configuration.EntryVM
 {
   public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
-    #region Constructors and Destructors
-
     public ConfigurationEntryBaseVM([NotNull] IConfigurationPlayer realPlayer)
     {
       Assert.ArgumentNotNull(realPlayer, "realPlayer");
@@ -32,15 +26,7 @@ namespace TrayGarden.UI.Configuration.EntryVM
       this.RealPlayer.RequiresApplicationRebootChanged += this.RealPlayer_RequiresApplicationRebootChanged;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public List<IConfigurationEntryAction> AdditionalActions
     {
@@ -97,10 +83,6 @@ namespace TrayGarden.UI.Configuration.EntryVM
       }
     }
 
-    #endregion
-
-    #region Methods
-
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged(string propertyName)
     {
@@ -125,7 +107,5 @@ namespace TrayGarden.UI.Configuration.EntryVM
         this.RealPlayer.Reset();
       }
     }
-
-    #endregion
   }
 }

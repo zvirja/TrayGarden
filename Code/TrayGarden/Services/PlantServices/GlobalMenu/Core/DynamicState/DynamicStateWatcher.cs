@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,27 +9,15 @@ using JetBrains.Annotations;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState
 {
   public class DynamicStateWatcher : IDynamicStateWatcher
   {
-    #region Fields
-
     protected object lockObj = new object();
-
-    #endregion
-
-    #region Properties
 
     protected HashSet<ExtendedToolStripMenuItem> EntriesToUpdate { get; set; }
 
     protected IDynamicStateDecorator MenuEntryDecorator { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void AddStipToWatch(ExtendedToolStripMenuItem menuItem)
     {
@@ -55,10 +41,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState
       this.MenuEntryDecorator = menuEntryDecorator;
       this.EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void EnqueStripForPendingUpdate(ExtendedToolStripMenuItem menuItem)
     {
@@ -85,7 +67,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState
         this.MenuEntryDecorator.DecorateStripItem(item, item.DymamicStateProvider.CurrentRelevanceLevel);
       }
     }
-
-    #endregion
   }
 }

@@ -14,14 +14,10 @@
  * limitations under the License.
  */
 
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace JetBrains.Annotations
 {
@@ -40,8 +36,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
   public sealed class LocalizationRequiredAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initializes a new instance of the <see cref="LocalizationRequiredAttribute"/> class with
     /// <see cref="Required"/> set to <see langword="true"/>.
@@ -60,20 +54,12 @@ namespace JetBrains.Annotations
       this.Required = required;
     }
 
-    #endregion
-
-    #region Public Properties
-
     /// <summary>
     /// Gets a value indicating whether a element should be localized.
     /// <value><c>true</c> if a element should be localized; otherwise, <c>false</c>.</value>
     /// </summary>
     [UsedImplicitly]
     public bool Required { get; private set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     /// <summary>
     /// Returns whether the value of the given object is equal to the current <see cref="LocalizationRequiredAttribute"/>.
@@ -96,8 +82,6 @@ namespace JetBrains.Annotations
     {
       return base.GetHashCode();
     }
-
-    #endregion
   }
 
   /// <summary>
@@ -121,8 +105,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Constructor | AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
   public sealed class StringFormatMethodAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initializes new instance of StringFormatMethodAttribute
     /// </summary>
@@ -132,17 +114,11 @@ namespace JetBrains.Annotations
       this.FormatParameterName = formatParameterName;
     }
 
-    #endregion
-
-    #region Public Properties
-
     /// <summary>
     /// Gets format parameter name
     /// </summary>
     [UsedImplicitly]
     public string FormatParameterName { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -212,8 +188,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = true)]
   public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public NotifyPropertyChangedInvocatorAttribute()
     {
     }
@@ -223,14 +197,8 @@ namespace JetBrains.Annotations
       this.ParameterName = parameterName;
     }
 
-    #endregion
-
-    #region Public Properties
-
     [UsedImplicitly]
     public string ParameterName { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -323,8 +291,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Method, AllowMultiple = true, Inherited = true)]
   public sealed class ContractAnnotationAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public ContractAnnotationAttribute([NotNull] string fdt)
       : this(fdt, false)
     {
@@ -336,15 +302,9 @@ namespace JetBrains.Annotations
       this.ForceFullStates = forceFullStates;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public string FDT { get; private set; }
 
     public bool ForceFullStates { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -398,8 +358,6 @@ namespace JetBrains.Annotations
   [BaseTypeRequired(typeof(Attribute))]
   public sealed class BaseTypeRequiredAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     /// <summary>
     /// Initializes new instance of BaseTypeRequiredAttribute
     /// </summary>
@@ -409,16 +367,10 @@ namespace JetBrains.Annotations
       this.BaseTypes = new[] { baseType };
     }
 
-    #endregion
-
-    #region Public Properties
-
     /// <summary>
     /// Gets enumerations of specified base types
     /// </summary>
     public Type[] BaseTypes { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -428,8 +380,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.All, AllowMultiple = false, Inherited = true)]
   public sealed class UsedImplicitlyAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     [UsedImplicitly]
     public UsedImplicitlyAttribute()
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default)
@@ -455,10 +405,6 @@ namespace JetBrains.Annotations
     {
     }
 
-    #endregion
-
-    #region Public Properties
-
     /// <summary>
     /// Gets value indicating what is meant to be used
     /// </summary>
@@ -467,8 +413,6 @@ namespace JetBrains.Annotations
 
     [UsedImplicitly]
     public ImplicitUseKindFlags UseKindFlags { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -478,8 +422,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Class, AllowMultiple = false, Inherited = true)]
   public sealed class MeansImplicitUseAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     [UsedImplicitly]
     public MeansImplicitUseAttribute()
       : this(ImplicitUseKindFlags.Default, ImplicitUseTargetFlags.Default)
@@ -505,10 +447,6 @@ namespace JetBrains.Annotations
     {
     }
 
-    #endregion
-
-    #region Public Properties
-
     /// <summary>
     /// Gets value indicating what is meant to be used
     /// </summary>
@@ -517,8 +455,6 @@ namespace JetBrains.Annotations
 
     [UsedImplicitly]
     public ImplicitUseKindFlags UseKindFlags { get; private set; }
-
-    #endregion
   }
 
   [Flags]
@@ -575,8 +511,6 @@ namespace JetBrains.Annotations
   [MeansImplicitUse]
   public sealed class PublicAPIAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public PublicAPIAttribute()
     {
     }
@@ -584,8 +518,6 @@ namespace JetBrains.Annotations
     public PublicAPIAttribute(string comment)
     {
     }
-
-    #endregion
   }
 
   /// <summary>
@@ -629,8 +561,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public class PathReferenceAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public PathReferenceAttribute()
     {
     }
@@ -641,14 +571,8 @@ namespace JetBrains.Annotations
       this.BasePath = basePath;
     }
 
-    #endregion
-
-    #region Public Properties
-
     [UsedImplicitly]
     public string BasePath { get; private set; }
-
-    #endregion
   }
 
   // ASP.NET MVC attributes
@@ -662,8 +586,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcActionAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public AspMvcActionAttribute()
     {
     }
@@ -673,14 +595,8 @@ namespace JetBrains.Annotations
       this.AnonymousProperty = anonymousProperty;
     }
 
-    #endregion
-
-    #region Public Properties
-
     [UsedImplicitly]
     public string AnonymousProperty { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -691,8 +607,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Parameter)]
   public sealed class AspMvcAreaAttribute : PathReferenceAttribute
   {
-    #region Constructors and Destructors
-
     [UsedImplicitly]
     public AspMvcAreaAttribute()
     {
@@ -703,14 +617,8 @@ namespace JetBrains.Annotations
       this.AnonymousProperty = anonymousProperty;
     }
 
-    #endregion
-
-    #region Public Properties
-
     [UsedImplicitly]
     public string AnonymousProperty { get; private set; }
-
-    #endregion
   }
 
   /// <summary>
@@ -722,8 +630,6 @@ namespace JetBrains.Annotations
   [AttributeUsage(AttributeTargets.Parameter | AttributeTargets.Method)]
   public sealed class AspMvcControllerAttribute : Attribute
   {
-    #region Constructors and Destructors
-
     public AspMvcControllerAttribute()
     {
     }
@@ -733,14 +639,8 @@ namespace JetBrains.Annotations
       this.AnonymousProperty = anonymousProperty;
     }
 
-    #endregion
-
-    #region Public Properties
-
     [UsedImplicitly]
     public string AnonymousProperty { get; private set; }
-
-    #endregion
   }
 
   /// <summary>

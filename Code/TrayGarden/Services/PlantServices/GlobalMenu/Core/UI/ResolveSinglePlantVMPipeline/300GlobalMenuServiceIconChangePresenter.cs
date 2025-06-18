@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,24 +9,16 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline
 {
   [UsedImplicitly]
   public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalMenuService>
   {
-    #region Constructors and Destructors
-
     public GlobalMenuServiceIconChangePresenter()
     {
       this.ServiceName = "Changing of global icon";
       this.ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";
     }
-
-    #endregion
-
-    #region Methods
 
     protected static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
     {
@@ -50,7 +40,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
       vm.IsEnabledChanged += ViewModel_IsEnabledChanged;
       return vm;
     }
-
-    #endregion
   }
 }

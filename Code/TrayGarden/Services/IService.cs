@@ -1,25 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Plants;
 
-#endregion
-
 namespace TrayGarden.Services
 {
   public interface IService
   {
-    #region Public Events
-
     event Action<bool> IsEnabledChanged;
-
-    #endregion
-
-    #region Public Properties
 
     bool CanBeDisabled { get; }
 
@@ -33,10 +23,6 @@ namespace TrayGarden.Services
 
     string ServiceName { get; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     void InformClosingStage();
 
     void InformDisplayStage();
@@ -46,7 +32,5 @@ namespace TrayGarden.Services
     void InitializePlant(IPlantEx plantEx);
 
     bool IsAvailableForPlant(IPlantEx plantEx);
-
-    #endregion
   }
 }

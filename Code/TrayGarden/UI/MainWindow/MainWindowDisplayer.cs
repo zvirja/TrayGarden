@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +9,10 @@ using TrayGarden.TypesHatcher;
 using TrayGarden.UI.MainWindow.ResolveVMPipeline;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.UI.MainWindow
 {
   public class MainWindowDisplayer : IMainWindowDisplayer
   {
-    #region Public Methods and Operators
-
     public virtual void PopupMainWindow()
     {
       IWindowWithBack windowWithBack = HatcherGuide<IWindowWithBack>.Instance;
@@ -41,7 +35,5 @@ namespace TrayGarden.UI.MainWindow
         windowWithBack.PrepareAndShow(mainWindowVM);
       }
     }
-
-    #endregion
   }
 }

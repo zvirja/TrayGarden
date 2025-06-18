@@ -1,29 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.RuntimeSettings
 {
   public interface ISettingsBox
   {
-    #region Public Events
-
     event Action OnSaving;
 
-    #endregion
-
-    #region Public Indexers
-
     string this[string settingName] { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     bool GetBool(string settingName, bool fallbackValue);
 
@@ -50,7 +36,5 @@ namespace TrayGarden.RuntimeSettings
     bool TryGetDouble(string settingName, out double value);
 
     bool TryGetInt(string settingName, out int value);
-
-    #endregion
   }
 }

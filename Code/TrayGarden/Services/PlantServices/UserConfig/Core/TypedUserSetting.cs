@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,25 +9,13 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.TypeSpecific;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITypedUserSettingMaster<T>
   {
-    #region Fields
-
     protected T currentValue;
 
-    #endregion
-
-    #region Public Events
-
     public new event EventHandler<TypedUserSettingChange<T>> ValueChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public new virtual ITypedUserSettingMetadata<T> Metadata { get; set; }
 
@@ -58,15 +44,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected bool ValueWasAlreadyPooled { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void Initialize(
       [NotNull] ITypedUserSettingMetadata<T> typedMetadata,
@@ -85,10 +63,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       this.AssertInitialized();
       this.Value = this.Metadata.DefaultValue;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void OnValueChanged(T oldValue, T newValue)
     {
@@ -110,7 +84,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     {
       this.Storage.WriteValue(this.Name, value);
     }
-
-    #endregion
   }
 }

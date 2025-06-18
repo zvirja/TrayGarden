@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -11,19 +9,11 @@ using System.Xml;
 using ClipboardChangerPlant.Configuration;
 using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling
 {
   public class RequestHandler : INeedCongurationNode
   {
-    #region Fields
-
     protected XmlHelper ConfigurationHelper;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual Icon DefaultHandlerIcon
     {
@@ -51,10 +41,6 @@ namespace ClipboardChangerPlant.RequestHandling
           .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual bool? Match(ProcessorArgs args)
     {
@@ -95,7 +81,5 @@ namespace ClipboardChangerPlant.RequestHandling
       result = inputValue;
       return true;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,38 +7,22 @@ using JetBrains.Annotations;
 
 using TrayGarden.Configuration;
 
-#endregion
-
 namespace TrayGarden.RuntimeSettings.Provider
 {
   [UsedImplicitly]
   public class Container : IContainer, ISupportPrototyping
   {
-    #region Constructors and Destructors
-
     public Container()
     {
       this.Settings = new Dictionary<string, string>();
       this.InnerContainers = new Dictionary<string, IContainer>();
     }
 
-    #endregion
-
-    #region Public Properties
-
     public string Name { get; protected set; }
-
-    #endregion
-
-    #region Properties
 
     protected Dictionary<string, IContainer> InnerContainers { get; set; }
 
     protected Dictionary<string, string> Settings { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public object CreateNewInializedInstance()
     {
@@ -95,10 +77,6 @@ namespace TrayGarden.RuntimeSettings.Provider
       return string.Format("{0} Settings:{1}, Inner:{2}", this.Name, this.Settings.Count, this.InnerContainers.Count);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual IContainer ResolveNamedSubContainer(string name)
     {
       if (this.InnerContainers.ContainsKey(name))
@@ -114,7 +92,5 @@ namespace TrayGarden.RuntimeSettings.Provider
     {
       this.Settings[name] = value;
     }
-
-    #endregion
   }
 }

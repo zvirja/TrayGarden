@@ -1,25 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Windows.Data;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent
 {
   public class ActionLayoutToBoolMatcher : IValueConverter
   {
-    #region Public Properties
-
     public ImageTextOrder ValueToMatch { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -35,7 +25,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
     {
       throw new NotSupportedException();
     }
-
-    #endregion
   }
 }

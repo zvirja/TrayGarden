@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,8 +9,6 @@ using TrayGarden.Diagnostics;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   /// <summary>
@@ -22,8 +18,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
   /// <typeparam name="T"></typeparam>
   public class SettingBoxOrientedStorage<T> : IUserSettingStorage<T>
   {
-    #region Constructors and Destructors
-
     public SettingBoxOrientedStorage([NotNull] Func<string, T, T> getter, [NotNull] Action<string, T> setter)
     {
       Assert.ArgumentNotNull(getter, "getter");
@@ -32,19 +26,11 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       this.Setter = setter;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public Func<string, T, T> Getter { get; set; }
 
     public Action<string, T> Setter { get; set; }
 
     public ISettingsBox UnderlyingBox { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public T ReadValue(string key, T defaultValue)
     {
@@ -55,7 +41,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     {
       this.Setter(key, value);
     }
-
-    #endregion
   }
 }

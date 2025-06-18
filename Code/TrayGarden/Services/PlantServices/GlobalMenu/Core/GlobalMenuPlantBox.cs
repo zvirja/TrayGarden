@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,28 +6,16 @@ using System.Windows.Forms;
 
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 {
   public class GlobalMenuPlantBox : ServicePlantBoxBase
   {
-    #region Fields
-
     private INotifyIconChangerMaster _globalNotifyIconChanger;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public GlobalMenuPlantBox()
     {
       base.IsEnabledChanged += this.GlobalMenuPlantBox_IsEnabledChanged;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public INotifyIconChangerMaster GlobalNotifyIconChanger
     {
@@ -72,10 +58,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
     public List<ToolStripItem> ToolStripMenuItems { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void FixVisibility()
     {
       if (this.ToolStripMenuItems == null)
@@ -89,15 +71,9 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       }
     }
 
-    #endregion
-
-    #region Methods
-
     private void GlobalMenuPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
     {
       this.FixVisibility();
     }
-
-    #endregion
   }
 }

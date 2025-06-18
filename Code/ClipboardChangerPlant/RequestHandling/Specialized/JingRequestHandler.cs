@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +6,14 @@ using System.Text;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   public class JingRequestHandler : Clip2NetWithRequestHandler
   {
-    #region Constructors and Destructors
-
     public JingRequestHandler()
     {
       this.revertDialogHeader = "Jing value was transformed";
     }
-
-    #endregion
-
-    #region Methods
 
     protected override string ExcractOriginalUrl(string pageBody)
     {
@@ -51,7 +41,5 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
     {
       return "Jing ask for revert";
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +9,10 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers
 {
   public class TypedUserSettingPlayer<TValue> : TypedConfigurationPlayer<TValue>
   {
-    #region Constructors and Destructors
-
     public TypedUserSettingPlayer([NotNull] ITypedUserSetting<TValue> userSetting)
       : base(userSetting.Title, true, false)
     {
@@ -26,10 +20,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers
       this.UserSetting = userSetting;
       this.UserSetting.ValueChanged += (before, after) => this.OnValueChanged();
     }
-
-    #endregion
-
-    #region Public Properties
 
     public override string SettingDescription
     {
@@ -56,15 +46,9 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public override void Reset()
     {
       this.UserSetting.ResetToDefault();
     }
-
-    #endregion
   }
 }

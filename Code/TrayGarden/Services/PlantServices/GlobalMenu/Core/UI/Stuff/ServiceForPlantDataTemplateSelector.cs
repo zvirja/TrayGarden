@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,15 +10,11 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.UI.Common;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
 {
   [UsedImplicitly]
   public class ServiceForPlantDataTemplateSelector : IDataTemplateSelector
   {
-    #region Public Methods and Operators
-
     public virtual DataTemplate SelectTemplate(object item, DependencyObject container)
     {
       var asFrameworkElement = container as FrameworkElement;
@@ -36,10 +30,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
                    ? this.FindResource(asFrameworkElement, defaultResourceKey)
                    : null);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual DataTemplate FindResource(FrameworkElement container, string key)
     {
@@ -64,7 +54,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff
       var c = container.Resources.Count;
       return null;
     }
-
-    #endregion
   }
 }

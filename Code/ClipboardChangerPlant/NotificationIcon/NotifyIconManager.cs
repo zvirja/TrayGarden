@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,34 +13,18 @@ using TrayGarden.Reception.Services;
 using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-#endregion
-
 namespace ClipboardChangerPlant.NotificationIcon
 {
   public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToModifyIcon, IExtendContextMenu, IChangesGlobalIcon
   {
-    #region Static Fields
-
     private static readonly Lazy<NotifyIconManager> _manager =
       new Lazy<NotifyIconManager>(() => Factory.ActualFactory.GetNotifyIconManager());
 
-    #endregion
-
-    #region Fields
-
     protected XmlHelper ConfigurationHelper;
-
-    #endregion
-
-    #region Public Events
 
     public event Action<object> MainActionRequested;
 
     public event Action<object> ShorteningRequested;
-
-    #endregion
-
-    #region Public Properties
 
     public static NotifyIconManager ActualManager
     {
@@ -98,10 +80,6 @@ namespace ClipboardChangerPlant.NotificationIcon
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public bool GetIconInfo(out string title, out Icon icon, out MouseEventHandler iconClickHandler)
     {
       title = "ClipboardChanger";
@@ -143,10 +121,6 @@ namespace ClipboardChangerPlant.NotificationIcon
       this.NotifyIconChangerClient = notifyIconChangerClient;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
     {
       if (e.Button == MouseButtons.Left)
@@ -177,7 +151,5 @@ namespace ClipboardChangerPlant.NotificationIcon
     {
       this.NotifyIconChangerClient.SetIcon(newIcon, msTimeout);
     }
-
-    #endregion
   }
 }

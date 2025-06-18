@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,15 +9,11 @@ using System.Windows.Data;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.UI.Common.VMtoVMapping
 {
   [ValueConversion(typeof(object), typeof(Control))]
   public class MappingsBasedContentValueConverter : IMultiValueConverter
   {
-    #region Public Methods and Operators
-
     public virtual object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
     {
       // return new TextBox(){Text = value[0].ToString()};
@@ -56,10 +50,6 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       throw new NotSupportedException();
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual Control ResolveUsingSelfResolving(object viewModel)
     {
       var vmAsSelfResolver = viewModel as ISelfViewResolver;
@@ -69,7 +59,5 @@ namespace TrayGarden.UI.Common.VMtoVMapping
       }
       return vmAsSelfResolver.GetViewToPresentMe();
     }
-
-    #endregion
   }
 }

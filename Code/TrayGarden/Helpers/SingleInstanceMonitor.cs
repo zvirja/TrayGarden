@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,19 +7,11 @@ using System.Threading.Tasks;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.Helpers
 {
   public class SingleInstanceMonitor : ISingleInstanceMonitor
   {
-    #region Static Fields
-
     protected static readonly string EventGlobalName = @"Local\TrayGardenEnsureSingleInstance";
-
-    #endregion
-
-    #region Fields
 
     /// <summary>
     /// Indicates whether monitor is disposed. Values:
@@ -35,25 +25,13 @@ namespace TrayGarden.Helpers
 
     protected volatile EventWaitHandle innerHandle;
 
-    #endregion
-
-    #region Constructors and Destructors
-
     public SingleInstanceMonitor()
     {
       this.disposed = -1;
       this.disposedWaitHandle = new ManualResetEventSlim(false);
     }
 
-    #endregion
-
-    #region Public Events
-
     public event EventHandler AttemptFromAnotherProcess;
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public ManualResetEventSlim EnqueueMonitorDisabling()
     {
@@ -82,10 +60,6 @@ namespace TrayGarden.Helpers
       this.StartAwaitingLoop();
       return true;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ForeignEventAwaitingLoop()
     {
@@ -149,7 +123,5 @@ namespace TrayGarden.Helpers
       var checkingThread = new Thread(this.ForeignEventAwaitingLoop) { IsBackground = true };
       checkingThread.Start();
     }
-
-    #endregion
   }
 }

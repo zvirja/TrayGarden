@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,11 @@ using ClipboardChangerPlant.Configuration;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
 {
   [UsedImplicitly]
   public class ExecuteHandler : Processor
   {
-    #region Public Methods and Operators
-
     public override void Process(ProcessorArgs args)
     {
       RequestHandler resolvedHandler = args.ResolvedHandler;
@@ -38,7 +32,5 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel.Pipeline
       args.ShouldBeShorted = resolvedHandler.IsShorterEnabled;
       args.ResultUrl = result;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,24 +14,16 @@ using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.MainWindow.ResolveVMPipeline;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Configuration.ApplicationConfiguration.Injection
 {
   [UsedImplicitly]
   public class InjectApplicationConfigLink
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetMainVMPipelineArgs args)
     {
       args.SuperAction = this.GetSuperAction();
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ConfigureApplication(object obj)
     {
@@ -61,7 +51,5 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Injection
     {
       return new ActionCommandVM(new RelayCommand(this.ConfigureApplication, true), "Configure application");
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
@@ -17,8 +15,6 @@ using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.VMtoVMapping;
 
-#endregion
-
 namespace TrayGarden.UI.WindowWithReturn
 {
   /// <summary>
@@ -26,21 +22,11 @@ namespace TrayGarden.UI.WindowWithReturn
   /// </summary>
   public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithBack
   {
-    #region Static Fields
-
     protected static bool _exitOnClose;
-
-    #endregion
 
     /*protected MappingsBasedContentValueConverter ViewModelToViewConverter { get; set; }*/
 
-    #region Fields
-
     protected string iconResourceKey;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     static WindowWithBack()
     {
@@ -56,10 +42,6 @@ namespace TrayGarden.UI.WindowWithReturn
       this.Hide();
       this.SetIcon();
     }
-
-    #endregion
-
-    #region Public Properties
 
     public static bool ExitOnClose
     {
@@ -95,19 +77,11 @@ namespace TrayGarden.UI.WindowWithReturn
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected static ISettingsBox WindowWithBackSettingsBox { get; set; }
 
     protected List<IViewModelToViewMapping> Mappings { get; set; }
 
     protected WindowState StateToRestore { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public void BringToFront()
     {
@@ -142,10 +116,6 @@ namespace TrayGarden.UI.WindowWithReturn
       this.Show();
       this.WindowState = this.StateToRestore;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void CleanupAndDisposeDataContext()
     {
@@ -226,7 +196,5 @@ namespace TrayGarden.UI.WindowWithReturn
       }
       return true;
     }
-
-    #endregion
   }
 }

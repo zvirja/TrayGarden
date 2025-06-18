@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -17,23 +15,15 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 {
   public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResultProvider
   {
-    #region Fields
-
     protected bool isAlive;
 
     protected string permanentCloseDescription;
 
     protected PositionSize positionAndSize;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public NotificationWindowVM(
       [NotNull] PositionSize actualPositionAndSize,
@@ -55,17 +45,9 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
       this.PermanentCloseCommand = new RelayCommand(this.OnPermanentlyCloseExecute, true);
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
 
     public event EventHandler<ResultObtainedEventArgs> ResultObtained;
-
-    #endregion
-
-    #region Public Properties
 
     public ICommand CloseCommand { get; set; }
 
@@ -201,10 +183,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 
     public NotificationResult Result { get; protected set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void Dispose()
     {
       //Check whether this result was accepted. Otherwise no sense to inform listeners that we received it.
@@ -219,10 +197,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
         this.FireFireworkWeHaveResult();
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void FireFireworkWeHaveResult()
     {
@@ -288,7 +262,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
       this.Result = result;
       return true;
     }
-
-    #endregion
   }
 }

@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Services.FleaMarket.IconChanger;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 {
   public class ProcessorArgs
   {
-    #region Constructors and Destructors
-
     public ProcessorArgs(bool onlyShorteningRequired, bool clipboardEvent, string predefinedClipboardValue, bool originatorIsGlobalIcon)
     {
       this.OnlyShorteningRequired = onlyShorteningRequired;
@@ -22,10 +16,6 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
       this.PredefinedClipboardValue = predefinedClipboardValue;
       this.OriginatorIsGlobalIcon = originatorIsGlobalIcon;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public bool Aborted { get; protected set; }
 
@@ -47,15 +37,9 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 
     public bool ShouldBeShorted { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public void Abort()
     {
       this.Aborted = true;
     }
-
-    #endregion
   }
 }

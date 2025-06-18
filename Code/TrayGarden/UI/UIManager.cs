@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Threading;
 
-#endregion
-
 namespace TrayGarden.UI
 {
   public class UIManager : IUIManager
   {
-    #region Public Methods and Operators
-
     public virtual DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action)
     {
       return this.PerformOnDispatcherAsync(action);
@@ -50,10 +44,6 @@ namespace TrayGarden.UI
       var result = this.PerformOnDispatcher(new Func<MessageBoxResult>(() => MessageBox.Show(text, caption, MessageBoxButton.YesNo, image)));
       return ((MessageBoxResult)result) == MessageBoxResult.Yes;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual object PerformActionOnDispatcher(Action action)
     {
@@ -110,7 +100,5 @@ namespace TrayGarden.UI
     {
       return this.PerformOnDispatcherAsync(new Action<object>(this.ShowPassedWindow), window);
     }
-
-    #endregion
   }
 }

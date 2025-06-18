@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,22 +9,14 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Pipelines.Engine
 {
   [UsedImplicitly]
   public class Processor
   {
-    #region Properties
-
     protected bool Initialized { get; set; }
 
     protected Delegate Invoker { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual bool Initialize([NotNull] object processorObject, [NotNull] Type argumentType)
@@ -62,10 +52,6 @@ namespace TrayGarden.Pipelines.Engine
       return !this.Initialized ? base.ToString() : "Processor. Executable type: {0}".FormatWith(this.Invoker.Target.GetType().FullName);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual Delegate ResolveInvoker(object processorObject, Type argumentType)
     {
       Type processorObjType = processorObject.GetType();
@@ -95,7 +81,5 @@ namespace TrayGarden.Pipelines.Engine
       Type firstParamType = processParams[0].ParameterType;
       return firstParamType == argumentType;
     }
-
-    #endregion
   }
 }

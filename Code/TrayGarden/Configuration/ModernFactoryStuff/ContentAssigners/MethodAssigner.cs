@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,14 +9,10 @@ using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
   public class MethodAssigner : IContentAssigner
   {
-    #region Public Methods and Operators
-
     public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver)
     {
       var methodInfo = this.ResolveMethodInfo(contentNode, instance, instanceType);
@@ -30,10 +24,6 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
       object[] methodArgs = this.GetArgValues(contentNode, methodArgTypes, valueParcerResolver);
       this.InvokeMethod(methodInfo, methodArgs, instance);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual Type[] GetArgTypes(XmlNode contentNode)
     {
@@ -118,7 +108,5 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
       }
       return resolvedMI;
     }
-
-    #endregion
   }
 }

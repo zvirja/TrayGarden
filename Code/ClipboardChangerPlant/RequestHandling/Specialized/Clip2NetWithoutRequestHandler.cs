@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -18,20 +16,12 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   [UsedImplicitly]
   public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
   {
-    #region Fields
-
     protected string revertDialogHeader = "Clip2Net value was transformed";
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override bool TryProcess(string inputValue, out string result)
     {
@@ -46,10 +36,6 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
         return false;
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected override string GetEnabledSettingName()
     {
@@ -94,7 +80,5 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
       var imgNode = root.Element("img");
       return imgNode.Attribute("src").Value;
     }
-
-    #endregion
   }
 }

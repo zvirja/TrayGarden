@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
@@ -15,14 +13,10 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMP
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
 {
   public class ResolvePlantsConfigVM
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetMainVMPipelineArgs args)
     {
@@ -30,10 +24,6 @@ namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
       plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(this.GetSinglePlantVMs());
       args.PlantsConfigVM = plantsConfig;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
     {
@@ -59,7 +49,5 @@ namespace TrayGarden.UI.MainWindow.ResolveVMPipeline
 
       return result;
     }
-
-    #endregion
   }
 }

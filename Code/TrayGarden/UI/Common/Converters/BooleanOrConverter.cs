@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,14 +8,10 @@ using System.Windows.Data;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.UI.Common.Converters
 {
   public class BooleanOrConverter : IMultiValueConverter
   {
-    #region Public Methods and Operators
-
     public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
     {
       foreach (object value in values)
@@ -36,7 +30,5 @@ namespace TrayGarden.UI.Common.Converters
     {
       throw new NotSupportedException();
     }
-
-    #endregion
   }
 }

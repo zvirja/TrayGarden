@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +9,11 @@ using ClipboardChangerPlant.Properties;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 
-#endregion
-
 namespace ClipboardChangerPlant.NotificationIcon
 {
   public class GlobalMenuExtender : TrayGarden.Reception.Services.IExtendsGlobalMenu
   {
-    #region Static Fields
-
     public static GlobalMenuExtender ActualExtender = new GlobalMenuExtender();
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
     {
@@ -36,10 +26,6 @@ namespace ClipboardChangerPlant.NotificationIcon
       return true;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void HandleClipboard(object sender, EventArgs e)
     {
       Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(false, false, null, true);
@@ -49,7 +35,5 @@ namespace ClipboardChangerPlant.NotificationIcon
     {
       Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(true, false, null, true);
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,26 +10,14 @@ using TrayGarden.Helpers;
 using TrayGarden.Plants;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.Engine
 {
   [UsedImplicitly]
   public class ServicesSteward : IServicesSteward
   {
-    #region Public Properties
-
     public List<IService> Services { get; set; }
 
-    #endregion
-
-    #region Properties
-
     protected bool Initialized { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void InformClosingStage()
     {
@@ -109,10 +95,6 @@ namespace TrayGarden.Services.Engine
       this.Initialized = true;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void AquaintPlantWithServices(IPlantEx plantEx)
     {
       foreach (IService service in this.Services)
@@ -138,7 +120,5 @@ namespace TrayGarden.Services.Engine
         throw new NonInitializedException();
       }
     }
-
-    #endregion
   }
 }

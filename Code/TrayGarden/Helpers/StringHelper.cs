@@ -1,18 +1,12 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Helpers
 {
   public static class StringHelper
   {
-    #region Public Methods and Operators
-
     public static string FormatWith(this string format, params object[] @params)
     {
       return string.Format(format, @params);
@@ -32,7 +26,5 @@ namespace TrayGarden.Helpers
     {
       return !string.IsNullOrEmpty(str);
     }
-
-    #endregion
   }
 }

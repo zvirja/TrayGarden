@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +11,10 @@ using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.Services.PlantServices.RareCommands.Core;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.RareCommands.UI
 {
   public class RareCommandsPresenter
   {
-    #region Public Methods and Operators
-
     public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
     {
       var service = (RareCommandsService)HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(x => x.GetType().IsAssignableFrom(typeof(RareCommandsService)));
@@ -46,10 +40,6 @@ namespace TrayGarden.Services.PlantServices.RareCommands.UI
         args.PlantVM.ServicesVM.Add(vmBase);
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual List<ServiceForPlantVMBase> GetActionsVM(RareCommandsService serviceInstance, IPlantEx plantEx)
     {
@@ -80,7 +70,5 @@ namespace TrayGarden.Services.PlantServices.RareCommands.UI
     {
       return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, this.GetCommandWrapper(rareCommand));
     }
-
-    #endregion
   }
 }

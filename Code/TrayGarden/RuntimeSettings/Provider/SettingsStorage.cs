@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -13,15 +11,11 @@ using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.RuntimeSettings.Provider
 {
   [UsedImplicitly]
   public class SettingsStorage : ISettingsStorage
   {
-    #region Constructors and Destructors
-
     public SettingsStorage()
     {
       this.FileName = "RuntimeSettings.xml";
@@ -29,27 +23,15 @@ namespace TrayGarden.RuntimeSettings.Provider
       this.EnableDebuggingTraces = false;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public virtual bool EnableDebuggingTraces { get; set; }
 
     public virtual string FileName { get; set; }
 
     public virtual bool UseLocalFolder { get; set; }
 
-    #endregion
-
-    #region Properties
-
     protected IObjectFactory ContainerFactory { get; set; }
 
     protected IContainer ResolvedRootContainer { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IContainer GetRootContainer()
     {
@@ -81,10 +63,6 @@ namespace TrayGarden.RuntimeSettings.Provider
       bool result = this.SerializeToStorageFile(rootBucket);
       return result;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual Bucket BuildBucketFromContainer(IContainer rootContainer)
     {
@@ -223,7 +201,5 @@ namespace TrayGarden.RuntimeSettings.Provider
         Log.Error("Enable to perform trace logging for SettingsStorage", ex, this);
       }
     }
-
-    #endregion
   }
 }

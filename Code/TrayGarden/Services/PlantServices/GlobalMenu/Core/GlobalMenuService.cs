@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -20,15 +18,11 @@ using TrayGarden.UI.MainWindow;
 
 using Application = System.Windows.Application;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 {
   [UsedImplicitly]
   public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
   {
-    #region Constructors and Destructors
-
     public GlobalMenuService()
       : base("Global Menu", "GlobalMenuService")
     {
@@ -36,10 +30,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       this.TrayIconResourceName = "gardenIcon";
       this.ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
     }
-
-    #endregion
-
-    #region Public Properties
 
     public override bool CanBeDisabled
     {
@@ -55,17 +45,9 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
 
     public string TrayIconResourceName { get; set; }
 
-    #endregion
-
-    #region Properties
-
     protected NotifyIcon GlobalNotifyIcon { get; set; }
 
     protected bool Initialized { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override void InformClosingStage()
     {
@@ -121,10 +103,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       base.InitializePlant(plantEx);
       this.InitializePlantFromPipeline(plantEx);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
     {
@@ -217,7 +195,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core
       }
       plantBox.FixVisibility();
     }
-
-    #endregion
   }
 }

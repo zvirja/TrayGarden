@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,15 +11,11 @@ using TrayGarden.Resources;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting
 {
   [UsedImplicitly]
   public class ContextMenuBuilder
   {
-    #region Constructors and Destructors
-
     public ContextMenuBuilder()
     {
       this.ConfigureIconResourceName = "configureV1";
@@ -29,10 +23,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
       this.BoldMainMenuEntries = true;
       this.ItalicMainMenuEntries = true;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public bool BoldMainMenuEntries { get; set; }
 
@@ -48,10 +38,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
 
     public bool ItalicMainMenuEntries { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
     {
       var contextMenuStrip = new ContextMenuStrip();
@@ -61,10 +47,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
       dynamicStateWatcher.BindToMenuStrip(contextMenuStrip);
       return contextMenuStrip;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
     {
@@ -135,7 +117,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollectin
       }
       return result;
     }
-
-    #endregion
   }
 }

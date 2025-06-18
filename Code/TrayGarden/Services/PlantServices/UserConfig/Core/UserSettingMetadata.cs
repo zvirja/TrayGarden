@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,14 +6,10 @@ using System.Text;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   public class UserSettingMetadata<T> : IUserSettingMetadataMaster<T>
   {
-    #region Public Properties
-
     public virtual object AdditionalParams { get; protected set; }
 
     public T DefaultValue { get; protected set; }
@@ -27,10 +21,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
     public virtual string Name { get; protected set; }
 
     public virtual string Title { get; protected set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public void Initialize(
       string name,
@@ -49,7 +39,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       this.AdditionalParams = additionalParams;
       this.Hallmark = hallmark;
     }
-
-    #endregion
   }
 }

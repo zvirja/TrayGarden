@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -15,23 +13,15 @@ using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
   public class ServiceForPlantVMBase : INotifyPropertyChanged
   {
-    #region Fields
-
     protected string _description;
 
     protected string _serviceName;
 
     protected ICommand _showDescription;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ServiceForPlantVMBase([NotNull] string serviceName, [NotNull] string description)
     {
@@ -42,15 +32,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
       this.ShowDescription = new RelayCommand(this.ShowDescriptionAction, true);
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public string Description
     {
@@ -105,10 +87,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
       }
     }
 
-    #endregion
-
-    #region Methods
-
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged(string propertyName)
     {
@@ -123,7 +101,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
     {
       HatcherGuide<IUIManager>.Instance.OKMessageBox(this.ServiceName, this.Description, MessageBoxImage.Question);
     }
-
-    #endregion
   }
 }

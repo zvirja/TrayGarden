@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Diagnostics
 {
   public static class Assert
   {
-    #region Public Methods and Operators
-
     public static void ArgumentNotNull(object argument, string arumentName)
     {
       if (!(argument != null))
@@ -52,7 +46,5 @@ namespace TrayGarden.Diagnostics
         throw new ArgumentException(message);
       }
     }
-
-    #endregion
   }
 }

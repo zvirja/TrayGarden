@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,21 +12,13 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Resources;
 
-#endregion
-
 namespace TrayGarden.Services.FleaMarket.IconChanger
 {
   public class NotifyIconChanger : INotifyIconChangerMaster
   {
-    #region Fields
-
     protected CancellationTokenSource _currentCancellationTokenSource;
 
     protected Task _currentUpdateIconTask;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public NotifyIconChanger()
     {
@@ -36,17 +26,9 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
       this.IsEnabled = true;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public int DefaultDelayMsec { get; set; }
 
     public bool IsEnabled { get; set; }
-
-    #endregion
-
-    #region Properties
 
     protected Icon BackIcon { get; set; }
 
@@ -55,10 +37,6 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
     protected bool Initialized { get; set; }
 
     protected NotifyIcon OperableNIcon { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
     {
@@ -94,10 +72,6 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
       this.SetIcon(newIcon, this.DefaultDelayMsec);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void AssertInitialized()
     {
       if (!this.Initialized)
@@ -130,7 +104,5 @@ namespace TrayGarden.Services.FleaMarket.IconChanger
           },
         this._currentCancellationTokenSource.Token);
     }
-
-    #endregion
   }
 }

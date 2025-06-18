@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,23 +10,15 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core
 {
   public class UserNotificationsService : PlantServiceBase<UserNotificationsServicePlantBox>
   {
-    #region Constructors and Destructors
-
     public UserNotificationsService()
       : base("User notifications", UserNotificationsConfiguration.SettingsBoxName)
     {
       this.ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override void InformClosingStage()
     {
@@ -41,10 +31,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core
       base.InitializePlant(plantEx);
       this.InitializePlantInternal(plantEx);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void InitializePlantInternal(IPlantEx plant)
     {
@@ -62,7 +48,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core
       plant.PutLuggage(this.LuggageName, plantBox);
       workhorse.StoreLordOfNotifications(lord);
     }
-
-    #endregion
   }
 }

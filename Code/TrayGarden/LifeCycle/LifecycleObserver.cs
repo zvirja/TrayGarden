@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,19 +11,11 @@ using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
 using TrayGarden.Resources;
 
-#endregion
-
 namespace TrayGarden.LifeCycle
 {
   public class LifecycleObserver
   {
-    #region Properties
-
     protected static LifecycleObserver Observer { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static void NotifyStartup(string[] args)
     {
@@ -43,10 +33,6 @@ namespace TrayGarden.LifeCycle
     {
       RestartAppPipeline.Run(paramsToAdd);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ApplicationExit(object sender, ExitEventArgs e)
     {
@@ -99,7 +85,5 @@ namespace TrayGarden.LifeCycle
       e.Handled = true;
       Application.Current.Shutdown(1);
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -8,14 +6,10 @@ using System.Text;
 
 using ClipboardChangerPlant.NotificationIcon;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.PipelineModel
 {
   public class Processor
   {
-    #region Properties
-
     protected virtual Icon ErrorTrayIcon
     {
       get
@@ -40,17 +34,9 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void Process(ProcessorArgs args)
     {
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
     {
@@ -62,7 +48,5 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel
     {
       this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
     }
-
-    #endregion
   }
 }

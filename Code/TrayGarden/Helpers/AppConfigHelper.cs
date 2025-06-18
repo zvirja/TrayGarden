@@ -1,19 +1,13 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
 using System.Text;
 
-#endregion
-
 namespace TrayGarden.Helpers
 {
   public static class AppConfigHelper
   {
-    #region Public Methods and Operators
-
     public static bool GetBoolSetting(string name, bool defaultValue)
     {
       string setting = ConfigurationManager.AppSettings[name];
@@ -28,7 +22,5 @@ namespace TrayGarden.Helpers
       }
       return defaultValue;
     }
-
-    #endregion
   }
 }

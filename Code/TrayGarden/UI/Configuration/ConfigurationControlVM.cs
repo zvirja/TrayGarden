@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -16,19 +14,11 @@ using TrayGarden.LifeCycle;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.EntryVM;
 
-#endregion
-
 namespace TrayGarden.UI.Configuration
 {
   public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyChanged
   {
-    #region Fields
-
     protected bool _calculateRebootOption;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ConfigurationControlVM([NotNull] List<ConfigurationEntryBaseVM> configurationEntries, bool allowResetAll)
     {
@@ -42,15 +32,7 @@ namespace TrayGarden.UI.Configuration
         "here you configure properties for plant. Normally you don't need reboot to apply them.".FormatWith(Environment.NewLine);
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
 
     /// <summary>
     /// Determines whether "Reboot" button should be calculated. If disabled, the strip will not be displayed even if some entries require reboot.
@@ -96,10 +78,6 @@ namespace TrayGarden.UI.Configuration
 
     public ICommand ResetAll { get; protected set; }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void ConfigurationEntry_PropertyChanged(object sender, PropertyChangedEventArgs e)
     {
       if (e.PropertyName.Equals("RequiresApplicationReboot", StringComparison.OrdinalIgnoreCase))
@@ -141,7 +119,5 @@ namespace TrayGarden.UI.Configuration
         configurationEntry.PropertyChanged += this.ConfigurationEntry_PropertyChanged;
       }
     }
-
-    #endregion
   }
 }

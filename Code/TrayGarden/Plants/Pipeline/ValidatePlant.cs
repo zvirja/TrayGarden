@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +9,11 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Reception;
 
-#endregion
-
 namespace TrayGarden.Plants.Pipeline
 {
   [UsedImplicitly]
   public class ValidatePlant
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(InitializePlantArgs args)
     {
@@ -31,7 +25,5 @@ namespace TrayGarden.Plants.Pipeline
         args.ResolvedPlantEx = null;
       }
     }
-
-    #endregion
   }
 }

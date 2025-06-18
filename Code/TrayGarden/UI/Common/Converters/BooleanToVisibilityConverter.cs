@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -10,28 +8,16 @@ using System.Windows.Data;
 
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.UI.Common.Converters
 {
   public class BooleanToVisibilityConverter : IValueConverter
   {
-    #region Constructors and Destructors
-
     public BooleanToVisibilityConverter()
     {
       this.DefaultNonVisibleVisibility = Visibility.Hidden;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public Visibility DefaultNonVisibleVisibility { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
     {
@@ -60,7 +46,5 @@ namespace TrayGarden.UI.Common.Converters
     {
       throw new NotSupportedException();
     }
-
-    #endregion
   }
 }

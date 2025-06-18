@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Json;
 using System.Text;
 
-#endregion
-
 namespace ClipboardChangerPlant.Shortening.Google
 {
   public class SerializationHelper
   {
-    #region Public Methods and Operators
-
     public static T DeserializeObject<T>(Stream stream) where T : class
     {
       if (stream == null)
@@ -42,7 +36,5 @@ namespace ClipboardChangerPlant.Shortening.Google
       ms.Seek(0, SeekOrigin.Begin);
       return Encoding.UTF8.GetString(ms.GetBuffer(), 0, (int)ms.Length);
     }
-
-    #endregion
   }
 }

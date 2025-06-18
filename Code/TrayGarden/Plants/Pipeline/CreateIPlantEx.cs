@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,11 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.Plants.Pipeline
 {
   [UsedImplicitly]
   public class CreateIPlantEx
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(InitializePlantArgs args)
     {
@@ -32,7 +26,5 @@ namespace TrayGarden.Plants.Pipeline
         Log.Error("Can't initialize PlantEx", ex, this);
       }
     }
-
-    #endregion
   }
 }

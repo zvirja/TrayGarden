@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,20 +10,12 @@ using ClipboardChangerPlant.RequestHandling;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace ClipboardChangerPlant.Engine
 {
   [UsedImplicitly]
   public class AppEngine
   {
-    #region Static Fields
-
     private static Lazy<AppEngine> _actualEngine = new Lazy<AppEngine>(() => Factory.ActualFactory.GetApplicationEngine());
-
-    #endregion
-
-    #region Public Properties
 
     public static AppEngine ActualEngine
     {
@@ -36,10 +26,6 @@ namespace ClipboardChangerPlant.Engine
     }
 
     public ProcessManager RequestProcessManager { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual void PostInit()
     {
@@ -58,10 +44,6 @@ namespace ClipboardChangerPlant.Engine
       RequestHandlerChief.PreInit();
     }
 
-    #endregion
-
-    #region Methods
-
     private void NotifyManagerOnMainActionRequested(object o)
     {
       this.RequestProcessManager.ProcessRequest(false, false, null, false);
@@ -76,7 +58,5 @@ namespace ClipboardChangerPlant.Engine
     {
       this.RequestProcessManager.ProcessRequest(false, true, s, false);
     }
-
-    #endregion
   }
 }

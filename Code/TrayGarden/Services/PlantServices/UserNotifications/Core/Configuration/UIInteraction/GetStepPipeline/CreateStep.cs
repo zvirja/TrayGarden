@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,11 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline
 {
   [UsedImplicitly]
   public class CreateStep
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(UNConfigurationStepArgs args)
     {
@@ -30,7 +24,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
         constructInfo.SuperAction,
         constructInfo.StateSpecificHelpActions);
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +6,11 @@ using System.Xml;
 
 using ClipboardChangerPlant.Configuration;
 
-#endregion
-
 namespace ClipboardChangerPlant.Shortening
 {
   public class ShortenerProvider : INeedCongurationNode
   {
-    #region Fields
-
     protected XmlHelper ConfigurationHelper;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual string ApiKey
     {
@@ -32,10 +22,6 @@ namespace ClipboardChangerPlant.Shortening
 
     public string Name { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public void SetConfigurationNode(XmlNode configurationNode)
     {
       this.ConfigurationHelper = new XmlHelper(configurationNode);
@@ -46,7 +32,5 @@ namespace ClipboardChangerPlant.Shortening
       shortedUrl = originalUrl;
       return true;
     }
-
-    #endregion
   }
 }

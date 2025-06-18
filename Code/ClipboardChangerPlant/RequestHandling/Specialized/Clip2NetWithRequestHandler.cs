@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,15 +7,11 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace ClipboardChangerPlant.RequestHandling.Specialized
 {
   [UsedImplicitly]
   public class Clip2NetWithRequestHandler : Clip2NetWithoutRequestHandler
   {
-    #region Public Methods and Operators
-
     public override bool TryProcess(string inputValue, out string result)
     {
       try
@@ -38,10 +32,6 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
         return false;
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual string ExcractOriginalUrl(string pageBody)
     {
@@ -83,7 +73,5 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized
     {
       return "Clip2Net(req) ask for revert";
     }
-
-    #endregion
   }
 }

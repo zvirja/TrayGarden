@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,8 +10,6 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 using TrayGarden.UI.Common.Converters;
 using TrayGarden.UI.Common.VMtoVMapping;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
 {
   /// <summary>
@@ -21,17 +17,11 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
   /// </summary>
   public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMappingsSource
   {
-    #region Static Fields
-
     public static readonly DependencyProperty ReadyToBeClosedProperty = DependencyProperty.Register(
       "ReadyToBeClosed",
       typeof(bool),
       typeof(NotificationWindow),
       new PropertyMetadata(default(bool), ReadyToBeClosedChanged));
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public NotificationWindow()
     {
@@ -66,10 +56,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
      // InitializeComponent();*/
     }
 
-    #endregion
-
-    #region Public Properties
-
     public List<IViewModelToViewMapping> Mappings { get; protected set; }
 
     public bool ReadyToBeClosed
@@ -83,10 +69,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
         this.SetValue(ReadyToBeClosedProperty, value);
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual List<IViewModelToViewMapping> GetMappings()
     {
@@ -116,10 +98,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
       this.InitializeComponent();
       this.Show();
     }
-
-    #endregion
-
-    #region Methods
 
     protected static void ReadyToBeClosedChanged(
       DependencyObject dependencyObject,
@@ -152,8 +130,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI
       }
       base.OnMouseEnter(e);
     }
-
-    #endregion
 
     /* protected override void OnMouseLeave(System.Windows.Input.MouseEventArgs e)
     {

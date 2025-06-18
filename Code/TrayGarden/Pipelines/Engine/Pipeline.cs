@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,30 +8,18 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Pipelines.Engine
 {
   [UsedImplicitly]
   public class Pipeline : IPipeline
   {
-    #region Public Properties
-
     public virtual Type ArgumentType { get; protected set; }
 
     public virtual string Name { get; protected set; }
 
-    #endregion
-
-    #region Properties
-
     protected bool Initialized { get; set; }
 
     protected virtual List<Processor> Processors { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize([NotNull] Type argumentType, [NotNull] string name, List<Processor> processors)
@@ -98,7 +84,5 @@ namespace TrayGarden.Pipelines.Engine
                  this.Processors.Count)
                : base.ToString();
     }
-
-    #endregion
   }
 }

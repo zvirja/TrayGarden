@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,15 +14,11 @@ using TrayGarden.Services.PlantServices.UserConfig.UI.UserSettingPlayers;
 using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.ForSimplerLife;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {
   [UsedImplicitly]
   public class ResolveConfigurationEntries
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetUCStepPipelineArgs args)
     {
@@ -35,10 +29,6 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
       }
       configurationConstructInfo.ConfigurationEntries.AddRange(this.GetSettingVMs(args.UCServicePlantBox));
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual ConfigurationEntryBaseVM GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
     {
@@ -83,7 +73,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
       }
       return result;
     }
-
-    #endregion
   }
 }

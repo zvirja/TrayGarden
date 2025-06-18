@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,14 +11,10 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDeliveri
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
   public class InformNotificationVM : SpecializedNotificationVMBase, IInformNotification
   {
-    #region Constructors and Destructors
-
     public InformNotificationVM(string textToDisplay)
     {
       this.TextToDisplay = textToDisplay;
@@ -28,25 +22,15 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
       this.TextDisplayFont = new TextDisplayOptions(Brushes.DimGray, 20.0) { Margins = new Thickness(7) };
     }
 
-    #endregion
-
-    #region Public Properties
-
     public ICommand OnTextClick { get; protected set; }
 
     public TextDisplayOptions TextDisplayFont { get; set; }
 
     public string TextToDisplay { get; set; }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnTextClicked(object obj)
     {
       this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
     }
-
-    #endregion
   }
 }

@@ -1,13 +1,9 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.RuntimeSettings;
-
-#endregion
 
 namespace TrayGarden.Reception.Services
 {
@@ -17,10 +13,6 @@ namespace TrayGarden.Reception.Services
   /// </summary>
   public interface IGetCustomSettingsStorage
   {
-    #region Public Methods and Operators
-
     void StoreCustomSettingsStorage(ISettingsBox settingsStorage);
-
-    #endregion
   }
 }

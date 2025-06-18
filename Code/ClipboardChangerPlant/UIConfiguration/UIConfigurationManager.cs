@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,22 +6,14 @@ using System.Text;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-#endregion
-
 namespace ClipboardChangerPlant.UIConfiguration
 {
   public class UIConfigurationManager : IUserConfiguration
   {
-    #region Constructors and Destructors
-
     static UIConfigurationManager()
     {
       ActualManager = new UIConfigurationManager();
     }
-
-    #endregion
-
-    #region Public Properties
 
     public static UIConfigurationManager ActualManager { get; protected set; }
 
@@ -37,15 +27,9 @@ namespace ClipboardChangerPlant.UIConfiguration
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
     {
       this.SettingsSteward = personalSettingsSteward;
     }
-
-    #endregion
   }
 }

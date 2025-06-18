@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,29 +9,17 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
-#endregion
-
 namespace TrayGarden.Plants
 {
   [UsedImplicitly]
   public class PlantEx : IPlantEx
   {
-    #region Constructors and Destructors
-
     public PlantEx()
     {
       this.Cloakroom = new Dictionary<string, object>();
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PlantEnabledChangedEvent EnabledChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public string ID { get; protected set; }
 
@@ -58,17 +44,9 @@ namespace TrayGarden.Plants
 
     public List<object> Workhorses { get; protected set; }
 
-    #endregion
-
-    #region Properties
-
     protected Dictionary<string, object> Cloakroom { get; set; }
 
     protected bool Initialized { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public T GetFirstWorkhorseOfType<T>()
     {
@@ -120,10 +98,6 @@ namespace TrayGarden.Plants
       this.Cloakroom[name] = luggage;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void AssertInitialized()
     {
       if (!this.Initialized)
@@ -140,7 +114,5 @@ namespace TrayGarden.Plants
         handler(plantEx, newValue);
       }
     }
-
-    #endregion
   }
 }

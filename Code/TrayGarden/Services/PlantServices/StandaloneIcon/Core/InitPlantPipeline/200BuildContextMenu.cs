@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -13,29 +11,17 @@ using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Resources;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {
   [UsedImplicitly]
   public class BuildContextMenu
   {
-    #region Constructors and Destructors
-
     public BuildContextMenu()
     {
       this.ExitEntryIconResName = "exitIconV1";
     }
 
-    #endregion
-
-    #region Public Properties
-
     public string ExitEntryIconResName { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Process(InitPlantSIArgs args)
@@ -49,10 +35,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
       this.DrawInstanceIndependentContextMenu(contextMenu, args);
       args.SIBox.NotifyIcon.ContextMenuStrip = contextMenu;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void DrawInstanceIndependentContextMenu(ContextMenuStrip contextMenu, InitPlantSIArgs args)
     {
@@ -88,7 +70,5 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
       }
       contextMenu.Items.Add("-");
     }
-
-    #endregion
   }
 }

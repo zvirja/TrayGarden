@@ -1,18 +1,12 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Helpers
 {
   public static class ReflectionHelper
   {
-    #region Public Methods and Operators
-
     public static Type ResolveType(string typeName)
     {
       Type resolved = Type.GetType(typeName, false);
@@ -30,7 +24,5 @@ namespace TrayGarden.Helpers
       }
       return resolved;
     }
-
-    #endregion
   }
 }

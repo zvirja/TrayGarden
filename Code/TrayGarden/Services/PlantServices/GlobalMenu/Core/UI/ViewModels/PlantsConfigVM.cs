@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -9,34 +7,18 @@ using System.Text;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
   public class PlantsConfigVM : INotifyPropertyChanged
   {
-    #region Fields
-
     protected ObservableCollection<SinglePlantVM> _plantVMs;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public PlantsConfigVM()
     {
       this.PlantVMs = new ObservableCollection<SinglePlantVM>();
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public ObservableCollection<SinglePlantVM> PlantVMs
     {
@@ -55,10 +37,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
       }
     }
 
-    #endregion
-
-    #region Methods
-
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged(string propertyName)
     {
@@ -68,7 +46,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
         handler(this, new PropertyChangedEventArgs(propertyName));
       }
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -14,15 +12,11 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Reception.Services.StandaloneIcon;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline
 {
   [UsedImplicitly]
   public class CreateNotifyIcon
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(InitPlantSIArgs args)
     {
@@ -38,10 +32,6 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
         args.Abort();
       }
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
     {
@@ -80,7 +70,5 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
       notifyIcon.MouseClick += (sender, eventArgs) => Task.Factory.StartNew(() => niClickHandler(sender, eventArgs));
       args.SIBox.NotifyIcon = notifyIcon;
     }
-
-    #endregion
   }
 }

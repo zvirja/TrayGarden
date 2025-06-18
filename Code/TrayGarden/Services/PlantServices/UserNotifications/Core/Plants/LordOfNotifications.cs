@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,28 +9,16 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNot
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants
 {
   public class LordOfNotifications : ILordOfNotifications
   {
-    #region Constructors and Destructors
-
     public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
     {
       this.RelatedPlantBox = relatedPlantBox;
     }
 
-    #endregion
-
-    #region Properties
-
     protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IActionNotification CreateActionNotification(string headerText, string buttonText)
     {
@@ -59,7 +45,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants
         notificationBlank,
         this.RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
     }
-
-    #endregion
   }
 }

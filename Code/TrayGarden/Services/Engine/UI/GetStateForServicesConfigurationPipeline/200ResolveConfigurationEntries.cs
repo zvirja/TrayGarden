@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,23 +9,15 @@ using TrayGarden.Services.Engine.UI.Intergration;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Configuration.EntryVM;
 
-#endregion
-
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 {
   public class ResolveConfigurationEntries
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
     {
       args.ConfigConstructInfo.ConfigurationEntries = this.GetConfigurationEntriesFromServices();
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual List<ConfigurationEntryBaseVM> GetConfigurationEntriesFromServices()
     {
@@ -40,7 +30,5 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
     {
       return new BoolConfigurationEntryVM(new ConfigurationPlayerService(service)) { RestoreDefaultValueTooltip = "Reset to actual" };
     }
-
-    #endregion
   }
 }

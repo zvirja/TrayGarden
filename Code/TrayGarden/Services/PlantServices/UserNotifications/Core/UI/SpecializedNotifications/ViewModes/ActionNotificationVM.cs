@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,19 +11,11 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDeliveri
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes
 {
   public class ActionNotificationVM : SpecializedNotificationVMBase, IActionNotification
   {
-    #region Fields
-
     private ImageSource buttonImage;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ActionNotificationVM(string headerText, string buttonText)
     {
@@ -41,10 +31,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
 
       this.SubmitCommand = new RelayCommand(this.OnSubmit, true);
     }
-
-    #endregion
-
-    #region Public Properties
 
     public ImageSource ButtonImage
     {
@@ -72,15 +58,9 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Specialize
 
     public ICommand SubmitCommand { get; set; }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnSubmit(object o)
     {
       base.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
     }
-
-    #endregion
   }
 }

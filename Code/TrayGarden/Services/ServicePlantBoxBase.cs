@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +6,13 @@ using System.Text;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
 
-#endregion
-
 namespace TrayGarden.Services
 {
   public class ServicePlantBoxBase
   {
-    #region Delegates
-
     public delegate void ServicePlantBoxEnabledChanged(ServicePlantBoxBase sender, bool newValue);
 
-    #endregion
-
-    #region Public Events
-
     public event ServicePlantBoxEnabledChanged IsEnabledChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual bool IsEnabled
     {
@@ -46,10 +32,6 @@ namespace TrayGarden.Services
 
     public ISettingsBox SettingsBox { get; set; }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnIsEnabledChanged(bool newValue)
     {
       ServicePlantBoxEnabledChanged handler = this.IsEnabledChanged;
@@ -58,7 +40,5 @@ namespace TrayGarden.Services
         handler(this, newValue);
       }
     }
-
-    #endregion
   }
 }

@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +5,11 @@ using System.Text;
 
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
 {
   public interface IPersonalUserSettingsSteward
   {
-    #region Public Properties
-
     Dictionary<string, IUserSettingBase> DefinedSettings { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     IBoolUserSetting DeclareBoolSetting(
       string name,
@@ -65,7 +55,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces
     List<TSetting> GetAllUserSettingsOfType<TSetting>() where TSetting : IUserSettingBase;
 
     TSetting GetUserSettingOfType<TSetting>(string name) where TSetting : IUserSettingBase;
-
-    #endregion
   }
 }

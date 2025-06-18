@@ -1,25 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-#endregion
-
 namespace TrayGarden.Helpers
 {
   public static class ThreadContext
   {
-    #region Static Fields
-
     [ThreadStatic]
     private static Hashtable _hashtable;
-
-    #endregion
-
-    #region Public Properties
 
     public static Hashtable ContextItems
     {
@@ -33,7 +23,5 @@ namespace TrayGarden.Helpers
         return _hashtable;
       }
     }
-
-    #endregion
   }
 }

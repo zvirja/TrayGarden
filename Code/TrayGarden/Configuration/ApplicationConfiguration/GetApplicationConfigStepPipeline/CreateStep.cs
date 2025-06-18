@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +9,11 @@ using TrayGarden.Diagnostics;
 using TrayGarden.UI.ForSimplerLife;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline
 {
   [UsedImplicitly]
   public class CreateStep
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetApplicationConfigStepArgs args)
     {
@@ -33,7 +27,5 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
         stepInfo.SuperAction,
         stepInfo.StateSpecificHelpActions);
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,20 +11,12 @@ using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
-#endregion
-
 namespace ClipboardChangerPlant.Clipboard
 {
   [UsedImplicitly]
   public class ClipboardProvider : IClipboardWorks, IClipboardListener
   {
-    #region Static Fields
-
     protected static readonly string ListenClipboardSettingName = "Listen the clipboard";
-
-    #endregion
-
-    #region Public Events
 
     /// <summary>
     /// This event is raised even if update is initiated internally and actually hasn't been updated yet.
@@ -36,15 +26,7 @@ namespace ClipboardChangerPlant.Clipboard
 
     public event Action<string> OnClipboardValueChanged;
 
-    #endregion
-
-    #region Public Properties
-
     public IClipboardProvider ActualProvider { get; set; }
-
-    #endregion
-
-    #region Properties
 
     protected bool ListenClipboad
     {
@@ -55,10 +37,6 @@ namespace ClipboardChangerPlant.Clipboard
     }
 
     protected IBoolUserSetting ListenClipoardSetting { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual string GetValue()
     {
@@ -102,10 +80,6 @@ namespace ClipboardChangerPlant.Clipboard
       this.ActualProvider = provider;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual void OnOnClipboardValueChanged(string newValue)
     {
       Action<string> handler = this.OnClipboardValueChanged;
@@ -114,7 +88,5 @@ namespace ClipboardChangerPlant.Clipboard
         handler(newValue);
       }
     }
-
-    #endregion
   }
 }

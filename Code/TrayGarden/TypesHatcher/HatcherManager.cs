@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,30 +9,18 @@ using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.TypesHatcher
 {
   [UsedImplicitly]
   public class HatcherManager
   {
-    #region Static Fields
-
     protected static readonly Lazy<HatcherManager> Instance =
       new Lazy<HatcherManager>(() => Factory.Instance.GetObject<HatcherManager>("typeHatcherManager"));
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public HatcherManager()
     {
       this.Mappings = new Dictionary<Type, IObjectFactory>();
     }
-
-    #endregion
-
-    #region Public Properties
 
     public static HatcherManager Actual
     {
@@ -44,17 +30,9 @@ namespace TrayGarden.TypesHatcher
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected bool Initialized { get; set; }
 
     protected Dictionary<Type, IObjectFactory> Mappings { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual object GetNewObjectByType(Type keyInterface)
     {
@@ -102,10 +80,6 @@ namespace TrayGarden.TypesHatcher
       this.Initialized = true;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual bool ValidateMapping(IMapping mapping)
     {
       Type interfaceType = mapping.InterfaceType;
@@ -123,7 +97,5 @@ namespace TrayGarden.TypesHatcher
       }
       return true;
     }
-
-    #endregion
   }
 }

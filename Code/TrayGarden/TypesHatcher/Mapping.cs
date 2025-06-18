@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,22 +9,14 @@ using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.TypesHatcher
 {
   [UsedImplicitly]
   public class Mapping : IMapping
   {
-    #region Public Properties
-
     public Type InterfaceType { get; protected set; }
 
     public IObjectFactory ObjectFactory { get; protected set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize([NotNull] Type interfaceType, IObjectFactory objectFactory)
@@ -45,7 +35,5 @@ namespace TrayGarden.TypesHatcher
       }
       return "Mapping: Interface {0}, ObjFactory {1}".FormatWith(this.InterfaceType.FullName, this.ObjectFactory.GetType().FullName);
     }
-
-    #endregion
   }
 }

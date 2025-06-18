@@ -1,12 +1,8 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
-
-#endregion
 
 namespace TrayGarden.Reception.Services.StandaloneIcon
 {
@@ -16,10 +12,6 @@ namespace TrayGarden.Reception.Services.StandaloneIcon
   /// </summary>
   public interface IExtendContextMenu
   {
-    #region Public Methods and Operators
-
     List<ToolStripMenuItem> GetStripsToAdd();
-
-    #endregion
   }
 }

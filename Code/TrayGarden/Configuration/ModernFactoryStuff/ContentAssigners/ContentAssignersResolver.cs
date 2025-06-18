@@ -1,32 +1,18 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
   public class ContentAssignersResolver
   {
-    #region Constructors and Destructors
-
     public ContentAssignersResolver()
     {
       this.Assigners = new Dictionary<string, IContentAssigner>();
     }
 
-    #endregion
-
-    #region Properties
-
     protected Dictionary<string, IContentAssigner> Assigners { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IContentAssigner GetDirectAssigner(string hintValue)
     {
@@ -54,10 +40,6 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
       return assigner;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual IContentAssigner ResolveDirectAssigner(string hintValue)
     {
       switch (hintValue)
@@ -83,7 +65,5 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
           return new SimpleAssigner();
       }
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,15 +11,11 @@ using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration;
 using TrayGarden.UI.ForSimplerLife;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {
   [UsedImplicitly]
   public class AddResetAllHelpAction
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetUCStepPipelineArgs args)
     {
@@ -35,7 +29,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
       }
       stateInfo.StateSpecificHelpActions.Add(new ActionCommandVM(command, "Reset setting values"));
     }
-
-    #endregion
   }
 }

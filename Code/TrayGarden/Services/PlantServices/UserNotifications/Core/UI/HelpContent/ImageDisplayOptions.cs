@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Windows;
 using System.Windows.Media;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent
 {
   public class ImageDisplayOptions
   {
-    #region Constructors and Destructors
-
     public ImageDisplayOptions(double width, double height)
     {
       this.Width = width;
@@ -24,10 +18,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
       this.HorizontalAlignment = HorizontalAlignment.Center;
       this.VerticalAlignment = VerticalAlignment.Stretch;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public double Height { get; set; }
 
@@ -40,7 +30,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
     public VerticalAlignment VerticalAlignment { get; set; }
 
     public double Width { get; set; }
-
-    #endregion
   }
 }

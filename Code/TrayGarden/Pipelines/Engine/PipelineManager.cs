@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,31 +8,19 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Pipelines.Engine
 {
   [UsedImplicitly]
   public class PipelineManager : IPipelineManager
   {
-    #region Constructors and Destructors
-
     public PipelineManager()
     {
       this.PipelinesInternal = new Dictionary<string, IPipeline>();
     }
 
-    #endregion
-
-    #region Properties
-
     protected bool Initialized { get; set; }
 
     protected Dictionary<string, IPipeline> PipelinesInternal { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize(IEnumerable<IPipeline> pipelines)
@@ -80,10 +66,6 @@ namespace TrayGarden.Pipelines.Engine
       pipeline.Invoke(argument, false);
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual string GetPipelineKey(string pipelineName, Type pipelineArgumentType)
     {
       return string.Format("{0}&&{1}", pipelineName, pipelineArgumentType);
@@ -99,7 +81,5 @@ namespace TrayGarden.Pipelines.Engine
       IPipeline pipeline = this.PipelinesInternal[key];
       return pipeline;
     }
-
-    #endregion
   }
 }

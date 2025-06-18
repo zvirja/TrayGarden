@@ -1,20 +1,14 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 {
   public class FakeNotificationResultCourier : INotificationResultCourier
   {
-    #region Public Methods and Operators
-
     public virtual bool DiscardIfNotDisplayedYet()
     {
       return false;
@@ -35,7 +29,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       result = this.GetResultWithWait();
       return true;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,23 +16,15 @@ using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
 {
   public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
   {
-    #region Constructors and Destructors
-
     public UserConfigPresenter()
     {
       this.ServiceName = "Runtime user settings";
       this.ServiceDescription = "This service allows to configure user settings for plant";
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual ICommand GetCommand(object plantEx)
     {
@@ -76,7 +66,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration
         WindowWithBackVM.GoAheadWithBackIfPossible(nextStep);
       }
     }
-
-    #endregion
   }
 }

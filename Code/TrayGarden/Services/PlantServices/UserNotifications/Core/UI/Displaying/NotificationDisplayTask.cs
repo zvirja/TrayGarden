@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,14 +9,10 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 {
   public class NotificationDisplayTask
   {
-    #region Constructors and Destructors
-
     public NotificationDisplayTask([NotNull] IResultProvider relatedSpecializedNotification, [NotNull] string originator)
     {
       Assert.ArgumentNotNull(relatedSpecializedNotification, "relatedSpecializedNotification");
@@ -28,10 +22,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       this.State = new NotificationState();
       this.ResultWaitHandle = new ManualResetEvent(false);
     }
-
-    #endregion
-
-    #region Public Properties
 
     public NotificationResult ObtainedResult { get; set; }
 
@@ -44,10 +34,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
     public NotificationState State { get; set; }
 
     public Func<NotificationDisplayTask, bool, bool> TaskDiscardHandler { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual bool AbortDisplayTask(bool onlyIfNotDisplayedYet)
     {
@@ -69,10 +55,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       this.ResultWaitHandle.Set();
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual bool DiscardUsingHandler(bool onlyIfNotDisplayedYet)
     {
       if (this.TaskDiscardHandler == null)
@@ -82,7 +64,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       var result = this.TaskDiscardHandler(this, onlyIfNotDisplayedYet);
       return result;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,15 +7,11 @@ using JetBrains.Annotations;
 
 using TrayGarden.UI.Configuration;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
 {
   [UsedImplicitly]
   public class ResolveContentVM
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public void Process(GetUCStepPipelineArgs args)
     {
@@ -25,7 +19,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep
         args.ConfigurationConstructInfo.ConfigurationEntries,
         true);
     }
-
-    #endregion
   }
 }

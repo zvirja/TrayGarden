@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,15 +13,11 @@ using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
 {
   [UsedImplicitly]
   public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantBox>
   {
-    #region Fields
-
     /// <summary>
     /// This field is used in 2 cases.
     /// If value is positive, it means that last CB value was greater than limit.
@@ -39,10 +33,6 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
     protected volatile bool supressNextEvent;
 
     protected object timerLock = new object();
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ClipboardObserverService()
       : base("Clipboard Observer", "ClipboardObserverService")
@@ -65,11 +55,7 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
       this.lastKnownClipboardValue = null;
     }
 
-    #endregion
-
     //public int CheckIntervalMsec { get; set; }
-
-    #region Public Properties
 
     /// <summary>
     /// Specifies a time to wait after last clipboard change event. Sometimes we receive a lot of noise from Monitor.
@@ -77,10 +63,6 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
     public int BufferTimeBeforeReact { get; set; }
 
     public int MaxAllowedTextLength { get; set; }
-
-    #endregion
-
-    #region Properties
 
     protected System.Threading.Timer ClipboardPostponedReactTimer { get; set; }
 
@@ -93,10 +75,6 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
     protected IClipboardProvider SelfProvider { get; set; }
 
     protected Queue<Action> ThreadQueue { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual string GetClipboardValue(bool disableSizeCheck)
     {
@@ -155,10 +133,6 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
             Clipboard.SetText(newValue);
           });
     }
-
-    #endregion
-
-    #region Methods
 
     /// <summary>
     /// This is a worker thread for clipboard.
@@ -346,7 +320,5 @@ namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core
         System.Threading.Monitor.Pulse(this.ThreadQueue);
       }
     }
-
-    #endregion
   }
 }

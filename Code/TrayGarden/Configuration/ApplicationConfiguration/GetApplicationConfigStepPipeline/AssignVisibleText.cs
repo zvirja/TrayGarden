@@ -1,21 +1,15 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline
 {
   [UsedImplicitly]
   public class AssignVisibleText
   {
-    #region Constructors and Destructors
-
     public AssignVisibleText()
     {
       this.GlobalTitle = "Tray Garden -- Application configuration";
@@ -24,10 +18,6 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
       this.ConfigurationDescription = "Here you may configure global application settings. Some settings may require reboot to be applied";
     }
 
-    #endregion
-
-    #region Public Properties
-
     public string ConfigurationDescription { get; set; }
 
     public string GlobalTitle { get; set; }
@@ -35,10 +25,6 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
     public string Header { get; set; }
 
     public string ShortName { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Process(GetApplicationConfigStepArgs args)
@@ -49,7 +35,5 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
       stepInfo.Header = this.Header;
       stepInfo.ShortName = this.ShortName;
     }
-
-    #endregion
   }
 }

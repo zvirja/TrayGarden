@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -11,27 +9,15 @@ using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
 
-#endregion
-
 namespace WindowsLangHotKeysSetter
 {
   public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfiguration
   {
-    #region Static Fields
-
     public static ParamsConfigurator Instance = new ParamsConfigurator();
-
-    #endregion
-
-    #region Properties
 
     protected IStringUserSetting ConfiguredArgsSets { get; set; }
 
     protected IPersonalUserSettingsSteward PersonalSteward { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public List<Tuple<UInt32, UInt32, UInt32, IntPtr>> GetArgsTuples()
     {
@@ -67,10 +53,6 @@ namespace WindowsLangHotKeysSetter
       this.PersonalSteward = personalSettingsSteward;
       this.DeclareSettings();
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void DeclareSettings()
     {
@@ -112,7 +94,5 @@ namespace WindowsLangHotKeysSetter
       }
       return null;
     }
-
-    #endregion
   }
 }

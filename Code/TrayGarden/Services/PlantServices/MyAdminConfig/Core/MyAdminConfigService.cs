@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -13,33 +11,21 @@ using TrayGarden.Helpers;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.MyAdminConfig.Smorgasbord;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
 {
   [UsedImplicitly]
   public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBox>
   {
-    #region Constructors and Destructors
-
     public MyAdminConfigService()
       : base("My Admin Config", "MyAdminConfigService")
     {
       this.ServiceDescription = "Provide plants with configuration manager for their admin configurations (e.g. <moduleName>.dll.config)";
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public override void InitializePlant(IPlantEx plantEx)
     {
       this.ProvidePlantWithConfig(plantEx);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)
     {
@@ -62,7 +48,5 @@ namespace TrayGarden.Services.PlantServices.MyAdminConfig.Core
       asExpected.StoreModuleConfiguration(assemblyConfiguration);
       plantEx.PutLuggage(this.LuggageName, new MyAdminConfigServicePlantBox());
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
@@ -13,20 +11,12 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Resources
 {
   [UsedImplicitly]
   public class MultisourceResourcesManager : IResourcesManager
   {
-    #region Static Fields
-
     protected static object Lock = new object();
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public MultisourceResourcesManager()
     {
@@ -35,23 +25,11 @@ namespace TrayGarden.Resources
       this.Sources = new List<ISource>();
     }
 
-    #endregion
-
-    #region Public Properties
-
     public List<ISource> Sources { get; set; }
-
-    #endregion
-
-    #region Properties
 
     protected Dictionary<string, object> ObjectsResourceCache { get; set; }
 
     protected Dictionary<string, string> StringsResourceCache { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual Bitmap GetBitmapResource(string resourceName, Bitmap defaultValue)
     {
@@ -111,10 +89,6 @@ namespace TrayGarden.Resources
       return resolvedValue;
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual T ResolveFromResources<T>(Func<ResourceManager, T> resolver, T defaultValue) where T : class
     {
       var sourcesToRemove = new List<ISource>();
@@ -171,7 +145,5 @@ namespace TrayGarden.Resources
     {
       return this.ResolveFromResources((rm) => rm.GetString(resourceName), null);
     }
-
-    #endregion
   }
 }

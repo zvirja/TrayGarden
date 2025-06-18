@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +6,10 @@ using System.Text;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.UI.ForSimplerLife
 {
   public class WindowWithBackStateConstructInfo
   {
-    #region Public Properties
-
     public object ContentVM { get; set; }
 
     public string GlobalTitle { get; set; }
@@ -29,7 +23,5 @@ namespace TrayGarden.UI.ForSimplerLife
     public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
 
     public ActionCommandVM SuperAction { get; set; }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,30 +13,18 @@ using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDeliveri
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying.DisplayProviders
 {
   [UsedImplicitly]
   public class TopRightCornerProvider : IDisplayQueueProvider
   {
-    #region Fields
-
     protected object Lock = new object();
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public TopRightCornerProvider()
     {
       this.QueuedTasks = new List<DisplayTaskBag>();
       this.DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
     }
-
-    #endregion
-
-    #region Properties
 
     protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
 
@@ -84,10 +70,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void DiscardAllTasks()
     {
       lock (this.Lock)
@@ -117,10 +99,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       }
       return true;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void AddBagToQueue(DisplayTaskBag task)
     {
@@ -306,7 +284,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
         this.ProcessPendingQueue();
       }
     }
-
-    #endregion
   }
 }

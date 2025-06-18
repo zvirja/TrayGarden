@@ -1,11 +1,7 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Reception
 {
@@ -14,10 +10,6 @@ namespace TrayGarden.Reception
   /// </summary>
   public interface IServicesDelegation
   {
-    #region Public Methods and Operators
-
     List<object> GetServiceDelegates();
-
-    #endregion
   }
 }

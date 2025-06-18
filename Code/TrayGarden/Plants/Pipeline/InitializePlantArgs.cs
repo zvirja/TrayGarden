@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,23 +7,15 @@ using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
-#endregion
-
 namespace TrayGarden.Plants.Pipeline
 {
   public class InitializePlantArgs : PipelineArgs
   {
-    #region Constructors and Destructors
-
     public InitializePlantArgs(object plant, ISettingsBox rootSettingsBox)
     {
       this.PlantObject = plant;
       this.RootSettingsBox = rootSettingsBox;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public IPlant IPlantObject { get; set; }
 
@@ -40,7 +30,5 @@ namespace TrayGarden.Plants.Pipeline
     public ISettingsBox RootSettingsBox { get; protected set; }
 
     public List<object> Workhorses { get; set; }
-
-    #endregion
   }
 }

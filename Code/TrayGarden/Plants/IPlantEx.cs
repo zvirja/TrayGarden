@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,19 +6,11 @@ using System.Text;
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 
-#endregion
-
 namespace TrayGarden.Plants
 {
   public interface IPlantEx
   {
-    #region Public Events
-
     event PlantEnabledChangedEvent EnabledChanged;
-
-    #endregion
-
-    #region Public Properties
 
     string ID { get; }
 
@@ -31,10 +21,6 @@ namespace TrayGarden.Plants
     IPlant Plant { get; }
 
     List<object> Workhorses { get; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     T GetFirstWorkhorseOfType<T>();
 
@@ -47,7 +33,5 @@ namespace TrayGarden.Plants
     void Initialize(IPlant plant, List<object> workhorses, string id, ISettingsBox mySettingsBox);
 
     void PutLuggage(string name, object luggage);
-
-    #endregion
   }
 }

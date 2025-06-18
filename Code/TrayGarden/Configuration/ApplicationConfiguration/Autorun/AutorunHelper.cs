@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -11,21 +9,13 @@ using Microsoft.Win32;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
 {
   public class AutorunHelper : IAutorunHelper
   {
-    #region Static Fields
-
     public static readonly string KeyPath = @"Software\Microsoft\Windows\CurrentVersion\Run";
 
     public static readonly string ValueName = "TrayGarden";
-
-    #endregion
-
-    #region Public Properties
 
     public bool IsAddedToAutorun
     {
@@ -49,10 +39,6 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
       }
     }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public bool SetNewAutorunValue(bool runAtStartup)
     {
       try
@@ -75,10 +61,6 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
       }
     }
 
-    #endregion
-
-    #region Methods
-
     protected virtual RegistryKey GetAppropriateKey()
     {
       return Registry.CurrentUser.OpenSubKey(KeyPath, true);
@@ -88,7 +70,5 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun
     {
       return Assembly.GetEntryAssembly().Location;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,25 +12,17 @@ using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
-#endregion
-
 namespace TrayGarden.DummyTests
 {
   [UsedImplicitly]
   public class DummySettingInjection
   {
-    #region Public Methods and Operators
-
     public virtual void Process(GetApplicationConfigStepArgs args)
     {
 #if(DEBUG)
       args.ConfigurationConstructInfo.ConfigurationEntries.Add(this.GetActionConfigurationEntry());
 #endif
     }
-
-    #endregion
-
-    #region Methods
 
     protected ConfigurationEntryBaseVM GetActionConfigurationEntry()
     {
@@ -45,7 +35,5 @@ namespace TrayGarden.DummyTests
 
       return new ActionConfigurationEntry(realPlayer);
     }
-
-    #endregion
   }
 }

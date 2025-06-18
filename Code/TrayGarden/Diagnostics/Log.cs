@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -9,24 +7,16 @@ using System.Text;
 using log4net;
 using log4net.Config;
 
-#endregion
-
 namespace TrayGarden.Diagnostics
 {
   public static class Log
   {
-    #region Constructors and Destructors
-
     static Log()
     {
       //var pp =  SecurityContextProvider.DefaultProvider.CreateSecurityContext(new object());
 
       XmlConfigurator.Configure();
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static void Debug(string message, Type type)
     {
@@ -118,7 +108,5 @@ namespace TrayGarden.Diagnostics
     {
       Warn(message, contextObject != null ? contextObject.GetType() : null, exception);
     }
-
-    #endregion
   }
 }

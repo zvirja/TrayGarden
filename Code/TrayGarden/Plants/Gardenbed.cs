@@ -1,5 +1,3 @@
-#region
-
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -17,22 +15,14 @@ using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.TypesHatcher;
 
-#endregion
-
 namespace TrayGarden.Plants
 {
   public class Gardenbed : IGardenbed
   {
-    #region Constructors and Destructors
-
     public Gardenbed()
     {
       this.Plants = new Dictionary<string, IPlantEx>();
     }
-
-    #endregion
-
-    #region Public Properties
 
     public virtual bool AutoDetectPlants
     {
@@ -45,10 +35,6 @@ namespace TrayGarden.Plants
         this.MySettingsBox.SetBool("autoDetectPlants", value);
       }
     }
-
-    #endregion
-
-    #region Properties
 
     protected bool Initialized { get; set; }
 
@@ -63,10 +49,6 @@ namespace TrayGarden.Plants
         return this.MySettingsBox.GetSubBox("Plants");
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual List<IPlantEx> GetAllPlants()
     {
@@ -108,10 +90,6 @@ namespace TrayGarden.Plants
       //HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
       this.Initialized = true;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void AssertInitialized()
     {
@@ -201,7 +179,5 @@ namespace TrayGarden.Plants
       var newPlant = InitializePlantExPipeline.Run(plant, this.RootPlantsSettingsBox);
       return newPlant;
     }
-
-    #endregion
   }
 }

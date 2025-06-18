@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,8 +8,6 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 
-#endregion
-
 namespace TrayGarden.UI.Common.Commands
 {
   /// <summary>
@@ -19,8 +15,6 @@ namespace TrayGarden.UI.Common.Commands
   /// </summary>
   public class CommandProxyForCustomParam : ICommand
   {
-    #region Constructors and Destructors
-
     public CommandProxyForCustomParam([NotNull] ICommand command, [NotNull] object argumentToPass)
     {
       Assert.ArgumentNotNull(command, "command");
@@ -30,23 +24,11 @@ namespace TrayGarden.UI.Common.Commands
       this.InternalCommand.CanExecuteChanged += this.InternalCommand_CanExecuteChanged;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event EventHandler CanExecuteChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public ICommand InternalCommand { get; set; }
 
     public object ParamToPass { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public bool CanExecute(object parameter)
     {
@@ -58,10 +40,6 @@ namespace TrayGarden.UI.Common.Commands
       this.InternalCommand.Execute(this.ParamToPass);
     }
 
-    #endregion
-
-    #region Methods
-
     private void InternalCommand_CanExecuteChanged(object sender, EventArgs e)
     {
       if (this.CanExecuteChanged == null)
@@ -70,7 +48,5 @@ namespace TrayGarden.UI.Common.Commands
       }
       this.CanExecuteChanged(sender, e);
     }
-
-    #endregion
   }
 }

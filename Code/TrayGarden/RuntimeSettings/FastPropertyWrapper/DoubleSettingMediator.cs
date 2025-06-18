@@ -1,29 +1,19 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using JetBrains.Annotations;
 
-#endregion
-
 namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
 {
   public class DoubleSettingMediator : BaseSettingMediator
   {
-    #region Constructors and Destructors
-
     public DoubleSettingMediator([NotNull] string key, double defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
       : base(key, settingsBoxResolver)
     {
       this.DefaultValue = defaultValue;
     }
-
-    #endregion
-
-    #region Public Properties
 
     public double DefaultValue { get; set; }
 
@@ -38,7 +28,5 @@ namespace TrayGarden.RuntimeSettings.FastPropertyWrapper
         this.SettingsBox.SetDouble(this.Key, value);
       }
     }
-
-    #endregion
   }
 }

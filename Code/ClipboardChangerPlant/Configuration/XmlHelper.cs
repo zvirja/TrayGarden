@@ -1,33 +1,19 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
 
-#endregion
-
 namespace ClipboardChangerPlant.Configuration
 {
   public class XmlHelper
   {
-    #region Constructors and Destructors
-
     public XmlHelper(XmlNode parentNode)
     {
       this.ParentNode = parentNode;
     }
 
-    #endregion
-
-    #region Public Properties
-
     public XmlNode ParentNode { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static string FixNodePath(XmlNode parent, string nodePath)
     {
@@ -114,7 +100,5 @@ namespace ClipboardChangerPlant.Configuration
     {
       return GetStringValue(this.ParentNode, nodePath, defaultValue);
     }
-
-    #endregion
   }
 }

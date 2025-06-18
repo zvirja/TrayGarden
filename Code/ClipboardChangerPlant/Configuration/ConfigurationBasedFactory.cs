@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,27 +9,15 @@ using ClipboardChangerPlant.NotificationIcon;
 using ClipboardChangerPlant.RequestHandling;
 using ClipboardChangerPlant.Shortening;
 
-#endregion
-
 namespace ClipboardChangerPlant.Configuration
 {
   public class ConfigurationBasedFactory
   {
-    #region Static Fields
-
     private static ConfigurationBasedFactory _instance;
 
     private static object _lock = new object();
 
-    #endregion
-
-    #region Fields
-
     private Dictionary<string, object> _cache = new Dictionary<string, object>();
-
-    #endregion
-
-    #region Public Properties
 
     public static ConfigurationBasedFactory ActualFactory
     {
@@ -60,10 +46,6 @@ namespace ClipboardChangerPlant.Configuration
         return ConfigurationBasedFactoryRaw.ActualFactory;
       }
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public AppEngine GetApplicationEngine()
     {
@@ -117,10 +99,6 @@ namespace ClipboardChangerPlant.Configuration
       return providers;
     }
 
-    #endregion
-
-    #region Methods
-
     private T GetFromFactoryCacheBased<T>(string cacheKey, Func<T> resolver) where T : class
     {
       if (this._cache.ContainsKey(cacheKey))
@@ -138,7 +116,5 @@ namespace ClipboardChangerPlant.Configuration
         return resolved;
       }
     }
-
-    #endregion
   }
 }

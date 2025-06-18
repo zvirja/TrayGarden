@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,19 +9,11 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.UI.Common.Commands;
 
-#endregion
-
 namespace TrayGarden.UI.WindowWithReturn
 {
   public class WindowStepState
   {
-    #region Static Fields
-
     public static WindowStepState EmptyState;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     static WindowStepState()
     {
@@ -59,10 +49,6 @@ namespace TrayGarden.UI.WindowWithReturn
     {
     }
 
-    #endregion
-
-    #region Public Properties
-
     public object ContentVM { get; set; }
 
     public string GlobalTitle { get; set; }
@@ -74,7 +60,5 @@ namespace TrayGarden.UI.WindowWithReturn
     public List<ActionCommandVM> StateSpecificHelpActions { get; set; }
 
     public ActionCommandVM SuperAction { get; set; }
-
-    #endregion
   }
 }

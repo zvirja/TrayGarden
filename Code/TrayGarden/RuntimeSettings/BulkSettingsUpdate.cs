@@ -1,14 +1,10 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.TypesHatcher;
-
-#endregion
 
 namespace TrayGarden.RuntimeSettings
 {
@@ -24,23 +20,15 @@ namespace TrayGarden.RuntimeSettings
   /// </summary>
   public class BulkSettingsUpdate : Switcher<BulkUpdateState>
   {
-    #region Constructors and Destructors
-
     public BulkSettingsUpdate()
       : base(BulkUpdateState.Enabled)
     {
     }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public override void Dispose()
     {
       base.Dispose();
       HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
     }
-
-    #endregion
   }
 }

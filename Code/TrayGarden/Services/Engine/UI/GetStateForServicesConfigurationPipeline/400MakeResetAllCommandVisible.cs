@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,15 +9,11 @@ using TrayGarden.Diagnostics;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.ForSimplerLife;
 
-#endregion
-
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 {
   [UsedImplicitly]
   public class MakeResetAllCommandVisible
   {
-    #region Public Methods and Operators
-
     [UsedImplicitly]
     public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
     {
@@ -35,7 +29,5 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
         windowWithBackStateConstructInfo.StateSpecificHelpActions.Add(resetAllCommand);
       }
     }
-
-    #endregion
   }
 }

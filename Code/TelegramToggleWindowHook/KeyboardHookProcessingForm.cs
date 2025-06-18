@@ -1,6 +1,4 @@
-﻿#region Usings
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -9,14 +7,10 @@ using System.Text;
 using System.Windows.Forms;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TelegramToggleWindowHook
 {
   internal class KeyboardHookProcessingForm : Form
   {
-    #region Fields
-
     private const int GWL_STYLE = -16;
 
     private const uint MOD_CONTROL = 0x0002;
@@ -27,19 +21,11 @@ namespace TelegramToggleWindowHook
     private const int WS_MINIMIZE = 0x20000000;
     private IntPtr _lastForegroundWindow;
 
-    #endregion
-
-    #region Constructors
-
     public KeyboardHookProcessingForm()
     {
       NativeHelper.SetParent(this.Handle, NativeHelper.HWND_MESSAGE);
       RegisterHotKey(this.Handle, 1, MOD_CONTROL, (uint)Keys.Oem3);
     }
-
-    #endregion
-
-    #region Methods
 
     protected override void WndProc(ref Message m)
     {
@@ -119,10 +105,6 @@ namespace TelegramToggleWindowHook
         SetForegroundWindow(telegramWindow);
       }
     }
-
-    #endregion
-
-    #region Nested Types
 
     /// <summary>
     ///   Enumeration of the different ways of showing a window using
@@ -216,7 +198,5 @@ namespace TelegramToggleWindowHook
       /// <remarks>See SW_FORCEMINIMIZE</remarks>
       ForceMinimized = 11
     }
-
-    #endregion
   }
 }

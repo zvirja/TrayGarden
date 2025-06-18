@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,20 +9,12 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.RuntimeSettings.Provider;
 
-#endregion
-
 namespace TrayGarden.RuntimeSettings
 {
   [UsedImplicitly]
   public class RuntimeSettingsManager : IRuntimeSettingsManager
   {
-    #region Static Fields
-
     protected static readonly object _lock = new object();
-
-    #endregion
-
-    #region Public Properties
 
     public int AutoSaveInterval { get; set; }
 
@@ -44,10 +34,6 @@ namespace TrayGarden.RuntimeSettings
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected ISettingsBox RootBox { get; set; }
 
     protected IContainer RootContainer { get; set; }
@@ -55,10 +41,6 @@ namespace TrayGarden.RuntimeSettings
     protected ISettingsStorage SettingsStorage { get; set; }
 
     protected Timer TimerForAutosave { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Initialize(ISettingsStorage settingsStorage)
@@ -81,10 +63,6 @@ namespace TrayGarden.RuntimeSettings
     {
       return this.SaveSettingsInternal(force);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual ISettingsBox GetRootBox(IContainer container)
     {
@@ -115,7 +93,5 @@ namespace TrayGarden.RuntimeSettings
     {
       this.SaveSettingsInternal(true);
     }
-
-    #endregion
   }
 }

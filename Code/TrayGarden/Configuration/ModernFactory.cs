@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Linq;
@@ -16,33 +14,17 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Resources;
 
-#endregion
-
 namespace TrayGarden.Configuration
 {
   public class ModernFactory : IFactory
   {
-    #region Constants
-
     protected const string SettingsNodePath = "trayGarden/settings";
-
-    #endregion
-
-    #region Static Fields
 
     protected static ModernFactory _actualFactory;
 
     protected static object _lock = new object();
 
-    #endregion
-
-    #region Fields
-
     protected Dictionary<string, string> Settings;
-
-    #endregion
-
-    #region Constructors and Destructors
 
     public ModernFactory()
     {
@@ -51,10 +33,6 @@ namespace TrayGarden.Configuration
       this.ContentAssignersResolver = new ContentAssignersResolver();
       Log.Debug("Modern factory object created", this);
     }
-
-    #endregion
-
-    #region Public Properties
 
     public static ModernFactory ActualInstance
     {
@@ -78,19 +56,11 @@ namespace TrayGarden.Configuration
 
     public XmlDocument XmlConfiguration { get; protected set; }
 
-    #endregion
-
-    #region Properties
-
     protected ContentAssignersResolver ContentAssignersResolver { get; set; }
 
     protected Dictionary<object, ObjectInfo> ObjectInfosCache { get; set; }
 
     protected ParcerResolver ParcerResolver { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual object GetObject([NotNull] string configurationPath)
     {
@@ -166,10 +136,6 @@ namespace TrayGarden.Configuration
       }
       return defaultValue;
     }
-
-    #endregion
-
-    #region Methods
 
     protected static void CleanupXmlNodeTree(XmlNode node)
     {
@@ -507,28 +473,16 @@ namespace TrayGarden.Configuration
       return this.ParcerResolver.GetParcer(type);
     }
 
-    #endregion
-
     public class ObjectFactory : IObjectFactory
     {
-      #region Constructors and Destructors
-
       public ObjectFactory(ModernFactory modernFactory)
       {
         this.ModernFactoryInstance = modernFactory;
       }
 
-      #endregion
-
-      #region Properties
-
       protected ModernFactory ModernFactoryInstance { get; set; }
 
       protected ObjectInfo ObjectInfo { get; set; }
-
-      #endregion
-
-      #region Public Methods and Operators
 
       public virtual object GetObject()
       {
@@ -544,8 +498,6 @@ namespace TrayGarden.Configuration
       {
         this.ObjectInfo = this.ModernFactoryInstance.GetObjectInfoFromNode(instanceConfigurationNode);
       }
-
-      #endregion
     }
   }
 }

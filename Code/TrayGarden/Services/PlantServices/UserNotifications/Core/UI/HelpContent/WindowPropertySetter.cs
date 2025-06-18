@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,14 +6,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpContent
 {
   public static class WindowPropertySetter
   {
-    #region Static Fields
-
     public static readonly DependencyProperty BackgroundColorProperty = DependencyProperty.RegisterAttached(
       "BackgroundColor",
       typeof(Brush),
@@ -45,10 +39,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
       typeof(double),
       typeof(WindowPropertySetter),
       new PropertyMetadata(default(double), PropertyChangedCallback));
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public static Brush GetBackgroundColor(FrameworkElement element)
     {
@@ -100,10 +90,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
       element.SetValue(TopPositionProperty, value);
     }
 
-    #endregion
-
-    #region Methods
-
     private static void PropertyChangedCallback(
       DependencyObject dependencyObject,
       DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
@@ -151,7 +137,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.HelpConten
       }
       while (currentIterationElem != null);
     }
-
-    #endregion
   }
 }

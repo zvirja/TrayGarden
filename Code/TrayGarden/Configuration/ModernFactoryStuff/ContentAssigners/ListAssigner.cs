@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,14 +10,10 @@ using TrayGarden.Configuration.ModernFactoryStuff.Parcers;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
-#endregion
-
 namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
 {
   public class ListAssigner : IContentAssigner
   {
-    #region Public Methods and Operators
-
     public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver)
     {
       XmlNodeList listContentNodes = this.GetListContentNodes(contentNode);
@@ -34,10 +28,6 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
       }
       this.AssignContentToList(list, listContentNodes, valueParcerResolver);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void AssignContentToList(IList list, XmlNodeList contentNodes, Func<Type, IParcer> valueParcerResolver)
     {
@@ -316,7 +306,5 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.ContentAssigners
       XmlNode templateNode = contentNode.SelectSingleNode("templates");
       return itemsNode != null && templateNode != null;
     }
-
-    #endregion
   }
 }

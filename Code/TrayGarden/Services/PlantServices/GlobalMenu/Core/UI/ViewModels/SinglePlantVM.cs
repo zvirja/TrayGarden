@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
@@ -13,38 +11,22 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Plants;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 {
   public class SinglePlantVM : INotifyPropertyChanged
   {
-    #region Fields
-
     protected string _description;
 
     protected string _name;
 
     protected ObservableCollection<ServiceForPlantVMBase> _servicesVM;
 
-    #endregion
-
-    #region Constructors and Destructors
-
     public SinglePlantVM()
     {
       this.ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
     }
 
-    #endregion
-
-    #region Public Events
-
     public event PropertyChangedEventHandler PropertyChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public string Description
     {
@@ -113,10 +95,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
 
     public IPlantEx UnderlyingPlant { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
     {
       Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
@@ -125,10 +103,6 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
       this.Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
       underlyingPlant.EnabledChanged += this.UnderlyingPlant_EnabledChanged;
     }
-
-    #endregion
-
-    #region Methods
 
     [NotifyPropertyChangedInvocator]
     protected virtual void OnPropertyChanged(string propertyName)
@@ -144,7 +118,5 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels
     {
       this.OnPropertyChanged("ServicesVM");
     }
-
-    #endregion
   }
 }

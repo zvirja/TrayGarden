@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,29 +8,17 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 {
   public class NotificationResultCourier : INotificationResultCourier
   {
-    #region Constructors and Destructors
-
     public NotificationResultCourier([NotNull] NotificationDisplayTask realTask)
     {
       Assert.ArgumentNotNull(realTask, "realTask");
       this.RealTask = realTask;
     }
 
-    #endregion
-
-    #region Properties
-
     protected NotificationDisplayTask RealTask { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual bool DiscardIfNotDisplayedYet()
     {
@@ -62,7 +48,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
       result = this.RealTask.ObtainedResult;
       return true;
     }
-
-    #endregion
   }
 }

@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -11,19 +9,11 @@ using TrayGarden.Services.PlantServices.RareCommands.Core;
 using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
-#endregion
-
 namespace WindowsLangHotKeysSetter
 {
   public class HotKeysCommandRunner : TrayGarden.Reception.Services.IProvidesRareCommands
   {
-    #region Static Fields
-
     public static HotKeysCommandRunner Instance = new HotKeysCommandRunner();
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual List<IRareCommand> GetRareCommands()
     {
@@ -31,10 +21,6 @@ namespace WindowsLangHotKeysSetter
       result.Add(this.GetExecuteCommand());
       return result;
     }
-
-    #endregion
-
-    #region Methods
 
     protected void DisplayResult(string message, bool isError)
     {
@@ -78,7 +64,5 @@ namespace WindowsLangHotKeysSetter
 
     [DllImport("user32.dll", SetLastError = true, CallingConvention = CallingConvention.Winapi)]
     private static extern bool CliImmSetHotKey(uint dwID, uint uModifiers, uint uVirtualKey, IntPtr hkl);
-
-    #endregion
   }
 }

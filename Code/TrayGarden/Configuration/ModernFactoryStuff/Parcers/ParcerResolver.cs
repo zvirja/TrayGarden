@@ -1,35 +1,21 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
-#endregion
 
 namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
 {
   public class ParcerResolver
   {
-    #region Constructors and Destructors
-
     public ParcerResolver(ModernFactory factory)
     {
       this.Parcers = new Dictionary<Type, IParcer>();
       this.OwningFactory = factory;
     }
 
-    #endregion
-
-    #region Properties
-
     protected ModernFactory OwningFactory { get; set; }
 
     protected Dictionary<Type, IParcer> Parcers { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     public virtual IParcer GetParcer(Type type)
     {
@@ -41,10 +27,6 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
       this.Parcers[type] = parcer;
       return parcer;
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual IParcer ResolveParcer(Type type)
     {
@@ -62,7 +44,5 @@ namespace TrayGarden.Configuration.ModernFactoryStuff.Parcers
       }
       return new ObjectParcer(this.OwningFactory);
     }
-
-    #endregion
   }
 }

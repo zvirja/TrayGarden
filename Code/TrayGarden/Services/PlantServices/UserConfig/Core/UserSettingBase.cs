@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,30 +8,18 @@ using JetBrains.Annotations;
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserConfig.Core
 {
   public abstract class UserSettingBase : IUserSettingBase
   {
-    #region Constructors and Destructors
-
     protected UserSettingBase()
     {
       this.Initialized = false;
     }
 
-    #endregion
-
-    #region Public Events
-
     public event EventHandler IsActiveInvalidated;
 
     public event EventHandler<UserSettingBaseChange> ValueChanged;
-
-    #endregion
-
-    #region Public Properties
 
     public virtual string Description
     {
@@ -78,23 +64,11 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
       }
     }
 
-    #endregion
-
-    #region Properties
-
     protected List<IUserSettingBase> ActivityCriterias { get; set; }
 
     protected bool Initialized { get; set; }
 
-    #endregion
-
-    #region Public Methods and Operators
-
     public abstract void ResetToDefault();
-
-    #endregion
-
-    #region Methods
 
     protected virtual void AssertInitialized()
     {
@@ -136,7 +110,5 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core
         handler(this, e);
       }
     }
-
-    #endregion
   }
 }

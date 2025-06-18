@@ -1,6 +1,4 @@
-﻿#region
-
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing.Imaging;
 using System.Linq;
@@ -19,29 +17,17 @@ using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 using TrayGarden.UI.WindowWithReturn;
 
-#endregion
-
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration
 {
   [UsedImplicitly]
   public class PlantServiceConfigurator
   {
-    #region Constructors and Destructors
-
     public PlantServiceConfigurator()
     {
       this.Description = "Configure service";
     }
 
-    #endregion
-
-    #region Public Properties
-
     public string Description { get; set; }
-
-    #endregion
-
-    #region Public Methods and Operators
 
     [UsedImplicitly]
     public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
@@ -53,10 +39,6 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration
       Assert.IsNotNull(entryRelatedToService, "Entry cannot be unresloved");
       this.FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
     }
-
-    #endregion
-
-    #region Methods
 
     protected virtual void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
     {
@@ -76,7 +58,5 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration
       WindowStepState windowStepState = UNConfigurationStepPipeline.Run();
       WindowWithBackVM.GoAheadWithBackIfPossible(windowStepState);
     }
-
-    #endregion
   }
 }
