@@ -7,8 +7,8 @@ public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
   public ConfigurationPlayerService(IService serviceToManage)
     : base(serviceToManage.ServiceName, serviceToManage.CanBeDisabled, !serviceToManage.CanBeDisabled)
   {
-    this.InfoSource = serviceToManage;
-    this.InfoSource.IsEnabledChanged += x => this.OnValueChanged();
+    InfoSource = serviceToManage;
+    InfoSource.IsEnabledChanged += x => OnValueChanged();
   }
 
   public IService InfoSource { get; set; }
@@ -17,7 +17,7 @@ public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
   {
     get
     {
-      return this.InfoSource.IsEnabled != this.InfoSource.IsActuallyEnabled;
+      return InfoSource.IsEnabled != InfoSource.IsActuallyEnabled;
     }
   }
 
@@ -25,7 +25,7 @@ public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
   {
     get
     {
-      return this.InfoSource.ServiceDescription;
+      return InfoSource.ServiceDescription;
     }
     protected set
     {
@@ -37,18 +37,18 @@ public class ConfigurationPlayerService : TypedConfigurationPlayer<bool>
   {
     get
     {
-      return this.InfoSource.IsEnabled;
+      return InfoSource.IsEnabled;
     }
     set
     {
-      this.InfoSource.IsEnabled = value;
-      this.OnRequiresApplicationRebootChanged();
+      InfoSource.IsEnabled = value;
+      OnRequiresApplicationRebootChanged();
     }
   }
 
   public override void Reset()
   {
-    this.Value = this.InfoSource.IsActuallyEnabled;
-    this.OnValueChanged();
+    Value = InfoSource.IsActuallyEnabled;
+    OnValueChanged();
   }
 }

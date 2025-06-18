@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff;
 
 public class ServiceForPlantDataTemplateSelectorProxy : DataTemplateSelector, IDataTemplateSelector
 {
-  public override System.Windows.DataTemplate SelectTemplate(object item, System.Windows.DependencyObject container)
+  public override DataTemplate SelectTemplate(object item, DependencyObject container)
   {
     var selector = HatcherGuide<IDataTemplateSelector>.Instance;
     if (selector != null)

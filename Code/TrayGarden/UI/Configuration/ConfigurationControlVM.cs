@@ -22,12 +22,12 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   public ConfigurationControlVM([NotNull] List<ConfigurationEntryBaseVM> configurationEntries, bool allowResetAll)
   {
     Assert.ArgumentNotNull(configurationEntries, "configurationEntries");
-    this.ConfigurationEntries = configurationEntries;
-    this.ResetAll = new RelayCommand(this.ResetAllExecute, allowResetAll);
-    this.RebootApplication = new RelayCommand(this.RebootAppExecute, true);
-    this.SubscribeToEntriesEvents(this.ConfigurationEntries);
-    this.CalculateRebootOption = true;
-    this.ConfigurationDescription =
+    ConfigurationEntries = configurationEntries;
+    ResetAll = new RelayCommand(ResetAllExecute, allowResetAll);
+    RebootApplication = new RelayCommand(RebootAppExecute, true);
+    SubscribeToEntriesEvents(ConfigurationEntries);
+    CalculateRebootOption = true;
+    ConfigurationDescription =
       "here you configure properties for plant. Normally you don't need reboot to apply them.".FormatWith(Environment.NewLine);
   }
 
@@ -40,17 +40,17 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   {
     get
     {
-      return this._calculateRebootOption;
+      return _calculateRebootOption;
     }
     set
     {
-      if (value.Equals(this._calculateRebootOption))
+      if (value.Equals(_calculateRebootOption))
       {
         return;
       }
-      this._calculateRebootOption = value;
-      this.OnPropertyChanged("CalculateRebootOption");
-      this.OnPropertyChanged("RebootRequired");
+      _calculateRebootOption = value;
+      OnPropertyChanged("CalculateRebootOption");
+      OnPropertyChanged("RebootRequired");
     }
   }
 
@@ -67,11 +67,11 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   {
     get
     {
-      if (this.CalculateRebootOption == false)
+      if (CalculateRebootOption == false)
       {
         return false;
       }
-      return this.ConfigurationEntries.Any(x => x.RequiresApplicationReboot);
+      return ConfigurationEntries.Any(x => x.RequiresApplicationReboot);
     }
   }
 
@@ -81,14 +81,14 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   {
     if (e.PropertyName.Equals("RequiresApplicationReboot", StringComparison.OrdinalIgnoreCase))
     {
-      this.OnPropertyChanged("RebootRequired");
+      OnPropertyChanged("RebootRequired");
     }
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -102,7 +102,7 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
 
   protected virtual void ResetAllExecute(object o)
   {
-    foreach (ConfigurationEntryBaseVM configurationEntry in this.ConfigurationEntries)
+    foreach (ConfigurationEntryBaseVM configurationEntry in ConfigurationEntries)
     {
       if (configurationEntry.RestoreDefaultValue.CanExecute(o))
       {
@@ -115,7 +115,7 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   {
     foreach (ConfigurationEntryBaseVM configurationEntry in configurationEntries)
     {
-      configurationEntry.PropertyChanged += this.ConfigurationEntry_PropertyChanged;
+      configurationEntry.PropertyChanged += ConfigurationEntry_PropertyChanged;
     }
   }
 }

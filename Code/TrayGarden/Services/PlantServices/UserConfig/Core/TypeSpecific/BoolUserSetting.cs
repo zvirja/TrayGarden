@@ -10,7 +10,7 @@ public class BoolUserSetting : TypedUserSetting<bool>, IBoolUserSetting
   {
     get
     {
-      if (!this.Value)
+      if (!Value)
       {
         return false;
       }
@@ -24,6 +24,6 @@ public class BoolUserSetting : TypedUserSetting<bool>, IBoolUserSetting
     List<IUserSettingBase> activityCriterias)
   {
     base.Initialize(typedMetadata, storage, activityCriterias);
-    this.ValueChanged += (sender, change) => this.OnIsActiveInvalidated();
+    ValueChanged += (sender, change) => OnIsActiveInvalidated();
   }
 }

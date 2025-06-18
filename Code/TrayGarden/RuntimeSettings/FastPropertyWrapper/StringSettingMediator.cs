@@ -8,7 +8,7 @@ public class StringSettingMediator : BaseSettingMediator
   public StringSettingMediator([NotNull] string key, string defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
     : base(key, settingsBoxResolver)
   {
-    this.DefaultValue = defaultValue;
+    DefaultValue = defaultValue;
   }
 
   public string DefaultValue { get; set; }
@@ -17,11 +17,11 @@ public class StringSettingMediator : BaseSettingMediator
   {
     get
     {
-      return this.SettingsBox.GetString(this.Key, this.DefaultValue);
+      return SettingsBox.GetString(Key, DefaultValue);
     }
     set
     {
-      this.SettingsBox.SetString(this.Key, value);
+      SettingsBox.SetString(Key, value);
     }
   }
 }

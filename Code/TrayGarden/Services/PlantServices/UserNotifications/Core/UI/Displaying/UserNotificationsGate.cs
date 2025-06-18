@@ -14,15 +14,15 @@ public class UserNotificationsGate : IUserNotificationsGate
 
   public virtual void DiscardAllTasks()
   {
-    this.AssertInitialized();
-    this.Provider.DiscardAllTasks();
+    AssertInitialized();
+    Provider.DiscardAllTasks();
   }
 
   public virtual INotificationResultCourier EnqueueToShow(IResultProvider notificationVM, string originator)
   {
-    this.AssertInitialized();
-    NotificationDisplayTask displayTask = this.GetDisplayTask(notificationVM, originator);
-    if (!this.AddToDisplayQueue(displayTask))
+    AssertInitialized();
+    NotificationDisplayTask displayTask = GetDisplayTask(notificationVM, originator);
+    if (!AddToDisplayQueue(displayTask))
     {
       displayTask.SetResult(new NotificationResult(ResultCode.Unspecified));
       displayTask.State = NotificationState.Aborted;
@@ -34,18 +34,18 @@ public class UserNotificationsGate : IUserNotificationsGate
   public virtual void Initialize([NotNull] IDisplayQueueProvider provider)
   {
     Assert.ArgumentNotNull(provider, "provider");
-    this.Provider = provider;
-    this.Initialized = true;
+    Provider = provider;
+    Initialized = true;
   }
 
   protected virtual bool AddToDisplayQueue(NotificationDisplayTask task)
   {
-    return this.Provider.EnqueueToDisplay(task);
+    return Provider.EnqueueToDisplay(task);
   }
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }

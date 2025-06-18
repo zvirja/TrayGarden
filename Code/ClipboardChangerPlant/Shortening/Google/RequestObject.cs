@@ -11,7 +11,7 @@ internal class RequestObject
 
   public RequestObject(string longUrl)
   {
-    this.LongUrl = longUrl;
+    LongUrl = longUrl;
   }
 
   [DataMember(Name = "longUrl")]

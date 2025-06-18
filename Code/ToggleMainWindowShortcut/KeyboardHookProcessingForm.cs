@@ -21,8 +21,8 @@ internal class KeyboardHookProcessingForm : Form
 
   public KeyboardHookProcessingForm()
   {
-    NativeHelper.SetParent(this.Handle, NativeHelper.HWND_MESSAGE);
-    RegisterHotKey(this.Handle, 1, MOD_CONTROL, (uint)Keys.Oem3);
+    NativeHelper.SetParent(Handle, NativeHelper.HWND_MESSAGE);
+    RegisterHotKey(Handle, 1, MOD_CONTROL, (uint)Keys.Oem3);
   }
 
   protected override void WndProc(ref Message m)
@@ -31,7 +31,7 @@ internal class KeyboardHookProcessingForm : Form
 
     if (m.Msg == WM_HOTKEY)
     {
-      this.ToggleAppMainWindow();
+      ToggleAppMainWindow();
     }
   }
 
@@ -89,17 +89,17 @@ internal class KeyboardHookProcessingForm : Form
       else
       {
         ShowWindow(targetAppWindow, WindowShowStyle.ShowMinimized);
-        if (this._lastForegroundWindow != IntPtr.Zero)
+        if (_lastForegroundWindow != IntPtr.Zero)
         {
-          SetForegroundWindow(this._lastForegroundWindow);
-          this._lastForegroundWindow = IntPtr.Zero;
+          SetForegroundWindow(_lastForegroundWindow);
+          _lastForegroundWindow = IntPtr.Zero;
         }
       }
     }
     else
     {
       //Make the app window active. Store the current active window.
-      this._lastForegroundWindow = GetForegroundWindow();
+      _lastForegroundWindow = GetForegroundWindow();
 
       ShowWindow(targetAppWindow, PlantConfiguration.Instance.ShowMaximized.Value ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
       SetForegroundWindow(targetAppWindow);

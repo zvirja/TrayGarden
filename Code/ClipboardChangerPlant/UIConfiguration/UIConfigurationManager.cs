@@ -19,12 +19,12 @@ public class UIConfigurationManager : IUserConfiguration
   {
     get
     {
-      return this.SettingsSteward.DefinedSettings;
+      return SettingsSteward.DefinedSettings;
     }
   }
 
   public virtual void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
   {
-    this.SettingsSteward = personalSettingsSteward;
+    SettingsSteward = personalSettingsSteward;
   }
 }

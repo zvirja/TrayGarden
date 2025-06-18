@@ -21,8 +21,8 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   public TopRightCornerProvider()
   {
-    this.QueuedTasks = new List<DisplayTaskBag>();
-    this.DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
+    QueuedTasks = new List<DisplayTaskBag>();
+    DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
   }
 
   protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
@@ -71,59 +71,59 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   public virtual void DiscardAllTasks()
   {
-    lock (this.Lock)
+    lock (Lock)
     {
-      DisplayTaskBag[] displayTaskBags = this.QueuedTasks.ToArray();
+      DisplayTaskBag[] displayTaskBags = QueuedTasks.ToArray();
       foreach (DisplayTaskBag displayTaskBag in displayTaskBags)
       {
-        this.DiscardTask(displayTaskBag.Task, false);
+        DiscardTask(displayTaskBag.Task, false);
       }
-      DisplayTaskBag[] taskBags = this.DisplayedWaitForResultTasks.ToArray();
+      DisplayTaskBag[] taskBags = DisplayedWaitForResultTasks.ToArray();
       foreach (DisplayTaskBag displayedWaitForResultTask in taskBags)
       {
-        this.DiscardTask(displayedWaitForResultTask.Task, false);
+        DiscardTask(displayedWaitForResultTask.Task, false);
       }
     }
   }
 
   public virtual bool EnqueueToDisplay(NotificationDisplayTask task)
   {
-    var taskBag = this.GetTaskBag(task);
-    task.TaskDiscardHandler = this.DiscardTask;
-    lock (this.Lock)
+    var taskBag = GetTaskBag(task);
+    task.TaskDiscardHandler = DiscardTask;
+    lock (Lock)
     {
-      this.AddBagToQueue(taskBag);
-      Monitor.Pulse(this.Lock);
-      this.ProcessPendingQueue();
+      AddBagToQueue(taskBag);
+      Monitor.Pulse(Lock);
+      ProcessPendingQueue();
     }
     return true;
   }
 
   protected virtual void AddBagToQueue(DisplayTaskBag task)
   {
-    lock (this.Lock)
+    lock (Lock)
     {
-      this.QueuedTasks.Add(task);
+      QueuedTasks.Add(task);
       task.Task.State = NotificationState.InQueue;
     }
   }
 
   protected virtual DisplayTaskBag DequeueBagAndPrepareItToDisplay()
   {
-    lock (this.Lock)
+    lock (Lock)
     {
-      if (this.DisplayedWaitForResultTasks.Count == this.SimultaneouslyDisplayedLimit)
+      if (DisplayedWaitForResultTasks.Count == SimultaneouslyDisplayedLimit)
       {
         return null;
       }
-      this.RemoveExpiredTasks();
-      if (this.QueuedTasks.Count == 0)
+      RemoveExpiredTasks();
+      if (QueuedTasks.Count == 0)
       {
         return null;
       }
-      var bag = this.QueuedTasks[0];
-      this.QueuedTasks.Remove(bag);
-      this.DisplayedWaitForResultTasks.Add(bag);
+      var bag = QueuedTasks[0];
+      QueuedTasks.Remove(bag);
+      DisplayedWaitForResultTasks.Add(bag);
       bag.Task.State = NotificationState.IsDisplayed;
       return bag;
     }
@@ -134,12 +134,12 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     DisplayTaskBag bagToRemove = null;
     try
     {
-      lock (this.Lock)
+      lock (Lock)
       {
-        bagToRemove = this.QueuedTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
+        bagToRemove = QueuedTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
         if (bagToRemove != null)
         {
-          this.QueuedTasks.Remove(bagToRemove);
+          QueuedTasks.Remove(bagToRemove);
           return true;
         }
         //Don't try to remove from main collection if flag is true
@@ -147,12 +147,12 @@ public class TopRightCornerProvider : IDisplayQueueProvider
         {
           return false;
         }
-        bagToRemove = this.DisplayedWaitForResultTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
+        bagToRemove = DisplayedWaitForResultTasks.FirstOrDefault(displayTaskBag => displayTaskBag.Task == task);
         if (bagToRemove == null)
         {
           return false;
         }
-        this.DisplayedWaitForResultTasks.Remove(bagToRemove);
+        DisplayedWaitForResultTasks.Remove(bagToRemove);
         return true;
       }
     }
@@ -168,9 +168,9 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   protected virtual PositionSize GetDefaultNotificationPositionSize()
   {
-    var width = this.NotificationWindowWidth;
-    var height = this.NotificationWindowHeight;
-    var top = this.NotificationWindowTopIndent;
+    var width = NotificationWindowWidth;
+    var height = NotificationWindowHeight;
+    var top = NotificationWindowTopIndent;
 
     var screenWidth = System.Windows.SystemParameters.PrimaryScreenWidth;
     var left = screenWidth - width;
@@ -184,8 +184,8 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   protected virtual DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
   {
-    PositionSize positionSize = this.GetDefaultNotificationPositionSize();
-    NotificationWindowVM notificationWindowVM = this.GetNotificationWindowVM(task, positionSize);
+    PositionSize positionSize = GetDefaultNotificationPositionSize();
+    NotificationWindowVM notificationWindowVM = GetNotificationWindowVM(task, positionSize);
     return new DisplayTaskBag(task, notificationWindowVM, DateTime.UtcNow, positionSize);
   }
 
@@ -196,35 +196,35 @@ public class TopRightCornerProvider : IDisplayQueueProvider
       delegate
       {
         var window = HatcherGuide<INotificationWindow>.CreateNewInstance();
-        task.WindowVM.ResultObtained += this.WindowVM_ResultObtained;
+        task.WindowVM.ResultObtained += WindowVM_ResultObtained;
         window.PrepareAndDisplay(task.WindowVM);
       });
   }
 
   protected virtual void ProcessPendingQueue()
   {
-    lock (this.Lock)
+    lock (Lock)
     {
-      this.RemoveExpiredTasks();
-      this.RecalculateDisplayedTasksPositions();
-      DisplayTaskBag nextBagToDisplay = this.DequeueBagAndPrepareItToDisplay();
+      RemoveExpiredTasks();
+      RecalculateDisplayedTasksPositions();
+      DisplayTaskBag nextBagToDisplay = DequeueBagAndPrepareItToDisplay();
       while (nextBagToDisplay != null)
       {
-        this.RecalculateDisplayedTasksPositions();
-        this.LastPreparationsAndVisualizeTask(nextBagToDisplay);
-        nextBagToDisplay = this.DequeueBagAndPrepareItToDisplay();
+        RecalculateDisplayedTasksPositions();
+        LastPreparationsAndVisualizeTask(nextBagToDisplay);
+        nextBagToDisplay = DequeueBagAndPrepareItToDisplay();
       }
     }
   }
 
   protected virtual void RecalculateDisplayedTasksPositions()
   {
-    var currentTop = this.NotificationWindowTopIndent;
+    var currentTop = NotificationWindowTopIndent;
 
     var lockedPositions = new List<int>();
     var nonLockedItems = new List<DisplayTaskBag>();
     //Select locked positions. The item's position is locked if it had a cursor focus at least for one time.
-    foreach (DisplayTaskBag displayedWaitForResultTask in this.DisplayedWaitForResultTasks)
+    foreach (DisplayTaskBag displayedWaitForResultTask in DisplayedWaitForResultTasks)
     {
       if (displayedWaitForResultTask.WindowVM.IsPositionLocked)
       {
@@ -241,24 +241,24 @@ public class TopRightCornerProvider : IDisplayQueueProvider
       //enumerate to select a free position
       while (lockedPositions.Contains(currentTop))
       {
-        currentTop += this.NotificationWindowHeight;
+        currentTop += NotificationWindowHeight;
       }
       displayTaskBag.PositionSize.Top = currentTop;
-      currentTop += this.NotificationWindowHeight;
+      currentTop += NotificationWindowHeight;
     }
   }
 
   protected virtual void RemoveExpiredTasks()
   {
-    DateTime expirationThreshold = DateTime.UtcNow.Subtract(this.NonDisplayedTaskExpiration);
-    lock (this.Lock)
+    DateTime expirationThreshold = DateTime.UtcNow.Subtract(NonDisplayedTaskExpiration);
+    lock (Lock)
     {
-      for (int i = this.QueuedTasks.Count - 1; i > -1; i--)
+      for (int i = QueuedTasks.Count - 1; i > -1; i--)
       {
-        var bag = this.QueuedTasks[i];
+        var bag = QueuedTasks[i];
         if (bag.EnqueueTime < expirationThreshold)
         {
-          this.QueuedTasks.Remove(bag);
+          QueuedTasks.Remove(bag);
           bag.Task.State = NotificationState.Expired;
           bag.Task.SetResult(new NotificationResult(ResultCode.Unspecified));
         }
@@ -268,19 +268,19 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   protected virtual void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
   {
-    lock (this.Lock)
+    lock (Lock)
     {
       var vmFiredEvent = sender as NotificationWindowVM;
       Assert.IsNotNull(vmFiredEvent, "Result source cannot be null");
-      var correspondingBag = this.DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
+      var correspondingBag = DisplayedWaitForResultTasks.FirstOrDefault(x => x.WindowVM == vmFiredEvent);
       if (correspondingBag == null)
       {
         return;
       }
-      this.DisplayedWaitForResultTasks.Remove(correspondingBag);
+      DisplayedWaitForResultTasks.Remove(correspondingBag);
       correspondingBag.Task.State = NotificationState.Handled;
       correspondingBag.Task.SetResult(vmFiredEvent.Result);
-      this.ProcessPendingQueue();
+      ProcessPendingQueue();
     }
   }
 }

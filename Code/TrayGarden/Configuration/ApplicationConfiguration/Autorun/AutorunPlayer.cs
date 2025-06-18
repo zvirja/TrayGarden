@@ -21,7 +21,7 @@ public class AutorunPlayer : TypedConfigurationPlayer<bool>
     set
     {
       ActualAppProperties.RunAtStartup = value;
-      this.OnValueChanged();
+      OnValueChanged();
     }
   }
 

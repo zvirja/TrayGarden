@@ -28,11 +28,11 @@ public class AppEngine
   {
     ClipboardManager.Provider.PostInit();
     RequestHandlerChief.PostInit();
-    this.RequestProcessManager = Factory.ActualFactory.GetRequestProcessManager();
+    RequestProcessManager = Factory.ActualFactory.GetRequestProcessManager();
     var notifyManager = Factory.ActualFactory.GetNotifyIconManager();
-    notifyManager.MainActionRequested += this.NotifyManagerOnMainActionRequested;
-    notifyManager.ShorteningRequested += this.NotifyManagerOnShorteningRequested;
-    ClipboardManager.Provider.OnClipboardValueChanged += this.ProviderOnOnClipboardValueChanged;
+    notifyManager.MainActionRequested += NotifyManagerOnMainActionRequested;
+    notifyManager.ShorteningRequested += NotifyManagerOnShorteningRequested;
+    ClipboardManager.Provider.OnClipboardValueChanged += ProviderOnOnClipboardValueChanged;
     Task.Factory.StartNew(() => ClipboardManager.Provider.OnClipboardValueUpdatedService(ClipboardManager.GetValue()));
   }
 
@@ -43,16 +43,16 @@ public class AppEngine
 
   private void NotifyManagerOnMainActionRequested(object o)
   {
-    this.RequestProcessManager.ProcessRequest(false, false, null, false);
+    RequestProcessManager.ProcessRequest(false, false, null, false);
   }
 
   private void NotifyManagerOnShorteningRequested(object o)
   {
-    this.RequestProcessManager.ProcessRequest(true, false, null, false);
+    RequestProcessManager.ProcessRequest(true, false, null, false);
   }
 
   private void ProviderOnOnClipboardValueChanged(string s)
   {
-    this.RequestProcessManager.ProcessRequest(false, true, s, false);
+    RequestProcessManager.ProcessRequest(false, true, s, false);
   }
 }

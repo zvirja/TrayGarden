@@ -12,7 +12,7 @@ public class ResolveHandler : Processor
     {
       if (!args.ClipboardEvent)
       {
-        this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
+        HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
       }
       else
       {

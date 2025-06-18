@@ -11,8 +11,8 @@ public class Container : IContainer, ISupportPrototyping
 {
   public Container()
   {
-    this.Settings = new Dictionary<string, string>();
-    this.InnerContainers = new Dictionary<string, IContainer>();
+    Settings = new Dictionary<string, string>();
+    InnerContainers = new Dictionary<string, IContainer>();
   }
 
   public string Name { get; protected set; }
@@ -28,65 +28,65 @@ public class Container : IContainer, ISupportPrototyping
 
   public virtual IContainer GetNamedSubContainer(string name)
   {
-    return this.ResolveNamedSubContainer(name);
+    return ResolveNamedSubContainer(name);
   }
 
   public virtual IEnumerable<string> GetPresentStringSettingNames()
   {
-    var res = this.Settings.Keys.ToList();
+    var res = Settings.Keys.ToList();
     return res;
   }
 
   public virtual IEnumerable<string> GetPresentSubContainerNames()
   {
-    return this.InnerContainers.Keys.ToList();
+    return InnerContainers.Keys.ToList();
   }
 
   public virtual string GetStringSetting(string name)
   {
-    if (this.Settings.ContainsKey(name))
+    if (Settings.ContainsKey(name))
     {
-      return this.Settings[name];
+      return Settings[name];
     }
     return null;
   }
 
   public virtual void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers)
   {
-    this.Name = name;
+    Name = name;
     foreach (KeyValuePair<string, string> stringStringPair in settings)
     {
-      this.Settings.Add(stringStringPair.Key, stringStringPair.Value);
+      Settings.Add(stringStringPair.Key, stringStringPair.Value);
     }
     foreach (IContainer subcontainer in subcontainers)
     {
-      this.InnerContainers.Add(subcontainer.Name, subcontainer);
+      InnerContainers.Add(subcontainer.Name, subcontainer);
     }
   }
 
   public virtual void SetStringSetting(string name, string value)
   {
-    this.SetStringSettingInternal(name, value);
+    SetStringSettingInternal(name, value);
   }
 
   public override string ToString()
   {
-    return string.Format("{0} Settings:{1}, Inner:{2}", this.Name, this.Settings.Count, this.InnerContainers.Count);
+    return string.Format("{0} Settings:{1}, Inner:{2}", Name, Settings.Count, InnerContainers.Count);
   }
 
   protected virtual IContainer ResolveNamedSubContainer(string name)
   {
-    if (this.InnerContainers.ContainsKey(name))
+    if (InnerContainers.ContainsKey(name))
     {
-      return this.InnerContainers[name];
+      return InnerContainers[name];
     }
     var newContainer = new Container { Name = name };
-    this.InnerContainers.Add(name, newContainer);
+    InnerContainers.Add(name, newContainer);
     return newContainer;
   }
 
   protected virtual void SetStringSettingInternal(string name, string value)
   {
-    this.Settings[name] = value;
+    Settings[name] = value;
   }
 }

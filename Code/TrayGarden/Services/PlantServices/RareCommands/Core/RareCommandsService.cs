@@ -12,13 +12,13 @@ public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
   public RareCommandsService()
     : base("Rare Commands", "RareCommandsService")
   {
-    this.ServiceDescription = "This service allows to specify rare commands, which are available only thorough the main window.";
+    ServiceDescription = "This service allows to specify rare commands, which are available only thorough the main window.";
   }
 
   public override void InitializePlant(IPlantEx plantEx)
   {
     base.InitializePlant(plantEx);
-    this.InitializePlantInternal(plantEx);
+    InitializePlantInternal(plantEx);
   }
 
   protected virtual void InitializePlantInternal(IPlantEx plantEx)
@@ -27,7 +27,7 @@ public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
     if (relatedCommands != null)
     {
       var luggage = new RareCommandsServicePlantBox(relatedCommands);
-      plantEx.PutLuggage(this.LuggageName, luggage);
+      plantEx.PutLuggage(LuggageName, luggage);
     }
   }
 }

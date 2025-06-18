@@ -22,7 +22,7 @@ public class ExecuteHandler : Processor
 
     if (!resolvedHandler.TryProcess(args.ResultUrl, out result))
     {
-      this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
+      HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
       return;
     }
     args.ShouldBeShorted = resolvedHandler.IsShorterEnabled;

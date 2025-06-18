@@ -14,8 +14,8 @@ public class ActionConfigurationPlayer : ConfigurationPlayerBase, IActionConfigu
     Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
     Assert.ArgumentNotNull(title, "title");
     Assert.ArgumentNotNull(action, "action");
-    this.ActionTitle = title;
-    this.Action = action;
+    ActionTitle = title;
+    Action = action;
   }
 
   public ICommand Action { get; protected set; }

@@ -16,7 +16,7 @@ public class PostExecuteHandler : Processor
 
     if (!resolvedHandler.PostExecute(args.ResultUrl, args.ClipboardEvent))
     {
-      this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
+      HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
     }
   }
 }

@@ -9,8 +9,8 @@ public class UNConfigurationStepArgs : PipelineArgs
 {
   public UNConfigurationStepArgs()
   {
-    this.StateConstructInfo = new WindowWithBackStateConstructInfo();
-    this.ConfigurationConstructInfo = new ConfigurationControlConstructInfo()
+    StateConstructInfo = new WindowWithBackStateConstructInfo();
+    ConfigurationConstructInfo = new ConfigurationControlConstructInfo()
     {
       ConfigurationEntries =
         new List<ConfigurationEntryBaseVM>()

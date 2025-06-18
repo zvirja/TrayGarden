@@ -14,14 +14,14 @@ public class MethodAssigner : IContentAssigner
 {
   public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver)
   {
-    var methodInfo = this.ResolveMethodInfo(contentNode, instance, instanceType);
+    var methodInfo = ResolveMethodInfo(contentNode, instance, instanceType);
     if (methodInfo == null)
     {
       return;
     }
     Type[] methodArgTypes = methodInfo.GetParameters().Select(x => x.ParameterType).ToArray();
-    object[] methodArgs = this.GetArgValues(contentNode, methodArgTypes, valueParcerResolver);
-    this.InvokeMethod(methodInfo, methodArgs, instance);
+    object[] methodArgs = GetArgValues(contentNode, methodArgTypes, valueParcerResolver);
+    InvokeMethod(methodInfo, methodArgs, instance);
   }
 
   protected virtual Type[] GetArgTypes(XmlNode contentNode)
@@ -83,7 +83,7 @@ public class MethodAssigner : IContentAssigner
   protected virtual MethodInfo ResolveMethodInfo(XmlNode contentNode, object instance, Type instanceType)
   {
     string nodeName = contentNode.Name;
-    var methodParamsTypes = this.GetArgTypes(contentNode);
+    var methodParamsTypes = GetArgTypes(contentNode);
     MethodInfo resolvedMI = null;
     if (methodParamsTypes != null)
     {

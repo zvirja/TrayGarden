@@ -24,33 +24,33 @@ public class Pipeline : IPipeline
     //Assert.ArgumentNotNull(argumentType, "argumentTypeStr");
     Assert.ArgumentNotNull(name, "name");
     Assert.ArgumentNotNull(processors, "processors");
-    this.Name = name;
-    if (this.ArgumentType == null)
+    Name = name;
+    if (ArgumentType == null)
     {
-      this.ArgumentType = argumentType;
+      ArgumentType = argumentType;
     }
-    if (this.ArgumentType == null)
+    if (ArgumentType == null)
     {
       throw new Exception("Pipeline {0}. Argument type invalid".FormatWith(name));
     }
-    this.Processors = processors;
-    this.Initialized = true;
+    Processors = processors;
+    Initialized = true;
   }
 
   public virtual void Invoke<TArgumentType>(TArgumentType argument, bool maskExceptions) where TArgumentType : PipelineArgs
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    if (argument.GetType() != this.ArgumentType)
+    if (argument.GetType() != ArgumentType)
     {
       throw new ArgumentException(
         "This pipeline was designed to work with {0} type. Passed argument of type {1} was passed".FormatWith(
-          this.ArgumentType.Name,
+          ArgumentType.Name,
           argument.GetType().Name));
     }
-    foreach (Processor processor in this.Processors)
+    foreach (Processor processor in Processors)
     {
       try
       {
@@ -74,11 +74,11 @@ public class Pipeline : IPipeline
 
   public override string ToString()
   {
-    return this.Initialized
+    return Initialized
       ? "Processor {0}. ArgumentType: {1}, number of processors {2}".FormatWith(
-        this.Name,
-        this.ArgumentType.FullName,
-        this.Processors.Count)
+        Name,
+        ArgumentType.FullName,
+        Processors.Count)
       : base.ToString();
   }
 }

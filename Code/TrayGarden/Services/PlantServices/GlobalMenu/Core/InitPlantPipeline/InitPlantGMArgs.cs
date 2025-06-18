@@ -20,9 +20,9 @@ public class InitPlantGMArgs : PipelineArgs
     Assert.ArgumentNotNull(plantEx, "plantEx");
     Assert.ArgumentNotNull(luggageName, "luggageName");
     Assert.ArgumentNotNull(globalNotifyIconChanger, "globalNotifyIconChanger");
-    this.PlantEx = plantEx;
-    this.LuggageName = luggageName;
-    this.GlobalNotifyIconChanger = globalNotifyIconChanger;
+    PlantEx = plantEx;
+    LuggageName = luggageName;
+    GlobalNotifyIconChanger = globalNotifyIconChanger;
   }
 
   public GlobalMenuPlantBox GMBox { get; set; }
@@ -41,10 +41,10 @@ public class InitPlantGMArgs : PipelineArgs
 
   public virtual void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
   {
-    if (this.GMBox.ToolStripMenuItems == null)
+    if (GMBox.ToolStripMenuItems == null)
     {
-      this.GMBox.ToolStripMenuItems = new List<ToolStripItem>();
+      GMBox.ToolStripMenuItems = new List<ToolStripItem>();
     }
-    this.GMBox.ToolStripMenuItems.AddRange(newItem);
+    GMBox.ToolStripMenuItems.AddRange(newItem);
   }
 }

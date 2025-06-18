@@ -9,7 +9,7 @@ public partial class VeryEmptyWindow : Window
 {
   public VeryEmptyWindow()
   {
-    this.InitializeComponent();
-    this.Hide();
+    InitializeComponent();
+    Hide();
   }
 }

@@ -11,7 +11,7 @@ public class UpdateSuccessTrayIcon : Processor
   {
     var notifyIconManager = Factory.ActualFactory.GetNotifyIconManager();
     args.CurrentNotifyIconChangerClient.SetIcon(
-      args.ResolvedHandler != null ? args.ResolvedHandler.DefaultHandlerIcon : this.SuccessTrayIcon,
+      args.ResolvedHandler != null ? args.ResolvedHandler.DefaultHandlerIcon : SuccessTrayIcon,
       1500);
   }
 }

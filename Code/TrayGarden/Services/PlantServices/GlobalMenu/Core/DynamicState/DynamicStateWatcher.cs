@@ -24,45 +24,45 @@ public class DynamicStateWatcher : IDynamicStateWatcher
     {
       return;
     }
-    stateProvider.RelevanceChanged += (sender, args) => this.EnqueStripForPendingUpdate(menuItem);
-    this.EnqueStripForPendingUpdate(menuItem);
+    stateProvider.RelevanceChanged += (sender, args) => EnqueStripForPendingUpdate(menuItem);
+    EnqueStripForPendingUpdate(menuItem);
   }
 
   public virtual void BindToMenuStrip(ContextMenuStrip menuStrip)
   {
-    menuStrip.Opening += this.MenuStripOnOpening;
+    menuStrip.Opening += MenuStripOnOpening;
   }
 
   [UsedImplicitly]
   public virtual void Initialize(IDynamicStateDecorator menuEntryDecorator)
   {
-    this.MenuEntryDecorator = menuEntryDecorator;
-    this.EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
+    MenuEntryDecorator = menuEntryDecorator;
+    EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
   }
 
   protected virtual void EnqueStripForPendingUpdate(ExtendedToolStripMenuItem menuItem)
   {
-    lock (this.lockObj)
+    lock (lockObj)
     {
-      this.EntriesToUpdate.Add(menuItem);
+      EntriesToUpdate.Add(menuItem);
     }
   }
 
   protected virtual void MenuStripOnOpening(object sender, CancelEventArgs cancelEventArgs)
   {
-    if (this.EntriesToUpdate.Count == 0)
+    if (EntriesToUpdate.Count == 0)
     {
       return;
     }
     List<ExtendedToolStripMenuItem> copyOfEntries = null;
-    lock (this.lockObj)
+    lock (lockObj)
     {
-      copyOfEntries = this.EntriesToUpdate.ToList();
-      this.EntriesToUpdate.Clear();
+      copyOfEntries = EntriesToUpdate.ToList();
+      EntriesToUpdate.Clear();
     }
     foreach (ExtendedToolStripMenuItem item in copyOfEntries)
     {
-      this.MenuEntryDecorator.DecorateStripItem(item, item.DymamicStateProvider.CurrentRelevanceLevel);
+      MenuEntryDecorator.DecorateStripItem(item, item.DymamicStateProvider.CurrentRelevanceLevel);
     }
   }
 }

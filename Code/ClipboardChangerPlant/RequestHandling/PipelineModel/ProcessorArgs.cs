@@ -6,10 +6,10 @@ public class ProcessorArgs
 {
   public ProcessorArgs(bool onlyShorteningRequired, bool clipboardEvent, string predefinedClipboardValue, bool originatorIsGlobalIcon)
   {
-    this.OnlyShorteningRequired = onlyShorteningRequired;
-    this.ClipboardEvent = clipboardEvent;
-    this.PredefinedClipboardValue = predefinedClipboardValue;
-    this.OriginatorIsGlobalIcon = originatorIsGlobalIcon;
+    OnlyShorteningRequired = onlyShorteningRequired;
+    ClipboardEvent = clipboardEvent;
+    PredefinedClipboardValue = predefinedClipboardValue;
+    OriginatorIsGlobalIcon = originatorIsGlobalIcon;
   }
 
   public bool Aborted { get; protected set; }
@@ -34,6 +34,6 @@ public class ProcessorArgs
 
   public void Abort()
   {
-    this.Aborted = true;
+    Aborted = true;
   }
 }

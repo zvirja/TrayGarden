@@ -10,18 +10,18 @@ public class PlayerForTimespanMediator : TypedConfigurationPlayer<int>
   public PlayerForTimespanMediator([NotNull] string settingName, TimeSpanSettingMediator mediator)
     : base(settingName, true, false)
   {
-    this.Mediator = mediator;
+    Mediator = mediator;
   }
 
   public override int Value
   {
     get
     {
-      return (int)this.Mediator.Value.TotalMilliseconds;
+      return (int)Mediator.Value.TotalMilliseconds;
     }
     set
     {
-      this.Mediator.Value = TimeSpan.FromMilliseconds(value);
+      Mediator.Value = TimeSpan.FromMilliseconds(value);
     }
   }
 
@@ -29,7 +29,7 @@ public class PlayerForTimespanMediator : TypedConfigurationPlayer<int>
 
   public override void Reset()
   {
-    this.Mediator.Value = TimeSpan.FromMilliseconds(this.Mediator.DefaultMillisecondsValue);
-    this.OnValueChanged();
+    Mediator.Value = TimeSpan.FromMilliseconds(Mediator.DefaultMillisecondsValue);
+    OnValueChanged();
   }
 }

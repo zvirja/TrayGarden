@@ -10,7 +10,7 @@ public class ExitOnCloseSetting
 {
   public ExitOnCloseSetting()
   {
-    this.SettingDescription = "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
+    SettingDescription = "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
   }
 
   public string SettingDescription { get; set; }
@@ -18,11 +18,11 @@ public class ExitOnCloseSetting
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)
   {
-    args.ConfigurationConstructInfo.ConfigurationEntries.Add(this.GetConfigurationEntry());
+    args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetConfigurationEntry());
   }
 
   protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
   {
-    return new BoolConfigurationEntryVM(new ExitOnClosePlayer("Exit on close", this.SettingDescription));
+    return new BoolConfigurationEntryVM(new ExitOnClosePlayer("Exit on close", SettingDescription));
   }
 }

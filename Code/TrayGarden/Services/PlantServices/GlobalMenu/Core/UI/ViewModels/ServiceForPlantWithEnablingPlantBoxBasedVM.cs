@@ -12,8 +12,8 @@ public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEna
     ServicePlantBoxBase plantBox)
     : base(serviceName, description)
   {
-    this.AssignedPlantBox = plantBox;
-    this.AssignedPlantBox.IsEnabledChanged += this.AssignedPlantBox_IsEnabledChanged;
+    AssignedPlantBox = plantBox;
+    AssignedPlantBox.IsEnabledChanged += AssignedPlantBox_IsEnabledChanged;
   }
 
   [UsedImplicitly]
@@ -21,17 +21,17 @@ public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEna
   {
     get
     {
-      return this.AssignedPlantBox.IsEnabled;
+      return AssignedPlantBox.IsEnabled;
     }
     set
     {
-      if (value.Equals(this.AssignedPlantBox.IsEnabled))
+      if (value.Equals(AssignedPlantBox.IsEnabled))
       {
         return;
       }
-      this.AssignedPlantBox.IsEnabled = value;
-      this.OnPropertyChanged("IsEnabled");
-      this.OnIsEnabledChanged(value);
+      AssignedPlantBox.IsEnabled = value;
+      OnPropertyChanged("IsEnabled");
+      OnIsEnabledChanged(value);
     }
   }
 
@@ -39,11 +39,11 @@ public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEna
 
   public virtual void Dispose()
   {
-    this.AssignedPlantBox.IsEnabledChanged -= this.AssignedPlantBox_IsEnabledChanged;
+    AssignedPlantBox.IsEnabledChanged -= AssignedPlantBox_IsEnabledChanged;
   }
 
   protected virtual void AssignedPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
   {
-    this.OnPropertyChanged("IsEnabled");
+    OnPropertyChanged("IsEnabled");
   }
 }

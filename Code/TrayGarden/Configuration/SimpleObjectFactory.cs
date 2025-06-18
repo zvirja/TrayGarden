@@ -6,11 +6,11 @@ public class SimpleObjectFactory : IObjectFactory
 
   public virtual object GetObject()
   {
-    return Factory.Instance.GetObject(this.ConfigurationPath);
+    return Factory.Instance.GetObject(ConfigurationPath);
   }
 
   public virtual object GetPurelyNewObject()
   {
-    return Factory.Instance.GetPurelyNewObject(this.ConfigurationPath);
+    return Factory.Instance.GetPurelyNewObject(ConfigurationPath);
   }
 }

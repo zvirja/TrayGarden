@@ -28,7 +28,7 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
   {
     get
     {
-      return this.ListenClipoardSetting == null || this.ListenClipoardSetting.Value;
+      return ListenClipoardSetting == null || ListenClipoardSetting.Value;
     }
   }
 
@@ -36,21 +36,21 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
 
   public virtual string GetValue()
   {
-    return this.ActualProvider.GetCurrentClipboardText();
+    return ActualProvider.GetCurrentClipboardText();
   }
 
   public virtual void OnClipboardTextChanged(string newClipboardValue)
   {
-    if (this.ListenClipboad)
+    if (ListenClipboad)
     {
-      this.OnClipboardValueUpdatedService(newClipboardValue);
-      this.OnOnClipboardValueChanged(newClipboardValue);
+      OnClipboardValueUpdatedService(newClipboardValue);
+      OnOnClipboardValueChanged(newClipboardValue);
     }
   }
 
   public virtual void OnClipboardValueUpdatedService(string newValue)
   {
-    Action<string> handler = this.ClipboardValueUpdatedService;
+    Action<string> handler = ClipboardValueUpdatedService;
     if (handler != null)
     {
       handler(newValue);
@@ -59,26 +59,26 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
 
   public virtual void PostInit()
   {
-    this.ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting("listenTheClipboard", ListenClipboardSettingName, true);
+    ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting("listenTheClipboard", ListenClipboardSettingName, true);
   }
 
   public virtual void SetValue(string value, bool silent)
   {
     if (silent)
     {
-      this.OnClipboardValueUpdatedService(value);
+      OnClipboardValueUpdatedService(value);
     }
-    this.ActualProvider.SetCurrentClipboardText(value, silent);
+    ActualProvider.SetCurrentClipboardText(value, silent);
   }
 
   public virtual void StoreClipboardValueProvider(IClipboardProvider provider)
   {
-    this.ActualProvider = provider;
+    ActualProvider = provider;
   }
 
   protected virtual void OnOnClipboardValueChanged(string newValue)
   {
-    Action<string> handler = this.OnClipboardValueChanged;
+    Action<string> handler = OnClipboardValueChanged;
     if (handler != null)
     {
       handler(newValue);

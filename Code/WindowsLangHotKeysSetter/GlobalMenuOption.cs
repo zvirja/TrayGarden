@@ -13,7 +13,7 @@ public class GlobalMenuOption: TrayGarden.Reception.Services.IExtendsGlobalMenu,
 
   public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
   {
-    menuAppender.AppentMenuStripItem("Set Windows language hotkeys", Resources.activehotkeys, this.OnContextMenuClick);
+    menuAppender.AppentMenuStripItem("Set Windows language hotkeys", Resources.activehotkeys, OnContextMenuClick);
 
     return true;
   }
@@ -22,13 +22,13 @@ public class GlobalMenuOption: TrayGarden.Reception.Services.IExtendsGlobalMenu,
   {
     if (HotKeysCommandRunner.Instance.SetHotKeys(false))
     {
-      this.GlobalIconChanger.NotifySuccess();
+      GlobalIconChanger.NotifySuccess();
     }
   }
 
   public void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
   {
-    this.GlobalIconChanger = notifyIconChangerClient;
+    GlobalIconChanger = notifyIconChangerClient;
   }
 
 }

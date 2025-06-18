@@ -23,19 +23,19 @@ public class Plant : IPlant, IServicesDelegation, IIsEnabledObserver
   {
     if (IsEnabledInfo.IsEnabled)
     {
-      this._form = new KeyboardHookProcessingForm();
+      _form = new KeyboardHookProcessingForm();
     }
 
     IsEnabledInfo.IsEnabledChanged += (sender, args) =>
     {
       if (IsEnabledInfo.IsEnabled)
       {
-        this._form ??= new KeyboardHookProcessingForm();
+        _form ??= new KeyboardHookProcessingForm();
       }
       else
       {
-        this._form?.Dispose();
-        this._form = null;
+        _form?.Dispose();
+        _form = null;
       }
     };
   }

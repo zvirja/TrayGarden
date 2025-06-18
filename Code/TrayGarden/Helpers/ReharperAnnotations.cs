@@ -48,7 +48,7 @@ public sealed class LocalizationRequiredAttribute : Attribute
   /// <param name="required"><c>true</c> if a element should be localized; otherwise, <c>false</c>.</param>
   public LocalizationRequiredAttribute(bool required)
   {
-    this.Required = required;
+    Required = required;
   }
 
   /// <summary>
@@ -68,7 +68,7 @@ public sealed class LocalizationRequiredAttribute : Attribute
   public override bool Equals(object obj)
   {
     var attribute = obj as LocalizationRequiredAttribute;
-    return attribute != null && attribute.Required == this.Required;
+    return attribute != null && attribute.Required == Required;
   }
 
   /// <summary>
@@ -108,7 +108,7 @@ public sealed class StringFormatMethodAttribute : Attribute
   /// <param name="formatParameterName">Specifies which parameter of an annotated method should be treated as format-string</param>
   public StringFormatMethodAttribute(string formatParameterName)
   {
-    this.FormatParameterName = formatParameterName;
+    FormatParameterName = formatParameterName;
   }
 
   /// <summary>
@@ -191,7 +191,7 @@ public sealed class NotifyPropertyChangedInvocatorAttribute : Attribute
 
   public NotifyPropertyChangedInvocatorAttribute(string parameterName)
   {
-    this.ParameterName = parameterName;
+    ParameterName = parameterName;
   }
 
   [UsedImplicitly]
@@ -295,8 +295,8 @@ public sealed class ContractAnnotationAttribute : Attribute
 
   public ContractAnnotationAttribute([NotNull] string fdt, bool forceFullStates)
   {
-    this.FDT = fdt;
-    this.ForceFullStates = forceFullStates;
+    FDT = fdt;
+    ForceFullStates = forceFullStates;
   }
 
   public string FDT { get; private set; }
@@ -361,7 +361,7 @@ public sealed class BaseTypeRequiredAttribute : Attribute
   /// <param name="baseType">Specifies which types are required</param>
   public BaseTypeRequiredAttribute(Type baseType)
   {
-    this.BaseTypes = new[] { baseType };
+    BaseTypes = new[] { baseType };
   }
 
   /// <summary>
@@ -386,8 +386,8 @@ public sealed class UsedImplicitlyAttribute : Attribute
   [UsedImplicitly]
   public UsedImplicitlyAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
   {
-    this.UseKindFlags = useKindFlags;
-    this.TargetFlags = targetFlags;
+    UseKindFlags = useKindFlags;
+    TargetFlags = targetFlags;
   }
 
   [UsedImplicitly]
@@ -428,8 +428,8 @@ public sealed class MeansImplicitUseAttribute : Attribute
   [UsedImplicitly]
   public MeansImplicitUseAttribute(ImplicitUseKindFlags useKindFlags, ImplicitUseTargetFlags targetFlags)
   {
-    this.UseKindFlags = useKindFlags;
-    this.TargetFlags = targetFlags;
+    UseKindFlags = useKindFlags;
+    TargetFlags = targetFlags;
   }
 
   [UsedImplicitly]
@@ -565,7 +565,7 @@ public class PathReferenceAttribute : Attribute
   [UsedImplicitly]
   public PathReferenceAttribute([PathReference] string basePath)
   {
-    this.BasePath = basePath;
+    BasePath = basePath;
   }
 
   [UsedImplicitly]
@@ -589,7 +589,7 @@ public sealed class AspMvcActionAttribute : Attribute
 
   public AspMvcActionAttribute(string anonymousProperty)
   {
-    this.AnonymousProperty = anonymousProperty;
+    AnonymousProperty = anonymousProperty;
   }
 
   [UsedImplicitly]
@@ -611,7 +611,7 @@ public sealed class AspMvcAreaAttribute : PathReferenceAttribute
 
   public AspMvcAreaAttribute(string anonymousProperty)
   {
-    this.AnonymousProperty = anonymousProperty;
+    AnonymousProperty = anonymousProperty;
   }
 
   [UsedImplicitly]
@@ -633,7 +633,7 @@ public sealed class AspMvcControllerAttribute : Attribute
 
   public AspMvcControllerAttribute(string anonymousProperty)
   {
-    this.AnonymousProperty = anonymousProperty;
+    AnonymousProperty = anonymousProperty;
   }
 
   [UsedImplicitly]

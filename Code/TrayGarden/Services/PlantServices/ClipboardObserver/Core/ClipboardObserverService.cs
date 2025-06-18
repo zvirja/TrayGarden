@@ -35,22 +35,22 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   public ClipboardObserverService()
     : base("Clipboard Observer", "ClipboardObserverService")
   {
-    this.ServiceDescription = "Service monitors the clipboard and deliver change notifications to plants.";
-    this.MaxAllowedTextLength = 100000;
-    this.supressNextEvent = false;
-    this.SelfProvider = new ClipboardProvider(this);
-    this.Monitor = new ClipboardMonitor();
-    this.Monitor.ClipboardValueChanged += this.OnClipboardValueChanged;
-    this.ThreadQueue = new Queue<Action>();
-    this.BufferTimeBeforeReact = 500;
-    this.ClipboardPostponedReactTimer = new System.Threading.Timer(
-      this.OnClipboardValueChangedHandler,
+    ServiceDescription = "Service monitors the clipboard and deliver change notifications to plants.";
+    MaxAllowedTextLength = 100000;
+    supressNextEvent = false;
+    SelfProvider = new ClipboardProvider(this);
+    Monitor = new ClipboardMonitor();
+    Monitor.ClipboardValueChanged += OnClipboardValueChanged;
+    ThreadQueue = new Queue<Action>();
+    BufferTimeBeforeReact = 500;
+    ClipboardPostponedReactTimer = new System.Threading.Timer(
+      OnClipboardValueChangedHandler,
       null,
       Timeout.Infinite,
       Timeout.Infinite);
     //0 is used if this is initial state
-    this.lastKnownClipboardLengthOrSpecial = 0;
-    this.lastKnownClipboardValue = null;
+    lastKnownClipboardLengthOrSpecial = 0;
+    lastKnownClipboardValue = null;
   }
 
   //public int CheckIntervalMsec { get; set; }
@@ -78,7 +78,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   {
     string value = string.Empty;
     var awaiter = new ManualResetEventSlim(false);
-    this.PostToClipboardThread(
+    PostToClipboardThread(
       delegate
       {
         var clipboardValue = Clipboard.GetText();
@@ -88,7 +88,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
           {
             return;
           }
-          if (!disableSizeCheck && clipboardValue.Length > this.MaxAllowedTextLength)
+          if (!disableSizeCheck && clipboardValue.Length > MaxAllowedTextLength)
           {
             return;
           }
@@ -106,28 +106,28 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   public override void InformDisplayStage()
   {
     base.InformDisplayStage();
-    this.ClipboardWorkingThread.Start();
+    ClipboardWorkingThread.Start();
   }
 
   public override void InformInitializeStage()
   {
     base.InformInitializeStage();
-    this.Gardenbed = HatcherGuide<IGardenbed>.Instance;
-    this.InitializeClipboardWorkingThread();
+    Gardenbed = HatcherGuide<IGardenbed>.Instance;
+    InitializeClipboardWorkingThread();
   }
 
   public override void InitializePlant(IPlantEx plantEx)
   {
     base.InitializePlant(plantEx);
-    this.InitializePlantWithLuggage(plantEx);
+    InitializePlantWithLuggage(plantEx);
   }
 
   public virtual void SetClipboardValue(string newValue, bool silent)
   {
-    this.PostToClipboardThread(
+    PostToClipboardThread(
       delegate
       {
-        this.supressNextEvent = silent;
+        supressNextEvent = silent;
         Clipboard.SetText(newValue);
       });
   }
@@ -143,20 +143,20 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
       try
       {
         Action callbackToHandle;
-        lock (this.ThreadQueue)
+        lock (ThreadQueue)
         {
-          if (this.ThreadQueue.Count == 0)
+          if (ThreadQueue.Count == 0)
           {
-            System.Threading.Monitor.Wait(this.ThreadQueue);
+            System.Threading.Monitor.Wait(ThreadQueue);
             continue;
           }
-          callbackToHandle = this.ThreadQueue.Peek();
+          callbackToHandle = ThreadQueue.Peek();
           Assert.IsNotNull(callbackToHandle, "Callback cannot be null");
         }
         callbackToHandle();
-        lock (this.ThreadQueue)
+        lock (ThreadQueue)
         {
-          var dequeuedCallback = this.ThreadQueue.Dequeue();
+          var dequeuedCallback = ThreadQueue.Dequeue();
           Assert.IsTrue(callbackToHandle == dequeuedCallback, "Queue is in inconsistent state");
         }
       }
@@ -173,10 +173,10 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
 
   protected virtual void InformNewClipboardValue(string newValue)
   {
-    List<IPlantEx> enabledPlants = this.Gardenbed.GetEnabledPlants();
+    List<IPlantEx> enabledPlants = Gardenbed.GetEnabledPlants();
     foreach (IPlantEx enabledPlant in enabledPlants)
     {
-      var luggage = this.GetPlantLuggage(enabledPlant);
+      var luggage = GetPlantLuggage(enabledPlant);
       if (luggage != null)
       {
         luggage.InformNewClipboardValue(newValue);
@@ -186,8 +186,8 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
 
   protected virtual void InitializeClipboardWorkingThread()
   {
-    this.ClipboardWorkingThread = new Thread(this.CheckThreadLoop) { IsBackground = true };
-    this.ClipboardWorkingThread.SetApartmentState(ApartmentState.STA);
+    ClipboardWorkingThread = new Thread(CheckThreadLoop) { IsBackground = true };
+    ClipboardWorkingThread.SetApartmentState(ApartmentState.STA);
   }
 
   protected virtual void InitializePlantWithLuggage(IPlantEx plant)
@@ -195,7 +195,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     var asClipboardWorksPerformer = plant.GetFirstWorkhorseOfType<IClipboardWorks>();
     if (asClipboardWorksPerformer != null)
     {
-      asClipboardWorksPerformer.StoreClipboardValueProvider(this.SelfProvider);
+      asClipboardWorksPerformer.StoreClipboardValueProvider(SelfProvider);
     }
     var clipboardListener = plant.GetFirstWorkhorseOfType<IClipboardListener>();
     if (clipboardListener == null)
@@ -206,9 +206,9 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     {
       WorksHungry = clipboardListener,
       RelatedPlantEx = plant,
-      SettingsBox = plant.MySettingsBox.GetSubBox(this.LuggageName)
+      SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
     };
-    plant.PutLuggage(this.LuggageName, clipboardObserverPlantBox);
+    plant.PutLuggage(LuggageName, clipboardObserverPlantBox);
   }
 
   /// <summary>
@@ -220,20 +220,20 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   protected virtual bool IsNewClipboardValue(string value)
   {
     //this is an initial state, no clipboard updates before
-    if (this.lastKnownClipboardLengthOrSpecial == 0)
+    if (lastKnownClipboardLengthOrSpecial == 0)
     {
       return true;
     }
     //check for special values
     if (value.IsNullOrEmpty())
     {
-      return this.lastKnownClipboardLengthOrSpecial == -2 && this.lastKnownClipboardValue == null;
+      return lastKnownClipboardLengthOrSpecial == -2 && lastKnownClipboardValue == null;
     }
-    if (value.Length > this.MaxAllowedTextLength)
+    if (value.Length > MaxAllowedTextLength)
     {
-      return this.lastKnownClipboardLengthOrSpecial != value.Length;
+      return lastKnownClipboardLengthOrSpecial != value.Length;
     }
-    return !value.Equals(this.lastKnownClipboardValue);
+    return !value.Equals(lastKnownClipboardValue);
   }
 
   /// <summary>
@@ -246,20 +246,20 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     //Special case. Special values are set.
     if (value.IsNullOrEmpty())
     {
-      this.lastKnownClipboardLengthOrSpecial = -2;
-      this.lastKnownClipboardValue = null;
+      lastKnownClipboardLengthOrSpecial = -2;
+      lastKnownClipboardValue = null;
       return;
     }
-    if (value.Length > this.MaxAllowedTextLength)
+    if (value.Length > MaxAllowedTextLength)
     {
-      this.lastKnownClipboardLengthOrSpecial = value.Length;
-      this.lastKnownClipboardValue = null;
-      Assert.IsTrue(this.lastKnownClipboardLengthOrSpecial != 0, "Zero is reserved value. Cannot be zero");
+      lastKnownClipboardLengthOrSpecial = value.Length;
+      lastKnownClipboardValue = null;
+      Assert.IsTrue(lastKnownClipboardLengthOrSpecial != 0, "Zero is reserved value. Cannot be zero");
     }
     else
     {
-      this.lastKnownClipboardLengthOrSpecial = -1;
-      this.lastKnownClipboardValue = value;
+      lastKnownClipboardLengthOrSpecial = -1;
+      lastKnownClipboardValue = value;
     }
   }
 
@@ -273,7 +273,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   protected virtual void OnClipboardValueChanged(object sender, EventArgs e)
   {
     //This code starts timer again. If countdown is already started, it's reset
-    this.ClipboardPostponedReactTimer.Change(this.BufferTimeBeforeReact, Timeout.Infinite);
+    ClipboardPostponedReactTimer.Change(BufferTimeBeforeReact, Timeout.Infinite);
   }
 
   /// <summary>
@@ -283,15 +283,15 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// <param name="dummy"></param>
   protected virtual void OnClipboardValueChangedHandler(object dummy)
   {
-    this.PostToClipboardThread(
+    PostToClipboardThread(
       delegate
       {
         var clipboardValue = Clipboard.GetText();
-        bool isNewValue = this.IsNewClipboardValue(clipboardValue);
-        this.NoteNewClipboardValue(clipboardValue);
-        if (this.supressNextEvent)
+        bool isNewValue = IsNewClipboardValue(clipboardValue);
+        NoteNewClipboardValue(clipboardValue);
+        if (supressNextEvent)
         {
-          this.supressNextEvent = false;
+          supressNextEvent = false;
           return;
         }
         if (!isNewValue)
@@ -302,20 +302,20 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
         {
           return;
         }
-        if (clipboardValue.Length > this.MaxAllowedTextLength)
+        if (clipboardValue.Length > MaxAllowedTextLength)
         {
           return;
         }
-        this.InformNewClipboardValue(clipboardValue);
+        InformNewClipboardValue(clipboardValue);
       });
   }
 
   protected void PostToClipboardThread(Action method)
   {
-    lock (this.ThreadQueue)
+    lock (ThreadQueue)
     {
-      this.ThreadQueue.Enqueue(method);
-      System.Threading.Monitor.Pulse(this.ThreadQueue);
+      ThreadQueue.Enqueue(method);
+      System.Threading.Monitor.Pulse(ThreadQueue);
     }
   }
 }

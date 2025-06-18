@@ -10,8 +10,8 @@ public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<Glob
 {
   public GlobalMenuServiceMenuEmbeddingPresenter()
   {
-    this.ServiceName = "Embedding to global menu";
-    this.ServiceDescription = "If service is enabled, plant is enabled to embed its row to global menu.";
+    ServiceName = "Embedding to global menu";
+    ServiceDescription = "If service is enabled, plant is enabled to embed its row to global menu.";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)
@@ -21,6 +21,6 @@ public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<Glob
     {
       return null;
     }
-    return new ServiceForPlantWithEnablingPlantBoxBasedVM(this.ServiceName, this.ServiceDescription, luggage);
+    return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, luggage);
   }
 }

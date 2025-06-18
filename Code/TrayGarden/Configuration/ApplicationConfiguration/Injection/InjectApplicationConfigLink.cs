@@ -18,12 +18,12 @@ public class InjectApplicationConfigLink
   [UsedImplicitly]
   public virtual void Process(GetMainVMPipelineArgs args)
   {
-    args.SuperAction = this.GetSuperAction();
+    args.SuperAction = GetSuperAction();
   }
 
   protected virtual void ConfigureApplication(object obj)
   {
-    WindowStepState applicationConfigStep = this.GetStateFromPipeline();
+    WindowStepState applicationConfigStep = GetStateFromPipeline();
     if (applicationConfigStep == null)
     {
       HatcherGuide<IUIManager>.Instance.OKMessageBox(
@@ -45,6 +45,6 @@ public class InjectApplicationConfigLink
 
   protected virtual ActionCommandVM GetSuperAction()
   {
-    return new ActionCommandVM(new RelayCommand(this.ConfigureApplication, true), "Configure application");
+    return new ActionCommandVM(new RelayCommand(ConfigureApplication, true), "Configure application");
   }
 }

@@ -11,9 +11,9 @@ public class CreateStepInfo
 {
   public CreateStepInfo()
   {
-    this.ShortName = "user settings";
-    this.Header = "User settings for plant";
-    this.GlobalTitle = "Tray Garden -- User settings for #plantName plant";
+    ShortName = "user settings";
+    Header = "User settings for plant";
+    GlobalTitle = "Tray Garden -- User settings for #plantName plant";
   }
 
   public string GlobalTitle { get; set; }
@@ -28,9 +28,9 @@ public class CreateStepInfo
     Assert.IsNotNull(args.ConfigurationConstructInfo.ResultControlVM, "args.ConfigurationConstructInfo.ResultControlVM");
     WindowWithBackStateConstructInfo stateInfo = args.StateConstructInfo;
     stateInfo.ResultState = new WindowStepState(
-      this.GetGlobalTitle(args),
-      stateInfo.Header ?? this.Header,
-      stateInfo.ShortName ?? this.ShortName,
+      GetGlobalTitle(args),
+      stateInfo.Header ?? Header,
+      stateInfo.ShortName ?? ShortName,
       args.ConfigurationConstructInfo.ResultControlVM,
       stateInfo.SuperAction,
       stateInfo.StateSpecificHelpActions);
@@ -38,7 +38,7 @@ public class CreateStepInfo
 
   protected virtual string GetGlobalTitle(GetUCStepPipelineArgs args)
   {
-    var globalTitle = args.StateConstructInfo.GlobalTitle ?? this.GlobalTitle;
+    var globalTitle = args.StateConstructInfo.GlobalTitle ?? GlobalTitle;
     return globalTitle.Replace("#plantName", args.UCServicePlantBox.RelatedPlantEx.Plant.HumanSupportingName);
   }
 }

@@ -9,8 +9,8 @@ public class NotificationResult
 
   public NotificationResult(ResultCode code, object customData)
   {
-    this.Code = code;
-    this.CustomData = customData;
+    Code = code;
+    CustomData = customData;
   }
 
   public ResultCode Code { get; set; }

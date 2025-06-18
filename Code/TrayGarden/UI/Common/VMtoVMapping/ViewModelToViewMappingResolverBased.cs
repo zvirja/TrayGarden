@@ -18,19 +18,19 @@ public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
   {
     Assert.ArgumentNotNull(acceptableViewModelType, "acceptableViewModelType");
     Assert.ArgumentNotNull(resolver, "resolver");
-    this._acceptableViewModelType = acceptableViewModelType;
-    this._resoler = resolver;
+    _acceptableViewModelType = acceptableViewModelType;
+    _resoler = resolver;
   }
 
   public virtual Type AcceptableViewModelType
   {
     get
     {
-      return this._acceptableViewModelType;
+      return _acceptableViewModelType;
     }
     protected set
     {
-      this._acceptableViewModelType = value;
+      _acceptableViewModelType = value;
     }
   }
 
@@ -38,16 +38,16 @@ public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
   {
     get
     {
-      return this._resoler;
+      return _resoler;
     }
     set
     {
-      this._resoler = value;
+      _resoler = value;
     }
   }
 
   public virtual Control GetControl(object contextVM)
   {
-    return this.Resoler(contextVM);
+    return Resoler(contextVM);
   }
 }

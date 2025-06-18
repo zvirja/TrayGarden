@@ -20,7 +20,7 @@ public class PlantServiceConfigurator
 {
   public PlantServiceConfigurator()
   {
-    this.Description = "Configure service";
+    Description = "Configure service";
   }
 
   public string Description { get; set; }
@@ -33,12 +33,12 @@ public class PlantServiceConfigurator
       args.ConfigConstructInfo.ConfigurationEntries.FirstOrDefault(
         x => ((ConfigurationPlayerService)x.RealPlayer).InfoSource is UserNotificationsService);
     Assert.IsNotNull(entryRelatedToService, "Entry cannot be unresloved");
-    this.FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
+    FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
   }
 
   protected virtual void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
   {
-    realPlayer.AdditionalActions.Add(this.GetConfigurationAction());
+    realPlayer.AdditionalActions.Add(GetConfigurationAction());
   }
 
   protected virtual IConfigurationEntryAction GetConfigurationAction()
@@ -46,7 +46,7 @@ public class PlantServiceConfigurator
     var configureIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("configureV1", null);
     Assert.IsNotNull(configureIcon, "Resolved image cannot be null");
     var imageSource = ImageHelper.GetBitmapImageFromBitmapThreadSafe(configureIcon.ToBitmap(), ImageFormat.Png);
-    return new SimpleConfigurationEntryAction(imageSource, this.ShowConfigurationWindow, true, null, this.Description);
+    return new SimpleConfigurationEntryAction(imageSource, ShowConfigurationWindow, true, null, Description);
   }
 
   protected virtual void ShowConfigurationWindow(object obj)

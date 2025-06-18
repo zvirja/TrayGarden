@@ -18,13 +18,12 @@ public class ConfigurationControlConstructInfo
 
   public void BuildControlVM()
   {
-    this.ResultControlVM = new ConfigurationControlVM(this.ConfigurationEntries, this.EnableResetAllOption)
+    ResultControlVM = new ConfigurationControlVM(ConfigurationEntries, EnableResetAllOption)
     {
       CalculateRebootOption =
-        this.AllowReboot,
+        AllowReboot,
       ConfigurationDescription =
-        this
-          .ConfigurationDescription
+        ConfigurationDescription
     };
   }
 }

@@ -12,7 +12,7 @@ public class ShortenerProvider : INeedCongurationNode
   {
     get
     {
-      return this.ConfigurationHelper.GetStringValue("ApiKey", string.Empty);
+      return ConfigurationHelper.GetStringValue("ApiKey", string.Empty);
     }
   }
 
@@ -20,7 +20,7 @@ public class ShortenerProvider : INeedCongurationNode
 
   public void SetConfigurationNode(XmlNode configurationNode)
   {
-    this.ConfigurationHelper = new XmlHelper(configurationNode);
+    ConfigurationHelper = new XmlHelper(configurationNode);
   }
 
   public virtual bool TryShortUrl(string originalUrl, out string shortedUrl)

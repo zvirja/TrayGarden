@@ -6,7 +6,7 @@ public class XmlHelper
 {
   public XmlHelper(XmlNode parentNode)
   {
-    this.ParentNode = parentNode;
+    ParentNode = parentNode;
   }
 
   public XmlNode ParentNode { get; set; }
@@ -84,16 +84,16 @@ public class XmlHelper
 
   public bool GetBoolValue(string nodePath, bool defaultValue)
   {
-    return GetBoolValue(this.ParentNode, nodePath, defaultValue);
+    return GetBoolValue(ParentNode, nodePath, defaultValue);
   }
 
   public int GetIntValue(string nodePath, int defaultValue)
   {
-    return GetIntValue(this.ParentNode, nodePath, defaultValue);
+    return GetIntValue(ParentNode, nodePath, defaultValue);
   }
 
   public string GetStringValue(string nodePath, string defaultValue)
   {
-    return GetStringValue(this.ParentNode, nodePath, defaultValue);
+    return GetStringValue(ParentNode, nodePath, defaultValue);
   }
 }

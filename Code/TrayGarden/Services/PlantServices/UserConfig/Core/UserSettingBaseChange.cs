@@ -7,7 +7,7 @@ public class UserSettingBaseChange : EventArgs
 {
   public UserSettingBaseChange(IUserSettingBase origin)
   {
-    this.Origin = origin;
+    Origin = origin;
   }
 
   public IUserSettingBase Origin { get; set; }

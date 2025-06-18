@@ -7,12 +7,12 @@ public class ImageDisplayOptions
 {
   public ImageDisplayOptions(double width, double height)
   {
-    this.Width = width;
-    this.Height = height;
-    this.Stretch = Stretch.Fill;
-    this.Margins = new Thickness(0);
-    this.HorizontalAlignment = HorizontalAlignment.Center;
-    this.VerticalAlignment = VerticalAlignment.Stretch;
+    Width = width;
+    Height = height;
+    Stretch = Stretch.Fill;
+    Margins = new Thickness(0);
+    HorizontalAlignment = HorizontalAlignment.Center;
+    VerticalAlignment = VerticalAlignment.Stretch;
   }
 
   public double Height { get; set; }

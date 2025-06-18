@@ -10,16 +10,16 @@ public class DynamicStateDecorator : IDynamicStateDecorator
     switch (currentRelevanceLevel)
     {
       case RelevanceLevel.Irrelevant:
-        this.SetToIrrelevantState(menuItem);
+        SetToIrrelevantState(menuItem);
         break;
       case RelevanceLevel.Low:
-        this.SetToLowState(menuItem);
+        SetToLowState(menuItem);
         break;
       case RelevanceLevel.Normal:
-        this.SetToNormalState(menuItem);
+        SetToNormalState(menuItem);
         break;
       case RelevanceLevel.High:
-        this.SetToHighState(menuItem);
+        SetToHighState(menuItem);
         break;
     }
   }

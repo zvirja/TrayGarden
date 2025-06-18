@@ -17,14 +17,14 @@ public class ServiceForPlantDataTemplateSelector : IDataTemplateSelector
     var asFrameworkElement = container as FrameworkElement;
     Assert.IsNotNull(asFrameworkElement, "Strange.. passed dependency object isn't framework element");
 
-    var resolvedDataTemplate = this.TryResolveFromResources(item, asFrameworkElement);
+    var resolvedDataTemplate = TryResolveFromResources(item, asFrameworkElement);
 
     string defaultResourceKey = "DefaultMode";
-    string resourceKey = this.GetResourceKey(item) ?? defaultResourceKey;
-    var requiredDataTemplate = this.FindResource(asFrameworkElement, resourceKey);
+    string resourceKey = GetResourceKey(item) ?? defaultResourceKey;
+    var requiredDataTemplate = FindResource(asFrameworkElement, resourceKey);
     return requiredDataTemplate
            ?? (!resourceKey.Equals(defaultResourceKey, StringComparison.OrdinalIgnoreCase)
-             ? this.FindResource(asFrameworkElement, defaultResourceKey)
+             ? FindResource(asFrameworkElement, defaultResourceKey)
              : null);
   }
 

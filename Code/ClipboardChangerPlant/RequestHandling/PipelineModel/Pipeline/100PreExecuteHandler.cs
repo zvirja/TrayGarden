@@ -22,7 +22,7 @@ public class PreExecuteHandler : Processor
       }
       else
       {
-        this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
+        HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
       }
     }
   }

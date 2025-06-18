@@ -10,18 +10,18 @@ public class PlayerForDoubleRSMediator : TypedConfigurationPlayer<double>
   public PlayerForDoubleRSMediator([NotNull] string settingName, DoubleSettingMediator mediator)
     : base(settingName, true, false)
   {
-    this.Mediator = mediator;
+    Mediator = mediator;
   }
 
   public override double Value
   {
     get
     {
-      return this.Mediator.Value;
+      return Mediator.Value;
     }
     set
     {
-      this.Mediator.Value = value;
+      Mediator.Value = value;
     }
   }
 
@@ -29,7 +29,7 @@ public class PlayerForDoubleRSMediator : TypedConfigurationPlayer<double>
 
   public override void Reset()
   {
-    this.Value = this.Mediator.DefaultValue;
-    this.OnValueChanged();
+    Value = Mediator.DefaultValue;
+    OnValueChanged();
   }
 }

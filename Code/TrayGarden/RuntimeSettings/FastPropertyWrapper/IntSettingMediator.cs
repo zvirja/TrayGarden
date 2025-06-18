@@ -8,7 +8,7 @@ public class IntSettingMediator : BaseSettingMediator
   public IntSettingMediator([NotNull] string key, int defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
     : base(key, settingsBoxResolver)
   {
-    this.DefaultValue = defaultValue;
+    DefaultValue = defaultValue;
   }
 
   public int DefaultValue { get; set; }
@@ -17,11 +17,11 @@ public class IntSettingMediator : BaseSettingMediator
   {
     get
     {
-      return this.SettingsBox.GetInt(this.Key, this.DefaultValue);
+      return SettingsBox.GetInt(Key, DefaultValue);
     }
     set
     {
-      this.SettingsBox.SetInt(this.Key, value);
+      SettingsBox.SetInt(Key, value);
     }
   }
 }

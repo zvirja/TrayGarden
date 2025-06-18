@@ -9,7 +9,7 @@ public abstract class TypedConfigurationEntryVM<TEntry> : ConfigurationEntryBase
   public TypedConfigurationEntryVM([NotNull] ITypedConfigurationPlayer<TEntry> realPlayer)
     : base(realPlayer)
   {
-    this.RealPlayer = realPlayer;
+    RealPlayer = realPlayer;
   }
 
   public new ITypedConfigurationPlayer<TEntry> RealPlayer { get; set; }
@@ -18,12 +18,12 @@ public abstract class TypedConfigurationEntryVM<TEntry> : ConfigurationEntryBase
   {
     get
     {
-      return this.RealPlayer.Value;
+      return RealPlayer.Value;
     }
     set
     {
-      this.RealPlayer.Value = value;
-      this.OnPropertyChanged("Value");
+      RealPlayer.Value = value;
+      OnPropertyChanged("Value");
     }
   }
 

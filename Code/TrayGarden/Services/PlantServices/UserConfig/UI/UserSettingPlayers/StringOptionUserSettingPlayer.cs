@@ -11,14 +11,14 @@ public class StringOptionUserSettingPlayer : TypedUserSettingPlayer<string>, ISt
   public StringOptionUserSettingPlayer([NotNull] IStringOptionUserSetting userSetting)
     : base(userSetting)
   {
-    this.UserSetting = userSetting;
+    UserSetting = userSetting;
   }
 
   public List<string> Options
   {
     get
     {
-      return this.UserSetting.PossibleOptions;
+      return UserSetting.PossibleOptions;
     }
   }
 

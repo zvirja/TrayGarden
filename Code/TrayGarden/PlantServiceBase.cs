@@ -16,8 +16,8 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
 
   protected PlantServiceBase(string serviceName, string luggageName)
   {
-    this.ServiceName = serviceName;
-    this.LuggageName = luggageName;
+    ServiceName = serviceName;
+    LuggageName = luggageName;
   }
 
   public event Action<bool> IsEnabledChanged;
@@ -34,18 +34,18 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
   {
     get
     {
-      if (this._isActuallyEnabled != null)
+      if (_isActuallyEnabled != null)
       {
-        return this._isActuallyEnabled.Value;
+        return _isActuallyEnabled.Value;
       }
-      this._isActuallyEnabled = this.IsEnabled;
-      return this._isActuallyEnabled.Value;
+      _isActuallyEnabled = IsEnabled;
+      return _isActuallyEnabled.Value;
     }
     protected set
     {
-      if (this._isActuallyEnabled == null)
+      if (_isActuallyEnabled == null)
       {
-        this._isActuallyEnabled = value;
+        _isActuallyEnabled = value;
       }
     }
   }
@@ -54,13 +54,13 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
   {
     get
     {
-      return this.ServiceSettingsBox.GetBool("IsEnabled", true);
+      return ServiceSettingsBox.GetBool("IsEnabled", true);
     }
     set
     {
-      this.IsActuallyEnabled = this.IsEnabled;
-      this.ServiceSettingsBox.SetBool("IsEnabled", value);
-      this.OnIsEnabledChanged(value);
+      IsActuallyEnabled = IsEnabled;
+      ServiceSettingsBox.SetBool("IsEnabled", value);
+      OnIsEnabledChanged(value);
     }
   }
 
@@ -74,24 +74,24 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
   {
     get
     {
-      if (this._serviceSettingsBox != null)
+      if (_serviceSettingsBox != null)
       {
-        return this._serviceSettingsBox;
+        return _serviceSettingsBox;
       }
-      var key = this.GetType().Name;
+      var key = GetType().Name;
       var settingsRootBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox(AllServiceSettingsContainerName);
-      this._serviceSettingsBox = settingsRootBox.GetSubBox(key);
-      return this._serviceSettingsBox;
+      _serviceSettingsBox = settingsRootBox.GetSubBox(key);
+      return _serviceSettingsBox;
     }
   }
 
   public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
   {
-    if (!plantEx.HasLuggage(this.LuggageName))
+    if (!plantEx.HasLuggage(LuggageName))
     {
       return null;
     }
-    return plantEx.GetLuggage<TPlantLuggageType>(this.LuggageName);
+    return plantEx.GetLuggage<TPlantLuggageType>(LuggageName);
   }
 
   public virtual void InformClosingStage()
@@ -108,17 +108,17 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
 
   public virtual void InitializePlant(IPlantEx plantEx)
   {
-    plantEx.EnabledChanged += this.PlantOnEnabledChanged;
+    plantEx.EnabledChanged += PlantOnEnabledChanged;
   }
 
   public virtual bool IsAvailableForPlant(IPlantEx plantEx)
   {
-    return this.GetPlantLuggage(plantEx) != null;
+    return GetPlantLuggage(plantEx) != null;
   }
 
   protected virtual void OnIsEnabledChanged(bool obj)
   {
-    Action<bool> handler = this.IsEnabledChanged;
+    Action<bool> handler = IsEnabledChanged;
     if (handler != null)
     {
       handler(obj);

@@ -16,10 +16,10 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
   public ConfigurationPlayerBase([NotNull] string settingName, bool supportsReset, bool readOnly)
   {
     Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
-    this.SettingName = settingName;
+    SettingName = settingName;
     this.supportsReset = supportsReset;
-    this.ReadOnly = readOnly;
-    this.additionalActions = new List<IConfigurationEntryAction>();
+    ReadOnly = readOnly;
+    additionalActions = new List<IConfigurationEntryAction>();
   }
 
   public event Action RequiresApplicationRebootChanged;
@@ -30,11 +30,11 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
   {
     get
     {
-      return this.additionalActions;
+      return additionalActions;
     }
     protected set
     {
-      this.additionalActions = value;
+      additionalActions = value;
     }
   }
 
@@ -52,11 +52,11 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
   {
     get
     {
-      return this.supportsReset;
+      return supportsReset;
     }
     protected set
     {
-      this.supportsReset = value;
+      supportsReset = value;
     }
   }
 
@@ -64,7 +64,7 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
 
   protected virtual void OnRequiresApplicationRebootChanged()
   {
-    Action handler = this.RequiresApplicationRebootChanged;
+    Action handler = RequiresApplicationRebootChanged;
     if (handler != null)
     {
       handler();
@@ -73,7 +73,7 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
 
   protected virtual void OnValueChanged()
   {
-    Action handler = this.ValueChanged;
+    Action handler = ValueChanged;
     if (handler != null)
     {
       handler();

@@ -25,7 +25,7 @@ public class PullValueFromClipboard : Processor
       string currentValue = Factory.ActualFactory.GetClipboardProvider().GetValue();
       if (currentValue.IsNullOrEmpty())
       {
-        this.HandleErrorAndAbortPipeline(args, this.NotFoundTrayIcon);
+        HandleErrorAndAbortPipeline(args, NotFoundTrayIcon);
       }
       else
       {

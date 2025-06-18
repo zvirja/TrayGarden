@@ -10,7 +10,7 @@ public class SimpleDynamicStateProvider : IDynamicStateProvider
 
   public virtual void OnRelevanceChanged()
   {
-    EventHandler handler = this.RelevanceChanged;
+    EventHandler handler = RelevanceChanged;
     if (handler != null)
     {
       handler(this, EventArgs.Empty);
@@ -19,11 +19,11 @@ public class SimpleDynamicStateProvider : IDynamicStateProvider
 
   public virtual void UpdateStateWithNotification(RelevanceLevel newLevel)
   {
-    if (this.CurrentRelevanceLevel == newLevel)
+    if (CurrentRelevanceLevel == newLevel)
     {
       return;
     }
-    this.CurrentRelevanceLevel = newLevel;
-    this.OnRelevanceChanged();
+    CurrentRelevanceLevel = newLevel;
+    OnRelevanceChanged();
   }
 }

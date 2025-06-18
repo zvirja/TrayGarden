@@ -19,13 +19,13 @@ public class AutorunHelper : IAutorunHelper
     {
       try
       {
-        RegistryKey autorunKey = this.GetAppropriateKey();
+        RegistryKey autorunKey = GetAppropriateKey();
         var currentValue = autorunKey.GetValue(ValueName) as string;
         if (currentValue.IsNullOrEmpty())
         {
           return false;
         }
-        return currentValue.Equals(this.GetExecutablePath(), StringComparison.OrdinalIgnoreCase);
+        return currentValue.Equals(GetExecutablePath(), StringComparison.OrdinalIgnoreCase);
       }
       catch (Exception ex)
       {
@@ -39,10 +39,10 @@ public class AutorunHelper : IAutorunHelper
   {
     try
     {
-      RegistryKey autorunKey = this.GetAppropriateKey();
+      RegistryKey autorunKey = GetAppropriateKey();
       if (runAtStartup)
       {
-        autorunKey.SetValue(ValueName, this.GetExecutablePath(), RegistryValueKind.String);
+        autorunKey.SetValue(ValueName, GetExecutablePath(), RegistryValueKind.String);
       }
       else
       {

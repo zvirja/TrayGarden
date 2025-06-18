@@ -16,10 +16,10 @@ public class DisplayTaskBag
   {
     Assert.ArgumentNotNull(task, "task");
     Assert.ArgumentNotNull(windowVM, "windowVM");
-    this.Task = task;
-    this.WindowVM = windowVM;
-    this.EnqueueTime = enqueueTime;
-    this.PositionSize = positionSize;
+    Task = task;
+    WindowVM = windowVM;
+    EnqueueTime = enqueueTime;
+    PositionSize = positionSize;
   }
 
   public DateTime EnqueueTime { get; set; }

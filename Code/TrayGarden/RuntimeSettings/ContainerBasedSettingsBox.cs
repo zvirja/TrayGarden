@@ -9,7 +9,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
 {
   public ContainerBasedSettingsBox()
   {
-    this.SubBoxes = new Dictionary<string, ContainerBasedSettingsBox>();
+    SubBoxes = new Dictionary<string, ContainerBasedSettingsBox>();
   }
 
   public event Action OnSaving;
@@ -24,14 +24,14 @@ public class ContainerBasedSettingsBox : ISettingsBox
   {
     get
     {
-      return this.UnderlyingContainer.GetStringSetting(settingName);
+      return UnderlyingContainer.GetStringSetting(settingName);
     }
     set
     {
-      this.UnderlyingContainer.SetStringSetting(settingName, value);
+      UnderlyingContainer.SetStringSetting(settingName, value);
       if (BulkSettingsUpdate.CurrentValue != BulkUpdateState.Enabled)
       {
-        this.Save();
+        Save();
       }
     }
   }
@@ -39,19 +39,19 @@ public class ContainerBasedSettingsBox : ISettingsBox
   public virtual bool GetBool(string settingName, bool fallbackValue)
   {
     bool value;
-    return this.TryGetBool(settingName, out value) ? value : fallbackValue;
+    return TryGetBool(settingName, out value) ? value : fallbackValue;
   }
 
   public double GetDouble(string settingName, double fallbackValue)
   {
     double value;
-    return this.TryGetDouble(settingName, out value) ? value : fallbackValue;
+    return TryGetDouble(settingName, out value) ? value : fallbackValue;
   }
 
   public virtual int GetInt(string settingName, int fallbackValue)
   {
     int value;
-    return this.TryGetInt(settingName, out value) ? value : fallbackValue;
+    return TryGetInt(settingName, out value) ? value : fallbackValue;
   }
 
   public virtual string GetString(string settingName, string fallbackValue)
@@ -63,29 +63,29 @@ public class ContainerBasedSettingsBox : ISettingsBox
   public virtual ISettingsBox GetSubBox(string boxName)
   {
     var boxNameUppercased = boxName.ToLowerInvariant();
-    if (this.SubBoxes.ContainsKey(boxNameUppercased))
+    if (SubBoxes.ContainsKey(boxNameUppercased))
     {
-      return this.SubBoxes[boxName];
+      return SubBoxes[boxName];
     }
-    var subContainer = this.UnderlyingContainer.GetNamedSubContainer(boxNameUppercased);
+    var subContainer = UnderlyingContainer.GetNamedSubContainer(boxNameUppercased);
     var newBox = new ContainerBasedSettingsBox();
     newBox.Initialize(subContainer);
     newBox.ParentBox = this;
-    this.SubBoxes[boxName] = newBox;
+    SubBoxes[boxName] = newBox;
     return newBox;
   }
 
   public virtual void Initialize(IContainer container)
   {
-    this.UnderlyingContainer = container;
+    UnderlyingContainer = container;
   }
 
   public virtual void Save()
   {
-    this.CallOnSaving();
-    if (this.ParentBox != null)
+    CallOnSaving();
+    if (ParentBox != null)
     {
-      this.ParentBox.Save();
+      ParentBox.Save();
     }
   }
 
@@ -138,7 +138,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
 
   protected virtual void CallOnSaving()
   {
-    Action handler = this.OnSaving;
+    Action handler = OnSaving;
     if (handler != null)
     {
       handler();

@@ -19,18 +19,18 @@ public class Gardenbed : IGardenbed
 {
   public Gardenbed()
   {
-    this.Plants = new Dictionary<string, IPlantEx>();
+    Plants = new Dictionary<string, IPlantEx>();
   }
 
   public virtual bool AutoDetectPlants
   {
     get
     {
-      return this.MySettingsBox.GetBool("autoDetectPlants", true);
+      return MySettingsBox.GetBool("autoDetectPlants", true);
     }
     set
     {
-      this.MySettingsBox.SetBool("autoDetectPlants", value);
+      MySettingsBox.SetBool("autoDetectPlants", value);
     }
   }
 
@@ -44,25 +44,25 @@ public class Gardenbed : IGardenbed
   {
     get
     {
-      return this.MySettingsBox.GetSubBox("Plants");
+      return MySettingsBox.GetSubBox("Plants");
     }
   }
 
   public virtual List<IPlantEx> GetAllPlants()
   {
-    this.AssertInitialized();
-    return this.Plants.Select(x => x.Value).ToList();
+    AssertInitialized();
+    return Plants.Select(x => x.Value).ToList();
   }
 
   public virtual List<IPlantEx> GetEnabledPlants()
   {
-    this.AssertInitialized();
-    return this.Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
+    AssertInitialized();
+    return Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
   }
 
   public virtual void InformPostInitStage()
   {
-    foreach (IPlantEx plantEx in this.GetAllPlants())
+    foreach (IPlantEx plantEx in GetAllPlants())
     {
       plantEx.Plant.PostServicesInitialize();
     }
@@ -71,27 +71,27 @@ public class Gardenbed : IGardenbed
   [UsedImplicitly]
   public virtual void Initialize(List<object> permanentPlants)
   {
-    this.MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
+    MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
     if (permanentPlants == null)
     {
       permanentPlants = new List<object>();
     }
-    permanentPlants.AddRange(this.GetAutoIncludePlants());
+    permanentPlants.AddRange(GetAutoIncludePlants());
     foreach (object plant in permanentPlants)
     {
-      IPlantEx resolvedPlantEx = this.ResolveIPlantEx(plant);
+      IPlantEx resolvedPlantEx = ResolveIPlantEx(plant);
       if (resolvedPlantEx != null)
       {
-        this.Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
+        Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
       }
     }
     //HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
-    this.Initialized = true;
+    Initialized = true;
   }
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
@@ -113,11 +113,11 @@ public class Gardenbed : IGardenbed
   protected virtual List<IPlant> GetAutoIncludePlants()
   {
     var result = new List<IPlant>();
-    if (!this.AutoDetectPlants)
+    if (!AutoDetectPlants)
     {
       return result;
     }
-    DirectoryInfo autoincludeDirectory = this.GetAutoIncludeDirectory();
+    DirectoryInfo autoincludeDirectory = GetAutoIncludeDirectory();
     if (!autoincludeDirectory.Exists)
     {
       return result;
@@ -131,7 +131,7 @@ public class Gardenbed : IGardenbed
         continue;
       }
         
-      List<IPlant> plantsInAssembly = this.GetPlantsFromAssemblyFile(assemblyFileInfo);
+      List<IPlant> plantsInAssembly = GetPlantsFromAssemblyFile(assemblyFileInfo);
       if (plantsInAssembly != null && plantsInAssembly.Count > 0)
       {
         result.AddRange(plantsInAssembly);
@@ -176,7 +176,7 @@ public class Gardenbed : IGardenbed
 
   protected virtual IPlantEx ResolveIPlantEx(object plant)
   {
-    var newPlant = InitializePlantExPipeline.Run(plant, this.RootPlantsSettingsBox);
+    var newPlant = InitializePlantExPipeline.Run(plant, RootPlantsSettingsBox);
     return newPlant;
   }
 }

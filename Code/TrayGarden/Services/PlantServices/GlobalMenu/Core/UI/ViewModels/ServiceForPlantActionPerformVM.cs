@@ -14,23 +14,23 @@ public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
     : base(serviceName, description)
   {
     Assert.ArgumentNotNull(action, "action");
-    this._performServiceAction = action;
+    _performServiceAction = action;
   }
 
   public ICommand PerformServiceAction
   {
     get
     {
-      return this._performServiceAction;
+      return _performServiceAction;
     }
     set
     {
-      if (Equals(value, this._performServiceAction))
+      if (Equals(value, _performServiceAction))
       {
         return;
       }
-      this._performServiceAction = value;
-      this.OnPropertyChanged("PerformServiceAction");
+      _performServiceAction = value;
+      OnPropertyChanged("PerformServiceAction");
     }
   }
 }

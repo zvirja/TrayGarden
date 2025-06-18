@@ -12,7 +12,7 @@ public partial class PlantConfig : UserControl
 
   public PlantConfig()
   {
-    this.InitializeComponent();
+    InitializeComponent();
     /*var plantVM = new PlantsConfigVM() {IsEnabled = false, Name = "Mock plant name", Description = mockDesc};
           plantVM.ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
           plantVM.ServicesVM.Add(new ServiceForPlantActionPerformVM("testService", "some desc"));

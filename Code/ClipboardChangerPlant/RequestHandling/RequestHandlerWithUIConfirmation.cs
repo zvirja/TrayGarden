@@ -13,7 +13,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
   {
     get
     {
-      return this.ConfigurationHelper.GetBoolValue("EnableConfirmation", true);
+      return ConfigurationHelper.GetBoolValue("EnableConfirmation", true);
     }
   }
 
@@ -21,7 +21,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
   {
     get
     {
-      return this.ConfigurationHelper.GetBoolValue("EnableReverting", true);
+      return ConfigurationHelper.GetBoolValue("EnableReverting", true);
     }
   }
 
@@ -29,7 +29,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
   {
     get
     {
-      return this.EnabledSetting.Value;
+      return EnabledSetting.Value;
     }
   }
 
@@ -42,14 +42,14 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
   public override void PostInit()
   {
     base.PostInit();
-    this.EnabledSetting = this.DeclareEnabledSetting();
-    if (this.EnableConfirmation)
+    EnabledSetting = DeclareEnabledSetting();
+    if (EnableConfirmation)
     {
-      this.ExecuteConfirmator = new UIDialogConfirmator(this.GetExecuteConfirmatorSettingName(), this.GetConfirmationDialog);
+      ExecuteConfirmator = new UIDialogConfirmator(GetExecuteConfirmatorSettingName(), GetConfirmationDialog);
     }
-    if (this.EnableReverting)
+    if (EnableReverting)
     {
-      this.RevertConfirmator = new UIDialogConfirmator(this.GetRevertConfirmatorSettingName(), this.GetRevertDialog);
+      RevertConfirmator = new UIDialogConfirmator(GetRevertConfirmatorSettingName(), GetRevertDialog);
     }
   }
 
@@ -61,9 +61,9 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     {
       return false;
     }
-    if (this.RevertConfirmator != null)
+    if (RevertConfirmator != null)
     {
-      return this.RevertConfirmator.ConfirmThroughUI() == true;
+      return RevertConfirmator.ConfirmThroughUI() == true;
     }
     return base.PostmortemRevertValue(currentUrl, originalUrl, isClipboardRequest);
   }
@@ -74,20 +74,20 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     {
       return true;
     }
-    if (!this.Enabled)
+    if (!Enabled)
     {
       return false;
     }
-    if (this.ExecuteConfirmator != null)
+    if (ExecuteConfirmator != null)
     {
-      return this.ExecuteConfirmator.ConfirmThroughUI() == true;
+      return ExecuteConfirmator.ConfirmThroughUI() == true;
     }
     return base.PreExecute(operableUrl, isClipboardRequest);
   }
 
   protected virtual IBoolUserSetting DeclareEnabledSetting()
   {
-    string settingNameAndTitle = this.GetEnabledSettingName();
+    string settingNameAndTitle = GetEnabledSettingName();
     return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(settingNameAndTitle, settingNameAndTitle, true);
   }
 
@@ -98,17 +98,17 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
 
   protected virtual string GetEnabledSettingName()
   {
-    return "Enable " + this.Name;
+    return "Enable " + Name;
   }
 
   protected virtual string GetExecuteConfirmatorSettingName()
   {
-    return "Confirm {0} execution".FormatWith(this.Name);
+    return "Confirm {0} execution".FormatWith(Name);
   }
 
   protected virtual string GetRevertConfirmatorSettingName()
   {
-    return "Enable {0} reverting dialog".FormatWith(this.Name);
+    return "Enable {0} reverting dialog".FormatWith(Name);
   }
 
   protected virtual IResultProvider GetRevertDialog()

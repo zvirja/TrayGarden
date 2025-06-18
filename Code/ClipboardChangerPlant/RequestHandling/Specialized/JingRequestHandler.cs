@@ -8,7 +8,7 @@ public class JingRequestHandler : Clip2NetWithRequestHandler
 {
   public JingRequestHandler()
   {
-    this.revertDialogHeader = "Jing value was transformed";
+    revertDialogHeader = "Jing value was transformed";
   }
 
   protected override string ExcractOriginalUrl(string pageBody)

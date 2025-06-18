@@ -9,6 +9,6 @@ public partial class ConfigurationControl : UserControl
 {
   public ConfigurationControl()
   {
-    this.InitializeComponent();
+    InitializeComponent();
   }
 }

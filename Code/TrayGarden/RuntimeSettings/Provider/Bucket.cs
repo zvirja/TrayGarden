@@ -10,8 +10,8 @@ public class Bucket
 {
   public Bucket()
   {
-    this.Settings = new List<StringStringPair>();
-    this.InnerBuckets = new List<Bucket>();
+    Settings = new List<StringStringPair>();
+    InnerBuckets = new List<Bucket>();
   }
 
   [XmlArray(ElementName = "innerBuckets")]

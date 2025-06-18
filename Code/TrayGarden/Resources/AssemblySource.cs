@@ -23,12 +23,12 @@ public class AssemblySource : ISource
   {
     Assert.ArgumentNotNullOrEmpty(assemblyName, "assemblyName");
     Assert.ArgumentNotNullOrEmpty(resourcePath, "resourcePath");
-    this.AssemblyName = assemblyName;
-    this.ResourcePath = resourcePath;
-    var assembly = this.ResolveAssembly(this.AssemblyName);
+    AssemblyName = assemblyName;
+    ResourcePath = resourcePath;
+    var assembly = ResolveAssembly(AssemblyName);
     if (assembly != null)
     {
-      this.Source = new ResourceManager(this.ResourcePath, assembly);
+      Source = new ResourceManager(ResourcePath, assembly);
     }
   }
 

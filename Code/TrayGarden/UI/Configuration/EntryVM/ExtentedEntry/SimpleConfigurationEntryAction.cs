@@ -20,12 +20,12 @@ public class SimpleConfigurationEntryAction : IConfigurationEntryAction
   {
     Assert.ArgumentNotNull(labelImage, "labelImage");
     Assert.ArgumentNotNull(action, "action");
-    this.LabelImage = labelImage;
-    this.Action = new RelayCommand(this.ExecuteAction, o => this.Enabled);
-    this.StoredAction = action;
-    this.Enabled = enabled;
-    this.CustomParam = customParam;
-    this.Hint = hint;
+    LabelImage = labelImage;
+    Action = new RelayCommand(ExecuteAction, o => Enabled);
+    StoredAction = action;
+    Enabled = enabled;
+    CustomParam = customParam;
+    Hint = hint;
   }
 
   public ICommand Action { get; set; }
@@ -42,6 +42,6 @@ public class SimpleConfigurationEntryAction : IConfigurationEntryAction
 
   protected virtual void ExecuteAction(object o)
   {
-    this.StoredAction(this.CustomParam);
+    StoredAction(CustomParam);
   }
 }

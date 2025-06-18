@@ -16,9 +16,9 @@ public class CommandProxyForCustomParam : ICommand
   {
     Assert.ArgumentNotNull(command, "command");
     Assert.ArgumentNotNull(argumentToPass, "argumentToPass");
-    this.InternalCommand = command;
-    this.ParamToPass = argumentToPass;
-    this.InternalCommand.CanExecuteChanged += this.InternalCommand_CanExecuteChanged;
+    InternalCommand = command;
+    ParamToPass = argumentToPass;
+    InternalCommand.CanExecuteChanged += InternalCommand_CanExecuteChanged;
   }
 
   public event EventHandler CanExecuteChanged;
@@ -29,20 +29,20 @@ public class CommandProxyForCustomParam : ICommand
 
   public bool CanExecute(object parameter)
   {
-    return this.InternalCommand.CanExecute(parameter);
+    return InternalCommand.CanExecute(parameter);
   }
 
   public void Execute(object parameter)
   {
-    this.InternalCommand.Execute(this.ParamToPass);
+    InternalCommand.Execute(ParamToPass);
   }
 
   private void InternalCommand_CanExecuteChanged(object sender, EventArgs e)
   {
-    if (this.CanExecuteChanged == null)
+    if (CanExecuteChanged == null)
     {
       return;
     }
-    this.CanExecuteChanged(sender, e);
+    CanExecuteChanged(sender, e);
   }
 }

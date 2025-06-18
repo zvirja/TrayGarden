@@ -14,17 +14,17 @@ public class UrlShortenerWithConfirmation : RequestHandlerWithUIConfirmation
 
   public override bool PreExecute(string operableUrl, bool isClipboardRequest)
   {
-    this.OperableUrlValue = operableUrl;
+    OperableUrlValue = operableUrl;
     return base.PreExecute(operableUrl, isClipboardRequest);
   }
 
   protected override IResultProvider GetConfirmationDialog()
   {
-    return new YesNoNotificationVM("Short url?{0}{1}".FormatWith(Environment.NewLine, this.OperableUrlValue));
+    return new YesNoNotificationVM("Short url?{0}{1}".FormatWith(Environment.NewLine, OperableUrlValue));
   }
 
   protected override IResultProvider GetRevertDialog()
   {
-    return new YesNoNotificationVM("Revert shortening?{0}{1}".FormatWith(Environment.NewLine, this.OperableUrlValue));
+    return new YesNoNotificationVM("Revert shortening?{0}{1}".FormatWith(Environment.NewLine, OperableUrlValue));
   }
 }

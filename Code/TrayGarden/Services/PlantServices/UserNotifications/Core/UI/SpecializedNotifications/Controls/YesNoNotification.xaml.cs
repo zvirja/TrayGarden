@@ -9,6 +9,6 @@ public partial class YesNoNotification : UserControl
 {
   public YesNoNotification()
   {
-    this.InitializeComponent();
+    InitializeComponent();
   }
 }

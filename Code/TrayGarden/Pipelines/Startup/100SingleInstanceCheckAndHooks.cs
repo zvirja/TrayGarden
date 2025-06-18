@@ -17,7 +17,7 @@ public class SingleInstanceCheckAndHooks
   [UsedImplicitly]
   public void Process(StartupArgs args)
   {
-    this.UISynchronizationContext = SynchronizationContext.Current;
+    UISynchronizationContext = SynchronizationContext.Current;
 
     var monitor = HatcherGuide<ISingleInstanceMonitor>.Instance;
     bool isFirstInstance = monitor.TryAcquireOwnershipNotifyIfFail();
@@ -29,7 +29,7 @@ public class SingleInstanceCheckAndHooks
     else
     {
       monitor.AttemptFromAnotherProcess +=
-        delegate(object sender, EventArgs eventArgs) { this.UISynchronizationContext.Post(this.OpenConfigurationWindow, null); };
+        delegate(object sender, EventArgs eventArgs) { UISynchronizationContext.Post(OpenConfigurationWindow, null); };
     }
   }
 

@@ -8,7 +8,7 @@ public class ValidateAndAssignSIBox
   [UsedImplicitly]
   public virtual void Process(InitPlantSIArgs args)
   {
-    if (!this.IsSIBoxValid(args.SIBox))
+    if (!IsSIBoxValid(args.SIBox))
     {
       args.Abort();
       return;

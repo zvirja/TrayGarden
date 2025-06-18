@@ -15,7 +15,7 @@ public class BuildContextMenu
 {
   public BuildContextMenu()
   {
-    this.ExitEntryIconResName = "exitIconV1";
+    ExitEntryIconResName = "exitIconV1";
   }
 
   public string ExitEntryIconResName { get; set; }
@@ -27,9 +27,9 @@ public class BuildContextMenu
     var asContextMenuExtendable = args.PlantEx.GetFirstWorkhorseOfType<IExtendContextMenu>();
     if (asContextMenuExtendable != null)
     {
-      this.DrawInstanceSpecificContextMenu(contextMenu, asContextMenuExtendable);
+      DrawInstanceSpecificContextMenu(contextMenu, asContextMenuExtendable);
     }
-    this.DrawInstanceIndependentContextMenu(contextMenu, args);
+    DrawInstanceIndependentContextMenu(contextMenu, args);
     args.SIBox.NotifyIcon.ContextMenuStrip = contextMenu;
   }
 
@@ -40,7 +40,7 @@ public class BuildContextMenu
     closeComponent.Tag = args.SIBox;
     closeComponent.Click += args.CloseComponentClick;
 */
-    Icon exitIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.ExitEntryIconResName, null);
+    Icon exitIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitEntryIconResName, null);
     ToolStripItem exitGardenEntry;
     if (exitIcon != null)
     {

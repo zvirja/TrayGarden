@@ -19,15 +19,15 @@ public class RelayCommand : ICommand
   public RelayCommand([NotNull] Action<object> execute, bool canExecute = true)
   {
     Assert.ArgumentNotNull(execute, "execute");
-    this._canExecuteMaster = canExecute;
-    this._execute = execute;
+    _canExecuteMaster = canExecute;
+    _execute = execute;
   }
 
   public RelayCommand(Action<object> execute, Predicate<object> canExecute)
   {
     Assert.ArgumentNotNull(execute, "execute");
-    this._execute = execute;
-    this._canExecute = canExecute;
+    _execute = execute;
+    _canExecute = canExecute;
   }
 
   public event EventHandler CanExecuteChanged
@@ -46,15 +46,15 @@ public class RelayCommand : ICommand
   {
     get
     {
-      return this._canExecuteMaster;
+      return _canExecuteMaster;
     }
     set
     {
-      if (this._canExecuteMaster == value)
+      if (_canExecuteMaster == value)
       {
         return;
       }
-      this._canExecuteMaster = value;
+      _canExecuteMaster = value;
       CommandManager.InvalidateRequerySuggested();
     }
   }
@@ -62,11 +62,11 @@ public class RelayCommand : ICommand
   [DebuggerStepThrough]
   public virtual bool CanExecute(object parameter)
   {
-    return this._canExecute != null ? this._canExecute(parameter) : this.CanExecuteMaster;
+    return _canExecute != null ? _canExecute(parameter) : CanExecuteMaster;
   }
 
   public virtual void Execute(object parameter)
   {
-    this._execute(parameter);
+    _execute(parameter);
   }
 }

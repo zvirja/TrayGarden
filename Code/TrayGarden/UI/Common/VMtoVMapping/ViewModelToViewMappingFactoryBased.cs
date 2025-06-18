@@ -13,7 +13,7 @@ public class ViewModelToViewMappingFactoryBased : IViewModelToViewMapping
 {
   public ViewModelToViewMappingFactoryBased()
   {
-    this.Initialized = false;
+    Initialized = false;
   }
 
   public Type AcceptableViewModelType { get; protected set; }
@@ -25,8 +25,8 @@ public class ViewModelToViewMappingFactoryBased : IViewModelToViewMapping
   public virtual Control GetControl(object contextVM)
   {
     var syncc = SynchronizationContext.Current;
-    this.AssertInitialized();
-    var control = this.ControlFactory.GetPurelyNewObject() as Control;
+    AssertInitialized();
+    var control = ControlFactory.GetPurelyNewObject() as Control;
     Assert.IsNotNull(control, "Returned value is not Control or is null");
     control.DataContext = contextVM;
     return control;
@@ -37,14 +37,14 @@ public class ViewModelToViewMappingFactoryBased : IViewModelToViewMapping
   {
     Assert.ArgumentNotNull(sourceType, "sourceType");
     Assert.ArgumentNotNull(controlFactory, "controlFactory");
-    this.AcceptableViewModelType = sourceType;
-    this.ControlFactory = controlFactory;
-    this.Initialized = true;
+    AcceptableViewModelType = sourceType;
+    ControlFactory = controlFactory;
+    Initialized = true;
   }
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }

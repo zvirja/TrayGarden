@@ -19,15 +19,15 @@ public class InitializeFirstStep
   {
     Assert.IsNotNull(args.ResultVM, "Result VM can't be null");
     Assert.IsNotNull(args.PlantsConfigVM, "PlantsConfig VM can't be null");
-    args.ResultVM.ReplaceInitialState(this.GetInitialStep(args));
+    args.ResultVM.ReplaceInitialState(GetInitialStep(args));
   }
 
   protected virtual WindowStepState GetInitialStep(GetMainVMPipelineArgs args)
   {
     var step = new WindowStepState(
-      this.GlobalTitle.GetValueOrDefault("Tray Garden -- Plants configuration"),
-      this.Header.GetValueOrDefault("Here you configure plants"),
-      this.ShortName.GetValueOrDefault("plants config"),
+      GlobalTitle.GetValueOrDefault("Tray Garden -- Plants configuration"),
+      Header.GetValueOrDefault("Here you configure plants"),
+      ShortName.GetValueOrDefault("plants config"),
       args.PlantsConfigVM,
       args.SuperAction,
       args.StateSpecificHelpActions);

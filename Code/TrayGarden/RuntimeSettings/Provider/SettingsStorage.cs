@@ -17,9 +17,9 @@ public class SettingsStorage : ISettingsStorage
 {
   public SettingsStorage()
   {
-    this.FileName = "RuntimeSettings.xml";
-    this.UseLocalFolder = true;
-    this.EnableDebuggingTraces = false;
+    FileName = "RuntimeSettings.xml";
+    UseLocalFolder = true;
+    EnableDebuggingTraces = false;
   }
 
   public virtual bool EnableDebuggingTraces { get; set; }
@@ -34,32 +34,32 @@ public class SettingsStorage : ISettingsStorage
 
   public virtual IContainer GetRootContainer()
   {
-    return this.ResolvedRootContainer;
+    return ResolvedRootContainer;
   }
 
   [UsedImplicitly]
   public void Initialize(IObjectFactory containerFactory)
   {
     Assert.ArgumentNotNull(containerFactory, "containerFactory");
-    this.ContainerFactory = containerFactory;
+    ContainerFactory = containerFactory;
   }
 
   public virtual void LoadSettings()
   {
-    string storageFilePath = this.GetFilePath();
-    Bucket rootBucket = this.DeserializeStorageFile(storageFilePath) ?? new Bucket();
-    var rootContainer = this.BuildContainerFromBucket(rootBucket);
-    this.ResolvedRootContainer = rootContainer;
+    string storageFilePath = GetFilePath();
+    Bucket rootBucket = DeserializeStorageFile(storageFilePath) ?? new Bucket();
+    var rootContainer = BuildContainerFromBucket(rootBucket);
+    ResolvedRootContainer = rootContainer;
   }
 
   public virtual bool SaveSettings()
   {
-    Bucket rootBucket = this.BuildBucketFromContainer(this.ResolvedRootContainer);
+    Bucket rootBucket = BuildBucketFromContainer(ResolvedRootContainer);
     if (rootBucket == null)
     {
       return false;
     }
-    bool result = this.SerializeToStorageFile(rootBucket);
+    bool result = SerializeToStorageFile(rootBucket);
     return result;
   }
 
@@ -75,7 +75,7 @@ public class SettingsStorage : ISettingsStorage
       rootContainer.GetPresentStringSettingNames().Select(x => new StringStringPair(x, rootContainer.GetStringSetting(x))).ToList();
     bucket.InnerBuckets =
       rootContainer.GetPresentSubContainerNames()
-        .Select(x => this.BuildBucketFromContainer(rootContainer.GetNamedSubContainer(x)))
+        .Select(x => BuildBucketFromContainer(rootContainer.GetNamedSubContainer(x)))
         .ToList();
     return bucket;
   }
@@ -85,8 +85,8 @@ public class SettingsStorage : ISettingsStorage
     Dictionary<string, string> settings = rootBucket.Settings.ToDictionary(
       settingPair => settingPair.Key,
       settingPair => settingPair.Value);
-    var subcontainers = rootBucket.InnerBuckets.Select(this.BuildContainerFromBucket).ToList();
-    var newContainer = this.ContainerFactory.GetPurelyNewObject() as IContainer;
+    var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
+    var newContainer = ContainerFactory.GetPurelyNewObject() as IContainer;
     Assert.IsNotNull(newContainer, "Wrong container factory");
     newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
     return newContainer;
@@ -102,11 +102,11 @@ public class SettingsStorage : ISettingsStorage
       }
       using (var streamReader = new StreamReader(fileName))
       {
-        XmlSerializer serializer = this.GetBucketXmlSerializer();
+        XmlSerializer serializer = GetBucketXmlSerializer();
         Bucket resultObject = serializer.Deserialize(streamReader) as Bucket;
-        if (this.EnableDebuggingTraces)
+        if (EnableDebuggingTraces)
         {
-          this.TraceDebugStreamContent(streamReader.BaseStream, "ReadOp");
+          TraceDebugStreamContent(streamReader.BaseStream, "ReadOp");
         }
         return resultObject;
       }
@@ -127,7 +127,7 @@ public class SettingsStorage : ISettingsStorage
   protected virtual string GetFilePath()
   {
     string folderName = null;
-    if (!this.UseLocalFolder)
+    if (!UseLocalFolder)
     {
       folderName = Settings.ApplicationDataFolderName;
       if (!folderName.IsNullOrEmpty())
@@ -140,12 +140,12 @@ public class SettingsStorage : ISettingsStorage
       folderName = DirectoryHelper.CurrentDirectory;
     }
     Assert.IsNotNullOrEmpty(folderName, "Folder name shouldn't be unresolved");
-    return Path.Combine(folderName, this.FileName);
+    return Path.Combine(folderName, FileName);
   }
 
   protected virtual bool SerializeToStorageFile(Bucket bucket)
   {
-    string filePath = this.GetFilePath();
+    string filePath = GetFilePath();
     try
     {
       var parentDirectory = Directory.GetParent(filePath);
@@ -155,14 +155,14 @@ public class SettingsStorage : ISettingsStorage
       }
       using (var streamWriter = new StreamWriter(filePath, false))
       {
-        XmlSerializer serializer = this.GetBucketXmlSerializer();
+        XmlSerializer serializer = GetBucketXmlSerializer();
         serializer.Serialize(streamWriter, bucket);
-        if (this.EnableDebuggingTraces)
+        if (EnableDebuggingTraces)
         {
           using (var memStream = new MemoryStream())
           {
             serializer.Serialize(memStream, bucket);
-            this.TraceDebugStreamContent(memStream, "SaveOp");
+            TraceDebugStreamContent(memStream, "SaveOp");
           }
         }
       }

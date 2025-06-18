@@ -10,6 +10,6 @@ public class SectionHandler : System.Configuration.ConfigurationSection
   {
     var document = new XmlDocument();
     document.Load(reader);
-    this.XmlRepresentation = document;
+    XmlRepresentation = document;
   }
 }

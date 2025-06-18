@@ -10,28 +10,28 @@ public class TextDisplayOptions
 
   public TextDisplayOptions(Brush brush, double size)
   {
-    this.ValidateBrushWithException(brush);
-    this.Brush = brush;
-    this.Size = size;
-    this.Weight = FontWeights.Normal;
-    this.Style = FontStyles.Normal;
-    this.Margins = new Thickness();
-    this.HorizontalAlignment = HorizontalAlignment.Center;
-    this.VerticalAlignment = VerticalAlignment.Center;
-    this.TextAlignment = TextAlignment.Center;
-    this.Wrapping = TextWrapping.Wrap;
+    ValidateBrushWithException(brush);
+    Brush = brush;
+    Size = size;
+    Weight = FontWeights.Normal;
+    Style = FontStyles.Normal;
+    Margins = new Thickness();
+    HorizontalAlignment = HorizontalAlignment.Center;
+    VerticalAlignment = VerticalAlignment.Center;
+    TextAlignment = TextAlignment.Center;
+    Wrapping = TextWrapping.Wrap;
   }
 
   public Brush Brush
   {
     get
     {
-      return this.brush;
+      return brush;
     }
     set
     {
-      this.ValidateBrushWithException(this.brush);
-      this.brush = value;
+      ValidateBrushWithException(brush);
+      brush = value;
     }
   }
 

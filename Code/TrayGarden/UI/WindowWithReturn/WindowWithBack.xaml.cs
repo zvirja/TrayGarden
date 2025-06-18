@@ -34,11 +34,11 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
 
   public WindowWithBack()
   {
-    this.InitializeComponent();
-    this.IconResourceKey = "gardenIconV5";
-    this.StateToRestore = this.WindowState;
-    this.Hide();
-    this.SetIcon();
+    InitializeComponent();
+    IconResourceKey = "gardenIconV5";
+    StateToRestore = WindowState;
+    Hide();
+    SetIcon();
   }
 
   public static bool ExitOnClose
@@ -58,12 +58,12 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
   {
     get
     {
-      return this.iconResourceKey;
+      return iconResourceKey;
     }
     set
     {
-      this.iconResourceKey = value;
-      this.SetIcon();
+      iconResourceKey = value;
+      SetIcon();
     }
   }
 
@@ -71,7 +71,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
   {
     get
     {
-      return this.DataContext != null;
+      return DataContext != null;
     }
   }
 
@@ -83,42 +83,42 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
 
   public void BringToFront()
   {
-    if (this.IsCurrentlyDisplayed)
+    if (IsCurrentlyDisplayed)
     {
-      if (this.WindowState == WindowState.Minimized)
+      if (WindowState == WindowState.Minimized)
       {
-        this.WindowState = WindowState.Normal;
+        WindowState = WindowState.Normal;
       }
-      this.Activate();
+      Activate();
     }
   }
 
   public virtual List<IViewModelToViewMapping> GetMappings()
   {
-    return this.Mappings ?? new List<IViewModelToViewMapping>();
+    return Mappings ?? new List<IViewModelToViewMapping>();
   }
 
   public virtual void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings)
   {
     Assert.ArgumentNotNull(mvtovmappings, "mvtovmappings");
-    this.Mappings = mvtovmappings;
+    Mappings = mvtovmappings;
   }
 
   public virtual void PrepareAndShow(WindowWithBackVM viewModel)
   {
-    this.CleanupAndDisposeDataContext();
-    this.DataContext = viewModel;
-    viewModel.SizePozitionProvider = this.SizePozitionProvider;
+    CleanupAndDisposeDataContext();
+    DataContext = viewModel;
+    viewModel.SizePozitionProvider = SizePozitionProvider;
     viewModel.PrepareToShow();
-    this.SetSizeAndPos(viewModel);
-    this.Show();
-    this.WindowState = this.StateToRestore;
+    SetSizeAndPos(viewModel);
+    Show();
+    WindowState = StateToRestore;
   }
 
   protected virtual void CleanupAndDisposeDataContext()
   {
-    var currentDataContextAsDisposable = this.DataContext as IDisposable;
-    this.DataContext = null;
+    var currentDataContextAsDisposable = DataContext as IDisposable;
+    DataContext = null;
     if (currentDataContextAsDisposable != null)
     {
       currentDataContextAsDisposable.Dispose();
@@ -128,37 +128,37 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
   protected override void OnClosing(CancelEventArgs e)
   {
     e.Cancel = !ExitOnClose;
-    this.Hide();
+    Hide();
 
-    this.CleanupAndDisposeDataContext();
+    CleanupAndDisposeDataContext();
     base.OnClosing(e);
   }
 
   protected override void OnStateChanged(EventArgs e)
   {
-    if (this.WindowState == WindowState.Minimized && ExitOnClose)
+    if (WindowState == WindowState.Minimized && ExitOnClose)
     {
-      this.Close();
+      Close();
     }
     else
     {
-      this.StateToRestore = this.WindowState;
+      StateToRestore = WindowState;
     }
     base.OnStateChanged(e);
   }
 
   protected void SetIcon()
   {
-    if (this.IconResourceKey.IsNullOrEmpty())
+    if (IconResourceKey.IsNullOrEmpty())
     {
       return;
     }
-    Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.IconResourceKey, null);
+    Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(IconResourceKey, null);
     if (resource == null)
     {
       return;
     }
-    this.Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
+    Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
   }
 
   protected virtual void SetSizeAndPos(WindowWithBackVM viewModel)
@@ -167,29 +167,29 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     {
       return;
     }
-    this.Top = viewModel.Top;
-    this.Left = viewModel.Left;
-    this.Height = viewModel.Height;
-    this.Width = viewModel.Width;
-    this.WindowState = this.StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
+    Top = viewModel.Top;
+    Left = viewModel.Left;
+    Height = viewModel.Height;
+    Width = viewModel.Width;
+    WindowState = StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
   }
 
   protected virtual bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
   {
-    if (this.WindowState == WindowState.Maximized)
+    if (WindowState == WindowState.Maximized)
     {
-      top = this.RestoreBounds.Top;
-      left = this.RestoreBounds.Left;
-      height = this.RestoreBounds.Height;
-      width = this.RestoreBounds.Width;
+      top = RestoreBounds.Top;
+      left = RestoreBounds.Left;
+      height = RestoreBounds.Height;
+      width = RestoreBounds.Width;
       maximized = true;
     }
     else
     {
-      top = this.Top;
-      left = this.Left;
-      height = this.Height;
-      width = this.Width;
+      top = Top;
+      left = Left;
+      height = Height;
+      width = Width;
       maximized = false;
     }
     return true;

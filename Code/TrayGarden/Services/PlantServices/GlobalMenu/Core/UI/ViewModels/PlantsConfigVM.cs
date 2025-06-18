@@ -10,7 +10,7 @@ public class PlantsConfigVM : INotifyPropertyChanged
 
   public PlantsConfigVM()
   {
-    this.PlantVMs = new ObservableCollection<SinglePlantVM>();
+    PlantVMs = new ObservableCollection<SinglePlantVM>();
   }
 
   public event PropertyChangedEventHandler PropertyChanged;
@@ -19,23 +19,23 @@ public class PlantsConfigVM : INotifyPropertyChanged
   {
     get
     {
-      return this._plantVMs;
+      return _plantVMs;
     }
     set
     {
-      if (Equals(value, this._plantVMs))
+      if (Equals(value, _plantVMs))
       {
         return;
       }
-      this._plantVMs = value;
-      this.OnPropertyChanged("PlantVMs");
+      _plantVMs = value;
+      OnPropertyChanged("PlantVMs");
     }
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));

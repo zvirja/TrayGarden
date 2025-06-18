@@ -7,8 +7,8 @@ public class GetStateForServicesConfigurationPipelineArgs : PipelineArgs
 {
   public GetStateForServicesConfigurationPipelineArgs()
   {
-    this.StateConstructInfo = new WindowWithBackStateConstructInfo();
-    this.ConfigConstructInfo = new ConfigurationControlConstructInfo();
+    StateConstructInfo = new WindowWithBackStateConstructInfo();
+    ConfigConstructInfo = new ConfigurationControlConstructInfo();
   }
 
   public ConfigurationControlConstructInfo ConfigConstructInfo { get; set; }

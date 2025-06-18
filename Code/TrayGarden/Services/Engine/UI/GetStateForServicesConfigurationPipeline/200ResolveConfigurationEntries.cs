@@ -13,13 +13,13 @@ public class ResolveConfigurationEntries
   [UsedImplicitly]
   public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
-    args.ConfigConstructInfo.ConfigurationEntries = this.GetConfigurationEntriesFromServices();
+    args.ConfigConstructInfo.ConfigurationEntries = GetConfigurationEntriesFromServices();
   }
 
   protected virtual List<ConfigurationEntryBaseVM> GetConfigurationEntriesFromServices()
   {
     List<IService> services = HatcherGuide<IServicesSteward>.Instance.Services;
-    List<ConfigurationEntryBaseVM> result = services.Select(this.ResolveConfigurationEntry).ToList();
+    List<ConfigurationEntryBaseVM> result = services.Select(ResolveConfigurationEntry).ToList();
     return result;
   }
 

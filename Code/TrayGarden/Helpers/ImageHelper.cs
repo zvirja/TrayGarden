@@ -12,7 +12,7 @@ public static class ImageHelper
 {
   public static BitmapSource Bitmap2BitmapImage(Bitmap bitmap)
   {
-    IntPtr hBitmap = bitmap.GetHbitmap(System.Drawing.Color.Aqua);
+    IntPtr hBitmap = bitmap.GetHbitmap(Color.Aqua);
     BitmapSource retval;
 
     try

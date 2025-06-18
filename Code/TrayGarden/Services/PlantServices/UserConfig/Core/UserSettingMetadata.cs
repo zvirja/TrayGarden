@@ -27,11 +27,11 @@ public class UserSettingMetadata<T> : IUserSettingMetadataMaster<T>
   {
     Assert.ArgumentNotNullOrEmpty(name, "name");
     Assert.ArgumentNotNullOrEmpty(title, "title");
-    this.Name = name;
-    this.Title = title;
-    this.DefaultValue = defaultValue;
-    this.Description = description;
-    this.AdditionalParams = additionalParams;
-    this.Hallmark = hallmark;
+    Name = name;
+    Title = title;
+    DefaultValue = defaultValue;
+    Description = description;
+    AdditionalParams = additionalParams;
+    Hallmark = hallmark;
   }
 }

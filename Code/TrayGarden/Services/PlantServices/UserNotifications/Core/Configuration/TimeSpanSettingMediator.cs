@@ -11,7 +11,7 @@ public class TimeSpanSettingMediator : BaseSettingMediator
   public TimeSpanSettingMediator([NotNull] string key, int defaultMilliseconds, [NotNull] Func<ISettingsBox> settingsBoxResolver)
     : base(key, settingsBoxResolver)
   {
-    this.DefaultMillisecondsValue = defaultMilliseconds;
+    DefaultMillisecondsValue = defaultMilliseconds;
   }
 
   public int DefaultMillisecondsValue { get; set; }
@@ -20,11 +20,11 @@ public class TimeSpanSettingMediator : BaseSettingMediator
   {
     get
     {
-      return TimeSpan.FromMilliseconds(this.SettingsBox.GetInt(this.Key, this.DefaultMillisecondsValue));
+      return TimeSpan.FromMilliseconds(SettingsBox.GetInt(Key, DefaultMillisecondsValue));
     }
     set
     {
-      this.SettingsBox.SetInt(this.Key, (int)value.TotalMilliseconds);
+      SettingsBox.SetInt(Key, (int)value.TotalMilliseconds);
     }
   }
 }

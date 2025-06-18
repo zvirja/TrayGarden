@@ -9,8 +9,8 @@ public class IsUrlInClipboardWatcher : IDynamicStateProvider
 {
   public IsUrlInClipboardWatcher()
   {
-    ClipboardManager.Provider.ClipboardValueUpdatedService += this.ProviderOnClipboardValueUpdatedService;
-    this.CurrentRelevanceLevel = RelevanceLevel.Normal;
+    ClipboardManager.Provider.ClipboardValueUpdatedService += ProviderOnClipboardValueUpdatedService;
+    CurrentRelevanceLevel = RelevanceLevel.Normal;
   }
 
   public event EventHandler RelevanceChanged;
@@ -24,7 +24,7 @@ public class IsUrlInClipboardWatcher : IDynamicStateProvider
 
   protected virtual void OnRelevanceChanged()
   {
-    EventHandler handler = this.RelevanceChanged;
+    EventHandler handler = RelevanceChanged;
     if (handler != null)
     {
       handler(this, EventArgs.Empty);
@@ -33,14 +33,14 @@ public class IsUrlInClipboardWatcher : IDynamicStateProvider
 
   protected virtual void ProviderOnClipboardValueUpdatedService(string newValue)
   {
-    if (this.IsValidUrl(newValue))
+    if (IsValidUrl(newValue))
     {
-      this.CurrentRelevanceLevel = RelevanceLevel.Normal;
+      CurrentRelevanceLevel = RelevanceLevel.Normal;
     }
     else
     {
-      this.CurrentRelevanceLevel = RelevanceLevel.Low;
+      CurrentRelevanceLevel = RelevanceLevel.Low;
     }
-    this.OnRelevanceChanged();
+    OnRelevanceChanged();
   }
 }

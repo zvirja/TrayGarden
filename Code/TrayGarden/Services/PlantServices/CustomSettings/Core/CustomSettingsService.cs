@@ -13,12 +13,12 @@ public class CustomSettingsService : PlantServiceBase<ClipboardObserverPlantBox>
   public CustomSettingsService()
     : base("Custom settings", "CustomSettingsService")
   {
-    this.ServiceDescription = "Service provides plants with settings storage. For plant internal usage.";
+    ServiceDescription = "Service provides plants with settings storage. For plant internal usage.";
   }
 
   public override void InitializePlant(IPlantEx plantEx)
   {
-    this.SetCustomSettingsBox(plantEx);
+    SetCustomSettingsBox(plantEx);
   }
 
   protected virtual void SetCustomSettingsBox(IPlantEx plantEx)
@@ -28,11 +28,11 @@ public class CustomSettingsService : PlantServiceBase<ClipboardObserverPlantBox>
     {
       return;
     }
-    ISettingsBox settingsBox = plantEx.MySettingsBox.GetSubBox(this.LuggageName);
+    ISettingsBox settingsBox = plantEx.MySettingsBox.GetSubBox(LuggageName);
     asExpected.StoreCustomSettingsStorage(settingsBox);
 
     //Store luggage
     var luggage = new CustomSettingsServicePlantBox { RelatedPlantEx = plantEx, SettingsBox = settingsBox, IsEnabled = true, };
-    plantEx.PutLuggage(this.LuggageName, luggage);
+    plantEx.PutLuggage(LuggageName, luggage);
   }
 }

@@ -17,7 +17,7 @@ public class RequestHandler : INeedCongurationNode
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessIconResourceName", "klipperSuccess"));
     }
   }
 
@@ -25,7 +25,7 @@ public class RequestHandler : INeedCongurationNode
   {
     get
     {
-      return this.ConfigurationHelper.GetBoolValue("ShouldBeShorted", false);
+      return ConfigurationHelper.GetBoolValue("ShouldBeShorted", false);
     }
   }
 
@@ -35,7 +35,7 @@ public class RequestHandler : INeedCongurationNode
   {
     get
     {
-      return this.ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty)
+      return ConfigurationHelper.GetStringValue("MatchRegExpressions", string.Empty)
         .Split(new[] { "|" }, StringSplitOptions.RemoveEmptyEntries);
     }
   }
@@ -43,7 +43,7 @@ public class RequestHandler : INeedCongurationNode
   public virtual bool? Match(ProcessorArgs args)
   {
     string inputValue = args.ResultUrl;
-    return this.RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
+    return RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
   }
 
   public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
@@ -71,7 +71,7 @@ public class RequestHandler : INeedCongurationNode
 
   public virtual void SetConfigurationNode(XmlNode configurationNode)
   {
-    this.ConfigurationHelper = new XmlHelper(configurationNode);
+    ConfigurationHelper = new XmlHelper(configurationNode);
   }
 
   public virtual bool TryProcess(string inputValue, out string result)

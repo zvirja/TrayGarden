@@ -8,15 +8,15 @@ public class StandaloneIconServicePresenter : ServicePresenterBase<StandaloneIco
 {
   public StandaloneIconServicePresenter()
   {
-    this.ServiceName = "Standalone tray icon";
-    this.ServiceDescription = "If service is enabled, plant is enabled to show the standalone icon in the system tray.";
+    ServiceName = "Standalone tray icon";
+    ServiceDescription = "If service is enabled, plant is enabled to show the standalone icon in the system tray.";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(StandaloneIconService serviceInstance, IPlantEx plantEx)
   {
     return new ServiceForPlantWithEnablingPlantBoxBasedVM(
-      this.ServiceName,
-      this.ServiceDescription,
+      ServiceName,
+      ServiceDescription,
       serviceInstance.GetPlantLuggage(plantEx));
   }
 }

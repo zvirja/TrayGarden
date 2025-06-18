@@ -16,9 +16,9 @@ public class GlobalMenuExtender : TrayGarden.Reception.Services.IExtendsGlobalMe
     menuAppender.AppentMenuStripItem(
       "Short clipboard url",
       Resources.klipperShortedv5,
-      this.ShortUrl,
+      ShortUrl,
       new SimpleDynamicStateProvider() { CurrentRelevanceLevel = RelevanceLevel.Low });
-    menuAppender.AppentMenuStripItem("Handle clipboard value (Clipboard changer)", Resources.processClipboard, this.HandleClipboard, new IsUrlInClipboardWatcher());
+    menuAppender.AppentMenuStripItem("Handle clipboard value (Clipboard changer)", Resources.processClipboard, HandleClipboard, new IsUrlInClipboardWatcher());
     return true;
   }
 

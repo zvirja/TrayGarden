@@ -18,7 +18,7 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
 
   public List<Tuple<UInt32, UInt32, UInt32, IntPtr>> GetArgsTuples()
   {
-    string rawStringValue = this.ConfiguredArgsSets.Value;
+    string rawStringValue = ConfiguredArgsSets.Value;
     if (rawStringValue.IsNullOrEmpty())
     {
       return null;
@@ -36,7 +36,7 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
     var result = new List<Tuple<UInt32, UInt32, UInt32, IntPtr>>();
     foreach (string rawSet in rawSets)
     {
-      Tuple<UInt32, UInt32, UInt32, IntPtr> parsedSet = this.ParseSet(rawSet);
+      Tuple<UInt32, UInt32, UInt32, IntPtr> parsedSet = ParseSet(rawSet);
       if (parsedSet != null)
       {
         result.Add(parsedSet);
@@ -47,13 +47,13 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
 
   public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
   {
-    this.PersonalSteward = personalSettingsSteward;
-    this.DeclareSettings();
+    PersonalSteward = personalSettingsSteward;
+    DeclareSettings();
   }
 
   protected virtual void DeclareSettings()
   {
-    this.ConfiguredArgsSets = this.PersonalSteward.DeclareStringSetting(
+    ConfiguredArgsSets = PersonalSteward.DeclareStringSetting(
       "ArgsSets",
       "Parameters sets",
       "00000100,0000c005,00000031,04090409|{0}00000101,0000c005,00000032,04190419|{0}00000102,0000c005,00000033,f0a80422".FormatWith(Environment.NewLine),

@@ -8,7 +8,7 @@ public class StartupArgs : PipelineArgs
 {
   public StartupArgs(string[] startParams)
   {
-    this.StartupParams = startParams;
+    StartupParams = startParams;
   }
 
   public Application App

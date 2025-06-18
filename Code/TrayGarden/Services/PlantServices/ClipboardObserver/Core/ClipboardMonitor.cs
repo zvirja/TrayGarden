@@ -9,15 +9,15 @@ public class ClipboardMonitor : Form
 {
   public ClipboardMonitor()
   {
-    NativeHelper.SetParent(this.Handle, NativeHelper.HWND_MESSAGE);
-    NativeHelper.AddClipboardFormatListener(this.Handle);
+    NativeHelper.SetParent(Handle, NativeHelper.HWND_MESSAGE);
+    NativeHelper.AddClipboardFormatListener(Handle);
   }
 
   public event EventHandler ClipboardValueChanged;
 
   protected virtual void OnClipboardValueChanged()
   {
-    EventHandler handler = this.ClipboardValueChanged;
+    EventHandler handler = ClipboardValueChanged;
     if (handler != null)
     {
       handler(this, EventArgs.Empty);
@@ -28,7 +28,7 @@ public class ClipboardMonitor : Form
   {
     if (m.Msg == NativeHelper.WM_CLIPBOARDUPDATE)
     {
-      this.OnClipboardValueChanged();
+      OnClipboardValueChanged();
     }
     base.WndProc(ref m);
   }

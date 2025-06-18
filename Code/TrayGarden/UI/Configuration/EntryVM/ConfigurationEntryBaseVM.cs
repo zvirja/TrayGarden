@@ -16,11 +16,11 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   public ConfigurationEntryBaseVM([NotNull] IConfigurationPlayer realPlayer)
   {
     Assert.ArgumentNotNull(realPlayer, "realPlayer");
-    this.RealPlayer = realPlayer;
-    this.RestoreDefaultValue = new RelayCommand(this.ResetValue, this.RealPlayer.SupportsReset);
-    this.RestoreDefaultValueTooltip = "Reset to default";
-    this.RealPlayer.ValueChanged += this.OnUnderlyingSettingValueChanged;
-    this.RealPlayer.RequiresApplicationRebootChanged += this.RealPlayer_RequiresApplicationRebootChanged;
+    RealPlayer = realPlayer;
+    RestoreDefaultValue = new RelayCommand(ResetValue, RealPlayer.SupportsReset);
+    RestoreDefaultValueTooltip = "Reset to default";
+    RealPlayer.ValueChanged += OnUnderlyingSettingValueChanged;
+    RealPlayer.RequiresApplicationRebootChanged += RealPlayer_RequiresApplicationRebootChanged;
   }
 
   public event PropertyChangedEventHandler PropertyChanged;
@@ -29,7 +29,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return this.RealPlayer.AdditionalActions;
+      return RealPlayer.AdditionalActions;
     }
   }
 
@@ -37,7 +37,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return !this.RealPlayer.ReadOnly;
+      return !RealPlayer.ReadOnly;
     }
   }
 
@@ -45,7 +45,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return this.RealPlayer.HideReset;
+      return RealPlayer.HideReset;
     }
   }
 
@@ -56,7 +56,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return this.RealPlayer.RequiresApplicationReboot;
+      return RealPlayer.RequiresApplicationReboot;
     }
   }
 
@@ -68,7 +68,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return this.RealPlayer.SettingDescription;
+      return RealPlayer.SettingDescription;
     }
   }
 
@@ -76,14 +76,14 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   {
     get
     {
-      return this.RealPlayer.SettingName;
+      return RealPlayer.SettingName;
     }
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -94,14 +94,14 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
 
   protected virtual void RealPlayer_RequiresApplicationRebootChanged()
   {
-    this.OnPropertyChanged("RequiresApplicationReboot");
+    OnPropertyChanged("RequiresApplicationReboot");
   }
 
   protected virtual void ResetValue(object o)
   {
-    if (this.RealPlayer.SupportsReset && this.AllowEditing)
+    if (RealPlayer.SupportsReset && AllowEditing)
     {
-      this.RealPlayer.Reset();
+      RealPlayer.Reset();
     }
   }
 }

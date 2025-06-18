@@ -14,14 +14,14 @@ public class ActionConfigurationEntry : ConfigurationEntryBaseVM
   {
     Assert.IsNotNull(realPlayer.Action, "Action cannot be null");
     Assert.IsNotNullOrEmpty(realPlayer.ActionTitle, "Action title cannot be null or empty");
-    this.RealPlayer = realPlayer;
+    RealPlayer = realPlayer;
   }
 
   public ICommand Action
   {
     get
     {
-      return this.RealPlayer.Action;
+      return RealPlayer.Action;
     }
   }
 
@@ -29,7 +29,7 @@ public class ActionConfigurationEntry : ConfigurationEntryBaseVM
   {
     get
     {
-      return this.RealPlayer.ActionTitle;
+      return RealPlayer.ActionTitle;
     }
   }
 

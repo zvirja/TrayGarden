@@ -13,14 +13,14 @@ public class ResolveSettingBox
   [UsedImplicitly]
   public virtual void Process(InitPlantUCPipelineArg args)
   {
-    args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(this.GetSettingName());
+    args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(GetSettingName());
   }
 
   protected virtual string GetSettingName()
   {
-    if (this.SettingBoxName.NotNullNotEmpty())
+    if (SettingBoxName.NotNullNotEmpty())
     {
-      return this.SettingBoxName;
+      return SettingBoxName;
     }
     return "UserConfigService";
   }

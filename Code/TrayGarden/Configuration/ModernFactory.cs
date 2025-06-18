@@ -26,9 +26,9 @@ public class ModernFactory : IFactory
 
   public ModernFactory()
   {
-    this.ObjectInfosCache = new Dictionary<object, ObjectInfo>();
-    this.ParcerResolver = new ParcerResolver(this);
-    this.ContentAssignersResolver = new ContentAssignersResolver();
+    ObjectInfosCache = new Dictionary<object, ObjectInfo>();
+    ParcerResolver = new ParcerResolver(this);
+    ContentAssignersResolver = new ContentAssignersResolver();
     Log.Debug("Modern factory object created", this);
   }
 
@@ -63,13 +63,13 @@ public class ModernFactory : IFactory
   public virtual object GetObject([NotNull] string configurationPath)
   {
     Assert.ArgumentNotNull(configurationPath, "configurationPath");
-    return this.GetObjectFromPathInternal(configurationPath, true);
+    return GetObjectFromPathInternal(configurationPath, true);
   }
 
   public virtual object GetObject([NotNull] XmlNode configurationNode)
   {
     Assert.ArgumentNotNull(configurationNode, "configurationNode");
-    return this.GetObjectFromNodeInternal(configurationNode, true);
+    return GetObjectFromNodeInternal(configurationNode, true);
   }
 
   public virtual T GetObject<T>([NotNull] string configurationPath) where T : class
@@ -92,13 +92,13 @@ public class ModernFactory : IFactory
   public virtual object GetPurelyNewObject([NotNull] string configurationPath)
   {
     Assert.ArgumentNotNull(configurationPath, "configurationPath");
-    return this.GetObjectFromPathInternal(configurationPath, false);
+    return GetObjectFromPathInternal(configurationPath, false);
   }
 
   public virtual T GetPurelyNewObject<T>([NotNull] string configurationPath) where T : class
   {
     Assert.ArgumentNotNull(configurationPath, "configurationPath");
-    var result = this.GetPurelyNewObject(configurationPath);
+    var result = GetPurelyNewObject(configurationPath);
     var castedResult = result as T;
     if (result != null && castedResult == null)
     {
@@ -118,19 +118,19 @@ public class ModernFactory : IFactory
   public virtual string GetStringSetting([NotNull] string settingName, string defaultValue)
   {
     Assert.ArgumentNotNullOrEmpty(settingName, "settingName");
-    if (this.Settings == null)
+    if (Settings == null)
     {
       lock (_lock)
       {
-        if (this.Settings == null)
+        if (Settings == null)
         {
-          this.InitializeSettings();
+          InitializeSettings();
         }
       }
     }
-    if (this.Settings.ContainsKey(settingName))
+    if (Settings.ContainsKey(settingName))
     {
-      return this.Settings[settingName];
+      return Settings[settingName];
     }
     return defaultValue;
   }
@@ -234,9 +234,9 @@ public class ModernFactory : IFactory
     {
       try
       {
-        var hint = this.GetHintValue(contentNode);
-        var contentAssigner = this.ResolvePropertyContentAssigner(hint);
-        contentAssigner.AssignContent(contentNode, instance, instanceType, this.GetValueParcer);
+        var hint = GetHintValue(contentNode);
+        var contentAssigner = ResolvePropertyContentAssigner(hint);
+        contentAssigner.AssignContent(contentNode, instance, instanceType, GetValueParcer);
       }
       catch
       {
@@ -253,7 +253,7 @@ public class ModernFactory : IFactory
     Assert.ArgumentNotNull(configurationNode, "configurationNode");
     try
     {
-      var specialInstance = this.CreateSpecialObject(configurationNode, out makeSingleton);
+      var specialInstance = CreateSpecialObject(configurationNode, out makeSingleton);
       if (specialInstance != null)
       {
         return specialInstance;
@@ -267,7 +267,7 @@ public class ModernFactory : IFactory
       Type typeObj = ReflectionHelper.ResolveType(typeStrValue);
       Assert.IsNotNull(typeObj, "The {0} isn't a valid type".FormatWith(typeStrValue));
       object instance = Activator.CreateInstance(typeObj);
-      this.AssignContent(configurationNode, instance);
+      AssignContent(configurationNode, instance);
       return instance;
     }
     catch (Exception ex)
@@ -294,21 +294,21 @@ public class ModernFactory : IFactory
   protected virtual object CreateSpecialObject(XmlNode objectConfigurationNode, out bool makeSingleton)
   {
     makeSingleton = false;
-    if (!this.IsSpecialObject(objectConfigurationNode))
+    if (!IsSpecialObject(objectConfigurationNode))
     {
       return null;
     }
     var typeAttribValue = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
     var specialPrefix = typeAttribValue.Substring(0, typeAttribValue.IndexOf(":", StringComparison.OrdinalIgnoreCase));
-    object objectInstance = this.CreateSpecialObjectInstance(objectConfigurationNode, specialPrefix, out makeSingleton);
+    object objectInstance = CreateSpecialObjectInstance(objectConfigurationNode, specialPrefix, out makeSingleton);
     if (objectInstance == null)
     {
       return null;
     }
-    var contentAssigner = this.ResolveDirectContentAssigner(specialPrefix);
+    var contentAssigner = ResolveDirectContentAssigner(specialPrefix);
     if (contentAssigner != null)
     {
-      contentAssigner.AssignContent(objectConfigurationNode, objectInstance, objectInstance.GetType(), this.GetValueParcer);
+      contentAssigner.AssignContent(objectConfigurationNode, objectInstance, objectInstance.GetType(), GetValueParcer);
     }
     return objectInstance;
   }
@@ -324,15 +324,15 @@ public class ModernFactory : IFactory
     makeSingleton = false;
     if (specialPrefix.ToUpperInvariant().Equals("NEWLIST"))
     {
-      return this.CreateSpecialNewList(objectConfigurationNode, out makeSingleton);
+      return CreateSpecialNewList(objectConfigurationNode, out makeSingleton);
     }
     if (specialPrefix.ToUpperInvariant().Equals("OBJECTFACTORY"))
     {
-      return this.CreateSpecialObjectFactory(objectConfigurationNode, out makeSingleton);
+      return CreateSpecialObjectFactory(objectConfigurationNode, out makeSingleton);
     }
     if (specialPrefix.Equals("TYPEOF", StringComparison.OrdinalIgnoreCase))
     {
-      return this.CreateSpecialTypeOf(objectConfigurationNode, out makeSingleton);
+      return CreateSpecialTypeOf(objectConfigurationNode, out makeSingleton);
     }
     Log.Warn("Unknown special prefix: {0}".FormatWith(specialPrefix), this);
     return null;
@@ -362,8 +362,8 @@ public class ModernFactory : IFactory
 
   protected virtual object GetObjectFromNodeInternal(XmlNode configurationNode, bool allowSingleton)
   {
-    var newObjectInfo = this.GetObjectInfoFromNode(configurationNode);
-    return this.GetObjectFromObjectInfo(newObjectInfo, allowSingleton);
+    var newObjectInfo = GetObjectInfoFromNode(configurationNode);
+    return GetObjectFromObjectInfo(newObjectInfo, allowSingleton);
   }
 
   protected virtual object GetObjectFromObjectInfo(ObjectInfo objectInfo, bool allowSingleton)
@@ -388,47 +388,47 @@ public class ModernFactory : IFactory
       return instance;
     }
     bool makeSingleton;
-    return this.CreateInstanceInternal(objectInfo.ConfigurationNode, out makeSingleton);
+    return CreateInstanceInternal(objectInfo.ConfigurationNode, out makeSingleton);
   }
 
   protected virtual object GetObjectFromPathInternal(string configurationPath, bool allowSingleton)
   {
-    if (this.ObjectInfosCache.ContainsKey(configurationPath))
+    if (ObjectInfosCache.ContainsKey(configurationPath))
     {
-      return this.GetObjectFromObjectInfo(this.ObjectInfosCache[configurationPath], allowSingleton);
+      return GetObjectFromObjectInfo(ObjectInfosCache[configurationPath], allowSingleton);
     }
-    var configurationNode = XmlHelper.SmartlySelectSingleNode(this.XmlConfiguration, configurationPath);
-    var newObjectInfo = this.GetObjectInfoFromNode(configurationNode);
-    this.ObjectInfosCache[configurationPath] = newObjectInfo;
-    return this.GetObjectFromObjectInfo(newObjectInfo, allowSingleton);
+    var configurationNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, configurationPath);
+    var newObjectInfo = GetObjectInfoFromNode(configurationNode);
+    ObjectInfosCache[configurationPath] = newObjectInfo;
+    return GetObjectFromObjectInfo(newObjectInfo, allowSingleton);
   }
 
   protected virtual ObjectInfo GetObjectInfoFromNode([NotNull] XmlNode configurationNode)
   {
     Assert.ArgumentNotNull(configurationNode, "configurationNode");
-    if (this.ObjectInfosCache.ContainsKey(configurationNode))
+    if (ObjectInfosCache.ContainsKey(configurationNode))
     {
-      return this.ObjectInfosCache[configurationNode];
+      return ObjectInfosCache[configurationNode];
     }
     bool makeSingleton;
-    object instance = this.CreateInstanceInternal(configurationNode, out makeSingleton);
+    object instance = CreateInstanceInternal(configurationNode, out makeSingleton);
     if (instance == null)
     {
-      this.ObjectInfosCache[configurationNode] = null;
+      ObjectInfosCache[configurationNode] = null;
       return null;
     }
     var isPrototype = instance is ISupportPrototyping;
     var isSingleton = makeSingleton
                       || XmlHelper.GetAttributeValue(configurationNode, "singleton").Equals("TRUE", StringComparison.OrdinalIgnoreCase);
     var objectInfo = new ObjectInfo(instance, configurationNode, isSingleton, isPrototype);
-    this.ObjectInfosCache[configurationNode] = objectInfo;
+    ObjectInfosCache[configurationNode] = objectInfo;
     return objectInfo;
   }
 
   protected virtual void InitializeSettings()
   {
-    this.Settings = new Dictionary<string, string>();
-    var settingsParentNode = XmlHelper.SmartlySelectSingleNode(this.XmlConfiguration, SettingsNodePath);
+    Settings = new Dictionary<string, string>();
+    var settingsParentNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, SettingsNodePath);
     if (settingsParentNode == null)
     {
       Log.Warn("Unable to find settings node. Node path:{0}".FormatWith(SettingsNodePath), this);
@@ -441,7 +441,7 @@ public class ModernFactory : IFactory
       var value = XmlHelper.GetAttributeValue(settingNode, "value");
       if (name.NotNullNotEmpty() && value.NotNullNotEmpty())
       {
-        this.Settings[name] = value;
+        Settings[name] = value;
       }
     }
   }
@@ -458,24 +458,24 @@ public class ModernFactory : IFactory
 
   protected virtual IContentAssigner ResolveDirectContentAssigner(string hint)
   {
-    return this.ContentAssignersResolver.GetDirectAssigner(hint);
+    return ContentAssignersResolver.GetDirectAssigner(hint);
   }
 
   protected virtual IContentAssigner ResolvePropertyContentAssigner(string hint)
   {
-    return this.ContentAssignersResolver.GetPropertyAssigner(hint);
+    return ContentAssignersResolver.GetPropertyAssigner(hint);
   }
 
   private IParcer GetValueParcer(Type type)
   {
-    return this.ParcerResolver.GetParcer(type);
+    return ParcerResolver.GetParcer(type);
   }
 
   public class ObjectFactory : IObjectFactory
   {
     public ObjectFactory(ModernFactory modernFactory)
     {
-      this.ModernFactoryInstance = modernFactory;
+      ModernFactoryInstance = modernFactory;
     }
 
     protected ModernFactory ModernFactoryInstance { get; set; }
@@ -484,17 +484,17 @@ public class ModernFactory : IFactory
 
     public virtual object GetObject()
     {
-      return this.ModernFactoryInstance.GetObjectFromObjectInfo(this.ObjectInfo, true);
+      return ModernFactoryInstance.GetObjectFromObjectInfo(ObjectInfo, true);
     }
 
     public virtual object GetPurelyNewObject()
     {
-      return this.ModernFactoryInstance.GetObjectFromObjectInfo(this.ObjectInfo, false);
+      return ModernFactoryInstance.GetObjectFromObjectInfo(ObjectInfo, false);
     }
 
     public void Initialize(XmlNode instanceConfigurationNode)
     {
-      this.ObjectInfo = this.ModernFactoryInstance.GetObjectInfoFromNode(instanceConfigurationNode);
+      ObjectInfo = ModernFactoryInstance.GetObjectInfoFromNode(instanceConfigurationNode);
     }
   }
 }

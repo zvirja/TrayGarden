@@ -11,6 +11,6 @@ public class PipelineArgs
   [UsedImplicitly]
   public virtual void Abort()
   {
-    this.Aborted = true;
+    Aborted = true;
   }
 }

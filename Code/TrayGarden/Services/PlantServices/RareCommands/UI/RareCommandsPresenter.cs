@@ -28,7 +28,7 @@ public class RareCommandsPresenter
     {
       return;
     }
-    List<ServiceForPlantVMBase> resultVMs = this.GetActionsVM(service, args.PlantEx);
+    List<ServiceForPlantVMBase> resultVMs = GetActionsVM(service, args.PlantEx);
     if (resultVMs == null)
     {
       return;
@@ -54,7 +54,7 @@ public class RareCommandsPresenter
     var result = new List<ServiceForPlantVMBase>();
     foreach (IRareCommand rareCommand in settings)
     {
-      result.Add(this.GetRareCommandActionVM(rareCommand));
+      result.Add(GetRareCommandActionVM(rareCommand));
     }
     return result;
   }
@@ -66,6 +66,6 @@ public class RareCommandsPresenter
 
   protected virtual ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
   {
-    return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, this.GetCommandWrapper(rareCommand));
+    return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, GetCommandWrapper(rareCommand));
   }
 }

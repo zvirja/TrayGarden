@@ -10,7 +10,7 @@ public class RareCommandsServicePlantBox : ServicePlantBoxBase
   public RareCommandsServicePlantBox([NotNull] List<IRareCommand> rareCommands)
   {
     Assert.ArgumentNotNull(rareCommands, "rareCommands");
-    this.RareCommands = rareCommands;
+    RareCommands = rareCommands;
   }
 
   public List<IRareCommand> RareCommands { get; set; }

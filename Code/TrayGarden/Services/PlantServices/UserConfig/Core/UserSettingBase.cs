@@ -12,7 +12,7 @@ public abstract class UserSettingBase : IUserSettingBase
 {
   protected UserSettingBase()
   {
-    this.Initialized = false;
+    Initialized = false;
   }
 
   public event EventHandler IsActiveInvalidated;
@@ -23,8 +23,8 @@ public abstract class UserSettingBase : IUserSettingBase
   {
     get
     {
-      this.AssertInitialized();
-      return this.Metadata.Description;
+      AssertInitialized();
+      return Metadata.Description;
     }
   }
 
@@ -32,12 +32,12 @@ public abstract class UserSettingBase : IUserSettingBase
   {
     get
     {
-      this.AssertInitialized();
-      if (this.ActivityCriterias == null)
+      AssertInitialized();
+      if (ActivityCriterias == null)
       {
         return true;
       }
-      return this.ActivityCriterias.All(x => x.IsActive);
+      return ActivityCriterias.All(x => x.IsActive);
     }
   }
 
@@ -48,8 +48,8 @@ public abstract class UserSettingBase : IUserSettingBase
   {
     get
     {
-      this.AssertInitialized();
-      return this.Metadata.Name;
+      AssertInitialized();
+      return Metadata.Name;
     }
   }
 
@@ -57,8 +57,8 @@ public abstract class UserSettingBase : IUserSettingBase
   {
     get
     {
-      this.AssertInitialized();
-      return this.Metadata.Title;
+      AssertInitialized();
+      return Metadata.Title;
     }
   }
 
@@ -70,7 +70,7 @@ public abstract class UserSettingBase : IUserSettingBase
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
@@ -79,21 +79,21 @@ public abstract class UserSettingBase : IUserSettingBase
   protected virtual void Initialize([NotNull] IUserSettingMetadataBase baseMetadata, List<IUserSettingBase> activityCriterias)
   {
     Assert.ArgumentNotNull(baseMetadata, "baseMetadata");
-    this.Metadata = baseMetadata;
-    this.ActivityCriterias = activityCriterias;
+    Metadata = baseMetadata;
+    ActivityCriterias = activityCriterias;
     if (activityCriterias != null)
     {
       foreach (IUserSettingBase activityCriteria in activityCriterias)
       {
-        activityCriteria.IsActiveInvalidated += (sender, args) => this.OnIsActiveInvalidated();
+        activityCriteria.IsActiveInvalidated += (sender, args) => OnIsActiveInvalidated();
       }
     }
-    this.Initialized = true;
+    Initialized = true;
   }
 
   protected virtual void OnIsActiveInvalidated()
   {
-    EventHandler handler = this.IsActiveInvalidated;
+    EventHandler handler = IsActiveInvalidated;
     if (handler != null)
     {
       handler(this, EventArgs.Empty);
@@ -102,7 +102,7 @@ public abstract class UserSettingBase : IUserSettingBase
 
   protected virtual void OnValueChanged(UserSettingBaseChange e)
   {
-    EventHandler<UserSettingBaseChange> handler = this.ValueChanged;
+    EventHandler<UserSettingBaseChange> handler = ValueChanged;
     if (handler != null)
     {
       handler(this, e);

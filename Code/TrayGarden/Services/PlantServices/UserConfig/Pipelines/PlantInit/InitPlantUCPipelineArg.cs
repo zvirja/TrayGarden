@@ -11,8 +11,8 @@ public class InitPlantUCPipelineArg : PipelineArgs
 {
   public InitPlantUCPipelineArg(string luggageName, IPlantEx relatedPlant)
   {
-    this.LuggageName = luggageName;
-    this.RelatedPlant = relatedPlant;
+    LuggageName = luggageName;
+    RelatedPlant = relatedPlant;
   }
 
   public string LuggageName { get; set; }

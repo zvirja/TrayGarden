@@ -36,7 +36,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("DefaultTrayIcon", "klipper"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("DefaultTrayIcon", "klipper"));
     }
   }
 
@@ -44,7 +44,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("ErrorTrayIcon", "klipperFault"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("ErrorTrayIcon", "klipperFault"));
     }
   }
 
@@ -54,7 +54,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("InProgressTrayIcon", "klipperInProgress"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("InProgressTrayIcon", "klipperInProgress"));
     }
   }
 
@@ -64,7 +64,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("NotFoundTrayIcon", "klipperEmpty"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("NotFoundTrayIcon", "klipperEmpty"));
     }
   }
 
@@ -74,15 +74,15 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     get
     {
-      return ResourcesOperator.GetIconByName(this.ConfigurationHelper.GetStringValue("SuccessTrayIcon", "klipperSuccess"));
+      return ResourcesOperator.GetIconByName(ConfigurationHelper.GetStringValue("SuccessTrayIcon", "klipperSuccess"));
     }
   }
 
   public bool GetIconInfo(out string title, out Icon icon, out MouseEventHandler iconClickHandler)
   {
     title = "ClipboardChanger";
-    icon = this.DefaultTrayIcon;
-    iconClickHandler = this.NotifyIcon_MouseClick;
+    icon = DefaultTrayIcon;
+    iconClickHandler = NotifyIcon_MouseClick;
     return true;
   }
 
@@ -90,46 +90,46 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   {
     var result = new List<ToolStripMenuItem>();
     var shortLink = new ToolStripMenuItem("Short link in clipboard", Resources.klipperShortedv5.ToBitmap());
-    shortLink.Click += (sender, args) => this.OnShorteningRequested();
+    shortLink.Click += (sender, args) => OnShorteningRequested();
     result.Add(shortLink);
     return result;
   }
 
   public void SetConfigurationNode(XmlNode configurationNode)
   {
-    this.ConfigurationHelper = new XmlHelper(configurationNode);
+    ConfigurationHelper = new XmlHelper(configurationNode);
   }
 
   public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
   {
     if (msTimeout == 0)
     {
-      msTimeout = this.ConfigurationHelper.GetIntValue("DefaultTimeout", 400);
+      msTimeout = ConfigurationHelper.GetIntValue("DefaultTimeout", 400);
     }
-    this.SetIconInternal(newIcon, msTimeout);
+    SetIconInternal(newIcon, msTimeout);
   }
 
   public virtual void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
   {
-    this.GlobalNotifyIconChangerClient = notifyIconChangerClient;
+    GlobalNotifyIconChangerClient = notifyIconChangerClient;
   }
 
   public virtual void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
   {
-    this.NotifyIconChangerClient = notifyIconChangerClient;
+    NotifyIconChangerClient = notifyIconChangerClient;
   }
 
   protected virtual void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
   {
     if (e.Button == MouseButtons.Left)
     {
-      this.OnMainActionRequested();
+      OnMainActionRequested();
     }
   }
 
   protected virtual void OnMainActionRequested()
   {
-    Action<object> handler = this.MainActionRequested;
+    Action<object> handler = MainActionRequested;
     if (handler != null)
     {
       handler(this);
@@ -138,7 +138,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
 
   protected virtual void OnShorteningRequested()
   {
-    Action<object> handler = this.ShorteningRequested;
+    Action<object> handler = ShorteningRequested;
     if (handler != null)
     {
       handler(this);
@@ -147,6 +147,6 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
 
   protected virtual void SetIconInternal(Icon newIcon, int msTimeout)
   {
-    this.NotifyIconChangerClient.SetIcon(newIcon, msTimeout);
+    NotifyIconChangerClient.SetIcon(newIcon, msTimeout);
   }
 }

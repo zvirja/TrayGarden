@@ -24,7 +24,7 @@ public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
     result = null;
     try
     {
-      result = this.ResolveAsXml(inputValue);
+      result = ResolveAsXml(inputValue);
       return true;
     }
     catch
@@ -45,8 +45,8 @@ public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
 
   protected override IResultProvider GetRevertDialog()
   {
-    IActionNotification revertDialog = this.RevertConfirmator.LordOfNotifications.CreateActionNotification(
-      this.revertDialogHeader,
+    IActionNotification revertDialog = RevertConfirmator.LordOfNotifications.CreateActionNotification(
+      revertDialogHeader,
       "Revert value");
     revertDialog.LayoutType = ImageTextOrder.HorizontalTextImage;
 
@@ -54,7 +54,7 @@ public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
     headerTextDisplayStyle.Margins = new Thickness(5, 0, 0, 10);
     headerTextDisplayStyle.Size = 14;
 
-    revertDialog.ButtonImage = this.GetUndoImage();
+    revertDialog.ButtonImage = GetUndoImage();
     ImageDisplayOptions imageDisplayOptions = revertDialog.ButtonImageDisplayOptions;
     imageDisplayOptions.Margins = new Thickness(20, 0, 0, 0);
     imageDisplayOptions.Height = imageDisplayOptions.Width = 48;

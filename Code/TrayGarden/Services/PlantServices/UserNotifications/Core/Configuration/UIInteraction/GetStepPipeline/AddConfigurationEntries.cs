@@ -14,7 +14,7 @@ public class AddConfigurationEntries
   public virtual void Process(UNConfigurationStepArgs args)
   {
     ConfigurationControlConstructInfo constructInfo = args.ConfigurationConstructInfo;
-    this.AddEntries(constructInfo.ConfigurationEntries);
+    AddEntries(constructInfo.ConfigurationEntries);
   }
 
   protected virtual void AddEntries(List<ConfigurationEntryBaseVM> output)

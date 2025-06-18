@@ -11,8 +11,8 @@ public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalM
 {
   public GlobalMenuServiceIconChangePresenter()
   {
-    this.ServiceName = "Changing of global icon";
-    this.ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";
+    ServiceName = "Changing of global icon";
+    ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";
   }
 
   protected static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
@@ -24,7 +24,7 @@ public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalM
 
   protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)
   {
-    var vm = new ServiceForPlantWithEnablingVM(this.ServiceName, this.ServiceDescription);
+    var vm = new ServiceForPlantWithEnablingVM(ServiceName, ServiceDescription);
     var plantBox = serviceInstance.GetPlantLuggage(plantEx);
     if (plantBox.GlobalNotifyIconChanger == null)
     {

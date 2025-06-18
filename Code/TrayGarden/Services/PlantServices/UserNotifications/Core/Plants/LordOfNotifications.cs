@@ -10,7 +10,7 @@ public class LordOfNotifications : ILordOfNotifications
 {
   public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
   {
-    this.RelatedPlantBox = relatedPlantBox;
+    RelatedPlantBox = relatedPlantBox;
   }
 
   protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
@@ -32,12 +32,12 @@ public class LordOfNotifications : ILordOfNotifications
 
   public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
   {
-    if (!this.RelatedPlantBox.IsEnabled || !this.RelatedPlantBox.RelatedPlantEx.IsEnabled)
+    if (!RelatedPlantBox.IsEnabled || !RelatedPlantBox.RelatedPlantEx.IsEnabled)
     {
       return new FakeNotificationResultCourier();
     }
     return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(
       notificationBlank,
-      this.RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
+      RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
   }
 }

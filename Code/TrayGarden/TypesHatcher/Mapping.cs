@@ -19,16 +19,16 @@ public class Mapping : IMapping
   {
     Assert.ArgumentNotNull(interfaceType, "interfaceType");
     Assert.ArgumentNotNull(objectFactory, "objectFactory");
-    this.InterfaceType = interfaceType;
-    this.ObjectFactory = objectFactory;
+    InterfaceType = interfaceType;
+    ObjectFactory = objectFactory;
   }
 
   public override string ToString()
   {
-    if (this.ObjectFactory == null || this.InterfaceType == null)
+    if (ObjectFactory == null || InterfaceType == null)
     {
       return base.ToString();
     }
-    return "Mapping: Interface {0}, ObjFactory {1}".FormatWith(this.InterfaceType.FullName, this.ObjectFactory.GetType().FullName);
+    return "Mapping: Interface {0}, ObjFactory {1}".FormatWith(InterfaceType.FullName, ObjectFactory.GetType().FullName);
   }
 }

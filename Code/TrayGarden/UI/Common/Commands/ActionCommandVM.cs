@@ -6,8 +6,8 @@ public class ActionCommandVM
 {
   public ActionCommandVM(ICommand command, string title)
   {
-    this.Command = command;
-    this.Title = title;
+    Command = command;
+    Title = title;
   }
 
   public ICommand Command { get; protected set; }

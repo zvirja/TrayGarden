@@ -49,9 +49,9 @@ public class LifecycleObserver
   {
     try
     {
-      Application.Current.DispatcherUnhandledException += this.Current_DispatcherUnhandledException;
+      Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
       StartupPipeline.Run(args);
-      Application.Current.Exit += this.ApplicationExit;
+      Application.Current.Exit += ApplicationExit;
     }
     catch (Exception ex)
     {
@@ -62,7 +62,7 @@ public class LifecycleObserver
 
   protected virtual void SetAssembliesHook()
   {
-    AppDomain.CurrentDomain.AssemblyResolve += this.CurrentDomainOnAssemblyResolve;
+    AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
   }
 
   private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)

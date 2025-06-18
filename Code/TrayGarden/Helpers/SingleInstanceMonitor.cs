@@ -24,37 +24,37 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
 
   public SingleInstanceMonitor()
   {
-    this.disposed = -1;
-    this.disposedWaitHandle = new ManualResetEventSlim(false);
+    disposed = -1;
+    disposedWaitHandle = new ManualResetEventSlim(false);
   }
 
   public event EventHandler AttemptFromAnotherProcess;
 
   public ManualResetEventSlim EnqueueMonitorDisabling()
   {
-    Assert.IsNotNull(this.innerHandle, "Monitor should be initialized before");
-    if (this.disposed == -1)
+    Assert.IsNotNull(innerHandle, "Monitor should be initialized before");
+    if (disposed == -1)
     {
       //this set of lines starts monitor disabling in awaiting loop
-      this.disposed = 0;
-      this.innerHandle.Set();
+      disposed = 0;
+      innerHandle.Set();
     }
-    return this.disposedWaitHandle;
+    return disposedWaitHandle;
   }
 
   public virtual bool TryAcquireOwnershipNotifyIfFail()
   {
-    Assert.IsTrue(this.innerHandle == null, "Method TryAcquireOwnership() should be called only once.");
+    Assert.IsTrue(innerHandle == null, "Method TryAcquireOwnership() should be called only once.");
     bool createdNewEvent;
-    this.innerHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventGlobalName, out createdNewEvent);
+    innerHandle = new EventWaitHandle(false, EventResetMode.AutoReset, EventGlobalName, out createdNewEvent);
     if (!createdNewEvent)
     {
       //Notify another process about our attempt
-      this.innerHandle.Set();
+      innerHandle.Set();
       return false;
     }
     Log.Info("SingleInstanceMonitor: ownership acquired", this);
-    this.StartAwaitingLoop();
+    StartAwaitingLoop();
     return true;
   }
 
@@ -62,26 +62,26 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
   {
     try
     {
-      Assert.IsNotNull(this.innerHandle, "Inner handle cannot be null at this point");
-      while (this.disposed < 1)
+      Assert.IsNotNull(innerHandle, "Inner handle cannot be null at this point");
+      while (disposed < 1)
       {
-        this.innerHandle.WaitOne();
-        if (this.disposed == -1)
+        innerHandle.WaitOne();
+        if (disposed == -1)
         {
           Log.Info("SingleInstanceMonitor: Event from foreign process received", this);
-          this.NotifyAboutForeignEvent();
+          NotifyAboutForeignEvent();
         }
         //this.disposed == 0. Disposing in progress.
         //Value cannot be 1, because while() condition cannot allow this.
         else
         {
           Log.Info("SingleInstanceMonitor: disposing", this);
-          this.innerHandle.Close();
-          this.disposed = 1;
-          this.disposedWaitHandle.Set();
+          innerHandle.Close();
+          disposed = 1;
+          disposedWaitHandle.Set();
         }
       }
-      Assert.IsTrue(this.innerHandle.SafeWaitHandle.IsClosed, "Handle should be closed at this point");
+      Assert.IsTrue(innerHandle.SafeWaitHandle.IsClosed, "Handle should be closed at this point");
     }
     catch (ThreadAbortException)
     {
@@ -92,23 +92,23 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
     }
     finally
     {
-      if (!this.innerHandle.SafeWaitHandle.IsClosed)
+      if (!innerHandle.SafeWaitHandle.IsClosed)
       {
-        this.innerHandle.Close();
+        innerHandle.Close();
       }
-      this.disposed = 1;
-      this.disposedWaitHandle.Set();
+      disposed = 1;
+      disposedWaitHandle.Set();
     }
   }
 
   protected virtual void NotifyAboutForeignEvent()
   {
-    Task.Factory.StartNew(this.OnAttemptFromAnotherProcess);
+    Task.Factory.StartNew(OnAttemptFromAnotherProcess);
   }
 
   protected virtual void OnAttemptFromAnotherProcess()
   {
-    EventHandler handler = this.AttemptFromAnotherProcess;
+    EventHandler handler = AttemptFromAnotherProcess;
     if (handler != null)
     {
       handler(this, EventArgs.Empty);
@@ -117,7 +117,7 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
 
   protected virtual void StartAwaitingLoop()
   {
-    var checkingThread = new Thread(this.ForeignEventAwaitingLoop) { IsBackground = true };
+    var checkingThread = new Thread(ForeignEventAwaitingLoop) { IsBackground = true };
     checkingThread.Start();
   }
 }

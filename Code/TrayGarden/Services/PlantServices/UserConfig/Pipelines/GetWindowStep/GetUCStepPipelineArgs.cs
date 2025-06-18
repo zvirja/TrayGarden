@@ -8,9 +8,9 @@ public class GetUCStepPipelineArgs : PipelineArgs
 {
   public GetUCStepPipelineArgs(UserConfigServicePlantBox ucServicePlantBox)
   {
-    this.UCServicePlantBox = ucServicePlantBox;
-    this.StateConstructInfo = new WindowWithBackStateConstructInfo();
-    this.ConfigurationConstructInfo = new ConfigurationControlConstructInfo();
+    UCServicePlantBox = ucServicePlantBox;
+    StateConstructInfo = new WindowWithBackStateConstructInfo();
+    ConfigurationConstructInfo = new ConfigurationControlConstructInfo();
   }
 
   public ConfigurationControlConstructInfo ConfigurationConstructInfo { get; set; }

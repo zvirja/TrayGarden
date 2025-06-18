@@ -10,7 +10,7 @@ public class AssignPlantBox
   [UsedImplicitly]
   public virtual void Process(InitPlantUCPipelineArg args)
   {
-    UserConfigServicePlantBox userConfigServicePlantBox = this.CreatePlantBox(args);
+    UserConfigServicePlantBox userConfigServicePlantBox = CreatePlantBox(args);
     args.RelatedPlant.PutLuggage(args.LuggageName, userConfigServicePlantBox);
   }
 

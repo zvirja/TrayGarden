@@ -10,14 +10,14 @@ public class StringOptionConfigurationEntryVM : TypedConfigurationEntryVM<string
   public StringOptionConfigurationEntryVM([NotNull] IStringOptionConfigurationPlayer realPlayer)
     : base(realPlayer)
   {
-    this.RealPlayer = realPlayer;
+    RealPlayer = realPlayer;
   }
 
   public List<string> AllPossibleOptions
   {
     get
     {
-      return this.GetAllPossibleOptions();
+      return GetAllPossibleOptions();
     }
   }
 
@@ -25,6 +25,6 @@ public class StringOptionConfigurationEntryVM : TypedConfigurationEntryVM<string
 
   protected virtual List<string> GetAllPossibleOptions()
   {
-    return this.RealPlayer.Options;
+    return RealPlayer.Options;
   }
 }

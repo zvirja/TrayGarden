@@ -11,7 +11,7 @@ public class BooleanToVisibilityConverter : IValueConverter
 {
   public BooleanToVisibilityConverter()
   {
-    this.DefaultNonVisibleVisibility = Visibility.Hidden;
+    DefaultNonVisibleVisibility = Visibility.Hidden;
   }
 
   public Visibility DefaultNonVisibleVisibility { get; set; }
@@ -30,7 +30,7 @@ public class BooleanToVisibilityConverter : IValueConverter
     var visibilityParam = parameter as string;
     if (visibilityParam.IsNullOrEmpty())
     {
-      return this.DefaultNonVisibleVisibility;
+      return DefaultNonVisibleVisibility;
     }
     if (visibilityParam.Equals("collapsed", StringComparison.OrdinalIgnoreCase))
     {

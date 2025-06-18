@@ -21,23 +21,23 @@ public class ServiceForPlantWithEnablingVM : ServiceForPlantVMBase
   {
     get
     {
-      return this._isEnabled;
+      return _isEnabled;
     }
     set
     {
-      if (value.Equals(this._isEnabled))
+      if (value.Equals(_isEnabled))
       {
         return;
       }
-      this._isEnabled = value;
-      this.OnPropertyChanged("IsEnabled");
-      this.OnIsEnabledChanged(value);
+      _isEnabled = value;
+      OnPropertyChanged("IsEnabled");
+      OnIsEnabledChanged(value);
     }
   }
 
   protected virtual void OnIsEnabledChanged(bool newvalue)
   {
-    ServiceForPlantEnabledChanged handler = this.IsEnabledChanged;
+    ServiceForPlantEnabledChanged handler = IsEnabledChanged;
     if (handler != null)
     {
       handler(this, newvalue);

@@ -10,8 +10,8 @@ public class GetMainVMPipelineArgs : PipelineArgs
 {
   public GetMainVMPipelineArgs()
   {
-    this.SuperAction = null;
-    this.StateSpecificHelpActions = new List<ActionCommandVM>();
+    SuperAction = null;
+    StateSpecificHelpActions = new List<ActionCommandVM>();
   }
 
   public PlantsConfigVM PlantsConfigVM { get; set; }

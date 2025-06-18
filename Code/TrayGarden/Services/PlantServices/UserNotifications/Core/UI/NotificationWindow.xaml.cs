@@ -23,7 +23,7 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
 
   public NotificationWindow()
   {
-    this.SetBinding(ReadyToBeClosedProperty, new Binding("IsAlive") { Mode = BindingMode.OneWay, Converter = new BooleanNotConverter() });
+    SetBinding(ReadyToBeClosedProperty, new Binding("IsAlive") { Mode = BindingMode.OneWay, Converter = new BooleanNotConverter() });
 
     //Visibility = Visibility.Visible;
 
@@ -60,17 +60,17 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
   {
     get
     {
-      return (bool)this.GetValue(ReadyToBeClosedProperty);
+      return (bool)GetValue(ReadyToBeClosedProperty);
     }
     set
     {
-      this.SetValue(ReadyToBeClosedProperty, value);
+      SetValue(ReadyToBeClosedProperty, value);
     }
   }
 
   public virtual List<IViewModelToViewMapping> GetMappings()
   {
-    return this.Mappings
+    return Mappings
            ?? new List<IViewModelToViewMapping>()
            {
              new ViewModelToViewMappingResolverBased(
@@ -87,14 +87,14 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
 
   public virtual void Initialize(List<IViewModelToViewMapping> mappings)
   {
-    this.Mappings = mappings;
+    Mappings = mappings;
   }
 
   public virtual void PrepareAndDisplay(NotificationWindowVM viewModel)
   {
-    this.DataContext = viewModel;
-    this.InitializeComponent();
-    this.Show();
+    DataContext = viewModel;
+    InitializeComponent();
+    Show();
   }
 
   protected static void ReadyToBeClosedChanged(
@@ -111,7 +111,7 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
 
   protected override void OnClosed(EventArgs e)
   {
-    var datacontextAsDisposable = this.DataContext as IDisposable;
+    var datacontextAsDisposable = DataContext as IDisposable;
     if (datacontextAsDisposable != null)
     {
       datacontextAsDisposable.Dispose();
@@ -121,7 +121,7 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
 
   protected override void OnMouseEnter(System.Windows.Input.MouseEventArgs e)
   {
-    var dataContextAsNotificationVM = this.DataContext as NotificationWindowVM;
+    var dataContextAsNotificationVM = DataContext as NotificationWindowVM;
     if (dataContextAsNotificationVM != null)
     {
       dataContextAsNotificationVM.IsPositionLocked = true;

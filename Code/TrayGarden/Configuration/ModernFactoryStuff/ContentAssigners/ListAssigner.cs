@@ -14,23 +14,23 @@ public class ListAssigner : IContentAssigner
 {
   public virtual void AssignContent(XmlNode contentNode, object instance, Type instanceType, Func<Type, IParcer> valueParcerResolver)
   {
-    XmlNodeList listContentNodes = this.GetListContentNodes(contentNode);
+    XmlNodeList listContentNodes = GetListContentNodes(contentNode);
     if (listContentNodes.Count == 0)
     {
       return;
     }
-    IList list = this.GetListObject(contentNode, instance, instanceType);
+    IList list = GetListObject(contentNode, instance, instanceType);
     if (list == null)
     {
       return;
     }
-    this.AssignContentToList(list, listContentNodes, valueParcerResolver);
+    AssignContentToList(list, listContentNodes, valueParcerResolver);
   }
 
   protected virtual void AssignContentToList(IList list, XmlNodeList contentNodes, Func<Type, IParcer> valueParcerResolver)
   {
     Assert.ArgumentNotNull(list, "list");
-    var listGenericArgument = this.GetListGenericArgumentType(list.GetType());
+    var listGenericArgument = GetListGenericArgumentType(list.GetType());
     if (listGenericArgument == null)
     {
       throw new Exception("Unexpected value");
@@ -121,8 +121,8 @@ public class ListAssigner : IContentAssigner
     {
       return null;
     }
-    var startIndex = nodeValue.IndexOf("{", System.StringComparison.Ordinal);
-    var endIndex = nodeValue.LastIndexOf("}", System.StringComparison.Ordinal);
+    var startIndex = nodeValue.IndexOf("{", StringComparison.Ordinal);
+    var endIndex = nodeValue.LastIndexOf("}", StringComparison.Ordinal);
 
     if (startIndex < 0 || endIndex < 0 || endIndex < startIndex)
     {
@@ -167,17 +167,17 @@ public class ListAssigner : IContentAssigner
     var templateClone = templateNode.CloneNode(true);
     var itemNode = templateClone.FirstChild;
     Debug.Assert(itemNode != null);
-    this.SubstituteVariablesInItemNode(itemNode, variableValues, originalItemNode);
+    SubstituteVariablesInItemNode(itemNode, variableValues, originalItemNode);
     return itemNode;
   }
 
   protected virtual XmlNodeList GetListContentNodes(XmlNode contentNode)
   {
-    if (!this.SupportTemplating(contentNode))
+    if (!SupportTemplating(contentNode))
     {
       return contentNode.ChildNodes;
     }
-    return this.GetTemplateBasedContentNodes(contentNode);
+    return GetTemplateBasedContentNodes(contentNode);
   }
 
   protected virtual Type GetListGenericArgumentType(Type listType)
@@ -213,7 +213,7 @@ public class ListAssigner : IContentAssigner
     {
       return itemsResolved.ChildNodes;
     }
-    var newResolvedItems = this.ResolveContentNodesFromTemplate(contentNode);
+    var newResolvedItems = ResolveContentNodesFromTemplate(contentNode);
     itemsResolved = contentNode.OwnerDocument.CreateElement("itemsresolved");
     contentNode.AppendChild(itemsResolved);
     foreach (XmlNode newResolvedItem in newResolvedItems)
@@ -250,9 +250,9 @@ public class ListAssigner : IContentAssigner
       {
         itemTemplateXPath = defaultTemplateXPath;
       }
-      XmlNode currentTemplateNode = this.GetTemplateByXPath(templatesParentNode, itemTemplateXPath);
-      var keyValuePairs = this.ExtractAllKeyValues(itemNode);
-      var resultItemNode = this.GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs, itemNode);
+      XmlNode currentTemplateNode = GetTemplateByXPath(templatesParentNode, itemTemplateXPath);
+      var keyValuePairs = ExtractAllKeyValues(itemNode);
+      var resultItemNode = GetItemNodeFromTemplate(currentTemplateNode, keyValuePairs, itemNode);
       if (resultItemNode != null)
       {
         result.Add(resultItemNode);
@@ -268,11 +268,11 @@ public class ListAssigner : IContentAssigner
   {
     /*if (itemNode.Name.Equals("templates", StringComparison.OrdinalIgnoreCase))
               return;*/
-    if (this.CheckAndInsertSubtree(itemNode, originalItemNode))
+    if (CheckAndInsertSubtree(itemNode, originalItemNode))
     {
       return;
     }
-    var varName = this.ExtractVariableNameFromNodeValueStrong(itemNode);
+    var varName = ExtractVariableNameFromNodeValueStrong(itemNode);
     if (varName != null && variableValues.ContainsKey(varName))
     {
       itemNode.Value = variableValues[varName];
@@ -281,7 +281,7 @@ public class ListAssigner : IContentAssigner
     {
       foreach (XmlAttribute xmlAttribute in itemNode.Attributes)
       {
-        var variableName = this.ExtractVariableNameFromNodeValueSoft(xmlAttribute);
+        var variableName = ExtractVariableNameFromNodeValueSoft(xmlAttribute);
         if (variableName.IsNullOrEmpty())
         {
           continue;
@@ -294,7 +294,7 @@ public class ListAssigner : IContentAssigner
     }
     foreach (XmlNode childNode in itemNode.ChildNodes)
     {
-      this.SubstituteVariablesInItemNode(childNode, variableValues, originalItemNode);
+      SubstituteVariablesInItemNode(childNode, variableValues, originalItemNode);
     }
   }
 

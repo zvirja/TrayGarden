@@ -8,7 +8,7 @@ public class XmlHelper
 {
   public XmlHelper(XmlNode parentNode)
   {
-    this.ParentNode = parentNode;
+    ParentNode = parentNode;
   }
 
   public XmlNode ParentNode { get; set; }
@@ -87,41 +87,41 @@ public class XmlHelper
 
   public virtual string GetAttributeValue(string attributeName)
   {
-    return GetAttributeValue(this.ParentNode, attributeName);
+    return GetAttributeValue(ParentNode, attributeName);
   }
 
   public virtual bool GetBoolValue(string nodePath)
   {
-    return GetBoolValue(this.ParentNode, nodePath);
+    return GetBoolValue(ParentNode, nodePath);
   }
 
   public virtual int GetIntValue(string nodePath)
   {
-    return GetIntValue(this.ParentNode, nodePath);
+    return GetIntValue(ParentNode, nodePath);
   }
 
   public virtual string GetName()
   {
-    return this.GetStringValue("name");
+    return GetStringValue("name");
   }
 
   public virtual string GetStringValue(string nodePath)
   {
-    return GetStringValue(this.ParentNode, nodePath);
+    return GetStringValue(ParentNode, nodePath);
   }
 
   public virtual List<string> GetStringsList(string nodePath)
   {
-    return GetStringsList(this.ParentNode, nodePath);
+    return GetStringsList(ParentNode, nodePath);
   }
 
   public virtual XmlNodeList SmartlySelectNodes(string xpath)
   {
-    return SmartlySelectNodes(this.ParentNode, xpath);
+    return SmartlySelectNodes(ParentNode, xpath);
   }
 
   public virtual XmlNode SmartlySelectSingleNode(string xpath)
   {
-    return SmartlySelectSingleNode(this.ParentNode, xpath);
+    return SmartlySelectSingleNode(ParentNode, xpath);
   }
 }

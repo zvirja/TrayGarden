@@ -15,28 +15,28 @@ public class ActionNotificationVM : SpecializedNotificationVMBase, IActionNotifi
 
   public ActionNotificationVM(string headerText, string buttonText)
   {
-    this.HeaderText = headerText;
-    this.ButtonText = buttonText;
-    this.LayoutType = ImageTextOrder.VerticalImageText;
+    HeaderText = headerText;
+    ButtonText = buttonText;
+    LayoutType = ImageTextOrder.VerticalImageText;
     var headerTextBrush = new SolidColorBrush(Color.FromRgb(100, 100, 100));
     headerTextBrush.Freeze();
-    this.HeaderTextDisplayStyle = new TextDisplayOptions(headerTextBrush, 12);
-    this.HeaderTextDisplayStyle.HorizontalAlignment = HorizontalAlignment.Left;
-    this.ButtonTextDisplayStyle = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
-    this.ButtonImageDisplayOptions = new ImageDisplayOptions(64, 64);
+    HeaderTextDisplayStyle = new TextDisplayOptions(headerTextBrush, 12);
+    HeaderTextDisplayStyle.HorizontalAlignment = HorizontalAlignment.Left;
+    ButtonTextDisplayStyle = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
+    ButtonImageDisplayOptions = new ImageDisplayOptions(64, 64);
 
-    this.SubmitCommand = new RelayCommand(this.OnSubmit, true);
+    SubmitCommand = new RelayCommand(OnSubmit, true);
   }
 
   public ImageSource ButtonImage
   {
     get
     {
-      return this.buttonImage;
+      return buttonImage;
     }
     set
     {
-      this.buttonImage = value;
+      buttonImage = value;
     }
   }
 

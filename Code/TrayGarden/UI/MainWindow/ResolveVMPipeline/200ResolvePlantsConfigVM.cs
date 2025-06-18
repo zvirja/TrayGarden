@@ -17,7 +17,7 @@ public class ResolvePlantsConfigVM
   public virtual void Process(GetMainVMPipelineArgs args)
   {
     var plantsConfig = new PlantsConfigVM();
-    plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(this.GetSinglePlantVMs());
+    plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(GetSinglePlantVMs());
     args.PlantsConfigVM = plantsConfig;
   }
 
@@ -32,7 +32,7 @@ public class ResolvePlantsConfigVM
     var plantExAll = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
     foreach (IPlantEx plantEx in plantExAll)
     {
-      var resolvedPlantVM = this.GetSinglePlantVM(plantEx);
+      var resolvedPlantVM = GetSinglePlantVM(plantEx);
       if (resolvedPlantVM == null)
       {
         Log.Warn("VM for plant wasn't resolved. Plant type: {0}".FormatWith(plantEx.Plant.GetType()), this);

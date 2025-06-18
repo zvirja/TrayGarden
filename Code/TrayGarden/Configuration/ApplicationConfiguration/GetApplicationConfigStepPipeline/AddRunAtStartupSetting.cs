@@ -10,7 +10,7 @@ public class AddRunAtStartupSetting
 {
   public AddRunAtStartupSetting()
   {
-    this.Description = "Configures whether start the app at the Windows startup";
+    Description = "Configures whether start the app at the Windows startup";
   }
 
   public string Description { get; set; }
@@ -18,12 +18,12 @@ public class AddRunAtStartupSetting
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)
   {
-    args.ConfigurationConstructInfo.ConfigurationEntries.Add(this.GetConfigurationEntry());
+    args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetConfigurationEntry());
   }
 
   protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
   {
-    var player = new AutorunPlayer("Run at startup", this.Description);
+    var player = new AutorunPlayer("Run at startup", Description);
     return new BoolConfigurationEntryVM(player);
   }
 }

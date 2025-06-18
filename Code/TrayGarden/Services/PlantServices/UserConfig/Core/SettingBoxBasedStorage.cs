@@ -18,8 +18,8 @@ public class SettingBoxOrientedStorage<T> : IUserSettingStorage<T>
   {
     Assert.ArgumentNotNull(getter, "getter");
     Assert.ArgumentNotNull(setter, "setter");
-    this.Getter = getter;
-    this.Setter = setter;
+    Getter = getter;
+    Setter = setter;
   }
 
   public Func<string, T, T> Getter { get; set; }
@@ -30,11 +30,11 @@ public class SettingBoxOrientedStorage<T> : IUserSettingStorage<T>
 
   public T ReadValue(string key, T defaultValue)
   {
-    return this.Getter(key, defaultValue);
+    return Getter(key, defaultValue);
   }
 
   public void WriteValue(string key, T value)
   {
-    this.Setter(key, value);
+    Setter(key, value);
   }
 }

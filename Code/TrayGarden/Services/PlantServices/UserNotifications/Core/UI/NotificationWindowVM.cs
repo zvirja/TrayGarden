@@ -30,16 +30,16 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     Assert.ArgumentNotNull(actualPositionAndSize, "actualPositionAndSize");
     Assert.ArgumentNotNull(nestedNotificationVM, "nestedNotificationVM");
     Assert.ArgumentNotNullOrEmpty(originator, "originator");
-    this.positionAndSize = actualPositionAndSize;
-    this.positionAndSize.Changed += this.PositionAndSizeOnChanged;
-    this.NestedNotificationVM = nestedNotificationVM;
-    this.NestedNotificationVM.ResultObtained += this.OnResultObtainedFromNestedNotification;
-    this.isAlive = true;
-    this.permanentCloseDescription = this.GetPermanentCloseDescription(originator);
-    this.Result = new NotificationResult(ResultCode.Unspecified);
+    positionAndSize = actualPositionAndSize;
+    positionAndSize.Changed += PositionAndSizeOnChanged;
+    NestedNotificationVM = nestedNotificationVM;
+    NestedNotificationVM.ResultObtained += OnResultObtainedFromNestedNotification;
+    isAlive = true;
+    permanentCloseDescription = GetPermanentCloseDescription(originator);
+    Result = new NotificationResult(ResultCode.Unspecified);
 
-    this.CloseCommand = new RelayCommand(this.OnCloseCommandExecute, true);
-    this.PermanentCloseCommand = new RelayCommand(this.OnPermanentlyCloseExecute, true);
+    CloseCommand = new RelayCommand(OnCloseCommandExecute, true);
+    PermanentCloseCommand = new RelayCommand(OnPermanentlyCloseExecute, true);
   }
 
   public event PropertyChangedEventHandler PropertyChanged;
@@ -52,7 +52,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   {
     get
     {
-      return this.DelayBeforeForceFading + this.ForceFadingDuration.TimeSpan;
+      return DelayBeforeForceFading + ForceFadingDuration.TimeSpan;
     }
   }
 
@@ -72,7 +72,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   {
     get
     {
-      return this.DelayBeforeNormalFading + this.NormalFadingDuration.TimeSpan;
+      return DelayBeforeNormalFading + NormalFadingDuration.TimeSpan;
     }
   }
 
@@ -113,16 +113,16 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   {
     get
     {
-      return this.isAlive;
+      return isAlive;
     }
     set
     {
-      if (value.Equals(this.isAlive))
+      if (value.Equals(isAlive))
       {
         return;
       }
-      this.isAlive = value;
-      this.OnPropertyChanged("IsAlive");
+      isAlive = value;
+      OnPropertyChanged("IsAlive");
     }
   }
 
@@ -148,16 +148,16 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   {
     get
     {
-      return this.permanentCloseDescription;
+      return permanentCloseDescription;
     }
     set
     {
-      if (value == this.permanentCloseDescription)
+      if (value == permanentCloseDescription)
       {
         return;
       }
-      this.permanentCloseDescription = value;
-      this.OnPropertyChanged("PermanentCloseDescription");
+      permanentCloseDescription = value;
+      OnPropertyChanged("PermanentCloseDescription");
     }
   }
 
@@ -165,16 +165,16 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   {
     get
     {
-      return this.positionAndSize;
+      return positionAndSize;
     }
     set
     {
-      if (Equals(value, this.positionAndSize))
+      if (Equals(value, positionAndSize))
       {
         return;
       }
-      this.positionAndSize = value;
-      this.OnPropertyChanged("PositionAndSize");
+      positionAndSize = value;
+      OnPropertyChanged("PositionAndSize");
     }
   }
 
@@ -183,21 +183,21 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   public virtual void Dispose()
   {
     //Check whether this result was accepted. Otherwise no sense to inform listeners that we received it.
-    bool arrivedOnTime = this.SetResultIfStillNeed(new NotificationResult(ResultCode.NoReaction));
-    var nestedAsDisposable = this.NestedNotificationVM as IDisposable;
+    bool arrivedOnTime = SetResultIfStillNeed(new NotificationResult(ResultCode.NoReaction));
+    var nestedAsDisposable = NestedNotificationVM as IDisposable;
     if (nestedAsDisposable != null)
     {
       nestedAsDisposable.Dispose();
     }
     if (arrivedOnTime)
     {
-      this.FireFireworkWeHaveResult();
+      FireFireworkWeHaveResult();
     }
   }
 
   protected virtual void FireFireworkWeHaveResult()
   {
-    this.OnResultObtained(this.Result);
+    OnResultObtained(Result);
   }
 
   protected string GetPermanentCloseDescription(string originator)
@@ -207,22 +207,22 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   protected virtual void OnCloseCommandExecute(object o)
   {
-    this.SetResultIfStillNeed(new NotificationResult(ResultCode.Close));
-    this.IsAlive = false;
-    this.FireFireworkWeHaveResult();
+    SetResultIfStillNeed(new NotificationResult(ResultCode.Close));
+    IsAlive = false;
+    FireFireworkWeHaveResult();
   }
 
   protected virtual void OnPermanentlyCloseExecute(object obj)
   {
-    this.SetResultIfStillNeed(new NotificationResult(ResultCode.PermanentlyClose));
-    this.IsAlive = false;
-    this.FireFireworkWeHaveResult();
+    SetResultIfStillNeed(new NotificationResult(ResultCode.PermanentlyClose));
+    IsAlive = false;
+    FireFireworkWeHaveResult();
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -231,7 +231,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   protected virtual void OnResultObtained(NotificationResult result)
   {
-    EventHandler<ResultObtainedEventArgs> handler = this.ResultObtained;
+    EventHandler<ResultObtainedEventArgs> handler = ResultObtained;
     if (handler != null)
     {
       handler(this, new ResultObtainedEventArgs(result));
@@ -240,23 +240,23 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   protected virtual void OnResultObtainedFromNestedNotification(object sender, ResultObtainedEventArgs e)
   {
-    this.SetResultIfStillNeed(e.Result);
-    this.IsAlive = false;
-    this.FireFireworkWeHaveResult();
+    SetResultIfStillNeed(e.Result);
+    IsAlive = false;
+    FireFireworkWeHaveResult();
   }
 
   protected virtual void PositionAndSizeOnChanged()
   {
-    this.OnPropertyChanged("PositionAndSize");
+    OnPropertyChanged("PositionAndSize");
   }
 
   protected virtual bool SetResultIfStillNeed(NotificationResult result)
   {
-    if (this.Result.Code != ResultCode.Unspecified)
+    if (Result.Code != ResultCode.Unspecified)
     {
       return false;
     }
-    this.Result = result;
+    Result = result;
     return true;
   }
 }

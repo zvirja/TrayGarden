@@ -15,7 +15,7 @@ public class ActionLayoutToBoolMatcher : IValueConverter
       return false;
     }
     var converted = (ImageTextOrder)value;
-    return this.ValueToMatch == converted;
+    return ValueToMatch == converted;
   }
 
   public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

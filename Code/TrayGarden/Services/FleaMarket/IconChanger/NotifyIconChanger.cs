@@ -18,8 +18,8 @@ public class NotifyIconChanger : INotifyIconChangerMaster
 
   public NotifyIconChanger()
   {
-    this.DefaultDelayMsec = 400;
-    this.IsEnabled = true;
+    DefaultDelayMsec = 400;
+    IsEnabled = true;
   }
 
   public int DefaultDelayMsec { get; set; }
@@ -39,46 +39,46 @@ public class NotifyIconChanger : INotifyIconChangerMaster
   public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
   {
     Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
-    this.OperableNIcon = operableNIcon;
-    this.BackIcon = this.OperableNIcon.Icon;
-    this.SuccessIcon = GlobalResourcesManager.GetIconByName("mockAction");
-    this.FailedIcon = GlobalResourcesManager.GetIconByName("mockActionFailed");
-    this.Initialized = true;
+    OperableNIcon = operableNIcon;
+    BackIcon = OperableNIcon.Icon;
+    SuccessIcon = GlobalResourcesManager.GetIconByName("mockAction");
+    FailedIcon = GlobalResourcesManager.GetIconByName("mockActionFailed");
+    Initialized = true;
   }
 
   public void NotifySuccess(int msTimeout = 0)
   {
-    this.SetIcon(this.SuccessIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
+    SetIcon(SuccessIcon, msTimeout == 0 ? DefaultDelayMsec : msTimeout);
   }
     
   public void NotifyFailed(int msTimeout = 0)
   {
-    this.SetIcon(this.FailedIcon, msTimeout == 0 ? this.DefaultDelayMsec : msTimeout);
+    SetIcon(FailedIcon, msTimeout == 0 ? DefaultDelayMsec : msTimeout);
   }
 
   public virtual void SetIcon(Icon newIcon, int msTimeout)
   {
-    this.AssertInitialized();
-    if (!this.IsEnabled)
+    AssertInitialized();
+    if (!IsEnabled)
     {
       return;
     }
-    this.SetIconInternal(newIcon ?? this.BackIcon, this.BackIcon, msTimeout);
+    SetIconInternal(newIcon ?? BackIcon, BackIcon, msTimeout);
   }
 
   public virtual void SetIcon(Icon newIcon)
   {
-    this.AssertInitialized();
-    if (!this.IsEnabled)
+    AssertInitialized();
+    if (!IsEnabled)
     {
       return;
     }
-    this.SetIcon(newIcon, this.DefaultDelayMsec);
+    SetIcon(newIcon, DefaultDelayMsec);
   }
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
@@ -90,22 +90,22 @@ public class NotifyIconChanger : INotifyIconChangerMaster
     {
       return;
     }
-    if (this._currentUpdateIconTask != null && !this._currentUpdateIconTask.IsCompleted)
+    if (_currentUpdateIconTask != null && !_currentUpdateIconTask.IsCompleted)
     {
-      this._currentCancellationTokenSource.Cancel();
+      _currentCancellationTokenSource.Cancel();
     }
-    this._currentCancellationTokenSource = new CancellationTokenSource();
-    this._currentUpdateIconTask = Task.Factory.StartNew(
+    _currentCancellationTokenSource = new CancellationTokenSource();
+    _currentUpdateIconTask = Task.Factory.StartNew(
       () =>
       {
-        var cancellationToken = this._currentCancellationTokenSource.Token;
-        this.OperableNIcon.Icon = newIcon;
+        var cancellationToken = _currentCancellationTokenSource.Token;
+        OperableNIcon.Icon = newIcon;
         Thread.Sleep(msTimeout);
         if (!cancellationToken.IsCancellationRequested)
         {
-          this.OperableNIcon.Icon = backIcon;
+          OperableNIcon.Icon = backIcon;
         }
       },
-      this._currentCancellationTokenSource.Token);
+      _currentCancellationTokenSource.Token);
   }
 }

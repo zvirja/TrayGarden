@@ -3,7 +3,7 @@ using TrayGarden.Reception;
 
 namespace WindowsLangHotKeysSetter;
 
-public class WindowsLangHotKeysSetter : IPlant, TrayGarden.Reception.IServicesDelegation
+public class WindowsLangHotKeysSetter : IPlant, IServicesDelegation
 {
   public string Description
   {

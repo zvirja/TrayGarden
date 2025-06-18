@@ -14,14 +14,14 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
 {
   public PersonalUserSettingsSteward()
   {
-    this.DefinedSettings = new Dictionary<string, IUserSettingBase>();
+    DefinedSettings = new Dictionary<string, IUserSettingBase>();
   }
 
   public PersonalUserSettingsSteward([NotNull] IUserSettingsBuilder settingsBuilder)
     : this()
   {
     Assert.ArgumentNotNull(settingsBuilder, "settingsFactory");
-    this.SettingsBuilder = settingsBuilder;
+    SettingsBuilder = settingsBuilder;
   }
 
   public Dictionary<string, IUserSettingBase> DefinedSettings { get; set; }
@@ -36,7 +36,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     List<IUserSettingBase> parentDependentSetting = null,
     IUserSettingHallmark hallmark = null)
   {
-    IBoolUserSetting userSetting = this.SettingsBuilder.BuildBoolSetting(
+    IBoolUserSetting userSetting = SettingsBuilder.BuildBoolSetting(
       name,
       title,
       defaultValue,
@@ -44,7 +44,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
       null,
       parentDependentSetting,
       hallmark);
-    this.RegisterSetting(userSetting);
+    RegisterSetting(userSetting);
     return userSetting;
   }
 
@@ -56,7 +56,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     List<IUserSettingBase> parentDependentSetting = null,
     IUserSettingHallmark hallmark = null)
   {
-    IDoubleUserSetting userSetting = this.SettingsBuilder.BuildDoubleSetting(
+    IDoubleUserSetting userSetting = SettingsBuilder.BuildDoubleSetting(
       name,
       title,
       defaultValue,
@@ -64,7 +64,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
       null,
       parentDependentSetting,
       hallmark);
-    this.RegisterSetting(userSetting);
+    RegisterSetting(userSetting);
     return userSetting;
   }
 
@@ -76,7 +76,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     List<IUserSettingBase> parentDependentSetting = null,
     IUserSettingHallmark hallmark = null)
   {
-    IIntUserSetting userSetting = this.SettingsBuilder.BuildIntSetting(
+    IIntUserSetting userSetting = SettingsBuilder.BuildIntSetting(
       name,
       title,
       defaultValue,
@@ -84,7 +84,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
       null,
       parentDependentSetting,
       hallmark);
-    this.RegisterSetting(userSetting);
+    RegisterSetting(userSetting);
     return userSetting;
   }
 
@@ -97,7 +97,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     List<IUserSettingBase> parentDependentSetting = null,
     IUserSettingHallmark hallmark = null)
   {
-    IStringOptionUserSetting userSetting = this.SettingsBuilder.BuildStringOptionSetting(
+    IStringOptionUserSetting userSetting = SettingsBuilder.BuildStringOptionSetting(
       name,
       title,
       defaultValue,
@@ -105,7 +105,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
       possibleOptions,
       parentDependentSetting,
       hallmark);
-    this.RegisterSetting(userSetting);
+    RegisterSetting(userSetting);
     return userSetting;
   }
 
@@ -117,7 +117,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     List<IUserSettingBase> parentDependentSetting = null,
     IUserSettingHallmark hallmark = null)
   {
-    IStringUserSetting userSetting = this.SettingsBuilder.BuildStringSetting(
+    IStringUserSetting userSetting = SettingsBuilder.BuildStringSetting(
       name,
       title,
       defaultValue,
@@ -125,31 +125,31 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
       null,
       parentDependentSetting,
       hallmark);
-    this.RegisterSetting(userSetting);
+    RegisterSetting(userSetting);
     return userSetting;
   }
 
   public virtual List<TSetting> GetAllUserSettingsOfType<TSetting>() where TSetting : IUserSettingBase
   {
-    return this.DefinedSettings.Select(x => x.Value).OfType<TSetting>().ToList();
+    return DefinedSettings.Select(x => x.Value).OfType<TSetting>().ToList();
   }
 
   public virtual TSetting GetUserSettingOfType<TSetting>(string name) where TSetting : IUserSettingBase
   {
-    if (!this.DefinedSettings.ContainsKey(name))
+    if (!DefinedSettings.ContainsKey(name))
     {
       return default(TSetting);
     }
-    var presentValue = this.DefinedSettings[name];
+    var presentValue = DefinedSettings[name];
     return presentValue is TSetting ? (TSetting)presentValue : default(TSetting);
   }
 
   protected virtual void RegisterSetting(IUserSettingBase newSetting)
   {
-    if (this.DefinedSettings.ContainsKey(newSetting.Name))
+    if (DefinedSettings.ContainsKey(newSetting.Name))
     {
       throw new InvalidOperationException("Setting with '{0}' name is already present".FormatWith(newSetting.Name));
     }
-    this.DefinedSettings.Add(newSetting.Name, newSetting);
+    DefinedSettings.Add(newSetting.Name, newSetting);
   }
 }

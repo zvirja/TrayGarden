@@ -11,7 +11,7 @@ public class CreateConfigurationVM
 {
   public CreateConfigurationVM()
   {
-    this.ConfigurationDescription =
+    ConfigurationDescription =
       "This window allows to enable or disable the particular plant service. Pay attention that some services cannot be disabled. You have to restart application to apply changes";
   }
 
@@ -26,7 +26,7 @@ public class CreateConfigurationVM
       configConstructInfo.ConfigurationEntries,
       configConstructInfo.EnableResetAllOption)
     {
-      ConfigurationDescription = this.ConfigurationDescription,
+      ConfigurationDescription = ConfigurationDescription,
       CalculateRebootOption = configConstructInfo.AllowReboot
     };
   }

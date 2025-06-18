@@ -13,7 +13,7 @@ public class PlantEx : IPlantEx
 {
   public PlantEx()
   {
-    this.Cloakroom = new Dictionary<string, object>();
+    Cloakroom = new Dictionary<string, object>();
   }
 
   public event PlantEnabledChangedEvent EnabledChanged;
@@ -24,14 +24,14 @@ public class PlantEx : IPlantEx
   {
     get
     {
-      this.AssertInitialized();
-      return this.MySettingsBox.GetBool("enabled", false);
+      AssertInitialized();
+      return MySettingsBox.GetBool("enabled", false);
     }
     set
     {
-      this.AssertInitialized();
-      this.MySettingsBox.SetBool("enabled", value);
-      this.OnEnabledChanged(this, value);
+      AssertInitialized();
+      MySettingsBox.SetBool("enabled", value);
+      OnEnabledChanged(this, value);
     }
   }
 
@@ -47,29 +47,29 @@ public class PlantEx : IPlantEx
 
   public T GetFirstWorkhorseOfType<T>()
   {
-    return (T)this.Workhorses.FirstOrDefault(x => x is T);
+    return (T)Workhorses.FirstOrDefault(x => x is T);
   }
 
   public virtual object GetLuggage(string name)
   {
-    this.AssertInitialized();
-    if (!this.Cloakroom.ContainsKey(name))
+    AssertInitialized();
+    if (!Cloakroom.ContainsKey(name))
     {
       return null;
     }
-    return this.Cloakroom[name];
+    return Cloakroom[name];
   }
 
   public virtual T GetLuggage<T>(string name) where T : class
   {
-    this.AssertInitialized();
-    return this.GetLuggage(name) as T;
+    AssertInitialized();
+    return GetLuggage(name) as T;
   }
 
   public virtual bool HasLuggage(string name)
   {
-    this.AssertInitialized();
-    return this.Cloakroom.ContainsKey(name);
+    AssertInitialized();
+    return Cloakroom.ContainsKey(name);
   }
 
   public virtual void Initialize(
@@ -82,22 +82,22 @@ public class PlantEx : IPlantEx
     Assert.ArgumentNotNull(workhorses, "workhorses");
     Assert.ArgumentNotNullOrEmpty(id, "id");
     Assert.ArgumentNotNull(mySettingsBox, "mySettingsBox");
-    this.Workhorses = workhorses;
-    this.Plant = plant;
-    this.ID = id;
-    this.MySettingsBox = mySettingsBox;
-    this.Initialized = true;
+    Workhorses = workhorses;
+    Plant = plant;
+    ID = id;
+    MySettingsBox = mySettingsBox;
+    Initialized = true;
   }
 
   public virtual void PutLuggage(string name, object luggage)
   {
-    this.AssertInitialized();
-    this.Cloakroom[name] = luggage;
+    AssertInitialized();
+    Cloakroom[name] = luggage;
   }
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
@@ -105,7 +105,7 @@ public class PlantEx : IPlantEx
 
   protected virtual void OnEnabledChanged(IPlantEx plantEx, bool newValue)
   {
-    PlantEnabledChangedEvent handler = this.EnabledChanged;
+    PlantEnabledChangedEvent handler = EnabledChanged;
     if (handler != null)
     {
       handler(plantEx, newValue);

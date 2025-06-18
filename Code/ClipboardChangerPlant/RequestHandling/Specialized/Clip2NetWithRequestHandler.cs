@@ -13,8 +13,8 @@ public class Clip2NetWithRequestHandler : Clip2NetWithoutRequestHandler
     try
     {
       result = inputValue;
-      var pageBody = this.GetBody(inputValue);
-      var originalUrl = this.ExcractOriginalUrl(pageBody);
+      var pageBody = GetBody(inputValue);
+      var originalUrl = ExcractOriginalUrl(pageBody);
       if (string.IsNullOrEmpty(originalUrl))
       {
         return false;

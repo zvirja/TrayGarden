@@ -9,8 +9,8 @@ public struct StringStringPair
   public StringStringPair(string key, string value)
     : this()
   {
-    this.Key = key;
-    this.Value = value;
+    Key = key;
+    Value = value;
   }
 
   [XmlAttribute(AttributeName = "key")]

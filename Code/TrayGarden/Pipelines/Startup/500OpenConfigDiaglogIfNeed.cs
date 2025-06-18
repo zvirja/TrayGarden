@@ -15,7 +15,7 @@ public class OpenConfigDiaglogIfNeed
   {
     if (args.StartupParams.Any(x => x.Equals(StringConstants.OpenConfigDialogStartupKey, StringComparison.OrdinalIgnoreCase)))
     {
-      this.SilentlyTryToOpenConfigurationWindow();
+      SilentlyTryToOpenConfigurationWindow();
     }
   }
 

@@ -12,15 +12,15 @@ public class TypedUserSettingPlayer<TValue> : TypedConfigurationPlayer<TValue>
     : base(userSetting.Title, true, false)
   {
     Assert.ArgumentNotNull(userSetting, "userSetting");
-    this.UserSetting = userSetting;
-    this.UserSetting.ValueChanged += (before, after) => this.OnValueChanged();
+    UserSetting = userSetting;
+    UserSetting.ValueChanged += (before, after) => OnValueChanged();
   }
 
   public override string SettingDescription
   {
     get
     {
-      return this.UserSetting.Description;
+      return UserSetting.Description;
     }
     protected set
     {
@@ -33,16 +33,16 @@ public class TypedUserSettingPlayer<TValue> : TypedConfigurationPlayer<TValue>
   {
     get
     {
-      return this.UserSetting.Value;
+      return UserSetting.Value;
     }
     set
     {
-      this.UserSetting.Value = value;
+      UserSetting.Value = value;
     }
   }
 
   public override void Reset()
   {
-    this.UserSetting.ResetToDefault();
+    UserSetting.ResetToDefault();
   }
 }

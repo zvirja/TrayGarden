@@ -13,13 +13,13 @@ public class ServicePlantBoxBase
   {
     get
     {
-      return this.SettingsBox.GetBool("enabled", true);
+      return SettingsBox.GetBool("enabled", true);
     }
     //TODO FIX BUG. Settings Box may be null if we just set initial IsEnabled value
     set
     {
-      this.SettingsBox.SetBool("enabled", value);
-      this.OnIsEnabledChanged(value);
+      SettingsBox.SetBool("enabled", value);
+      OnIsEnabledChanged(value);
     }
   }
 
@@ -29,7 +29,7 @@ public class ServicePlantBoxBase
 
   protected virtual void OnIsEnabledChanged(bool newValue)
   {
-    ServicePlantBoxEnabledChanged handler = this.IsEnabledChanged;
+    ServicePlantBoxEnabledChanged handler = IsEnabledChanged;
     if (handler != null)
     {
       handler(this, newValue);

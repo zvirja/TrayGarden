@@ -15,6 +15,6 @@ public class PopupDialogsManager : TrayGarden.Reception.Services.IGetPowerOfUser
 
   public void StoreLordOfNotifications(ILordOfNotifications lordOfNotifications)
   {
-    this.LordOfNotifications = lordOfNotifications;
+    LordOfNotifications = lordOfNotifications;
   }
 }

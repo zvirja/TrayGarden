@@ -6,25 +6,25 @@ public class StandaloneIconPlantBox : ServicePlantBoxBase
 {
   public StandaloneIconPlantBox()
   {
-    base.IsEnabledChanged += this.StandaloneIconPlantBox_IsEnabledChanged;
+    IsEnabledChanged += StandaloneIconPlantBox_IsEnabledChanged;
   }
 
   public NotifyIcon NotifyIcon { get; set; }
 
   public virtual void FixNIVisibility()
   {
-    if (this.RelatedPlantEx.IsEnabled)
+    if (RelatedPlantEx.IsEnabled)
     {
-      this.NotifyIcon.Visible = this.IsEnabled;
+      NotifyIcon.Visible = IsEnabled;
     }
     else
     {
-      this.NotifyIcon.Visible = false;
+      NotifyIcon.Visible = false;
     }
   }
 
   protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
   {
-    this.FixNIVisibility();
+    FixNIVisibility();
   }
 }

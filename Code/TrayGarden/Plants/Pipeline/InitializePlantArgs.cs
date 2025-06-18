@@ -9,8 +9,8 @@ public class InitializePlantArgs : PipelineArgs
 {
   public InitializePlantArgs(object plant, ISettingsBox rootSettingsBox)
   {
-    this.PlantObject = plant;
-    this.RootSettingsBox = rootSettingsBox;
+    PlantObject = plant;
+    RootSettingsBox = rootSettingsBox;
   }
 
   public IPlant IPlantObject { get; set; }

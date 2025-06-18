@@ -10,9 +10,9 @@ public class UIDialogConfirmator
 {
   public UIDialogConfirmator(string confirmationSettingName, Func<IResultProvider> uiDialogConstructor)
   {
-    this.UIDialogConstructor = uiDialogConstructor;
+    UIDialogConstructor = uiDialogConstructor;
     //Moved to constructor because believe that it will be created before the initialization happen
-    this.ConfirmationSetting = this.BuildConfirmationSetting(confirmationSettingName, confirmationSettingName);
+    ConfirmationSetting = BuildConfirmationSetting(confirmationSettingName, confirmationSettingName);
   }
 
   public ILordOfNotifications LordOfNotifications
@@ -29,15 +29,15 @@ public class UIDialogConfirmator
 
   public virtual bool? ConfirmThroughUI()
   {
-    if (this.ConfirmationSetting == null)
+    if (ConfirmationSetting == null)
     {
       return null;
     }
-    if (!this.ConfirmationSetting.Value)
+    if (!ConfirmationSetting.Value)
     {
       return null;
     }
-    return this.GetConfirmationFromUIDialog();
+    return GetConfirmationFromUIDialog();
   }
 
   protected virtual IBoolUserSetting BuildConfirmationSetting(string name, string title)
@@ -47,12 +47,12 @@ public class UIDialogConfirmator
 
   protected virtual bool? GetConfirmationFromUIDialog()
   {
-    IResultProvider dialog = this.UIDialogConstructor();
+    IResultProvider dialog = UIDialogConstructor();
     if (dialog == null)
     {
       return null;
     }
-    INotificationResultCourier resultCourier = this.LordOfNotifications.DisplayNotification(dialog);
+    INotificationResultCourier resultCourier = LordOfNotifications.DisplayNotification(dialog);
     NotificationResult result = resultCourier.GetResultWithWait();
     if (result.Code == ResultCode.OK || result.Code == ResultCode.Yes)
     {
@@ -64,7 +64,7 @@ public class UIDialogConfirmator
     }
     if (result.Code == ResultCode.PermanentlyClose)
     {
-      this.ConfirmationSetting.Value = false;
+      ConfirmationSetting.Value = false;
     }
     return null;
   }

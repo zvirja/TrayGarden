@@ -10,25 +10,25 @@ public class NotificationResultCourier : INotificationResultCourier
   public NotificationResultCourier([NotNull] NotificationDisplayTask realTask)
   {
     Assert.ArgumentNotNull(realTask, "realTask");
-    this.RealTask = realTask;
+    RealTask = realTask;
   }
 
   protected NotificationDisplayTask RealTask { get; set; }
 
   public virtual bool DiscardIfNotDisplayedYet()
   {
-    return this.RealTask.AbortDisplayTask(true);
+    return RealTask.AbortDisplayTask(true);
   }
 
   public virtual bool DiscardNotificationInAnyCase()
   {
-    return this.RealTask.AbortDisplayTask(false);
+    return RealTask.AbortDisplayTask(false);
   }
 
   public virtual NotificationResult GetResultWithWait()
   {
-    this.RealTask.ResultWaitHandle.WaitOne();
-    NotificationResult obtainedResult = this.RealTask.ObtainedResult;
+    RealTask.ResultWaitHandle.WaitOne();
+    NotificationResult obtainedResult = RealTask.ObtainedResult;
     Assert.IsNotNull(obtainedResult, "The obtained result can't be null");
     return obtainedResult;
   }
@@ -36,11 +36,11 @@ public class NotificationResultCourier : INotificationResultCourier
   public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
   {
     result = null;
-    if (!this.RealTask.ResultWaitHandle.WaitOne(millisecondsToWait))
+    if (!RealTask.ResultWaitHandle.WaitOne(millisecondsToWait))
     {
       return false;
     }
-    result = this.RealTask.ObtainedResult;
+    result = RealTask.ObtainedResult;
     return true;
   }
 }

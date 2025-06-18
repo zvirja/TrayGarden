@@ -17,9 +17,9 @@ public class MultisourceResourcesManager : IResourcesManager
 
   public MultisourceResourcesManager()
   {
-    this.StringsResourceCache = new Dictionary<string, string>();
-    this.ObjectsResourceCache = new Dictionary<string, object>();
-    this.Sources = new List<ISource>();
+    StringsResourceCache = new Dictionary<string, string>();
+    ObjectsResourceCache = new Dictionary<string, object>();
+    Sources = new List<ISource>();
   }
 
   public List<ISource> Sources { get; set; }
@@ -30,12 +30,12 @@ public class MultisourceResourcesManager : IResourcesManager
 
   public virtual Bitmap GetBitmapResource(string resourceName, Bitmap defaultValue)
   {
-    return this.GetObjectResource(resourceName, defaultValue);
+    return GetObjectResource(resourceName, defaultValue);
   }
 
   public virtual Icon GetIconResource(string resourceName, Icon defaultValue)
   {
-    return this.GetObjectResource(resourceName, defaultValue);
+    return GetObjectResource(resourceName, defaultValue);
   }
 
   public virtual T GetObjectResource<T>(string resourceName, T defaultValue) where T : class
@@ -47,20 +47,20 @@ public class MultisourceResourcesManager : IResourcesManager
     object resolvedValue;
     lock (Lock)
     {
-      if (this.ObjectsResourceCache.ContainsKey(resourceName))
+      if (ObjectsResourceCache.ContainsKey(resourceName))
       {
-        var candidate = this.ObjectsResourceCache[resourceName] as T;
+        var candidate = ObjectsResourceCache[resourceName] as T;
         return candidate ?? defaultValue;
       }
-      resolvedValue = this.ResoveObjectFromSources(resourceName);
-      this.ObjectsResourceCache.Add(resourceName, resolvedValue);
+      resolvedValue = ResoveObjectFromSources(resourceName);
+      ObjectsResourceCache.Add(resourceName, resolvedValue);
     }
     return (resolvedValue as T) ?? defaultValue;
   }
 
   public virtual Stream GetStream(string resourceName, Stream defaultValue)
   {
-    return this.ResoveStreamFromSources(resourceName) ?? defaultValue;
+    return ResoveStreamFromSources(resourceName) ?? defaultValue;
   }
 
   public virtual string GetStringResource(string resourceName, string defaultValue)
@@ -69,19 +69,19 @@ public class MultisourceResourcesManager : IResourcesManager
     {
       return defaultValue;
     }
-    if (this.StringsResourceCache.ContainsKey(resourceName))
+    if (StringsResourceCache.ContainsKey(resourceName))
     {
-      return this.StringsResourceCache[resourceName];
+      return StringsResourceCache[resourceName];
     }
     string resolvedValue;
     lock (Lock)
     {
-      if (this.StringsResourceCache.ContainsKey(resourceName))
+      if (StringsResourceCache.ContainsKey(resourceName))
       {
-        return this.StringsResourceCache[resourceName];
+        return StringsResourceCache[resourceName];
       }
-      resolvedValue = this.ResoveStringFromSources(resourceName) ?? defaultValue;
-      this.StringsResourceCache.Add(resourceName, resolvedValue);
+      resolvedValue = ResoveStringFromSources(resourceName) ?? defaultValue;
+      StringsResourceCache.Add(resourceName, resolvedValue);
     }
     return resolvedValue;
   }
@@ -90,7 +90,7 @@ public class MultisourceResourcesManager : IResourcesManager
   {
     var sourcesToRemove = new List<ISource>();
     T resolvedValue = null;
-    foreach (ISource source in this.Sources)
+    foreach (ISource source in Sources)
     {
       var resourceSource = source.Source;
       if (resourceSource == null)
@@ -120,7 +120,7 @@ public class MultisourceResourcesManager : IResourcesManager
     {
       foreach (var source in sourcesToRemove)
       {
-        this.Sources.Remove(source);
+        Sources.Remove(source);
         Log.Info("Resource source was removed: {0}".FormatWith(source.Source.BaseName), this);
       }
     }
@@ -130,16 +130,16 @@ public class MultisourceResourcesManager : IResourcesManager
 
   protected virtual object ResoveObjectFromSources(string resourceName)
   {
-    return this.ResolveFromResources((rm) => rm.GetObject(resourceName), null);
+    return ResolveFromResources((rm) => rm.GetObject(resourceName), null);
   }
 
   protected virtual Stream ResoveStreamFromSources(string resourceName)
   {
-    return this.ResolveFromResources((rm) => rm.GetStream(resourceName), null);
+    return ResolveFromResources((rm) => rm.GetStream(resourceName), null);
   }
 
   protected virtual string ResoveStringFromSources(string resourceName)
   {
-    return this.ResolveFromResources((rm) => rm.GetString(resourceName), null);
+    return ResolveFromResources((rm) => rm.GetString(resourceName), null);
   }
 }

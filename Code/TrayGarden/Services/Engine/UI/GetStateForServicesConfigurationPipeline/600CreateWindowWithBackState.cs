@@ -11,9 +11,9 @@ public class CreateWindowWithBackState
 {
   public CreateWindowWithBackState()
   {
-    this.GlobalTitle = "Tray Garden -- Services configuration";
-    this.ShortName = "services config";
-    this.Header = "Plant services configuration";
+    GlobalTitle = "Tray Garden -- Services configuration";
+    ShortName = "services config";
+    Header = "Plant services configuration";
   }
 
   public string GlobalTitle { get; set; }
@@ -28,9 +28,9 @@ public class CreateWindowWithBackState
     Assert.IsNotNull(args.ConfigConstructInfo.ResultControlVM, "args.ConfigurationVM");
     WindowWithBackStateConstructInfo stateConstructInfo = args.StateConstructInfo;
     stateConstructInfo.ResultState = new WindowStepState(
-      stateConstructInfo.GlobalTitle ?? this.GlobalTitle,
-      stateConstructInfo.Header ?? this.Header,
-      stateConstructInfo.ShortName ?? this.ShortName,
+      stateConstructInfo.GlobalTitle ?? GlobalTitle,
+      stateConstructInfo.Header ?? Header,
+      stateConstructInfo.ShortName ?? ShortName,
       args.ConfigConstructInfo.ResultControlVM,
       stateConstructInfo.SuperAction,
       stateConstructInfo.StateSpecificHelpActions);

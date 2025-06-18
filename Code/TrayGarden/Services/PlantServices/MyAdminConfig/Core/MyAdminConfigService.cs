@@ -15,12 +15,12 @@ public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBo
   public MyAdminConfigService()
     : base("My Admin Config", "MyAdminConfigService")
   {
-    this.ServiceDescription = "Provide plants with configuration manager for their admin configurations (e.g. <moduleName>.dll.config)";
+    ServiceDescription = "Provide plants with configuration manager for their admin configurations (e.g. <moduleName>.dll.config)";
   }
 
   public override void InitializePlant(IPlantEx plantEx)
   {
-    this.ProvidePlantWithConfig(plantEx);
+    ProvidePlantWithConfig(plantEx);
   }
 
   protected virtual void ProvidePlantWithConfig(IPlantEx plantEx)
@@ -42,6 +42,6 @@ public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBo
     }
 
     asExpected.StoreModuleConfiguration(assemblyConfiguration);
-    plantEx.PutLuggage(this.LuggageName, new MyAdminConfigServicePlantBox());
+    plantEx.PutLuggage(LuggageName, new MyAdminConfigServicePlantBox());
   }
 }

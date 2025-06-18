@@ -7,10 +7,10 @@ public class AssignVisibleText
 {
   public AssignVisibleText()
   {
-    this.GlobalTitle = "Tray Garden -- Application configuration";
-    this.Header = "Application configuration";
-    this.ShortName = "app config";
-    this.ConfigurationDescription = "Here you may configure global application settings. Some settings may require reboot to be applied";
+    GlobalTitle = "Tray Garden -- Application configuration";
+    Header = "Application configuration";
+    ShortName = "app config";
+    ConfigurationDescription = "Here you may configure global application settings. Some settings may require reboot to be applied";
   }
 
   public string ConfigurationDescription { get; set; }
@@ -24,10 +24,10 @@ public class AssignVisibleText
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)
   {
-    args.ConfigurationConstructInfo.ConfigurationDescription = this.ConfigurationDescription;
+    args.ConfigurationConstructInfo.ConfigurationDescription = ConfigurationDescription;
     var stepInfo = args.StepConstructInfo;
-    stepInfo.GlobalTitle = this.GlobalTitle;
-    stepInfo.Header = this.Header;
-    stepInfo.ShortName = this.ShortName;
+    stepInfo.GlobalTitle = GlobalTitle;
+    stepInfo.Header = Header;
+    stepInfo.ShortName = ShortName;
   }
 }

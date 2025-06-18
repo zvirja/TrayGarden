@@ -6,7 +6,7 @@ public class ContentAssignersResolver
 {
   public ContentAssignersResolver()
   {
-    this.Assigners = new Dictionary<string, IContentAssigner>();
+    Assigners = new Dictionary<string, IContentAssigner>();
   }
 
   protected Dictionary<string, IContentAssigner> Assigners { get; set; }
@@ -15,12 +15,12 @@ public class ContentAssignersResolver
   {
     var uppercased = hintValue.ToUpperInvariant();
     var key = "D:" + uppercased;
-    if (this.Assigners.ContainsKey(key))
+    if (Assigners.ContainsKey(key))
     {
-      return this.Assigners[key];
+      return Assigners[key];
     }
-    IContentAssigner assigner = this.ResolveDirectAssigner(uppercased);
-    this.Assigners[key] = assigner;
+    IContentAssigner assigner = ResolveDirectAssigner(uppercased);
+    Assigners[key] = assigner;
     return assigner;
   }
 
@@ -28,12 +28,12 @@ public class ContentAssignersResolver
   {
     var uppercased = hintValue.ToUpperInvariant();
     var key = "P:" + uppercased;
-    if (this.Assigners.ContainsKey(key))
+    if (Assigners.ContainsKey(key))
     {
-      return this.Assigners[key];
+      return Assigners[key];
     }
-    IContentAssigner assigner = this.ResolvePropertyAssigner(uppercased);
-    this.Assigners[key] = assigner;
+    IContentAssigner assigner = ResolvePropertyAssigner(uppercased);
+    Assigners[key] = assigner;
     return assigner;
   }
 

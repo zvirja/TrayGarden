@@ -18,7 +18,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
   {
     get
     {
-      return this.RootBox.GetSubBox("other");
+      return RootBox.GetSubBox("other");
     }
   }
 
@@ -26,7 +26,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
   {
     get
     {
-      return this.RootBox.GetSubBox("system");
+      return RootBox.GetSubBox("system");
     }
   }
 
@@ -42,35 +42,35 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
   public virtual void Initialize(ISettingsStorage settingsStorage)
   {
     Assert.ArgumentNotNull(settingsStorage, "settingsStorage");
-    this.SettingsStorage = settingsStorage;
-    this.SettingsStorage.LoadSettings();
-    this.RootContainer = this.SettingsStorage.GetRootContainer();
-    this.RootBox = this.GetRootBox(this.RootContainer);
-    var autosaveInterval = this.AutoSaveInterval;
+    SettingsStorage = settingsStorage;
+    SettingsStorage.LoadSettings();
+    RootContainer = SettingsStorage.GetRootContainer();
+    RootBox = GetRootBox(RootContainer);
+    var autosaveInterval = AutoSaveInterval;
     if (autosaveInterval > 0)
     {
-      this.TimerForAutosave = new Timer(autosaveInterval * 1000);
-      this.TimerForAutosave.Elapsed += this.TimerForAutosave_Elapsed;
-      this.TimerForAutosave.Enabled = true;
+      TimerForAutosave = new Timer(autosaveInterval * 1000);
+      TimerForAutosave.Elapsed += TimerForAutosave_Elapsed;
+      TimerForAutosave.Enabled = true;
     }
   }
 
   public virtual bool SaveNow(bool force)
   {
-    return this.SaveSettingsInternal(force);
+    return SaveSettingsInternal(force);
   }
 
   protected virtual ISettingsBox GetRootBox(IContainer container)
   {
     var rootBox = new ContainerBasedSettingsBox();
     rootBox.Initialize(container);
-    rootBox.OnSaving += this.RootBoxSave;
+    rootBox.OnSaving += RootBoxSave;
     return rootBox;
   }
 
   protected virtual void RootBoxSave()
   {
-    this.SaveSettingsInternal(false);
+    SaveSettingsInternal(false);
   }
 
   protected virtual bool SaveSettingsInternal(bool force)
@@ -81,12 +81,12 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
     lock (_lock)
     {
-      return this.SettingsStorage.SaveSettings();
+      return SettingsStorage.SaveSettings();
     }
   }
 
   protected virtual void TimerForAutosave_Elapsed(object sender, ElapsedEventArgs e)
   {
-    this.SaveSettingsInternal(true);
+    SaveSettingsInternal(true);
   }
 }

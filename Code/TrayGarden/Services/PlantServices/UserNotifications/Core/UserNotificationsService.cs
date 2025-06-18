@@ -12,7 +12,7 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
   public UserNotificationsService()
     : base("User notifications", UserNotificationsConfiguration.SettingsBoxName)
   {
-    this.ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
+    ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
   }
 
   public override void InformClosingStage()
@@ -21,10 +21,10 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
     HatcherGuide<IUserNotificationsGate>.Instance.DiscardAllTasks();
   }
 
-  public override void InitializePlant(TrayGarden.Plants.IPlantEx plantEx)
+  public override void InitializePlant(IPlantEx plantEx)
   {
     base.InitializePlant(plantEx);
-    this.InitializePlantInternal(plantEx);
+    InitializePlantInternal(plantEx);
   }
 
   protected virtual void InitializePlantInternal(IPlantEx plant)
@@ -37,10 +37,10 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
     var plantBox = new UserNotificationsServicePlantBox()
     {
       RelatedPlantEx = plant,
-      SettingsBox = plant.MySettingsBox.GetSubBox(this.LuggageName)
+      SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
     };
     var lord = new LordOfNotifications(plantBox);
-    plant.PutLuggage(this.LuggageName, plantBox);
+    plant.PutLuggage(LuggageName, plantBox);
     workhorse.StoreLordOfNotifications(lord);
   }
 }

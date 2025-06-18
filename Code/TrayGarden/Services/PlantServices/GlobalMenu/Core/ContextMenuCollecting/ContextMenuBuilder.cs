@@ -16,10 +16,10 @@ public class ContextMenuBuilder
 {
   public ContextMenuBuilder()
   {
-    this.ConfigureIconResourceName = "configureV1";
-    this.ExitIconResourceName = "exitIconV1";
-    this.BoldMainMenuEntries = true;
-    this.ItalicMainMenuEntries = true;
+    ConfigureIconResourceName = "configureV1";
+    ExitIconResourceName = "exitIconV1";
+    BoldMainMenuEntries = true;
+    ItalicMainMenuEntries = true;
   }
 
   public bool BoldMainMenuEntries { get; set; }
@@ -39,9 +39,9 @@ public class ContextMenuBuilder
   public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
   {
     var contextMenuStrip = new ContextMenuStrip();
-    this.BuildContextMenuPrefix(contextMenuStrip);
-    this.EnumeratePlantBoxes(plantBoxes, contextMenuStrip, dynamicStateWatcher);
-    this.BuildContextMenuSuffix(contextMenuStrip);
+    BuildContextMenuPrefix(contextMenuStrip);
+    EnumeratePlantBoxes(plantBoxes, contextMenuStrip, dynamicStateWatcher);
+    BuildContextMenuSuffix(contextMenuStrip);
     dynamicStateWatcher.BindToMenuStrip(contextMenuStrip);
     return contextMenuStrip;
   }
@@ -49,17 +49,17 @@ public class ContextMenuBuilder
   protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
   {
     var configureItem = contextMenuStrip.Items.Add("Configure");
-    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.ConfigureIconResourceName, null);
+    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ConfigureIconResourceName, null);
     if (iconResource != null)
     {
       configureItem.Image = iconResource.ToBitmap();
     }
-    configureItem.Font = new Font(configureItem.Font, this.GetMainMenuEntriesStyle());
+    configureItem.Font = new Font(configureItem.Font, GetMainMenuEntriesStyle());
     configureItem.Click += delegate(object sender, EventArgs args)
     {
-      if (this.ConfigureContextItemOnClick != null)
+      if (ConfigureContextItemOnClick != null)
       {
-        this.ConfigureContextItemOnClick(sender, args);
+        ConfigureContextItemOnClick(sender, args);
       }
     };
     contextMenuStrip.Items.Add("-");
@@ -68,17 +68,17 @@ public class ContextMenuBuilder
   protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
   {
     var exitItem = contextMenuStrip.Items.Add("Exit Garden");
-    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(this.ExitIconResourceName, null);
+    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
     if (iconResource != null)
     {
       exitItem.Image = iconResource.ToBitmap();
     }
-    exitItem.Font = new Font(exitItem.Font, this.GetMainMenuEntriesStyle());
+    exitItem.Font = new Font(exitItem.Font, GetMainMenuEntriesStyle());
     exitItem.Click += delegate(object sender, EventArgs args)
     {
-      if (this.ExitContextItemOnClick != null)
+      if (ExitContextItemOnClick != null)
       {
-        this.ExitContextItemOnClick(sender, args);
+        ExitContextItemOnClick(sender, args);
       }
     };
   }
@@ -105,11 +105,11 @@ public class ContextMenuBuilder
   protected virtual FontStyle GetMainMenuEntriesStyle()
   {
     FontStyle result = 0;
-    if (this.BoldMainMenuEntries)
+    if (BoldMainMenuEntries)
     {
       result |= FontStyle.Bold;
     }
-    if (this.ItalicMainMenuEntries)
+    if (ItalicMainMenuEntries)
     {
       result |= FontStyle.Italic;
     }

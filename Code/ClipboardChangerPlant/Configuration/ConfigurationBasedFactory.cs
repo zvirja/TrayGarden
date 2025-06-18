@@ -47,69 +47,69 @@ public class ConfigurationBasedFactory
   public AppEngine GetApplicationEngine()
   {
     const string key = "applicationEngine";
-    var engine = this.GetFromFactoryCacheBased(key, () => this.RawFactory.GetObjectFromConfigurationNode<AppEngine>("ApplicationEngine"));
+    var engine = GetFromFactoryCacheBased(key, () => RawFactory.GetObjectFromConfigurationNode<AppEngine>("ApplicationEngine"));
     return engine;
   }
 
   public ClipboardProvider GetClipboardProvider()
   {
     const string key = "clipboardProvider";
-    var provider = this.GetFromFactoryCacheBased(
+    var provider = GetFromFactoryCacheBased(
       key,
-      () => this.RawFactory.GetObjectFromConfigurationNode<ClipboardProvider>("ClipboardProvider"));
+      () => RawFactory.GetObjectFromConfigurationNode<ClipboardProvider>("ClipboardProvider"));
     return provider;
   }
 
   public NotifyIconManager GetNotifyIconManager()
   {
     const string key = "notifyIconManager";
-    var manager = this.GetFromFactoryCacheBased(
+    var manager = GetFromFactoryCacheBased(
       key,
-      () => this.RawFactory.GetObjectFromConfigurationNode<NotifyIconManager>("NotifyIconManager"));
+      () => RawFactory.GetObjectFromConfigurationNode<NotifyIconManager>("NotifyIconManager"));
     return manager;
   }
 
   public List<RequestHandler> GetRequestHandlers()
   {
     const string key = "requestHandlers";
-    var handlers = this.GetFromFactoryCacheBased(
+    var handlers = GetFromFactoryCacheBased(
       key,
-      () => this.RawFactory.GetObjectsCollectionFromConfigurationNode<RequestHandler>("RequestHandlers/RequestHandler"));
+      () => RawFactory.GetObjectsCollectionFromConfigurationNode<RequestHandler>("RequestHandlers/RequestHandler"));
     return handlers;
   }
 
   public ProcessManager GetRequestProcessManager()
   {
     const string key = "requestProcessManager";
-    var manager = this.GetFromFactoryCacheBased(
+    var manager = GetFromFactoryCacheBased(
       key,
-      () => this.RawFactory.GetObjectFromConfigurationNode<ProcessManager>("ProcessManager"));
+      () => RawFactory.GetObjectFromConfigurationNode<ProcessManager>("ProcessManager"));
     return manager;
   }
 
   public List<ShortenerProvider> GetShortenerProviders()
   {
     const string key = "shortenerProviders";
-    var providers = this.GetFromFactoryCacheBased(
+    var providers = GetFromFactoryCacheBased(
       key,
-      () => this.RawFactory.GetObjectsCollectionFromConfigurationNode<ShortenerProvider>("ShortenerProviders/ShortenerProvider"));
+      () => RawFactory.GetObjectsCollectionFromConfigurationNode<ShortenerProvider>("ShortenerProviders/ShortenerProvider"));
     return providers;
   }
 
   private T GetFromFactoryCacheBased<T>(string cacheKey, Func<T> resolver) where T : class
   {
-    if (this._cache.ContainsKey(cacheKey))
+    if (_cache.ContainsKey(cacheKey))
     {
-      return this._cache[cacheKey] as T;
+      return _cache[cacheKey] as T;
     }
     lock (_lock)
     {
-      if (this._cache.ContainsKey(cacheKey))
+      if (_cache.ContainsKey(cacheKey))
       {
-        return this._cache[cacheKey] as T;
+        return _cache[cacheKey] as T;
       }
       var resolved = resolver();
-      this._cache.Add(cacheKey, resolved);
+      _cache.Add(cacheKey, resolved);
       return resolved;
     }
   }

@@ -7,8 +7,8 @@ public class ParcerResolver
 {
   public ParcerResolver(ModernFactory factory)
   {
-    this.Parcers = new Dictionary<Type, IParcer>();
-    this.OwningFactory = factory;
+    Parcers = new Dictionary<Type, IParcer>();
+    OwningFactory = factory;
   }
 
   protected ModernFactory OwningFactory { get; set; }
@@ -17,12 +17,12 @@ public class ParcerResolver
 
   public virtual IParcer GetParcer(Type type)
   {
-    if (this.Parcers.ContainsKey(type))
+    if (Parcers.ContainsKey(type))
     {
-      return this.Parcers[type];
+      return Parcers[type];
     }
-    var parcer = this.ResolveParcer(type);
-    this.Parcers[type] = parcer;
+    var parcer = ResolveParcer(type);
+    Parcers[type] = parcer;
     return parcer;
   }
 
@@ -40,6 +40,6 @@ public class ParcerResolver
     {
       return new IntParcer();
     }
-    return new ObjectParcer(this.OwningFactory);
+    return new ObjectParcer(OwningFactory);
   }
 }

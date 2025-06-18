@@ -6,7 +6,7 @@ public class ResultObtainedEventArgs : EventArgs
 {
   public ResultObtainedEventArgs(NotificationResult result)
   {
-    this.Result = result;
+    Result = result;
   }
 
   public NotificationResult Result { get; set; }

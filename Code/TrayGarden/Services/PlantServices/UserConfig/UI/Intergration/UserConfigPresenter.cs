@@ -18,13 +18,13 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
 {
   public UserConfigPresenter()
   {
-    this.ServiceName = "Runtime user settings";
-    this.ServiceDescription = "This service allows to configure user settings for plant";
+    ServiceName = "Runtime user settings";
+    ServiceDescription = "This service allows to configure user settings for plant";
   }
 
   protected virtual ICommand GetCommand(object plantEx)
   {
-    var relayCommand = new RelayCommand(this.RunServiceForPlant, true);
+    var relayCommand = new RelayCommand(RunServiceForPlant, true);
     return new CommandProxyForCustomParam(relayCommand, plantEx);
   }
 
@@ -39,7 +39,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     {
       return null;
     }
-    return new ServiceForPlantActionPerformVM(this.ServiceName, this.ServiceDescription, this.GetCommand(userConfigServicePlantBox));
+    return new ServiceForPlantActionPerformVM(ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
   }
 
   protected virtual void RunServiceForPlant(object argument)

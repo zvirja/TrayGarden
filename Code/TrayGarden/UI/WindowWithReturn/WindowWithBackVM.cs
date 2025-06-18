@@ -33,14 +33,14 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 
   public WindowWithBackVM()
   {
-    this._backCommand = new RelayCommand(this.BackExecute, false);
-    this._helpActions = new ObservableCollection<ActionCommandVM>();
-    this._helpActions.CollectionChanged += this.HelpActions_CollectionChanged;
-    this._copyrightTitle = "Zvirja Inc (c)";
-    this._steps = new Stack<WindowStepState>();
-    this.SelfSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("WindowWithBackVMBase");
+    _backCommand = new RelayCommand(BackExecute, false);
+    _helpActions = new ObservableCollection<ActionCommandVM>();
+    _helpActions.CollectionChanged += HelpActions_CollectionChanged;
+    _copyrightTitle = "Zvirja Inc (c)";
+    _steps = new Stack<WindowStepState>();
+    SelfSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("WindowWithBackVMBase");
 
-    GoAheadTargets += this.GoAheadWithBack;
+    GoAheadTargets += GoAheadWithBack;
   }
 
   public delegate bool WindowSizePozitionInfoRetriever(
@@ -61,7 +61,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this._backCommand;
+      return _backCommand;
     }
   }
 
@@ -69,16 +69,16 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return "Back to " + this.BackToTitleInternal;
+      return "Back to " + BackToTitleInternal;
     }
     set
     {
-      if (value == this.BackToTitleInternal)
+      if (value == BackToTitleInternal)
       {
         return;
       }
-      this.BackToTitleInternal = value;
-      this.OnPropertyChanged("BackToTitle");
+      BackToTitleInternal = value;
+      OnPropertyChanged("BackToTitle");
     }
   }
 
@@ -86,16 +86,16 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.CurrentState.ContentVM;
+      return CurrentState.ContentVM;
     }
     set
     {
-      if (this.CurrentState.ContentVM == value)
+      if (CurrentState.ContentVM == value)
       {
         return;
       }
-      this.CurrentState.ContentVM = value;
-      this.OnPropertyChanged("ContentVM");
+      CurrentState.ContentVM = value;
+      OnPropertyChanged("ContentVM");
     }
   }
 
@@ -104,16 +104,16 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this._copyrightTitle;
+      return _copyrightTitle;
     }
     set
     {
-      if (value == this._copyrightTitle)
+      if (value == _copyrightTitle)
       {
         return;
       }
-      this._copyrightTitle = value;
-      this.OnPropertyChanged("CopyrightTitle");
+      _copyrightTitle = value;
+      OnPropertyChanged("CopyrightTitle");
     }
   }
 
@@ -124,7 +124,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.CurrentState.SuperAction.Command;
+      return CurrentState.SuperAction.Command;
     }
   }
 
@@ -133,7 +133,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.CurrentState.SuperAction.Title;
+      return CurrentState.SuperAction.Title;
     }
   }
 
@@ -141,7 +141,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.CurrentState.GlobalTitle;
+      return CurrentState.GlobalTitle;
     }
   }
 
@@ -149,7 +149,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.CurrentState.Header;
+      return CurrentState.Header;
     }
   }
 
@@ -157,11 +157,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowHeight", null));
+      return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowHeight", null));
     }
     protected set
     {
-      this.SelfSettingsBox.SetString("WindowHeight", value.ToString(CultureInfo.InvariantCulture));
+      SelfSettingsBox.SetString("WindowHeight", value.ToString(CultureInfo.InvariantCulture));
     }
   }
 
@@ -173,9 +173,9 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      var aggregated = new List<ActionCommandVM>(this._helpActions);
-      Assert.IsNotNull(this.CurrentState.StateSpecificHelpActions, "StateSpecificHelpActions can't be null");
-      aggregated.AddRange(this.CurrentState.StateSpecificHelpActions);
+      var aggregated = new List<ActionCommandVM>(_helpActions);
+      Assert.IsNotNull(CurrentState.StateSpecificHelpActions, "StateSpecificHelpActions can't be null");
+      aggregated.AddRange(CurrentState.StateSpecificHelpActions);
       return aggregated;
     }
   }
@@ -184,11 +184,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowLeft", null));
+      return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowLeft", null));
     }
     protected set
     {
-      this.SelfSettingsBox.SetString("WindowLeft", value.ToString(CultureInfo.InvariantCulture));
+      SelfSettingsBox.SetString("WindowLeft", value.ToString(CultureInfo.InvariantCulture));
     }
   }
 
@@ -196,11 +196,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.SelfSettingsBox.GetBool("WindowMaximized", false);
+      return SelfSettingsBox.GetBool("WindowMaximized", false);
     }
     protected set
     {
-      this.SelfSettingsBox.SetBool("WindowMaximized", value);
+      SelfSettingsBox.SetBool("WindowMaximized", value);
     }
   }
 
@@ -211,7 +211,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this._helpActions;
+      return _helpActions;
     }
   }
 
@@ -221,11 +221,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.SelfSettingsBox.GetBool("WindowPropertiesAreValid", false);
+      return SelfSettingsBox.GetBool("WindowPropertiesAreValid", false);
     }
     protected set
     {
-      this.SelfSettingsBox.SetBool("WindowPropertiesAreValid", value);
+      SelfSettingsBox.SetBool("WindowPropertiesAreValid", value);
     }
   }
 
@@ -233,11 +233,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowTop", null));
+      return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowTop", null));
     }
     protected set
     {
-      this.SelfSettingsBox.SetString("WindowTop", value.ToString(CultureInfo.InvariantCulture));
+      SelfSettingsBox.SetString("WindowTop", value.ToString(CultureInfo.InvariantCulture));
     }
   }
 
@@ -245,11 +245,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return GetDoubleValueOrZero(this.SelfSettingsBox.GetString("WindowWidth", null));
+      return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowWidth", null));
     }
     protected set
     {
-      this.SelfSettingsBox.SetString("WindowWidth", value.ToString(CultureInfo.InvariantCulture));
+      SelfSettingsBox.SetString("WindowWidth", value.ToString(CultureInfo.InvariantCulture));
     }
   }
 
@@ -259,11 +259,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this._backCommand.CanExecute(null);
+      return _backCommand.CanExecute(null);
     }
     set
     {
-      this._backCommand.CanExecuteMaster = value;
+      _backCommand.CanExecuteMaster = value;
     }
   }
 
@@ -271,7 +271,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this.Steps.Count > 0 ? this.Steps.Peek() : WindowStepState.EmptyState;
+      return Steps.Count > 0 ? Steps.Peek() : WindowStepState.EmptyState;
     }
   }
 
@@ -281,11 +281,11 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     get
     {
-      return this._steps;
+      return _steps;
     }
     set
     {
-      this._steps = value;
+      _steps = value;
     }
   }
 
@@ -301,37 +301,37 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 
   public virtual void Dispose()
   {
-    if (this.TimesEnterBulkUpdate == 1)
+    if (TimesEnterBulkUpdate == 1)
     {
       StackRawSwitcher<BulkUpdateState>.Exit();
       HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(true);
-      this.TimesEnterBulkUpdate--;
+      TimesEnterBulkUpdate--;
     }
     else
     {
-      Log.Warn("Invalid value of TimesEnterBulkUpdate setting: {0}. Should be 1".FormatWith(this.TimesEnterBulkUpdate + 1), this);
+      Log.Warn("Invalid value of TimesEnterBulkUpdate setting: {0}. Should be 1".FormatWith(TimesEnterBulkUpdate + 1), this);
     }
-    GoAheadTargets -= this.GoAheadWithBack;
-    this.ClearStepsStackWithDisposing();
+    GoAheadTargets -= GoAheadWithBack;
+    ClearStepsStackWithDisposing();
   }
 
   public virtual void PrepareToShow()
   {
     StackRawSwitcher<BulkUpdateState>.Enter(BulkUpdateState.Enabled);
-    this.TimesEnterBulkUpdate++;
-    this._helpActions.Clear();
-    foreach (ActionCommandVM helpAction in this.GetHelpActions())
+    TimesEnterBulkUpdate++;
+    _helpActions.Clear();
+    foreach (ActionCommandVM helpAction in GetHelpActions())
     {
-      this._helpActions.Add(helpAction);
+      _helpActions.Add(helpAction);
     }
   }
 
   public virtual void ReplaceInitialState(WindowStepState newHomeState)
   {
-    this.ClearStepsStackWithDisposing();
-    this.Steps.Push(newHomeState);
-    this.CanBack = false;
-    this.NotifyPublicVisibleChanged();
+    ClearStepsStackWithDisposing();
+    Steps.Push(newHomeState);
+    CanBack = false;
+    NotifyPublicVisibleChanged();
   }
 
   protected static double GetDoubleValueOrZero(string str)
@@ -342,34 +342,34 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 
   protected virtual void BackExecute(object o)
   {
-    Assert.IsTrue(this.Steps.Count > 0, "Steps stack is corrupted. Can't be less than 1");
-    var contentVMtoDestroy = this.ContentVM as IDisposable;
+    Assert.IsTrue(Steps.Count > 0, "Steps stack is corrupted. Can't be less than 1");
+    var contentVMtoDestroy = ContentVM as IDisposable;
     if (contentVMtoDestroy != null)
     {
       contentVMtoDestroy.Dispose();
     }
-    this.Steps.Pop();
-    this.CanBack = this.Steps.Count > 1;
-    if (this.CanBack)
+    Steps.Pop();
+    CanBack = Steps.Count > 1;
+    if (CanBack)
     {
-      WindowStepState windowStepState = this.Steps.Where((state, index) => index == 1).FirstOrDefault();
+      WindowStepState windowStepState = Steps.Where((state, index) => index == 1).FirstOrDefault();
       if (windowStepState != null)
       {
-        this.BackToTitle = windowStepState.ShortName;
+        BackToTitle = windowStepState.ShortName;
       }
       else
       {
-        this.BackToTitle = "hell :)";
+        BackToTitle = "hell :)";
       }
     }
-    this.NotifyPublicVisibleChanged();
+    NotifyPublicVisibleChanged();
   }
 
   protected virtual void ClearStepsStackWithDisposing()
   {
-    while (this.Steps.Count > 0)
+    while (Steps.Count > 0)
     {
-      WindowStepState currentStep = this.Steps.Pop();
+      WindowStepState currentStep = Steps.Pop();
       var currentStepContentVM = currentStep.ContentVM as IDisposable;
       if (currentStepContentVM != null)
       {
@@ -383,39 +383,39 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     return new List<ActionCommandVM>()
     {
       new ActionCommandVM(new RelayCommand(o => Application.Current.Shutdown(), true), "Close app"),
-      new ActionCommandVM(new RelayCommand(this.SavePositionAndSize, true), "Save P&S")
+      new ActionCommandVM(new RelayCommand(SavePositionAndSize, true), "Save P&S")
     };
   }
 
   protected virtual void GoAheadWithBack(WindowStepState newState)
   {
     Assert.IsNotNull(newState, "New state cannot be null");
-    this.BackToTitleInternal = this.CurrentState.ShortName;
-    this.Steps.Push(newState);
-    this.CanBack = true;
-    this.NotifyPublicVisibleChanged();
+    BackToTitleInternal = CurrentState.ShortName;
+    Steps.Push(newState);
+    CanBack = true;
+    NotifyPublicVisibleChanged();
   }
 
   protected virtual void HelpActions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
   {
-    this.OnPropertyChanged("HelpActions");
+    OnPropertyChanged("HelpActions");
   }
 
   protected virtual void NotifyPublicVisibleChanged()
   {
-    this.OnPropertyChanged("GlobalTitle");
-    this.OnPropertyChanged("Header");
-    this.OnPropertyChanged("ContentVM");
-    this.OnPropertyChanged("BackToTitle");
-    this.OnPropertyChanged("ExtraActionTitle");
-    this.OnPropertyChanged("ExtraActionCommand");
-    this.OnPropertyChanged("HelpActions");
+    OnPropertyChanged("GlobalTitle");
+    OnPropertyChanged("Header");
+    OnPropertyChanged("ContentVM");
+    OnPropertyChanged("BackToTitle");
+    OnPropertyChanged("ExtraActionTitle");
+    OnPropertyChanged("ExtraActionCommand");
+    OnPropertyChanged("HelpActions");
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -424,7 +424,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 
   protected virtual void SavePositionAndSize(object o)
   {
-    if (this.SizePozitionProvider == null)
+    if (SizePozitionProvider == null)
     {
       HatcherGuide<IUIManager>.Instance.OKMessageBox(
         "Tray Garden -- Save position and size",
@@ -437,14 +437,14 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     double width;
     double height;
     bool maximized;
-    if (this.SizePozitionProvider(out top, out left, out width, out height, out maximized))
+    if (SizePozitionProvider(out top, out left, out width, out height, out maximized))
     {
-      this.Top = top;
-      this.Left = left;
-      this.Width = width;
-      this.Height = height;
-      this.Maximized = maximized;
-      this.SizePropertiesAreValid = true;
+      Top = top;
+      Left = left;
+      Width = width;
+      Height = height;
+      Maximized = maximized;
+      SizePropertiesAreValid = true;
     }
   }
 }

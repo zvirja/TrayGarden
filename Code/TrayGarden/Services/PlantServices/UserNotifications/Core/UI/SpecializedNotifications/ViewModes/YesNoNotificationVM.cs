@@ -13,19 +13,19 @@ public class YesNoNotificationVM : SpecializedNotificationVMBase, IYesNoNotifica
   public YesNoNotificationVM(string headerText)
   {
     //Common init
-    this.HeaderText = headerText;
-    this.HeaderTextOptions = new TextDisplayOptions(Brushes.DimGray, 14);
-    this.ButtonsLayoutKind = ImageTextOrder.VerticalImageText;
-    this.ButtonImagesDisplayOptions = new ImageDisplayOptions(32, 32);
-    this.ButtonTextsOptions = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
+    HeaderText = headerText;
+    HeaderTextOptions = new TextDisplayOptions(Brushes.DimGray, 14);
+    ButtonsLayoutKind = ImageTextOrder.VerticalImageText;
+    ButtonImagesDisplayOptions = new ImageDisplayOptions(32, 32);
+    ButtonTextsOptions = new TextDisplayOptions(Brushes.DarkSlateGray, 20);
 
     //Yes button init
-    this.YesButtonText = "YES";
-    this.YesAction = new RelayCommand(this.OnYesAction, true);
+    YesButtonText = "YES";
+    YesAction = new RelayCommand(OnYesAction, true);
 
     //No button init
-    this.NoButtonText = "NO";
-    this.NoAction = new RelayCommand(this.OnNoAction, true);
+    NoButtonText = "NO";
+    NoAction = new RelayCommand(OnNoAction, true);
   }
 
   public ImageDisplayOptions ButtonImagesDisplayOptions { get; set; }
@@ -52,11 +52,11 @@ public class YesNoNotificationVM : SpecializedNotificationVMBase, IYesNoNotifica
 
   protected virtual void OnNoAction(object o)
   {
-    this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
+    SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
   }
 
   protected virtual void OnYesAction(object o)
   {
-    this.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
+    SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
   }
 }

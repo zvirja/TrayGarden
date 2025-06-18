@@ -10,7 +10,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
 {
   public UserSettingsBuilder(ISettingsBox underlyingBox)
   {
-    this.UnderlyingBox = underlyingBox;
+    UnderlyingBox = underlyingBox;
   }
 
   private ISettingsBox UnderlyingBox { get; set; }
@@ -24,7 +24,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     List<IUserSettingBase> parentDependentSetting,
     IUserSettingHallmark hallmark)
   {
-    ITypedUserSettingMetadata<bool> settingMetadata = this.BuildMetadata<bool>(
+    ITypedUserSettingMetadata<bool> settingMetadata = BuildMetadata<bool>(
       settingName,
       settingTitle,
       defaultValue,
@@ -35,7 +35,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     var masterInstance = (ITypedUserSettingMaster<bool>)setting;
     masterInstance.Initialize(
       settingMetadata,
-      new SettingBoxOrientedStorage<bool>(this.UnderlyingBox.GetBool, this.UnderlyingBox.SetBool),
+      new SettingBoxOrientedStorage<bool>(UnderlyingBox.GetBool, UnderlyingBox.SetBool),
       parentDependentSetting);
     return setting;
   }
@@ -49,7 +49,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     List<IUserSettingBase> parentDependentSetting,
     IUserSettingHallmark hallmark)
   {
-    ITypedUserSettingMetadata<double> settingMetadata = this.BuildMetadata<double>(
+    ITypedUserSettingMetadata<double> settingMetadata = BuildMetadata<double>(
       settingName,
       settingTitle,
       defaultValue,
@@ -60,7 +60,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     var masterInstance = (ITypedUserSettingMaster<double>)setting;
     masterInstance.Initialize(
       settingMetadata,
-      new SettingBoxOrientedStorage<double>(this.UnderlyingBox.GetDouble, this.UnderlyingBox.SetDouble),
+      new SettingBoxOrientedStorage<double>(UnderlyingBox.GetDouble, UnderlyingBox.SetDouble),
       parentDependentSetting);
     return setting;
   }
@@ -74,7 +74,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     List<IUserSettingBase> parentDependentSetting,
     IUserSettingHallmark hallmark)
   {
-    ITypedUserSettingMetadata<int> settingMetadata = this.BuildMetadata<int>(
+    ITypedUserSettingMetadata<int> settingMetadata = BuildMetadata<int>(
       settingName,
       settingTitle,
       defaultValue,
@@ -85,7 +85,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     var masterInstance = (ITypedUserSettingMaster<int>)setting;
     masterInstance.Initialize(
       settingMetadata,
-      new SettingBoxOrientedStorage<int>(this.UnderlyingBox.GetInt, this.UnderlyingBox.SetInt),
+      new SettingBoxOrientedStorage<int>(UnderlyingBox.GetInt, UnderlyingBox.SetInt),
       parentDependentSetting);
     return setting;
   }
@@ -99,7 +99,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     List<IUserSettingBase> parentDependentSetting,
     IUserSettingHallmark hallmark)
   {
-    ITypedUserSettingMetadata<string> settingMetadata = this.BuildMetadata<string>(
+    ITypedUserSettingMetadata<string> settingMetadata = BuildMetadata<string>(
       settingName,
       settingTitle,
       defaultValue,
@@ -110,7 +110,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     var masterInstance = (ITypedUserSettingMaster<string>)setting;
     masterInstance.Initialize(
       settingMetadata,
-      new SettingBoxOrientedStorage<string>(this.UnderlyingBox.GetString, this.UnderlyingBox.SetString),
+      new SettingBoxOrientedStorage<string>(UnderlyingBox.GetString, UnderlyingBox.SetString),
       parentDependentSetting);
     return setting;
   }
@@ -124,7 +124,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     List<IUserSettingBase> parentDependentSetting,
     IUserSettingHallmark hallmark)
   {
-    ITypedUserSettingMetadata<string> settingMetadata = this.BuildMetadata<string>(
+    ITypedUserSettingMetadata<string> settingMetadata = BuildMetadata<string>(
       settingName,
       settingTitle,
       defaultValue,
@@ -135,7 +135,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     var masterInstance = (ITypedUserSettingMaster<string>)setting;
     masterInstance.Initialize(
       settingMetadata,
-      new SettingBoxOrientedStorage<string>(this.UnderlyingBox.GetString, this.UnderlyingBox.SetString),
+      new SettingBoxOrientedStorage<string>(UnderlyingBox.GetString, UnderlyingBox.SetString),
       parentDependentSetting);
     return setting;
   }
@@ -148,7 +148,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     object additionalParams,
     IUserSettingHallmark hallmark)
   {
-    IUserSettingMetadataMaster<T> cleanInstance = this.GetCleanMetadataInstance<T>();
+    IUserSettingMetadataMaster<T> cleanInstance = GetCleanMetadataInstance<T>();
     cleanInstance.Initialize(name, title, defaultValue, description, additionalParams, hallmark);
     return cleanInstance;
   }

@@ -9,9 +9,9 @@ public class TuneWindowProperties
 {
   public TuneWindowProperties()
   {
-    this.GlobalTitle = "Tray Garden -- User notifications properties";
-    this.Header = "User notifications properties";
-    this.ShortName = "UserNotificationsProp";
+    GlobalTitle = "Tray Garden -- User notifications properties";
+    Header = "User notifications properties";
+    ShortName = "UserNotificationsProp";
   }
 
   protected string GlobalTitle { get; set; }
@@ -24,10 +24,10 @@ public class TuneWindowProperties
   public virtual void Process(UNConfigurationStepArgs args)
   {
     WindowWithBackStateConstructInfo constructInfo = args.StateConstructInfo;
-    constructInfo.Header = this.Header;
-    constructInfo.GlobalTitle = this.GlobalTitle;
-    constructInfo.ShortName = this.ShortName;
-    constructInfo.ContentVM = this.GetContentVM(args);
+    constructInfo.Header = Header;
+    constructInfo.GlobalTitle = GlobalTitle;
+    constructInfo.ShortName = ShortName;
+    constructInfo.ContentVM = GetContentVM(args);
   }
 
   protected virtual object GetContentVM(UNConfigurationStepArgs args)

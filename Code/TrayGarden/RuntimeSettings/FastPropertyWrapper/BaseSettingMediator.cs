@@ -11,8 +11,8 @@ public abstract class BaseSettingMediator
   {
     Assert.ArgumentNotNullOrEmpty(key, "key");
     Assert.ArgumentNotNull(settingsBoxResolver, "settingsBoxResolver");
-    this.SettingsBoxResolver = settingsBoxResolver;
-    this.Key = key;
+    SettingsBoxResolver = settingsBoxResolver;
+    Key = key;
   }
 
   public string Key { get; set; }
@@ -21,7 +21,7 @@ public abstract class BaseSettingMediator
   {
     get
     {
-      ISettingsBox resolvedBox = this.SettingsBoxResolver();
+      ISettingsBox resolvedBox = SettingsBoxResolver();
       Assert.IsNotNull(resolvedBox, "Box cannot be null");
       return resolvedBox;
     }

@@ -35,12 +35,12 @@ public class WindowStepState
     Assert.ArgumentNotNullOrEmpty(shortName, "shortName");
     Assert.ArgumentNotNullOrEmpty(globalTitle, "globalTitle");
     Assert.ArgumentNotNullOrEmpty(header, "header");
-    this.GlobalTitle = globalTitle;
-    this.Header = header;
-    this.ShortName = shortName;
-    this.SuperAction = superAction ?? EmptyState.SuperAction;
-    this.ContentVM = contentVM ?? DependencyProperty.UnsetValue;
-    this.StateSpecificHelpActions = stateSpecificHelpActions ?? new List<ActionCommandVM>();
+    GlobalTitle = globalTitle;
+    Header = header;
+    ShortName = shortName;
+    SuperAction = superAction ?? EmptyState.SuperAction;
+    ContentVM = contentVM ?? DependencyProperty.UnsetValue;
+    StateSpecificHelpActions = stateSpecificHelpActions ?? new List<ActionCommandVM>();
   }
 
   protected WindowStepState()

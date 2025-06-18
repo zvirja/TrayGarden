@@ -12,9 +12,9 @@ public class SimpleRareCommand : IRareCommand
     Assert.ArgumentNotNullOrEmpty(title, "title");
     Assert.ArgumentNotNullOrEmpty(description, "description");
     Assert.ArgumentNotNull(actionToPerform, "actionToPerform");
-    this.Title = title;
-    this.Description = description;
-    this.ActionToPerform = actionToPerform;
+    Title = title;
+    Description = description;
+    ActionToPerform = actionToPerform;
   }
 
   public Action ActionToPerform { get; protected set; }

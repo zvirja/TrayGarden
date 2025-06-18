@@ -13,8 +13,8 @@ public partial class MainWindow : Window
 {
   public MainWindow()
   {
-    this.InitializeComponent();
-    this.Closing += this.MainWindow_Closing;
+    InitializeComponent();
+    Closing += MainWindow_Closing;
 
     /*
           var bucket = new Bucket(){Name = "Parent"};

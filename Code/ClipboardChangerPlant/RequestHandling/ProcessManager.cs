@@ -38,7 +38,7 @@ public class ProcessManager : INeedCongurationNode
     try
     {
       var processorsArgs = new ProcessorArgs(onlyShorteningRequired, clipboardEvent, predefinedClipboardValue, globalIconIsOriginator);
-      foreach (var processor in this.Processors)
+      foreach (var processor in Processors)
       {
         processor.Process(processorsArgs);
         if (processorsArgs.Aborted)
@@ -56,10 +56,10 @@ public class ProcessManager : INeedCongurationNode
 
   public virtual void SetConfigurationNode(XmlNode configurationNode)
   {
-    this.ConfigurationHelper = new XmlHelper(configurationNode);
+    ConfigurationHelper = new XmlHelper(configurationNode);
     var processors =
       Factory.ActualFactory.RawFactory.GetObjectsCollectionFromConfigurationNode<Processor>(
         configurationNode.Name + "/pipeline/processor");
-    this.Processors = processors;
+    Processors = processors;
   }
 }

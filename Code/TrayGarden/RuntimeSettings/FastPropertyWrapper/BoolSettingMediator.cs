@@ -8,7 +8,7 @@ public class BoolSettingMediator : BaseSettingMediator
   public BoolSettingMediator([NotNull] string key, bool defaultValue, [NotNull] Func<ISettingsBox> settingsBoxResolver)
     : base(key, settingsBoxResolver)
   {
-    this.DefaultValue = defaultValue;
+    DefaultValue = defaultValue;
   }
 
   public bool DefaultValue { get; set; }
@@ -17,11 +17,11 @@ public class BoolSettingMediator : BaseSettingMediator
   {
     get
     {
-      return this.SettingsBox.GetBool(this.Key, this.DefaultValue);
+      return SettingsBox.GetBool(Key, DefaultValue);
     }
     set
     {
-      this.SettingsBox.SetBool(this.Key, value);
+      SettingsBox.SetBool(Key, value);
     }
   }
 }

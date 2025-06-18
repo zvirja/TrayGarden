@@ -17,10 +17,10 @@ public class InitPlantSIArgs : PipelineArgs
   {
     Assert.ArgumentNotNull(plantEx, "plantEx");
     Assert.ArgumentNotNullOrEmpty(luggageName, "luggageName");
-    this.PlantEx = plantEx;
-    this.LuggageName = luggageName;
-    this.CloseComponentClick = closeComponentClick;
-    this.ExitGardenClick = exitGardenClick;
+    PlantEx = plantEx;
+    LuggageName = luggageName;
+    CloseComponentClick = closeComponentClick;
+    ExitGardenClick = exitGardenClick;
   }
 
   public EventHandler CloseComponentClick { get; set; }

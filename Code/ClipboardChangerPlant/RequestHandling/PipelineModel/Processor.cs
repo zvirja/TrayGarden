@@ -41,6 +41,6 @@ public class Processor
 
   protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args)
   {
-    this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
+    HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
   }
 }

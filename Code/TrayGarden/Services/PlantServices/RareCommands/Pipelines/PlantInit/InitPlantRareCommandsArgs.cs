@@ -9,7 +9,7 @@ public class InitPlantRareCommandsArgs : PipelineArgs
 {
   public InitPlantRareCommandsArgs(IPlantEx relatedPlant)
   {
-    this.RelatedPlant = relatedPlant;
+    RelatedPlant = relatedPlant;
   }
 
   public List<IRareCommand> CollectedCommands { get; set; }

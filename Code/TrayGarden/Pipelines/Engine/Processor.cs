@@ -19,40 +19,40 @@ public class Processor
   {
     Assert.ArgumentNotNull(processorObject, "processorObject");
     Assert.ArgumentNotNull(argumentType, "argumentType");
-    this.Invoker = this.ResolveInvoker(processorObject, argumentType);
-    if (this.Invoker == null)
+    Invoker = ResolveInvoker(processorObject, argumentType);
+    if (Invoker == null)
     {
       Log.Warn("Can't initialize processor {0}".FormatWith(processorObject.GetType().FullName), this);
       return false;
     }
-    this.Initialized = true;
+    Initialized = true;
     return true;
   }
 
   public virtual void Invoke<TArgumentType>(TArgumentType argument) where TArgumentType : PipelineArgs
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    if (this.Invoker == null)
+    if (Invoker == null)
     {
       return;
     }
-    var castedInvoker = (Action<TArgumentType>)this.Invoker;
+    var castedInvoker = (Action<TArgumentType>)Invoker;
     castedInvoker(argument);
   }
 
   public override string ToString()
   {
-    return !this.Initialized ? base.ToString() : "Processor. Executable type: {0}".FormatWith(this.Invoker.Target.GetType().FullName);
+    return !Initialized ? base.ToString() : "Processor. Executable type: {0}".FormatWith(Invoker.Target.GetType().FullName);
   }
 
   protected virtual Delegate ResolveInvoker(object processorObject, Type argumentType)
   {
     Type processorObjType = processorObject.GetType();
     MethodInfo processMethod = processorObjType.GetMethod("Process");
-    if (!this.ValidateProcessorObj(processMethod, argumentType))
+    if (!ValidateProcessorObj(processMethod, argumentType))
     {
       Log.Warn(
         "The processor object {0} doesn't contain valid process method{{Process({1}) expected }}".FormatWith(

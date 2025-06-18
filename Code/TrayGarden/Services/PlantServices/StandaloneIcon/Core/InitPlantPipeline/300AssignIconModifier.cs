@@ -17,7 +17,7 @@ public class AssignIconModifier
     {
       return;
     }
-    this.AssignIconModifierToRequirer(args, asIconModifyRequirer);
+    AssignIconModifierToRequirer(args, asIconModifyRequirer);
   }
 
   protected virtual void AssignIconModifierToRequirer(InitPlantSIArgs args, INeedToModifyIcon iconRequirer)

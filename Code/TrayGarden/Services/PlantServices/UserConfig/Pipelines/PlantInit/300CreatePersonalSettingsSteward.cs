@@ -15,12 +15,12 @@ public class CreatePersonalSettingsSteward
   [UsedImplicitly]
   public virtual void Process(InitPlantUCPipelineArg args)
   {
-    IUserSettingsBuilder settingsBuilder = this.GetSettingBuilder(args.SettingBox);
+    IUserSettingsBuilder settingsBuilder = GetSettingBuilder(args.SettingBox);
     args.PersonalSettingsSteward = new PersonalUserSettingsSteward(settingsBuilder);
   }
 
   protected IUserSettingsBuilder GetSettingBuilder(ISettingsBox settingBox)
   {
-    return this.SettingsBuilder ?? new UserSettingsBuilder(settingBox);
+    return SettingsBuilder ?? new UserSettingsBuilder(settingBox);
   }
 }

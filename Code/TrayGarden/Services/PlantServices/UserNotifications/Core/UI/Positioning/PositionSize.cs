@@ -26,12 +26,12 @@ public class PositionSize
   {
     get
     {
-      return this.left;
+      return left;
     }
     set
     {
-      this.left = value;
-      this.OnChanged();
+      left = value;
+      OnChanged();
     }
   }
 
@@ -39,12 +39,12 @@ public class PositionSize
   {
     get
     {
-      return this.mandatoryHeight;
+      return mandatoryHeight;
     }
     set
     {
-      this.mandatoryHeight = value;
-      this.OnChanged();
+      mandatoryHeight = value;
+      OnChanged();
     }
   }
 
@@ -52,12 +52,12 @@ public class PositionSize
   {
     get
     {
-      return this.mandatoryWidth;
+      return mandatoryWidth;
     }
     set
     {
-      this.mandatoryWidth = value;
-      this.OnChanged();
+      mandatoryWidth = value;
+      OnChanged();
     }
   }
 
@@ -65,22 +65,22 @@ public class PositionSize
   {
     get
     {
-      return this.top;
+      return top;
     }
     set
     {
-      if (Math.Abs(this.top - value) < 0.1)
+      if (Math.Abs(top - value) < 0.1)
       {
         return;
       }
-      this.top = value;
-      this.OnChanged();
+      top = value;
+      OnChanged();
     }
   }
 
   protected virtual void OnChanged()
   {
-    Action handler = this.Changed;
+    Action handler = Changed;
     if (handler != null)
     {
       handler();

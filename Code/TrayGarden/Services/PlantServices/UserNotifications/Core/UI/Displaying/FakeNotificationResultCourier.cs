@@ -21,7 +21,7 @@ public class FakeNotificationResultCourier : INotificationResultCourier
 
   public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
   {
-    result = this.GetResultWithWait();
+    result = GetResultWithWait();
     return true;
   }
 }

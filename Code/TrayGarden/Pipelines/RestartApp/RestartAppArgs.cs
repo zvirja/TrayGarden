@@ -6,7 +6,7 @@ public class RestartAppArgs : PipelineArgs
 {
   public RestartAppArgs(string[] paramsToAdd)
   {
-    this.ParamsToAdd = paramsToAdd;
+    ParamsToAdd = paramsToAdd;
   }
 
   public string[] ParamsToAdd { get; set; }

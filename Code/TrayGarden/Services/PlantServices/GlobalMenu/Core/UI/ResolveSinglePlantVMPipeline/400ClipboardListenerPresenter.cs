@@ -12,8 +12,8 @@ public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserver
 {
   public ClipboardListenerPresenter()
   {
-    this.ServiceName = "Clipboard listener";
-    this.ServiceDescription = "If service is enabled, plant is enabled to listen clipboard events";
+    ServiceName = "Clipboard listener";
+    ServiceDescription = "If service is enabled, plant is enabled to listen clipboard events";
   }
 
   public static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
@@ -25,7 +25,7 @@ public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserver
 
   protected override ServiceForPlantVMBase GetServiceVM(ClipboardObserverService serviceInstance, IPlantEx plantEx)
   {
-    var vm = new ServiceForPlantWithEnablingVM(this.ServiceName, this.ServiceDescription);
+    var vm = new ServiceForPlantWithEnablingVM(ServiceName, ServiceDescription);
     vm.IsEnabledChanged += ViewModel_IsEnabledChanged;
     var plantBox = serviceInstance.GetPlantLuggage(plantEx);
     vm.Luggage = plantBox;

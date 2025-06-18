@@ -17,7 +17,7 @@ public class RareCommandWrapper : ICommand
   public RareCommandWrapper([NotNull] IRareCommand rareCommand)
   {
     Assert.ArgumentNotNull(rareCommand, "rareCommand");
-    this.RareCommand = rareCommand;
+    RareCommand = rareCommand;
   }
 
   public event EventHandler CanExecuteChanged;
@@ -33,14 +33,14 @@ public class RareCommandWrapper : ICommand
   {
     try
     {
-      this.RareCommand.ActionToPerform();
+      RareCommand.ActionToPerform();
     }
     catch (Exception ex)
     {
-      Log.Error("Command {0} failed with exception. Delegate of type: {1}".FormatWith(this.RareCommand.Title, this.RareCommand.ActionToPerform.Method.Name), ex, this);
+      Log.Error("Command {0} failed with exception. Delegate of type: {1}".FormatWith(RareCommand.Title, RareCommand.ActionToPerform.Method.Name), ex, this);
       HatcherGuide<IUIManager>.Instance.OKMessageBox(
         "Command failed",
-        "Command {0} failed with exception '{1}'".FormatWith(this.RareCommand.Title, ex.Message),
+        "Command {0} failed with exception '{1}'".FormatWith(RareCommand.Title, ex.Message),
         MessageBoxImage.Error);
     }
   }

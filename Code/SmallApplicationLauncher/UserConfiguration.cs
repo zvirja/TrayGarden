@@ -12,7 +12,7 @@ public class UserConfiguration : IUserConfiguration
 
   private UserConfiguration()
   {
-    this.Applications = new Dictionary<string, string>();
+    Applications = new Dictionary<string, string>();
   }
 
   public static UserConfiguration Configuration
@@ -32,12 +32,12 @@ public class UserConfiguration : IUserConfiguration
       "Path to Small Apps folder",
       @"C:\Apps");
     var folderInfo = new DirectoryInfo(userSetting.Value);
-    this.Applications = new Dictionary<string, string>();
+    Applications = new Dictionary<string, string>();
     if (folderInfo.Exists)
     {
       foreach (FileInfo app in folderInfo.GetFiles("*.exe"))
       {
-        this.Applications.Add(app.Name, app.FullName);
+        Applications.Add(app.Name, app.FullName);
       }
     }
   }

@@ -14,10 +14,10 @@ public class NotificationDisplayTask
   {
     Assert.ArgumentNotNull(relatedSpecializedNotification, "relatedSpecializedNotification");
     Assert.ArgumentNotNullOrEmpty(originator, "originator");
-    this.RelatedSpecializedNotification = relatedSpecializedNotification;
-    this.Originator = originator;
-    this.State = new NotificationState();
-    this.ResultWaitHandle = new ManualResetEvent(false);
+    RelatedSpecializedNotification = relatedSpecializedNotification;
+    Originator = originator;
+    State = new NotificationState();
+    ResultWaitHandle = new ManualResetEvent(false);
   }
 
   public NotificationResult ObtainedResult { get; set; }
@@ -34,31 +34,31 @@ public class NotificationDisplayTask
 
   public virtual bool AbortDisplayTask(bool onlyIfNotDisplayedYet)
   {
-    bool successfullyDiscarded = this.DiscardUsingHandler(onlyIfNotDisplayedYet);
+    bool successfullyDiscarded = DiscardUsingHandler(onlyIfNotDisplayedYet);
     if (!successfullyDiscarded)
     {
       return false;
     }
-    if (this.ObtainedResult == null)
+    if (ObtainedResult == null)
     {
-      this.SetResult(new NotificationResult(ResultCode.Unspecified));
+      SetResult(new NotificationResult(ResultCode.Unspecified));
     }
     return true;
   }
 
   public virtual void SetResult(NotificationResult result)
   {
-    this.ObtainedResult = result;
-    this.ResultWaitHandle.Set();
+    ObtainedResult = result;
+    ResultWaitHandle.Set();
   }
 
   protected virtual bool DiscardUsingHandler(bool onlyIfNotDisplayedYet)
   {
-    if (this.TaskDiscardHandler == null)
+    if (TaskDiscardHandler == null)
     {
       return true;
     }
-    var result = this.TaskDiscardHandler(this, onlyIfNotDisplayedYet);
+    var result = TaskDiscardHandler(this, onlyIfNotDisplayedYet);
     return result;
   }
 }

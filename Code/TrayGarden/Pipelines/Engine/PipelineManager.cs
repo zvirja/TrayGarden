@@ -12,7 +12,7 @@ public class PipelineManager : IPipelineManager
 {
   public PipelineManager()
   {
-    this.PipelinesInternal = new Dictionary<string, IPipeline>();
+    PipelinesInternal = new Dictionary<string, IPipeline>();
   }
 
   protected bool Initialized { get; set; }
@@ -23,13 +23,13 @@ public class PipelineManager : IPipelineManager
   public virtual void Initialize(IEnumerable<IPipeline> pipelines)
   {
     Assert.ArgumentNotNull(pipelines, "pipelines");
-    this.PipelinesInternal = new Dictionary<string, IPipeline>();
+    PipelinesInternal = new Dictionary<string, IPipeline>();
     foreach (IPipeline pipeline in pipelines)
     {
-      var pipelineKey = this.GetPipelineKey(pipeline.Name, pipeline.ArgumentType);
-      this.PipelinesInternal.Add(pipelineKey, pipeline);
+      var pipelineKey = GetPipelineKey(pipeline.Name, pipeline.ArgumentType);
+      PipelinesInternal.Add(pipelineKey, pipeline);
     }
-    this.Initialized = true;
+    Initialized = true;
   }
 
   public virtual void InvokePipeline<TArgumentType>([NotNull] string pipelineName, [NotNull] TArgumentType argument)
@@ -37,11 +37,11 @@ public class PipelineManager : IPipelineManager
   {
     Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
     Assert.ArgumentNotNull(argument, "argument");
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    IPipeline pipeline = this.ResolvePipeline(pipelineName, argument.GetType());
+    IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
     if (pipeline == null)
     {
       return;
@@ -54,11 +54,11 @@ public class PipelineManager : IPipelineManager
   {
     Assert.ArgumentNotNullOrEmpty(pipelineName, "pipelineName");
     Assert.ArgumentNotNull(argument, "argument");
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    IPipeline pipeline = this.ResolvePipeline(pipelineName, argument.GetType());
+    IPipeline pipeline = ResolvePipeline(pipelineName, argument.GetType());
     Assert.IsNotNull(pipeline, "Can't resolve pipeline {0}".FormatWith(pipelineName));
     pipeline.Invoke(argument, false);
   }
@@ -70,12 +70,12 @@ public class PipelineManager : IPipelineManager
 
   protected virtual IPipeline ResolvePipeline(string pipelineName, Type argumentType)
   {
-    string key = this.GetPipelineKey(pipelineName, argumentType);
-    if (!this.PipelinesInternal.ContainsKey(key))
+    string key = GetPipelineKey(pipelineName, argumentType);
+    if (!PipelinesInternal.ContainsKey(key))
     {
       return null;
     }
-    IPipeline pipeline = this.PipelinesInternal[key];
+    IPipeline pipeline = PipelinesInternal[key];
     return pipeline;
   }
 }

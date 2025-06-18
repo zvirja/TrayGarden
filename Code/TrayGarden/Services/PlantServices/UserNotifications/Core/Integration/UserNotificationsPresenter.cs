@@ -8,15 +8,15 @@ public class UserNotificationsPresenter : ServicePresenterBase<UserNotifications
 {
   public UserNotificationsPresenter()
   {
-    this.ServiceName = "User notifications";
-    this.ServiceDescription = "If service is enabled, plant is able to display the popup notification windows";
+    ServiceName = "User notifications";
+    ServiceDescription = "If service is enabled, plant is able to display the popup notification windows";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(UserNotificationsService serviceInstance, IPlantEx plantEx)
   {
     return new ServiceForPlantWithEnablingPlantBoxBasedVM(
-      this.ServiceName,
-      this.ServiceDescription,
+      ServiceName,
+      ServiceDescription,
       serviceInstance.GetPlantLuggage(plantEx));
   }
 }

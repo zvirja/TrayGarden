@@ -18,8 +18,8 @@ public class ServicesSteward : IServicesSteward
 
   public virtual void InformClosingStage()
   {
-    this.AssertInitialized();
-    foreach (IService service in this.Services)
+    AssertInitialized();
+    foreach (IService service in Services)
     {
       try
       {
@@ -34,8 +34,8 @@ public class ServicesSteward : IServicesSteward
 
   public virtual void InformDisplayStage()
   {
-    this.AssertInitialized();
-    foreach (IService service in this.Services)
+    AssertInitialized();
+    foreach (IService service in Services)
     {
       try
       {
@@ -57,9 +57,9 @@ public class ServicesSteward : IServicesSteward
 
   public virtual void InformInitializeStage()
   {
-    this.AssertInitialized();
+    AssertInitialized();
 
-    foreach (IService service in this.Services)
+    foreach (IService service in Services)
     {
       try
       {
@@ -80,7 +80,7 @@ public class ServicesSteward : IServicesSteward
     var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
     foreach (IPlantEx plant in plants)
     {
-      this.AquaintPlantWithServices(plant);
+      AquaintPlantWithServices(plant);
     }
   }
 
@@ -88,13 +88,13 @@ public class ServicesSteward : IServicesSteward
   public void Initialize([NotNull] List<IService> services)
   {
     Assert.ArgumentNotNull(services, "services");
-    this.Services = services;
-    this.Initialized = true;
+    Services = services;
+    Initialized = true;
   }
 
   protected virtual void AquaintPlantWithServices(IPlantEx plantEx)
   {
-    foreach (IService service in this.Services)
+    foreach (IService service in Services)
     {
       try
       {
@@ -112,7 +112,7 @@ public class ServicesSteward : IServicesSteward
 
   protected virtual void AssertInitialized()
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }

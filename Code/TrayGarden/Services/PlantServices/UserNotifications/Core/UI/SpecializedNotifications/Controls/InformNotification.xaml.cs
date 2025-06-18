@@ -9,6 +9,6 @@ public partial class InformNotification : UserControl
 {
   public InformNotification()
   {
-    this.InitializeComponent();
+    InitializeComponent();
   }
 }

@@ -16,8 +16,8 @@ public abstract class ServicePresenterBase<TServiceType>
 {
   public ServicePresenterBase()
   {
-    this.ServiceName = typeof(TServiceType).Name;
-    this.ServiceDescription = "<this service doesn't provide description>";
+    ServiceName = typeof(TServiceType).Name;
+    ServiceDescription = "<this service doesn't provide description>";
   }
 
   public string ServiceDescription { get; set; }
@@ -43,7 +43,7 @@ public abstract class ServicePresenterBase<TServiceType>
     {
       return;
     }
-    ServiceForPlantVMBase serviceForPlantVMBase = this.GetServiceVM(serviceInstance, args.PlantEx);
+    ServiceForPlantVMBase serviceForPlantVMBase = GetServiceVM(serviceInstance, args.PlantEx);
     if (serviceForPlantVMBase != null)
     {
       args.PlantVM.ServicesVM.Add(serviceForPlantVMBase);

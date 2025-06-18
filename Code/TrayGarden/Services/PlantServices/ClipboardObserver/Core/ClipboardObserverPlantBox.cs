@@ -10,9 +10,9 @@ public class ClipboardObserverPlantBox : ServicePlantBoxBase
 
   public virtual void InformNewClipboardValue(string newClipboardValue)
   {
-    if (this.IsEnabled)
+    if (IsEnabled)
     {
-      Task.Factory.StartNew(() => this.WorksHungry.OnClipboardTextChanged(newClipboardValue));
+      Task.Factory.StartNew(() => WorksHungry.OnClipboardTextChanged(newClipboardValue));
     }
   }
 }

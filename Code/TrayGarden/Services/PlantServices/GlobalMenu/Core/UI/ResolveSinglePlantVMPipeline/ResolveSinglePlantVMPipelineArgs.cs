@@ -12,7 +12,7 @@ public class ResolveSinglePlantVMPipelineArgs : PipelineArgs
   public ResolveSinglePlantVMPipelineArgs([NotNull] IPlantEx plantEx)
   {
     Assert.ArgumentNotNull(plantEx, "plantEx");
-    this.PlantEx = plantEx;
+    PlantEx = plantEx;
   }
 
   public IPlantEx PlantEx { get; set; }

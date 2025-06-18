@@ -12,7 +12,7 @@ public class StringOptionUserSetting : TypedUserSetting<string>, IStringOptionUs
   {
     get
     {
-      return this.Metadata.AdditionalParams as List<string> ?? new List<string>();
+      return Metadata.AdditionalParams as List<string> ?? new List<string>();
     }
   }
 
@@ -24,7 +24,7 @@ public class StringOptionUserSetting : TypedUserSetting<string>, IStringOptionUs
     }
     set
     {
-      if (!this.IsValidStringOptionValue(value))
+      if (!IsValidStringOptionValue(value))
       {
         throw new InvalidOperationException("'{0}' is not valid value for this setting".FormatWith(value));
       }
@@ -34,13 +34,13 @@ public class StringOptionUserSetting : TypedUserSetting<string>, IStringOptionUs
 
   protected virtual bool IsValidStringOptionValue(string value)
   {
-    List<string> possibleOptions = this.Metadata.AdditionalParams as List<string> ?? new List<string>();
+    List<string> possibleOptions = Metadata.AdditionalParams as List<string> ?? new List<string>();
     return possibleOptions.Any(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));
   }
 
   protected override string PullValueFromUnderlyingStorage()
   {
     var pulledValue = base.PullValueFromUnderlyingStorage();
-    return this.IsValidStringOptionValue(pulledValue) ? pulledValue : this.Metadata.DefaultValue;
+    return IsValidStringOptionValue(pulledValue) ? pulledValue : Metadata.DefaultValue;
   }
 }

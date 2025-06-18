@@ -12,8 +12,8 @@ public class ClipboardChanger : IPlant, IServicesDelegation
 {
   public ClipboardChanger()
   {
-    this.HumanSupportingName = "Clipboard changer";
-    this.Description =
+    HumanSupportingName = "Clipboard changer";
+    Description =
       "This plant listen clipboard and replaces links. \r\nFor instance it shorts all http://www.* like links and resolve direct links for Clip2Net service.";
   }
 

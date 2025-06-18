@@ -9,8 +9,8 @@ public class GetApplicationConfigStepArgs : PipelineArgs
 {
   public GetApplicationConfigStepArgs()
   {
-    this.StepConstructInfo = new WindowWithBackStateConstructInfo();
-    this.ConfigurationConstructInfo = new ConfigurationControlConstructInfo
+    StepConstructInfo = new WindowWithBackStateConstructInfo();
+    ConfigurationConstructInfo = new ConfigurationControlConstructInfo
     {
       ConfigurationEntries = new List<ConfigurationEntryBaseVM>()
     };

@@ -23,7 +23,7 @@ public class ResolveConfigurationEntries
     {
       configurationConstructInfo.ConfigurationEntries = new List<ConfigurationEntryBaseVM>();
     }
-    configurationConstructInfo.ConfigurationEntries.AddRange(this.GetSettingVMs(args.UCServicePlantBox));
+    configurationConstructInfo.ConfigurationEntries.AddRange(GetSettingVMs(args.UCServicePlantBox));
   }
 
   protected virtual ConfigurationEntryBaseVM GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
@@ -57,7 +57,7 @@ public class ResolveConfigurationEntries
     var result = new List<ConfigurationEntryBaseVM>();
     foreach (KeyValuePair<string, IUserSettingBase> userSettingPair in userSettings)
     {
-      ConfigurationEntryBaseVM resolvedBaseVm = this.GetConfigurationEntryVMForISetting(userSettingPair.Value);
+      ConfigurationEntryBaseVM resolvedBaseVm = GetConfigurationEntryVMForISetting(userSettingPair.Value);
       if (resolvedBaseVm != null)
       {
         result.Add(resolvedBaseVm);

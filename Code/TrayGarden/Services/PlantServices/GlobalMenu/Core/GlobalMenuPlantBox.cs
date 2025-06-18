@@ -11,21 +11,21 @@ public class GlobalMenuPlantBox : ServicePlantBoxBase
 
   public GlobalMenuPlantBox()
   {
-    base.IsEnabledChanged += this.GlobalMenuPlantBox_IsEnabledChanged;
+    IsEnabledChanged += GlobalMenuPlantBox_IsEnabledChanged;
   }
 
   public INotifyIconChangerMaster GlobalNotifyIconChanger
   {
     get
     {
-      return this._globalNotifyIconChanger;
+      return _globalNotifyIconChanger;
     }
     set
     {
-      this._globalNotifyIconChanger = value;
-      if (this._globalNotifyIconChanger != null)
+      _globalNotifyIconChanger = value;
+      if (_globalNotifyIconChanger != null)
       {
-        this._globalNotifyIconChanger.IsEnabled = this.GlobalNotifyIconChangerEnabled;
+        _globalNotifyIconChanger.IsEnabled = GlobalNotifyIconChangerEnabled;
       }
     }
   }
@@ -34,19 +34,19 @@ public class GlobalMenuPlantBox : ServicePlantBoxBase
   {
     get
     {
-      bool isEnabled = this.SettingsBox.GetBool("notifyIconChangerEnabled", true);
-      if (this.GlobalNotifyIconChanger != null)
+      bool isEnabled = SettingsBox.GetBool("notifyIconChangerEnabled", true);
+      if (GlobalNotifyIconChanger != null)
       {
-        this.GlobalNotifyIconChanger.IsEnabled = isEnabled;
+        GlobalNotifyIconChanger.IsEnabled = isEnabled;
       }
       return isEnabled;
     }
     set
     {
-      this.SettingsBox.SetBool("notifyIconChangerEnabled", value);
-      if (this.GlobalNotifyIconChanger != null)
+      SettingsBox.SetBool("notifyIconChangerEnabled", value);
+      if (GlobalNotifyIconChanger != null)
       {
-        this.GlobalNotifyIconChanger.IsEnabled = value;
+        GlobalNotifyIconChanger.IsEnabled = value;
       }
     }
   }
@@ -57,12 +57,12 @@ public class GlobalMenuPlantBox : ServicePlantBoxBase
 
   public virtual void FixVisibility()
   {
-    if (this.ToolStripMenuItems == null)
+    if (ToolStripMenuItems == null)
     {
       return;
     }
-    var shouldBeVisible = this.RelatedPlantEx.IsEnabled && this.IsEnabled;
-    foreach (ToolStripItem toolStripMenuItem in this.ToolStripMenuItems)
+    var shouldBeVisible = RelatedPlantEx.IsEnabled && IsEnabled;
+    foreach (ToolStripItem toolStripMenuItem in ToolStripMenuItems)
     {
       toolStripMenuItem.Visible = shouldBeVisible;
     }
@@ -70,6 +70,6 @@ public class GlobalMenuPlantBox : ServicePlantBoxBase
 
   private void GlobalMenuPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
   {
-    this.FixVisibility();
+    FixVisibility();
   }
 }

@@ -14,10 +14,10 @@ public class CombiningConverter : IValueConverter
 
   public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
   {
-    Assert.IsNotNull(this.FirstConverter, "First conveter cannot be null");
-    Assert.IsNotNull(this.SecondConverter, "Second conveter cannot be null");
-    object valueAfterFirstConversion = this.FirstConverter.Convert(value, targetType, parameter, culture);
-    return this.SecondConverter.Convert(valueAfterFirstConversion, targetType, parameter, culture);
+    Assert.IsNotNull(FirstConverter, "First conveter cannot be null");
+    Assert.IsNotNull(SecondConverter, "Second conveter cannot be null");
+    object valueAfterFirstConversion = FirstConverter.Convert(value, targetType, parameter, culture);
+    return SecondConverter.Convert(valueAfterFirstConversion, targetType, parameter, culture);
   }
 
   public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)

@@ -16,7 +16,7 @@ public class ShortcutLink : Processor
     string outputString;
     if (!ShortenerManager.TryShorterUrl(args.ResultUrl, out outputString))
     {
-      this.HandleErrorAndAbortPipeline(args, this.ErrorTrayIcon);
+      HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
     }
     else
     {

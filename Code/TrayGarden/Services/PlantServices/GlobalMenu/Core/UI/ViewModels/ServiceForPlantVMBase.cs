@@ -23,9 +23,9 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
   {
     Assert.ArgumentNotNullOrEmpty(serviceName, "serviceName");
     Assert.ArgumentNotNullOrEmpty(description, "description");
-    this.ServiceName = serviceName;
-    this.Description = description;
-    this.ShowDescription = new RelayCommand(this.ShowDescriptionAction, true);
+    ServiceName = serviceName;
+    Description = description;
+    ShowDescription = new RelayCommand(ShowDescriptionAction, true);
   }
 
   public event PropertyChangedEventHandler PropertyChanged;
@@ -34,16 +34,16 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
   {
     get
     {
-      return this._description;
+      return _description;
     }
     set
     {
-      if (value == this._description)
+      if (value == _description)
       {
         return;
       }
-      this._description = value;
-      this.OnPropertyChanged("Description");
+      _description = value;
+      OnPropertyChanged("Description");
     }
   }
 
@@ -53,16 +53,16 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
   {
     get
     {
-      return this._serviceName;
+      return _serviceName;
     }
     set
     {
-      if (value == this._serviceName)
+      if (value == _serviceName)
       {
         return;
       }
-      this._serviceName = value;
-      this.OnPropertyChanged("ServiceName");
+      _serviceName = value;
+      OnPropertyChanged("ServiceName");
     }
   }
 
@@ -70,23 +70,23 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
   {
     get
     {
-      return this._showDescription;
+      return _showDescription;
     }
     set
     {
-      if (Equals(value, this._showDescription))
+      if (Equals(value, _showDescription))
       {
         return;
       }
-      this._showDescription = value;
-      this.OnPropertyChanged("ShowDescription");
+      _showDescription = value;
+      OnPropertyChanged("ShowDescription");
     }
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -95,6 +95,6 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
 
   protected virtual void ShowDescriptionAction(object o)
   {
-    HatcherGuide<IUIManager>.Instance.OKMessageBox(this.ServiceName, this.Description, MessageBoxImage.Question);
+    HatcherGuide<IUIManager>.Instance.OKMessageBox(ServiceName, Description, MessageBoxImage.Question);
   }
 }

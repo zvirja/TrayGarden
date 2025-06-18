@@ -9,7 +9,7 @@ public class TuneConfigurationProperties
 {
   public TuneConfigurationProperties()
   {
-    this.ConfigurationDescription = "This window allows to tune the User Nofications service properties";
+    ConfigurationDescription = "This window allows to tune the User Nofications service properties";
   }
 
   public string ConfigurationDescription { get; set; }
@@ -20,6 +20,6 @@ public class TuneConfigurationProperties
     ConfigurationControlConstructInfo constructInfo = args.ConfigurationConstructInfo;
     constructInfo.AllowReboot = false;
     constructInfo.EnableResetAllOption = true;
-    constructInfo.ConfigurationDescription = this.ConfigurationDescription;
+    constructInfo.ConfigurationDescription = ConfigurationDescription;
   }
 }

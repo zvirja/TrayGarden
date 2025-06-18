@@ -16,7 +16,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   public StandaloneIconService()
     : base("Standalone icon", "StandaloneIconService")
   {
-    this.ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
+    ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
   }
 
   public override void InformClosingStage()
@@ -25,7 +25,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
     List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
     foreach (IPlantEx plant in allPlants)
     {
-      var siBox = this.GetPlantLuggage(plant);
+      var siBox = GetPlantLuggage(plant);
       if (siBox != null)
       {
         siBox.NotifyIcon.Dispose();
@@ -39,7 +39,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
     List<IPlantEx> enabledPlants = HatcherGuide<IGardenbed>.Instance.GetEnabledPlants();
     foreach (IPlantEx enabledPlant in enabledPlants)
     {
-      var siBox = this.GetPlantLuggage(enabledPlant);
+      var siBox = GetPlantLuggage(enabledPlant);
       if (siBox == null)
       {
         continue;
@@ -51,7 +51,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   public override void InitializePlant(IPlantEx plantEx)
   {
     base.InitializePlant(plantEx);
-    this.InitializePlantFromPipeline(plantEx);
+    InitializePlantFromPipeline(plantEx);
   }
 
   protected void CloseComponentClick(object sender, EventArgs eventArgs)
@@ -70,12 +70,12 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
 
   protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
   {
-    InitPlantSIPipeline.Run(plantEx, this.LuggageName, this.CloseComponentClick, this.ExitGardenClick);
+    InitPlantSIPipeline.Run(plantEx, LuggageName, CloseComponentClick, ExitGardenClick);
   }
 
   protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)
   {
-    var siBox = this.GetPlantLuggage(plantEx);
+    var siBox = GetPlantLuggage(plantEx);
     if (siBox != null)
     {
       siBox.FixNIVisibility();

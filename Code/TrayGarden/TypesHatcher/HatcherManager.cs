@@ -16,7 +16,7 @@ public class HatcherManager
 
   public HatcherManager()
   {
-    this.Mappings = new Dictionary<Type, IObjectFactory>();
+    Mappings = new Dictionary<Type, IObjectFactory>();
   }
 
   public static HatcherManager Actual
@@ -33,13 +33,13 @@ public class HatcherManager
 
   public virtual object GetNewObjectByType(Type keyInterface)
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    if (this.Mappings.ContainsKey(keyInterface))
+    if (Mappings.ContainsKey(keyInterface))
     {
-      return this.Mappings[keyInterface].GetPurelyNewObject();
+      return Mappings[keyInterface].GetPurelyNewObject();
     }
     Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
     return null;
@@ -47,13 +47,13 @@ public class HatcherManager
 
   public virtual object GetObjectByType(Type keyInterface)
   {
-    if (!this.Initialized)
+    if (!Initialized)
     {
       throw new NonInitializedException();
     }
-    if (this.Mappings.ContainsKey(keyInterface))
+    if (Mappings.ContainsKey(keyInterface))
     {
-      return this.Mappings[keyInterface].GetObject();
+      return Mappings[keyInterface].GetObject();
     }
     Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
     return null;
@@ -65,16 +65,16 @@ public class HatcherManager
     Assert.ArgumentNotNull(mappings, "mappings");
     foreach (IMapping mapping in mappings)
     {
-      if (this.ValidateMapping(mapping))
+      if (ValidateMapping(mapping))
       {
-        this.Mappings.Add(mapping.InterfaceType, mapping.ObjectFactory);
+        Mappings.Add(mapping.InterfaceType, mapping.ObjectFactory);
       }
       else
       {
         Log.Warn("Cannot validate mapping '{0}' for Hatcher".FormatWith(mapping.ToString()), this);
       }
     }
-    this.Initialized = true;
+    Initialized = true;
   }
 
   protected virtual bool ValidateMapping(IMapping mapping)

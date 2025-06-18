@@ -18,7 +18,7 @@ public class SinglePlantVM : INotifyPropertyChanged
 
   public SinglePlantVM()
   {
-    this.ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
+    ServicesVM = new ObservableCollection<ServiceForPlantVMBase>();
   }
 
   public event PropertyChangedEventHandler PropertyChanged;
@@ -27,16 +27,16 @@ public class SinglePlantVM : INotifyPropertyChanged
   {
     get
     {
-      return this._description;
+      return _description;
     }
     set
     {
-      if (value == this._description)
+      if (value == _description)
       {
         return;
       }
-      this._description = value;
-      this.OnPropertyChanged("Description");
+      _description = value;
+      OnPropertyChanged("Description");
     }
   }
 
@@ -45,12 +45,12 @@ public class SinglePlantVM : INotifyPropertyChanged
   {
     get
     {
-      return this.UnderlyingPlant != null ? this.UnderlyingPlant.IsEnabled : false;
+      return UnderlyingPlant != null ? UnderlyingPlant.IsEnabled : false;
     }
     set
     {
-      this.UnderlyingPlant.IsEnabled = value;
-      this.OnPropertyChanged("IsEnabled");
+      UnderlyingPlant.IsEnabled = value;
+      OnPropertyChanged("IsEnabled");
     }
   }
 
@@ -58,16 +58,16 @@ public class SinglePlantVM : INotifyPropertyChanged
   {
     get
     {
-      return this._name;
+      return _name;
     }
     set
     {
-      if (value == this._name)
+      if (value == _name)
       {
         return;
       }
-      this._name = value;
-      this.OnPropertyChanged("Name");
+      _name = value;
+      OnPropertyChanged("Name");
     }
   }
 
@@ -75,16 +75,16 @@ public class SinglePlantVM : INotifyPropertyChanged
   {
     get
     {
-      return this._servicesVM;
+      return _servicesVM;
     }
     set
     {
-      if (Equals(value, this._servicesVM))
+      if (Equals(value, _servicesVM))
       {
         return;
       }
-      this._servicesVM = value;
-      this.OnPropertyChanged("ServicesVM");
+      _servicesVM = value;
+      OnPropertyChanged("ServicesVM");
     }
   }
 
@@ -93,16 +93,16 @@ public class SinglePlantVM : INotifyPropertyChanged
   public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
   {
     Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
-    this.UnderlyingPlant = underlyingPlant;
-    this.Name = underlyingPlant.Plant.HumanSupportingName.GetValueOrDefault("<unspecified name>");
-    this.Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
-    underlyingPlant.EnabledChanged += this.UnderlyingPlant_EnabledChanged;
+    UnderlyingPlant = underlyingPlant;
+    Name = underlyingPlant.Plant.HumanSupportingName.GetValueOrDefault("<unspecified name>");
+    Description = underlyingPlant.Plant.Description.GetValueOrDefault("<unspecified description>");
+    underlyingPlant.EnabledChanged += UnderlyingPlant_EnabledChanged;
   }
 
   [NotifyPropertyChangedInvocator]
   protected virtual void OnPropertyChanged(string propertyName)
   {
-    PropertyChangedEventHandler handler = this.PropertyChanged;
+    PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
     {
       handler(this, new PropertyChangedEventArgs(propertyName));
@@ -111,6 +111,6 @@ public class SinglePlantVM : INotifyPropertyChanged
 
   protected virtual void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
   {
-    this.OnPropertyChanged("ServicesVM");
+    OnPropertyChanged("ServicesVM");
   }
 }

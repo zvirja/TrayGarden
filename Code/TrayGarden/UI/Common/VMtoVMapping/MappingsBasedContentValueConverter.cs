@@ -20,7 +20,7 @@ public class MappingsBasedContentValueConverter : IMultiValueConverter
     Assert.IsTrue(value.Length == 2, "Should be 2 params");
     object valueToConvert = value[0];
     //Use self resolving hack for better customization
-    Control resolvedUsingSelfResolving = this.ResolveUsingSelfResolving(valueToConvert);
+    Control resolvedUsingSelfResolving = ResolveUsingSelfResolving(valueToConvert);
     if (resolvedUsingSelfResolving != null)
     {
       return resolvedUsingSelfResolving;

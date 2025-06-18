@@ -7,8 +7,8 @@ public class ResolverBasedObjectFactory : IObjectFactory
 {
   public ResolverBasedObjectFactory(Func<object> getInstanceResolver, Func<object> getPurelyNewInstanceResolver)
   {
-    this.GetInstanceResolver = getInstanceResolver;
-    this.GetPurelyNewInstanceResolver = getPurelyNewInstanceResolver;
+    GetInstanceResolver = getInstanceResolver;
+    GetPurelyNewInstanceResolver = getPurelyNewInstanceResolver;
   }
 
   public Func<object> GetInstanceResolver { get; protected set; }
@@ -17,9 +17,9 @@ public class ResolverBasedObjectFactory : IObjectFactory
 
   public virtual object GetObject()
   {
-    if (this.GetInstanceResolver != null)
+    if (GetInstanceResolver != null)
     {
-      return this.GetInstanceResolver();
+      return GetInstanceResolver();
     }
     Log.Warn("ResolverBasedObjectFactory GetObject() null returned", this);
     return null;
@@ -27,9 +27,9 @@ public class ResolverBasedObjectFactory : IObjectFactory
 
   public virtual object GetPurelyNewObject()
   {
-    if (this.GetPurelyNewInstanceResolver != null)
+    if (GetPurelyNewInstanceResolver != null)
     {
-      return this.GetPurelyNewInstanceResolver();
+      return GetPurelyNewInstanceResolver();
     }
     Log.Warn("ResolverBasedObjectFactory GetPurelyNewObject() null returned", this);
     return null;

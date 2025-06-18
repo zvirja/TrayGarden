@@ -9,6 +9,6 @@ public partial class ActionNotification : UserControl
 {
   public ActionNotification()
   {
-    this.InitializeComponent();
+    InitializeComponent();
   }
 }

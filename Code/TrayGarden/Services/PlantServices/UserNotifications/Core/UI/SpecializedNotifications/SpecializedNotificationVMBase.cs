@@ -19,7 +19,7 @@ public class SpecializedNotificationVMBase : IResultProvider, ISelfViewResolver
 
   protected virtual void OnResultObtained(NotificationResult result)
   {
-    EventHandler<ResultObtainedEventArgs> handler = this.ResultObtained;
+    EventHandler<ResultObtainedEventArgs> handler = ResultObtained;
     if (handler != null)
     {
       handler(this, new ResultObtainedEventArgs(result));
@@ -28,7 +28,7 @@ public class SpecializedNotificationVMBase : IResultProvider, ISelfViewResolver
 
   protected virtual void SetResultNotifyInterestedMen(NotificationResult result)
   {
-    this.Result = result;
-    this.OnResultObtained(this.Result);
+    Result = result;
+    OnResultObtained(Result);
   }
 }

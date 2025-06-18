@@ -11,8 +11,8 @@ internal record IsEnabledObserverPlantBox(IPlantEx PlantEx) : IPlantEnabledInfo
 
     event EventHandler IPlantEnabledInfo.IsEnabledChanged
     {
-        add => this.IsEnabledChanged += value;
-        remove => this.IsEnabledChanged -= value;
+        add => IsEnabledChanged += value;
+        remove => IsEnabledChanged -= value;
     }
 
     public void NotifyIsEnabledChanged()

@@ -22,22 +22,22 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
   {
     get
     {
-      this.AssertInitialized();
-      if (!this.ValueWasAlreadyPooled)
+      AssertInitialized();
+      if (!ValueWasAlreadyPooled)
       {
-        this.currentValue = this.PullValueFromUnderlyingStorage();
-        this.ValueWasAlreadyPooled = true;
+        currentValue = PullValueFromUnderlyingStorage();
+        ValueWasAlreadyPooled = true;
       }
-      return this.currentValue;
+      return currentValue;
     }
 
     set
     {
-      this.AssertInitialized();
-      var oldValue = this.Value;
-      this.currentValue = value;
-      this.PushValueToUnderlyingStorage(value);
-      this.OnValueChanged(oldValue, this.Value);
+      AssertInitialized();
+      var oldValue = Value;
+      currentValue = value;
+      PushValueToUnderlyingStorage(value);
+      OnValueChanged(oldValue, Value);
     }
   }
 
@@ -51,21 +51,21 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
     Assert.ArgumentNotNull(typedMetadata, "metadata");
     Assert.ArgumentNotNull(storage, "storage");
     base.Initialize(typedMetadata, activityCriterias);
-    this.Metadata = typedMetadata;
-    this.Storage = storage;
+    Metadata = typedMetadata;
+    Storage = storage;
   }
 
   public override void ResetToDefault()
   {
-    this.AssertInitialized();
-    this.Value = this.Metadata.DefaultValue;
+    AssertInitialized();
+    Value = Metadata.DefaultValue;
   }
 
   protected virtual void OnValueChanged(T oldValue, T newValue)
   {
     var args = new TypedUserSettingChange<T>(this, oldValue, newValue);
     base.OnValueChanged(args);
-    EventHandler<TypedUserSettingChange<T>> handler = this.ValueChanged;
+    EventHandler<TypedUserSettingChange<T>> handler = ValueChanged;
     if (handler != null)
     {
       handler(this, args);
@@ -74,11 +74,11 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
 
   protected virtual T PullValueFromUnderlyingStorage()
   {
-    return this.Storage.ReadValue(this.Name, this.Metadata.DefaultValue);
+    return Storage.ReadValue(Name, Metadata.DefaultValue);
   }
 
   protected virtual void PushValueToUnderlyingStorage(T value)
   {
-    this.Storage.WriteValue(this.Name, value);
+    Storage.WriteValue(Name, value);
   }
 }

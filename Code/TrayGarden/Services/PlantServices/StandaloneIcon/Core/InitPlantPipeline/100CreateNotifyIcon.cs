@@ -17,12 +17,12 @@ public class CreateNotifyIcon
   public virtual void Process(InitPlantSIArgs args)
   {
     StandaloneIconPlantBox siBox = args.SIBox;
-    this.ResolveIAdvanced(args);
+    ResolveIAdvanced(args);
     if (siBox.NotifyIcon != null)
     {
       return;
     }
-    this.ResolveISimple(args);
+    ResolveISimple(args);
     if (siBox.NotifyIcon == null)
     {
       args.Abort();
