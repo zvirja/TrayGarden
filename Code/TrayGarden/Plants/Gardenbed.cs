@@ -123,10 +123,6 @@ public class Gardenbed : IGardenbed
       return result;
     }
     FileInfo[] assembliesFileInfos = autoincludeDirectory.GetFiles("*.dll", SearchOption.TopDirectoryOnly);
-    if (assembliesFileInfos.Length == 0)
-    {
-      return result;
-    }
     foreach (FileInfo assemblyFileInfo in assembliesFileInfos)
     {
       // We do not want to load entry assembly one more time, as it's already loaded

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -32,7 +31,7 @@ internal class KeyboardHookProcessingForm : Form
 
     if (m.Msg == WM_HOTKEY)
     {
-      this.ToggleTelegramWindow();
+      this.ToggleAppMainWindow();
     }
   }
 
@@ -59,7 +58,7 @@ internal class KeyboardHookProcessingForm : Form
   [DllImport("user32.dll")]
   private static extern bool ShowWindow(IntPtr hWnd, WindowShowStyle nCmdShow);
 
-  private void ToggleTelegramWindow()
+  private void ToggleAppMainWindow()
   {
     var targetAppProcess = Process.GetProcessesByName(PlantConfiguration.Instance.ProcessName.Value)
       .OrderBy(x => x.StartTime)

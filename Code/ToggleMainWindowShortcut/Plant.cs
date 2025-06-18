@@ -1,27 +1,52 @@
 ﻿using System.Collections.Generic;
 using TrayGarden.Reception;
+using TrayGarden.Reception.Services;
+using TrayGarden.Services.PlantServices.IsEnabledObserver;
 
 namespace TelegramToggleWindowHook;
 
-public class Plant : IPlant, IServicesDelegation
+public class Plant : IPlant, IServicesDelegation, IIsEnabledObserver
 {
   private KeyboardHookProcessingForm _form;
 
-  public string Description => "Plugin hooks the Ctrl+` shortcut and toggles the configured app window state.\nIs active even if you see that it's disabled here.";
+  public string Description => "Plugin hooks the Ctrl+` shortcut and toggles the configured app window state.";
 
   public string HumanSupportingName => "Toggle main window by shortcut";
+  
+  public IPlantEnabledInfo IsEnabledInfo { get; set; }
 
   public void Initialize()
   {
-    this._form = new KeyboardHookProcessingForm();
   }
 
   public void PostServicesInitialize()
   {
+    if (IsEnabledInfo.IsEnabled)
+    {
+      this._form = new KeyboardHookProcessingForm();
+    }
+
+    IsEnabledInfo.IsEnabledChanged += (sender, args) =>
+    {
+      if (IsEnabledInfo.IsEnabled)
+      {
+        this._form ??= new KeyboardHookProcessingForm();
+      }
+      else
+      {
+        this._form?.Dispose();
+        this._form = null;
+      }
+    };
   }
 
   public List<object> GetServiceDelegates()
   {
     return [PlantConfiguration.Instance];
+  }
+
+  public void ConsumeIsEnabledInfo(IPlantEnabledInfo plantEnabledInfo)
+  {
+    IsEnabledInfo = plantEnabledInfo;
   }
 }
