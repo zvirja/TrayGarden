@@ -43,7 +43,9 @@ namespace TrayGarden.LifeCycle
 
     protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
     {
-      return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.FullName.StartsWith(args.Name, StringComparison.OrdinalIgnoreCase));
+      var name = new AssemblyName(args.Name);
+
+      return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == name.Name);
     }
 
     protected virtual void NotifyStartupInternal(string[] args)
