@@ -12,5 +12,11 @@
   <ItemGroup>
     <PackageReference Include="log4net" Version="3.1.0" />
   </ItemGroup>
- 
+  <ItemGroup>
+    <None Remove="UI\Configuration\Images\reset2.png" />
+    <Resource Include="UI\Configuration\Images\reset2.png" />
+    <None Remove="UI\Configuration\Images\reset.png" />
+    <Resource Include="UI\Configuration\Images\reset.png" />
+  </ItemGroup>
+
 </Project>

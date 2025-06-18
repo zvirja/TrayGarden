@@ -71,6 +71,7 @@
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="Source" Value="{StaticResource ResetIcon}" />
       <Setter Property="Stretch" Value="None" />
+      <Setter Property="ToolTip" Value="XXXXXXXXXXX" />
     </Style>
 
     <!-- Style for setting description text -->
