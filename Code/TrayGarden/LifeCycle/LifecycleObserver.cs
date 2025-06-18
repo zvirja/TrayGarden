@@ -1,15 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
 using System.Windows;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.RestartApp;
 using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
-using TrayGarden.Resources;
 
 namespace TrayGarden.LifeCycle;
 

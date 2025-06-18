@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using TrayGarden.Plants;
+﻿using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;

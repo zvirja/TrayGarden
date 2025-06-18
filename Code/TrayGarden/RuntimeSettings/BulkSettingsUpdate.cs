@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using TrayGarden.Helpers.ThreadSwitcher;
+﻿using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.RuntimeSettings;

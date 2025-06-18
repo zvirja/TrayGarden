@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using WindowsLangHotKeysSetter.Properties;
-using TrayGarden.Resources;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 

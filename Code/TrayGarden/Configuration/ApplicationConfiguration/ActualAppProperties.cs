@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using TrayGarden.Configuration.ApplicationConfiguration.Autorun;
+﻿using TrayGarden.Configuration.ApplicationConfiguration.Autorun;
 using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Configuration.ApplicationConfiguration;

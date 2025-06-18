@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using ClipboardChangerPlant.UIConfiguration;
+﻿using ClipboardChangerPlant.UIConfiguration;
 
 using TrayGarden.Helpers;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;

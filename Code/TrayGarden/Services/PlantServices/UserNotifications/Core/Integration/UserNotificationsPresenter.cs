@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using TrayGarden.Plants;
+﻿using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 

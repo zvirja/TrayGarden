@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using ClipboardChangerPlant.RequestHandling.PipelineModel;
+﻿using ClipboardChangerPlant.RequestHandling.PipelineModel;
 
 namespace ClipboardChangerPlant.RequestHandling.Specialized;
 

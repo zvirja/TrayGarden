@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System.Collections.Generic;
 using ClipboardChangerPlant.Clipboard;
 using ClipboardChangerPlant.Engine;
 using ClipboardChangerPlant.NotificationIcon;

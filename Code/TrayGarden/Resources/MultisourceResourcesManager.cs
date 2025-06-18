@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
-using System.Linq;
 using System.Resources;
-using System.Text;
-
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
