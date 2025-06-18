@@ -7,7 +7,7 @@ public class Plant: IPlant, IServicesDelegation
 {
     public string Description => "Service to retrieve CluedIn Auth token";
     
-    public string HumanSupportingName => "Clued In Auth Service";
+    public string HumanSupportingName => "CluedIn Auth Service";
     
     public void Initialize()
     {
