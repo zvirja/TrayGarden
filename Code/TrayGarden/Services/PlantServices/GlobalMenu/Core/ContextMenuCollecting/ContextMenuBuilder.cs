@@ -39,6 +39,8 @@ public class ContextMenuBuilder
   public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
   {
     var contextMenuStrip = new ContextMenuStrip();
+    contextMenuStrip.AutoSize = true;
+    
     BuildContextMenuPrefix(contextMenuStrip);
     EnumeratePlantBoxes(plantBoxes, contextMenuStrip, dynamicStateWatcher);
     BuildContextMenuSuffix(contextMenuStrip);
