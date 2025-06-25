@@ -14,8 +14,8 @@ public class PlantConfiguration : IUserConfiguration
 
     public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
     {
-        ProcessName = personalSettingsSteward.DeclareStringSetting("ProcessName", "Process Name. If there are multiple processes, the oldest will be picked up", "");
-        ShowMaximized = personalSettingsSteward.DeclareBoolSetting("ShowMaximized", "Whether window should be maximized on restore", false);
+        ProcessName = personalSettingsSteward.DeclareStringSetting("ProcessName", title: "Process Name", defaultValue: "", description: "If there are multiple processes, the oldest will be picked up");
+        ShowMaximized = personalSettingsSteward.DeclareBoolSetting("ShowMaximized", title: "Maximize window on restore", defaultValue: false);
     }
 
 }
