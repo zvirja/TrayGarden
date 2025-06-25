@@ -37,7 +37,7 @@ public class GlobalMenuHandler : IExtendsGlobalMenu, IChangesGlobalIcon, IClipbo
             ClipboardProvider.SetCurrentClipboardText(token, silent: true);
             GlobalIconChanger.NotifySuccess();
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             GlobalIconChanger.NotifyFailed();
         }
