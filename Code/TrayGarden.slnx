@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="ClipboardChangerPlant/ClipboardChangerPlant.csproj" />
+  <Project Path="CluedInAuthTokenPlant/CluedInAuthTokenPlant.csproj" />
+  <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />
+  <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
+  <Project Path="TrayGarden/TrayGarden.csproj" />
+  <Project Path="WindowsLangHotKeysSetter/WindowsLangHotKeysSetter.csproj" />
+</Solution>

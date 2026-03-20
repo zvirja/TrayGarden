@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
+using System.ComponentModel;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
@@ -14,5 +15,7 @@ public class ExtendedToolStripMenuItem : ToolStripMenuItem
   {
   }
 
-  public IDynamicStateProvider DymamicStateProvider { get; set; }
+    [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+    public IDynamicStateProvider DynamicStateProvider { get; set; }
+  
 }

@@ -19,7 +19,7 @@ public class DynamicStateWatcher : IDynamicStateWatcher
 
   public virtual void AddStipToWatch(ExtendedToolStripMenuItem menuItem)
   {
-    IDynamicStateProvider stateProvider = menuItem.DymamicStateProvider;
+    IDynamicStateProvider stateProvider = menuItem.DynamicStateProvider;
     if (stateProvider == null)
     {
       return;
@@ -62,7 +62,7 @@ public class DynamicStateWatcher : IDynamicStateWatcher
     }
     foreach (ExtendedToolStripMenuItem item in copyOfEntries)
     {
-      MenuEntryDecorator.DecorateStripItem(item, item.DymamicStateProvider.CurrentRelevanceLevel);
+      MenuEntryDecorator.DecorateStripItem(item, item.DynamicStateProvider.CurrentRelevanceLevel);
     }
   }
 }

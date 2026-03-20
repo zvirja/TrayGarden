@@ -23,7 +23,7 @@ public class MenuEntriesAppender : IMenuEntriesAppender
       return;
     }
     EventHandler asyncClickHandler = (sender, args) => Task.Factory.StartNew(() => clickHandler(sender, args));
-    var menuItem = new ExtendedToolStripMenuItem(text, icon.ToBitmap(), asyncClickHandler) { DymamicStateProvider = dynamicStateProvider };
+    var menuItem = new ExtendedToolStripMenuItem(text, icon.ToBitmap(), asyncClickHandler) { DynamicStateProvider = dynamicStateProvider };
     OutputItems.Add(menuItem);
   }
 }

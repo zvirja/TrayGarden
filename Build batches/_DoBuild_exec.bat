@@ -7,7 +7,7 @@ set outputFolderName=Output_%buildMode%
 if %keepPDB% == 1 set outputFolderName=%outputFolderName%_WITHPDB
 
 ::DO BUILD
-dotnet build ..\Code\TrayGarden.sln --configuration %buildMode%
+dotnet build ..\Code\TrayGarden.slnx --configuration %buildMode%
 
 ::copy result
 ::if exist %outputFolderName% rd /s /q %outputFolderName%
