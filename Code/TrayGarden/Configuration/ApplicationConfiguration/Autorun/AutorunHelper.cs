@@ -64,6 +64,6 @@ public class AutorunHelper : IAutorunHelper
 
   protected virtual string GetExecutablePath()
   {
-    return Assembly.GetEntryAssembly().Location;
+    return System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName;
   }
 }
