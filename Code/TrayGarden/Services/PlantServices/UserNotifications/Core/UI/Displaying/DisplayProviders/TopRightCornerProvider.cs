@@ -21,9 +21,9 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   private readonly IUIManager _uiManager;
 
-  private readonly Func<INotificationWindow> _notificationWindowFactory;
+  private readonly INotificationWindowFactory _notificationWindowFactory;
 
-  public TopRightCornerProvider(IUIManager uiManager, Func<INotificationWindow> notificationWindowFactory)
+  public TopRightCornerProvider(IUIManager uiManager, INotificationWindowFactory notificationWindowFactory)
   {
     _uiManager = uiManager;
     _notificationWindowFactory = notificationWindowFactory;
@@ -200,7 +200,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     _uiManager.ExecuteActionOnUIThreadAsynchronously(
       delegate
       {
-        var window = _notificationWindowFactory();
+        var window = _notificationWindowFactory.Create();
         task.WindowVM.ResultObtained += WindowVM_ResultObtained;
         window.PrepareAndDisplay(task.WindowVM);
       });

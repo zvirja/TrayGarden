@@ -17,11 +17,11 @@ namespace TrayGarden.RuntimeSettings.Provider;
 [UsedImplicitly]
 public class SettingsStorage : ISettingsStorage
 {
-  private readonly Func<IContainer> _containerFactory;
+  private readonly IContainerFactory _containerFactory;
 
   private readonly string _appDataFolderName;
 
-  public SettingsStorage(Func<IContainer> containerFactory, IOptions<TrayGardenOptions> options)
+  public SettingsStorage(IContainerFactory containerFactory, IOptions<TrayGardenOptions> options)
   {
     _containerFactory = containerFactory;
     var value = options.Value;
@@ -86,7 +86,7 @@ public class SettingsStorage : ISettingsStorage
       settingPair => settingPair.Key,
       settingPair => settingPair.Value);
     var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
-    var newContainer = _containerFactory();
+    var newContainer = _containerFactory.Create();
     Assert.IsNotNull(newContainer, "Wrong container factory");
     newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
     return newContainer;

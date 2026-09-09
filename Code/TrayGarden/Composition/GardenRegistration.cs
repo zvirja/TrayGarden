@@ -61,8 +61,8 @@ public static class GardenRegistration
 
   private static void AddCore(IServiceCollection services)
   {
-    services.AddTransient<Container>();
-    services.AddSingleton<Func<IContainer>>(sp => sp.GetRequiredService<Container>);
+    services.AddTransient<IContainer, Container>();
+    services.AddSingleton<IContainerFactory, ContainerFactory>();
 
     services.AddSingleton<ISettingsStorage, SettingsStorage>();
     services.AddSingleton<IRuntimeSettingsManager, RuntimeSettingsManager>();
@@ -110,14 +110,14 @@ public static class GardenRegistration
   {
     services.AddTransient<IDynamicStateDecorator, DynamicStateDecorator>();
     services.AddTransient<IDynamicStateWatcher, DynamicStateWatcher>();
-    services.AddTransient<Func<IDynamicStateWatcher>>(sp => sp.GetRequiredService<IDynamicStateWatcher>);
+    services.AddSingleton<IDynamicStateWatcherFactory, DynamicStateWatcherFactory>();
 
     services.AddTransient<INotifyIconChangerMaster>(sp =>
     {
       var options = sp.GetRequiredService<IOptions<TrayGardenOptions>>().Value;
       return new NotifyIconChanger { DefaultDelayMsec = options.NotifyIconChanger.DefaultDelayMsec };
     });
-    services.AddTransient<Func<INotifyIconChangerMaster>>(sp => sp.GetRequiredService<INotifyIconChangerMaster>);
+    services.AddSingleton<INotifyIconChangerFactory, NotifyIconChangerFactory>();
 
     services.AddSingleton<ContextMenuBuilder>();
 
@@ -158,6 +158,6 @@ public static class GardenRegistration
         new ViewModelToViewMappingFactoryBased(typeof(ActionNotificationVM), typeof(ActionNotification), sp),
         new ViewModelToViewMappingFactoryBased(typeof(YesNoNotificationVM), typeof(YesNoNotification), sp)
       }));
-    services.AddTransient<Func<INotificationWindow>>(sp => sp.GetRequiredService<INotificationWindow>);
+    services.AddSingleton<INotificationWindowFactory, NotificationWindowFactory>();
   }
 }

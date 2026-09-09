@@ -30,9 +30,9 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   private readonly IResourcesManager _resourcesManager;
 
-  private readonly Func<IDynamicStateWatcher> _dynamicStateWatcherFactory;
+  private readonly IDynamicStateWatcherFactory _dynamicStateWatcherFactory;
 
-  private readonly Func<INotifyIconChangerMaster> _notifyIconChangerFactory;
+  private readonly INotifyIconChangerFactory _notifyIconChangerFactory;
 
   private readonly IMainWindowDisplayer _mainWindowDisplayer;
 
@@ -43,8 +43,8 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     ContextMenuBuilder contextMenuBuilder,
     IGardenbed gardenbed,
     IResourcesManager resourcesManager,
-    Func<IDynamicStateWatcher> dynamicStateWatcherFactory,
-    Func<INotifyIconChangerMaster> notifyIconChangerFactory,
+    IDynamicStateWatcherFactory dynamicStateWatcherFactory,
+    INotifyIconChangerFactory notifyIconChangerFactory,
     IMainWindowDisplayer mainWindowDisplayer,
     IPipelineRunner pipelineRunner,
     IOptions<TrayGardenOptions> options)
@@ -126,7 +126,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     Assert.IsNotNull(ContextMenuBuilder, "Builder cannot be null, something is wrong");
     ContextMenuBuilder.ConfigureContextItemOnClick = ConfigureContextItemOnClick;
     ContextMenuBuilder.ExitContextItemOnClick = ExitContextItemOnClick;
-    IDynamicStateWatcher stateWatcher = _dynamicStateWatcherFactory();
+    IDynamicStateWatcher stateWatcher = _dynamicStateWatcherFactory.Create();
     return ContextMenuBuilder.BuildContextMenu(plantBoxes, stateWatcher);
   }
 
@@ -184,7 +184,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
   {
-    INotifyIconChangerMaster globalNotifyIconChanger = _notifyIconChangerFactory();
+    INotifyIconChangerMaster globalNotifyIconChanger = _notifyIconChangerFactory.Create();
     globalNotifyIconChanger.Initialize(GlobalNotifyIcon);
     _pipelineRunner.Run(new InitPlantGMArgs(plantEx, LuggageName, globalNotifyIconChanger));
   }
