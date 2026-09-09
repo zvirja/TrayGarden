@@ -8,7 +8,7 @@ namespace TrayGarden.Services.PlantServices.RareCommands.Pipelines.PlantInit;
 public class CollectRareCommands : IPipelineProcessor<InitPlantRareCommandsArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantRareCommandsArgs args)
+  public void Process(InitPlantRareCommandsArgs args)
   {
     var workHorse = args.RelatedPlant.GetFirstWorkhorseOfType<IProvidesRareCommands>();
     if (workHorse == null)

@@ -5,17 +5,17 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core;
 
 public class UserSettingMetadata<T> : IUserSettingMetadataMaster<T>
 {
-  public virtual object AdditionalParams { get; protected set; }
+  public object AdditionalParams { get; private set; }
 
-  public T DefaultValue { get; protected set; }
+  public T DefaultValue { get; private set; }
 
   public string Description { get; private set; }
 
-  public IUserSettingHallmark Hallmark { get; protected set; }
+  public IUserSettingHallmark Hallmark { get; private set; }
 
-  public virtual string Name { get; protected set; }
+  public string Name { get; private set; }
 
-  public virtual string Title { get; protected set; }
+  public string Title { get; private set; }
 
   public void Initialize(
     string name,

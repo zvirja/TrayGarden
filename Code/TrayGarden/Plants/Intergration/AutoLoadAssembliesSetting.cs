@@ -12,12 +12,12 @@ public class AutoLoadAssembliesSetting(IGardenbed gardenbed) : IPipelineProcesso
     "If this setting is enabled, Tray Garden automatically meets with plants in assemblies. The lookup folder is specified in the appsettings.json file.";
 
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetConfigurationEntry());
   }
 
-  protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
+  private ConfigurationEntryBaseVM GetConfigurationEntry()
   {
     return new BoolConfigurationEntryVM(new AutoLoadPropertyPlayer(gardenbed, "Auto load plants", SettingDescription));
   }

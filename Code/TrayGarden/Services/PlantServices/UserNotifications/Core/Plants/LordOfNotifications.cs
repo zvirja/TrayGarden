@@ -15,24 +15,24 @@ public class LordOfNotifications : ILordOfNotifications
     RelatedPlantBox = relatedPlantBox;
   }
 
-  protected UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
+  private UserNotificationsServicePlantBox RelatedPlantBox { get; set; }
 
-  public virtual IActionNotification CreateActionNotification(string headerText, string buttonText)
+  public IActionNotification CreateActionNotification(string headerText, string buttonText)
   {
     return new ActionNotificationVM(headerText, buttonText);
   }
 
-  public virtual IInformNotification CreateInformNotification(string textToDisplay)
+  public IInformNotification CreateInformNotification(string textToDisplay)
   {
     return new InformNotificationVM(textToDisplay);
   }
 
-  public virtual IYesNoNotification CreateYesNoNotification(string headerText)
+  public IYesNoNotification CreateYesNoNotification(string headerText)
   {
     return new YesNoNotificationVM(headerText);
   }
 
-  public virtual INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
+  public INotificationResultCourier DisplayNotification(IResultProvider notificationBlank)
   {
     if (!RelatedPlantBox.IsEnabled || !RelatedPlantBox.RelatedPlantEx.IsEnabled)
     {

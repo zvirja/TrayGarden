@@ -10,7 +10,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
 public class CreateContextMenuStrip : IPipelineProcessor<InitPlantGMArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantGMArgs args)
+  public void Process(InitPlantGMArgs args)
   {
     var asExpected = args.PlantEx.GetFirstWorkhorseOfType<IExtendsGlobalMenu>();
     if (asExpected == null)

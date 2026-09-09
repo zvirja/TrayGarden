@@ -6,7 +6,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 public class PlantsConfigVM : INotifyPropertyChanged
 {
-  protected ObservableCollection<SinglePlantVM> _plantVMs;
+  private ObservableCollection<SinglePlantVM> _plantVMs;
 
   public PlantsConfigVM()
   {
@@ -33,7 +33,7 @@ public class PlantsConfigVM : INotifyPropertyChanged
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  private void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)

@@ -8,7 +8,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 public class CreateConfigurationControl : IPipelineProcessor<UNConfigurationStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(UNConfigurationStepArgs args)
+  public void Process(UNConfigurationStepArgs args)
   {
     args.ConfigurationConstructInfo.BuildControlVM();
   }

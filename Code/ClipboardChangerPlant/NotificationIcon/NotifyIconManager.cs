@@ -18,7 +18,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
   private static readonly Lazy<NotifyIconManager> _manager =
     new Lazy<NotifyIconManager>(() => Factory.ActualFactory.GetNotifyIconManager());
 
-  protected XmlHelper ConfigurationHelper;
+  private XmlHelper ConfigurationHelper;
 
   public event Action<object> MainActionRequested;
 
@@ -86,7 +86,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     return true;
   }
 
-  public virtual List<ToolStripMenuItem> GetStripsToAdd()
+  public List<ToolStripMenuItem> GetStripsToAdd()
   {
     var result = new List<ToolStripMenuItem>();
     var shortLink = new ToolStripMenuItem("Short link in clipboard", Resources.klipperShortedv5.ToBitmap());
@@ -100,7 +100,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     ConfigurationHelper = new XmlHelper(configurationNode);
   }
 
-  public virtual void SetNewIcon(Icon newIcon, int msTimeout = 0)
+  public void SetNewIcon(Icon newIcon, int msTimeout = 0)
   {
     if (msTimeout == 0)
     {
@@ -109,17 +109,17 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     SetIconInternal(newIcon, msTimeout);
   }
 
-  public virtual void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+  public void StoreGlobalIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
   {
     GlobalNotifyIconChangerClient = notifyIconChangerClient;
   }
 
-  public virtual void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
+  public void StoreIconChangingAssignee(INotifyIconChangerClient notifyIconChangerClient)
   {
     NotifyIconChangerClient = notifyIconChangerClient;
   }
 
-  protected virtual void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
+  private void NotifyIcon_MouseClick(object sender, MouseEventArgs e)
   {
     if (e.Button == MouseButtons.Left)
     {
@@ -127,7 +127,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     }
   }
 
-  protected virtual void OnMainActionRequested()
+  private void OnMainActionRequested()
   {
     Action<object> handler = MainActionRequested;
     if (handler != null)
@@ -136,7 +136,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     }
   }
 
-  protected virtual void OnShorteningRequested()
+  private void OnShorteningRequested()
   {
     Action<object> handler = ShorteningRequested;
     if (handler != null)
@@ -145,7 +145,7 @@ public class NotifyIconManager : INeedCongurationNode, IStandaloneIcon, INeedToM
     }
   }
 
-  protected virtual void SetIconInternal(Icon newIcon, int msTimeout)
+  private void SetIconInternal(Icon newIcon, int msTimeout)
   {
     NotifyIconChangerClient.SetIcon(newIcon, msTimeout);
   }

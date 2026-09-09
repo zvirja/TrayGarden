@@ -23,9 +23,9 @@ public class ServicesSteward : IServicesSteward
 
   public List<IService> Services { get; set; }
 
-  protected bool Initialized { get; set; }
+  private bool Initialized { get; set; }
 
-  public virtual void InformClosingStage()
+  public void InformClosingStage()
   {
     AssertInitialized();
     foreach (IService service in Services)
@@ -41,7 +41,7 @@ public class ServicesSteward : IServicesSteward
     }
   }
 
-  public virtual void InformDisplayStage()
+  public void InformDisplayStage()
   {
     AssertInitialized();
     foreach (IService service in Services)
@@ -64,7 +64,7 @@ public class ServicesSteward : IServicesSteward
     }
   }
 
-  public virtual void InformInitializeStage()
+  public void InformInitializeStage()
   {
     AssertInitialized();
 
@@ -93,7 +93,7 @@ public class ServicesSteward : IServicesSteward
     }
   }
 
-  protected virtual void AquaintPlantWithServices(IPlantEx plantEx)
+  private void AquaintPlantWithServices(IPlantEx plantEx)
   {
     foreach (IService service in Services)
     {
@@ -112,7 +112,7 @@ public class ServicesSteward : IServicesSteward
     }
   }
 
-  protected virtual void AssertInitialized()
+  private void AssertInitialized()
   {
     if (!Initialized)
     {

@@ -8,7 +8,7 @@ public class ClipboardObserverPlantBox : ServicePlantBoxBase
 {
   public IClipboardListener WorksHungry { get; set; }
 
-  public virtual void InformNewClipboardValue(string newClipboardValue)
+  public void InformNewClipboardValue(string newClipboardValue)
   {
     if (IsEnabled)
     {

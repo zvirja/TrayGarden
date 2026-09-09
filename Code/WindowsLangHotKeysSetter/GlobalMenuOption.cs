@@ -9,7 +9,7 @@ public class GlobalMenuOption: TrayGarden.Reception.Services.IExtendsGlobalMenu,
 {
   public static GlobalMenuOption Instance = new GlobalMenuOption();
 
-  protected INotifyIconChangerClient GlobalIconChanger { get; set; }
+  private INotifyIconChangerClient GlobalIconChanger { get; set; }
 
   public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
   {

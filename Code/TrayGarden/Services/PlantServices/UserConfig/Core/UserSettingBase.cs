@@ -19,7 +19,7 @@ public abstract class UserSettingBase : IUserSettingBase
 
   public event EventHandler<UserSettingBaseChange> ValueChanged;
 
-  public virtual string Description
+  public string Description
   {
     get
     {
@@ -44,7 +44,7 @@ public abstract class UserSettingBase : IUserSettingBase
   //Be aware that member may be hidden in derived type
   public IUserSettingMetadataBase Metadata { get; set; }
 
-  public virtual string Name
+  public string Name
   {
     get
     {
@@ -53,7 +53,7 @@ public abstract class UserSettingBase : IUserSettingBase
     }
   }
 
-  public virtual string Title
+  public string Title
   {
     get
     {
@@ -62,13 +62,13 @@ public abstract class UserSettingBase : IUserSettingBase
     }
   }
 
-  protected List<IUserSettingBase> ActivityCriterias { get; set; }
+  private List<IUserSettingBase> ActivityCriterias { get; set; }
 
-  protected bool Initialized { get; set; }
+  private bool Initialized { get; set; }
 
   public abstract void ResetToDefault();
 
-  protected virtual void AssertInitialized()
+  protected void AssertInitialized()
   {
     if (!Initialized)
     {
@@ -76,7 +76,7 @@ public abstract class UserSettingBase : IUserSettingBase
     }
   }
 
-  protected virtual void Initialize([NotNull] IUserSettingMetadataBase baseMetadata, List<IUserSettingBase> activityCriterias)
+  protected void Initialize([NotNull] IUserSettingMetadataBase baseMetadata, List<IUserSettingBase> activityCriterias)
   {
     Assert.ArgumentNotNull(baseMetadata, "baseMetadata");
     Metadata = baseMetadata;
@@ -91,7 +91,7 @@ public abstract class UserSettingBase : IUserSettingBase
     Initialized = true;
   }
 
-  protected virtual void OnIsActiveInvalidated()
+  protected void OnIsActiveInvalidated()
   {
     EventHandler handler = IsActiveInvalidated;
     if (handler != null)
@@ -100,7 +100,7 @@ public abstract class UserSettingBase : IUserSettingBase
     }
   }
 
-  protected virtual void OnValueChanged(UserSettingBaseChange e)
+  protected void OnValueChanged(UserSettingBaseChange e)
   {
     EventHandler<UserSettingBaseChange> handler = ValueChanged;
     if (handler != null)

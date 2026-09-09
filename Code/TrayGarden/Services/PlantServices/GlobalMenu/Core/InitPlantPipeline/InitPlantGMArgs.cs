@@ -37,9 +37,9 @@ public class InitPlantGMArgs : PipelineArgs
 
   public string LuggageName { get; set; }
 
-  public IPlantEx PlantEx { get; protected set; }
+  public IPlantEx PlantEx { get; private set; }
 
-  public virtual void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
+  public void AddToolStripItems(IEnumerable<ToolStripMenuItem> newItem)
   {
     if (GMBox.ToolStripMenuItems == null)
     {

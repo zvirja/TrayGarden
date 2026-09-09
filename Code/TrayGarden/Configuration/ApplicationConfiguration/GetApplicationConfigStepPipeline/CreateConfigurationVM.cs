@@ -9,7 +9,7 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
 public class CreateConfigurationVM : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     ConfigurationControlConstructInfo configurationInfo = args.ConfigurationConstructInfo;
     configurationInfo.BuildControlVM();

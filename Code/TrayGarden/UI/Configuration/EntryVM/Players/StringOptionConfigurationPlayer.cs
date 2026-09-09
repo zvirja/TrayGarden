@@ -5,7 +5,7 @@ namespace TrayGarden.UI.Configuration.EntryVM.Players;
 
 public abstract class StringOptionConfigurationPlayer : TypedConfigurationPlayer<string>, IStringOptionConfigurationPlayer
 {
-  protected StringOptionConfigurationPlayer([NotNull] string settingName, bool supportsReset, bool readOnly)
+  private StringOptionConfigurationPlayer([NotNull] string settingName, bool supportsReset, bool readOnly)
     : base(settingName, supportsReset, readOnly)
   {
   }

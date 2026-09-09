@@ -17,9 +17,9 @@ public class SimpleRareCommand : IRareCommand
     ActionToPerform = actionToPerform;
   }
 
-  public Action ActionToPerform { get; protected set; }
+  public Action ActionToPerform { get; private set; }
 
-  public string Description { get; protected set; }
+  public string Description { get; private set; }
 
-  public string Title { get; protected set; }
+  public string Title { get; private set; }
 }

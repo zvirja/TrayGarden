@@ -25,7 +25,7 @@ public class PlayerForStringRSMediator : TypedConfigurationPlayer<string>
     }
   }
 
-  protected StringSettingMediator Mediator { get; set; }
+  private StringSettingMediator Mediator { get; set; }
 
   public override void Reset()
   {

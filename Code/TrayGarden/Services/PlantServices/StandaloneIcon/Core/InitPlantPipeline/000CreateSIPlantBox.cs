@@ -8,7 +8,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 public class CreateSIPlantBox : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     args.SIBox = new StandaloneIconPlantBox();
   }

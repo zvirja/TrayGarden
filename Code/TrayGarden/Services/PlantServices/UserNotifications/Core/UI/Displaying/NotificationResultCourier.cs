@@ -13,19 +13,19 @@ public class NotificationResultCourier : INotificationResultCourier
     RealTask = realTask;
   }
 
-  protected NotificationDisplayTask RealTask { get; set; }
+  private NotificationDisplayTask RealTask { get; set; }
 
-  public virtual bool DiscardIfNotDisplayedYet()
+  public bool DiscardIfNotDisplayedYet()
   {
     return RealTask.AbortDisplayTask(true);
   }
 
-  public virtual bool DiscardNotificationInAnyCase()
+  public bool DiscardNotificationInAnyCase()
   {
     return RealTask.AbortDisplayTask(false);
   }
 
-  public virtual NotificationResult GetResultWithWait()
+  public NotificationResult GetResultWithWait()
   {
     RealTask.ResultWaitHandle.WaitOne();
     NotificationResult obtainedResult = RealTask.ObtainedResult;
@@ -33,7 +33,7 @@ public class NotificationResultCourier : INotificationResultCourier
     return obtainedResult;
   }
 
-  public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
+  public bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
   {
     result = null;
     if (!RealTask.ResultWaitHandle.WaitOne(millisecondsToWait))

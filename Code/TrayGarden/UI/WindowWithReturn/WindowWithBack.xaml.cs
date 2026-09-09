@@ -24,11 +24,11 @@ namespace TrayGarden.UI.WindowWithReturn;
 /// </summary>
 public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithBack
 {
-  protected static bool _exitOnClose;
+  private static bool _exitOnClose;
 
   private readonly IResourcesManager _resourcesManager;
 
-  protected string iconResourceKey;
+  private string iconResourceKey;
 
   private static ISettingsBox WindowWithBackSettingsBoxLazy;
 
@@ -77,7 +77,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     }
   }
 
-  protected static ISettingsBox WindowWithBackSettingsBox
+  private static ISettingsBox WindowWithBackSettingsBox
   {
     get
     {
@@ -86,9 +86,9 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     }
   }
 
-  protected List<IViewModelToViewMapping> Mappings { get; set; }
+  private List<IViewModelToViewMapping> Mappings { get; set; }
 
-  protected WindowState StateToRestore { get; set; }
+  private WindowState StateToRestore { get; set; }
 
   public void BringToFront()
   {
@@ -102,12 +102,12 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     }
   }
 
-  public virtual List<IViewModelToViewMapping> GetMappings()
+  public List<IViewModelToViewMapping> GetMappings()
   {
     return Mappings ?? new List<IViewModelToViewMapping>();
   }
 
-  public virtual void PrepareAndShow(WindowWithBackVM viewModel)
+  public void PrepareAndShow(WindowWithBackVM viewModel)
   {
     CleanupAndDisposeDataContext();
     DataContext = viewModel;
@@ -118,7 +118,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     WindowState = StateToRestore;
   }
 
-  protected virtual void CleanupAndDisposeDataContext()
+  private void CleanupAndDisposeDataContext()
   {
     var currentDataContextAsDisposable = DataContext as IDisposable;
     DataContext = null;
@@ -150,7 +150,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     base.OnStateChanged(e);
   }
 
-  protected void SetIcon()
+  private void SetIcon()
   {
     if (IconResourceKey.IsNullOrEmpty())
     {
@@ -164,7 +164,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     Icon = ImageHelper.Bitmap2BitmapImage(resource.ToBitmap());
   }
 
-  protected virtual void SetSizeAndPos(WindowWithBackVM viewModel)
+  private void SetSizeAndPos(WindowWithBackVM viewModel)
   {
     if (!viewModel.SizePropertiesAreValid)
     {
@@ -177,7 +177,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     WindowState = StateToRestore = viewModel.Maximized ? WindowState.Maximized : WindowState.Normal;
   }
 
-  protected virtual bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
+  private bool SizePozitionProvider(out double top, out double left, out double width, out double height, out bool maximized)
   {
     if (WindowState == WindowState.Maximized)
     {

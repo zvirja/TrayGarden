@@ -38,14 +38,14 @@ public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEna
     }
   }
 
-  protected ServicePlantBoxBase AssignedPlantBox { get; set; }
+  private ServicePlantBoxBase AssignedPlantBox { get; set; }
 
-  public virtual void Dispose()
+  public void Dispose()
   {
     AssignedPlantBox.IsEnabledChanged -= AssignedPlantBox_IsEnabledChanged;
   }
 
-  protected virtual void AssignedPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
+  private void AssignedPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newValue)
   {
     OnPropertyChanged("IsEnabled");
   }

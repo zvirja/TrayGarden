@@ -29,7 +29,7 @@ public class InitPlantSIArgs : PipelineArgs
 
   public string LuggageName { get; set; }
 
-  public IPlantEx PlantEx { get; protected set; }
+  public IPlantEx PlantEx { get; private set; }
 
   public StandaloneIconPlantBox SIBox { get; set; }
 }

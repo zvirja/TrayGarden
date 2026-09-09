@@ -17,7 +17,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 [UsedImplicitly]
 public class TopRightCornerProvider : IDisplayQueueProvider
 {
-  protected object Lock = new object();
+  private object Lock = new object();
 
   private readonly IUIManager _uiManager;
 
@@ -31,9 +31,9 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
   }
 
-  protected List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
+  private List<DisplayTaskBag> DisplayedWaitForResultTasks { get; set; }
 
-  protected TimeSpan NonDisplayedTaskExpiration
+  private TimeSpan NonDisplayedTaskExpiration
   {
     get
     {
@@ -41,7 +41,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected int NotificationWindowHeight
+  private int NotificationWindowHeight
   {
     get
     {
@@ -49,7 +49,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected int NotificationWindowTopIndent
+  private int NotificationWindowTopIndent
   {
     get
     {
@@ -57,7 +57,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected int NotificationWindowWidth
+  private int NotificationWindowWidth
   {
     get
     {
@@ -65,9 +65,9 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected List<DisplayTaskBag> QueuedTasks { get; set; }
+  private List<DisplayTaskBag> QueuedTasks { get; set; }
 
-  protected int SimultaneouslyDisplayedLimit
+  private int SimultaneouslyDisplayedLimit
   {
     get
     {
@@ -75,7 +75,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  public virtual void DiscardAllTasks()
+  public void DiscardAllTasks()
   {
     lock (Lock)
     {
@@ -92,7 +92,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  public virtual bool EnqueueToDisplay(NotificationDisplayTask task)
+  public bool EnqueueToDisplay(NotificationDisplayTask task)
   {
     var taskBag = GetTaskBag(task);
     task.TaskDiscardHandler = DiscardTask;
@@ -105,7 +105,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     return true;
   }
 
-  protected virtual void AddBagToQueue(DisplayTaskBag task)
+  private void AddBagToQueue(DisplayTaskBag task)
   {
     lock (Lock)
     {
@@ -114,7 +114,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual DisplayTaskBag DequeueBagAndPrepareItToDisplay()
+  private DisplayTaskBag DequeueBagAndPrepareItToDisplay()
   {
     lock (Lock)
     {
@@ -135,7 +135,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual bool DiscardTask(NotificationDisplayTask task, bool onlyIfNonDisplayed)
+  private bool DiscardTask(NotificationDisplayTask task, bool onlyIfNonDisplayed)
   {
     DisplayTaskBag bagToRemove = null;
     try
@@ -172,7 +172,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual PositionSize GetDefaultNotificationPositionSize()
+  private PositionSize GetDefaultNotificationPositionSize()
   {
     var width = NotificationWindowWidth;
     var height = NotificationWindowHeight;
@@ -183,19 +183,19 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     return new PositionSize(top, left, width, height);
   }
 
-  protected virtual NotificationWindowVM GetNotificationWindowVM(NotificationDisplayTask task, PositionSize actualPositionAndSize)
+  private NotificationWindowVM GetNotificationWindowVM(NotificationDisplayTask task, PositionSize actualPositionAndSize)
   {
     return new NotificationWindowVM(actualPositionAndSize, task.RelatedSpecializedNotification, task.Originator);
   }
 
-  protected virtual DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
+  private DisplayTaskBag GetTaskBag(NotificationDisplayTask task)
   {
     PositionSize positionSize = GetDefaultNotificationPositionSize();
     NotificationWindowVM notificationWindowVM = GetNotificationWindowVM(task, positionSize);
     return new DisplayTaskBag(task, notificationWindowVM, DateTime.UtcNow, positionSize);
   }
 
-  protected virtual void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
+  private void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
   {
     _uiManager.ExecuteActionOnUIThreadAsynchronously(
       delegate
@@ -206,7 +206,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
       });
   }
 
-  protected virtual void ProcessPendingQueue()
+  private void ProcessPendingQueue()
   {
     lock (Lock)
     {
@@ -222,7 +222,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual void RecalculateDisplayedTasksPositions()
+  private void RecalculateDisplayedTasksPositions()
   {
     var currentTop = NotificationWindowTopIndent;
 
@@ -253,7 +253,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual void RemoveExpiredTasks()
+  private void RemoveExpiredTasks()
   {
     DateTime expirationThreshold = DateTime.UtcNow.Subtract(NonDisplayedTaskExpiration);
     lock (Lock)
@@ -271,7 +271,7 @@ public class TopRightCornerProvider : IDisplayQueueProvider
     }
   }
 
-  protected virtual void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
+  private void WindowVM_ResultObtained(object sender, ResultObtainedEventArgs e)
   {
     lock (Lock)
     {

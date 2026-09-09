@@ -7,11 +7,11 @@ namespace TrayGarden.Services;
 public abstract class PlantServiceBase<TPlantLuggageType> : IService
   where TPlantLuggageType : class
 {
-  protected static readonly string AllServiceSettingsContainerName = "PlantServices";
+  private static readonly string AllServiceSettingsContainerName = "PlantServices";
 
-  protected bool? _isActuallyEnabled;
+  private bool? _isActuallyEnabled;
 
-  protected ISettingsBox _serviceSettingsBox;
+  private ISettingsBox _serviceSettingsBox;
 
   private readonly IRuntimeSettingsManager _runtimeSettingsManager;
 
@@ -43,7 +43,7 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
       _isActuallyEnabled = IsEnabled;
       return _isActuallyEnabled.Value;
     }
-    protected set
+    private set
     {
       if (_isActuallyEnabled == null)
       {
@@ -70,9 +70,9 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
 
   public string ServiceDescription { get; protected set; }
 
-  public string ServiceName { get; protected set; }
+  public string ServiceName { get; private set; }
 
-  protected virtual ISettingsBox ServiceSettingsBox
+  private ISettingsBox ServiceSettingsBox
   {
     get
     {
@@ -87,7 +87,7 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
     }
   }
 
-  public virtual TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
+  public TPlantLuggageType GetPlantLuggage(IPlantEx plantEx)
   {
     if (!plantEx.HasLuggage(LuggageName))
     {
@@ -113,12 +113,12 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
     plantEx.EnabledChanged += PlantOnEnabledChanged;
   }
 
-  public virtual bool IsAvailableForPlant(IPlantEx plantEx)
+  public bool IsAvailableForPlant(IPlantEx plantEx)
   {
     return GetPlantLuggage(plantEx) != null;
   }
 
-  protected virtual void OnIsEnabledChanged(bool obj)
+  private void OnIsEnabledChanged(bool obj)
   {
     Action<bool> handler = IsEnabledChanged;
     if (handler != null)

@@ -13,14 +13,14 @@ public class UserNotificationsGate : IUserNotificationsGate
     Provider = provider;
   }
 
-  protected IDisplayQueueProvider Provider { get; set; }
+  private IDisplayQueueProvider Provider { get; set; }
 
-  public virtual void DiscardAllTasks()
+  public void DiscardAllTasks()
   {
     Provider.DiscardAllTasks();
   }
 
-  public virtual INotificationResultCourier EnqueueToShow(IResultProvider notificationVM, string originator)
+  public INotificationResultCourier EnqueueToShow(IResultProvider notificationVM, string originator)
   {
     NotificationDisplayTask displayTask = GetDisplayTask(notificationVM, originator);
     if (!AddToDisplayQueue(displayTask))
@@ -31,12 +31,12 @@ public class UserNotificationsGate : IUserNotificationsGate
     return new NotificationResultCourier(displayTask);
   }
 
-  protected virtual bool AddToDisplayQueue(NotificationDisplayTask task)
+  private bool AddToDisplayQueue(NotificationDisplayTask task)
   {
     return Provider.EnqueueToDisplay(task);
   }
 
-  protected virtual NotificationDisplayTask GetDisplayTask(IResultProvider notificationVM, string originator)
+  private NotificationDisplayTask GetDisplayTask(IResultProvider notificationVM, string originator)
   {
     return new NotificationDisplayTask(notificationVM, originator);
   }

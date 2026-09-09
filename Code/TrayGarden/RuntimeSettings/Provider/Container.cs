@@ -13,29 +13,29 @@ public class Container : IContainer
     InnerContainers = new Dictionary<string, IContainer>();
   }
 
-  public string Name { get; protected set; }
+  public string Name { get; private set; }
 
-  protected Dictionary<string, IContainer> InnerContainers { get; set; }
+  private Dictionary<string, IContainer> InnerContainers { get; set; }
 
-  protected Dictionary<string, string> Settings { get; set; }
+  private Dictionary<string, string> Settings { get; set; }
 
-  public virtual IContainer GetNamedSubContainer(string name)
+  public IContainer GetNamedSubContainer(string name)
   {
     return ResolveNamedSubContainer(name);
   }
 
-  public virtual IEnumerable<string> GetPresentStringSettingNames()
+  public IEnumerable<string> GetPresentStringSettingNames()
   {
     var res = Settings.Keys.ToList();
     return res;
   }
 
-  public virtual IEnumerable<string> GetPresentSubContainerNames()
+  public IEnumerable<string> GetPresentSubContainerNames()
   {
     return InnerContainers.Keys.ToList();
   }
 
-  public virtual string GetStringSetting(string name)
+  public string GetStringSetting(string name)
   {
     if (Settings.ContainsKey(name))
     {
@@ -44,7 +44,7 @@ public class Container : IContainer
     return null;
   }
 
-  public virtual void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers)
+  public void InitializeFromCollections(string name, Dictionary<string, string> settings, IEnumerable<IContainer> subcontainers)
   {
     Name = name;
     foreach (KeyValuePair<string, string> stringStringPair in settings)
@@ -57,7 +57,7 @@ public class Container : IContainer
     }
   }
 
-  public virtual void SetStringSetting(string name, string value)
+  public void SetStringSetting(string name, string value)
   {
     SetStringSettingInternal(name, value);
   }
@@ -67,7 +67,7 @@ public class Container : IContainer
     return string.Format("{0} Settings:{1}, Inner:{2}", Name, Settings.Count, InnerContainers.Count);
   }
 
-  protected virtual IContainer ResolveNamedSubContainer(string name)
+  private IContainer ResolveNamedSubContainer(string name)
   {
     if (InnerContainers.ContainsKey(name))
     {
@@ -78,7 +78,7 @@ public class Container : IContainer
     return newContainer;
   }
 
-  protected virtual void SetStringSettingInternal(string name, string value)
+  private void SetStringSettingInternal(string name, string value)
   {
     Settings[name] = value;
   }

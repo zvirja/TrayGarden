@@ -12,14 +12,14 @@ namespace TrayGarden.Resources;
 [UsedImplicitly]
 public class AssemblySource : ISource
 {
-  public ResourceManager Source { get; protected set; }
+  public ResourceManager Source { get; private set; }
 
-  protected string AssemblyName { get; set; }
+  private string AssemblyName { get; set; }
 
-  protected string ResourcePath { get; set; }
+  private string ResourcePath { get; set; }
 
   [UsedImplicitly]
-  public virtual void Initialize([NotNull] string assemblyName, [NotNull] string resourcePath)
+  public void Initialize([NotNull] string assemblyName, [NotNull] string resourcePath)
   {
     Assert.ArgumentNotNullOrEmpty(assemblyName, "assemblyName");
     Assert.ArgumentNotNullOrEmpty(resourcePath, "resourcePath");
@@ -32,7 +32,7 @@ public class AssemblySource : ISource
     }
   }
 
-  protected virtual Assembly ResolveAssembly(string assemblyName)
+  private Assembly ResolveAssembly(string assemblyName)
   {
     if (assemblyName.IsNullOrEmpty())
     {

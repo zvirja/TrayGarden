@@ -22,11 +22,11 @@ namespace TrayGarden.UI.WindowWithReturn;
 /// </summary>
 public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 {
-  protected RelayCommand _backCommand;
+  private RelayCommand _backCommand;
 
-  protected string _copyrightTitle;
+  private string _copyrightTitle;
 
-  protected ObservableCollection<ActionCommandVM> _helpActions;
+  private ObservableCollection<ActionCommandVM> _helpActions;
 
   private readonly IRuntimeSettingsManager _runtimeSettingsManager;
 
@@ -55,14 +55,14 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     out double height,
     out bool maximized);
 
-  protected delegate void GoAheadWithBackInvokable(WindowStepState newState);
+  private delegate void GoAheadWithBackInvokable(WindowStepState newState);
 
   public event PropertyChangedEventHandler PropertyChanged;
 
-  protected static event GoAheadWithBackInvokable GoAheadTargets;
+  private static event GoAheadWithBackInvokable GoAheadTargets;
 
   [UsedImplicitly]
-  public virtual RelayCommand BackCommand
+  public RelayCommand BackCommand
   {
     get
     {
@@ -70,7 +70,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual string BackToTitle
+  public string BackToTitle
   {
     get
     {
@@ -87,7 +87,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual object ContentVM
+  public object ContentVM
   {
     get
     {
@@ -105,7 +105,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   }
 
   [UsedImplicitly]
-  public virtual string CopyrightTitle
+  public string CopyrightTitle
   {
     get
     {
@@ -125,7 +125,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   //--
 
   [UsedImplicitly]
-  public virtual ICommand ExtraActionCommand
+  public ICommand ExtraActionCommand
   {
     get
     {
@@ -134,7 +134,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   }
 
   [UsedImplicitly]
-  public virtual string ExtraActionTitle
+  public string ExtraActionTitle
   {
     get
     {
@@ -142,7 +142,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual string GlobalTitle
+  public string GlobalTitle
   {
     get
     {
@@ -150,7 +150,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual string Header
+  public string Header
   {
     get
     {
@@ -164,7 +164,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowHeight", null));
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetString("WindowHeight", value.ToString(CultureInfo.InvariantCulture));
     }
@@ -191,7 +191,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowLeft", null));
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetString("WindowLeft", value.ToString(CultureInfo.InvariantCulture));
     }
@@ -203,7 +203,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return SelfSettingsBox.GetBool("WindowMaximized", false);
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetBool("WindowMaximized", value);
     }
@@ -228,7 +228,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return SelfSettingsBox.GetBool("WindowPropertiesAreValid", false);
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetBool("WindowPropertiesAreValid", value);
     }
@@ -240,7 +240,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowTop", null));
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetString("WindowTop", value.ToString(CultureInfo.InvariantCulture));
     }
@@ -252,15 +252,15 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     {
       return GetDoubleValueOrZero(SelfSettingsBox.GetString("WindowWidth", null));
     }
-    protected set
+    private set
     {
       SelfSettingsBox.SetString("WindowWidth", value.ToString(CultureInfo.InvariantCulture));
     }
   }
 
-  protected virtual string BackToTitleInternal { get; set; }
+  private string BackToTitleInternal { get; set; }
 
-  protected virtual bool CanBack
+  private bool CanBack
   {
     get
     {
@@ -272,7 +272,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  protected virtual WindowStepState CurrentState
+  private WindowStepState CurrentState
   {
     get
     {
@@ -280,9 +280,9 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  protected ISettingsBox SelfSettingsBox { get; set; }
+  private ISettingsBox SelfSettingsBox { get; set; }
 
-  protected virtual Stack<WindowStepState> Steps
+  private Stack<WindowStepState> Steps
   {
     get
     {
@@ -294,7 +294,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  protected int TimesEnterBulkUpdate { get; set; }
+  private int TimesEnterBulkUpdate { get; set; }
 
   public static void GoAheadWithBackIfPossible(WindowStepState newState)
   {
@@ -304,7 +304,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual void Dispose()
+  public void Dispose()
   {
     if (TimesEnterBulkUpdate == 1)
     {
@@ -320,7 +320,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     ClearStepsStackWithDisposing();
   }
 
-  public virtual void PrepareToShow()
+  public void PrepareToShow()
   {
     StackRawSwitcher<BulkUpdateState>.Enter(BulkUpdateState.Enabled);
     TimesEnterBulkUpdate++;
@@ -331,7 +331,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  public virtual void ReplaceInitialState(WindowStepState newHomeState)
+  public void ReplaceInitialState(WindowStepState newHomeState)
   {
     ClearStepsStackWithDisposing();
     Steps.Push(newHomeState);
@@ -339,13 +339,13 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     NotifyPublicVisibleChanged();
   }
 
-  protected static double GetDoubleValueOrZero(string str)
+  private static double GetDoubleValueOrZero(string str)
   {
     double result;
     return double.TryParse(str, out result) ? result : 0;
   }
 
-  protected virtual void BackExecute(object o)
+  private void BackExecute(object o)
   {
     Assert.IsTrue(Steps.Count > 0, "Steps stack is corrupted. Can't be less than 1");
     var contentVMtoDestroy = ContentVM as IDisposable;
@@ -370,7 +370,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     NotifyPublicVisibleChanged();
   }
 
-  protected virtual void ClearStepsStackWithDisposing()
+  private void ClearStepsStackWithDisposing()
   {
     while (Steps.Count > 0)
     {
@@ -383,13 +383,13 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  protected virtual void CloseAppExecute(object o)
+  private void CloseAppExecute(object o)
   {
     Log.For(this).Information("'Close app' help action invoked. Calling Application.Shutdown().");
     Application.Current.Shutdown();
   }
 
-  protected virtual List<ActionCommandVM> GetHelpActions()
+  private List<ActionCommandVM> GetHelpActions()
   {
     return new List<ActionCommandVM>()
     {
@@ -398,7 +398,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     };
   }
 
-  protected virtual void GoAheadWithBack(WindowStepState newState)
+  private void GoAheadWithBack(WindowStepState newState)
   {
     Assert.IsNotNull(newState, "New state cannot be null");
     BackToTitleInternal = CurrentState.ShortName;
@@ -407,12 +407,12 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     NotifyPublicVisibleChanged();
   }
 
-  protected virtual void HelpActions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+  private void HelpActions_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
   {
     OnPropertyChanged("HelpActions");
   }
 
-  protected virtual void NotifyPublicVisibleChanged()
+  private void NotifyPublicVisibleChanged()
   {
     OnPropertyChanged("GlobalTitle");
     OnPropertyChanged("Header");
@@ -424,7 +424,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  private void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -433,7 +433,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
-  protected virtual void SavePositionAndSize(object o)
+  private void SavePositionAndSize(object o)
   {
     if (SizePozitionProvider == null)
     {

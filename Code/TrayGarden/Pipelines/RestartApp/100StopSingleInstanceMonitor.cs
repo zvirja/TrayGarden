@@ -12,7 +12,7 @@ namespace TrayGarden.Pipelines.RestartApp;
 public class StopSingleInstanceMonitor(ISingleInstanceMonitor monitor) : IPipelineProcessor<RestartAppArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(RestartAppArgs args)
+  public void Process(RestartAppArgs args)
   {
     Log.For(this).Information("StopSingleInstanceMonitor: requesting monitor shutdown");
     ManualResetEventSlim disablingMonitor = monitor.EnqueueMonitorDisabling();

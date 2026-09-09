@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 public class CreatePlantVM : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
+  public void Process(ResolveSinglePlantVMPipelineArgs args)
   {
     args.PlantVM = new SinglePlantVM();
     args.PlantVM.InitPlantVMWithPlantEx(args.PlantEx);

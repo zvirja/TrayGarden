@@ -11,7 +11,7 @@ public class UIConfigurationManager : IUserConfiguration
     ActualManager = new UIConfigurationManager();
   }
 
-  public static UIConfigurationManager ActualManager { get; protected set; }
+  public static UIConfigurationManager ActualManager { get; private set; }
 
   public IPersonalUserSettingsSteward SettingsSteward { get; set; }
 
@@ -23,7 +23,7 @@ public class UIConfigurationManager : IUserConfiguration
     }
   }
 
-  public virtual void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
+  public void StoreAndFillPersonalSettingsSteward(IPersonalUserSettingsSteward personalSettingsSteward)
   {
     SettingsSteward = personalSettingsSteward;
   }

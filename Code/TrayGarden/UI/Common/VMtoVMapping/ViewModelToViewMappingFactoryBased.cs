@@ -26,7 +26,7 @@ public class ViewModelToViewMappingFactoryBased : IViewModelToViewMapping
 
   public Type AcceptableViewModelType { get; }
 
-  public virtual Control GetControl(object contextVM)
+  public Control GetControl(object contextVM)
   {
     var control = _serviceProvider.GetRequiredService(_viewType) as Control;
     Assert.IsNotNull(control, "Returned value is not Control or is null");

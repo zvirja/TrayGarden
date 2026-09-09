@@ -17,7 +17,7 @@ namespace TrayGarden.UI.Configuration;
 
 public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyChanged
 {
-  protected bool _calculateRebootOption;
+  private bool _calculateRebootOption;
 
   public ConfigurationControlVM([NotNull] List<ConfigurationEntryBaseVM> configurationEntries, bool allowResetAll)
   {
@@ -56,9 +56,9 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
 
   public string ConfigurationDescription { get; set; }
 
-  public List<ConfigurationEntryBaseVM> ConfigurationEntries { get; protected set; }
+  public List<ConfigurationEntryBaseVM> ConfigurationEntries { get; private set; }
 
-  public ICommand RebootApplication { get; protected set; }
+  public ICommand RebootApplication { get; private set; }
 
   /// <summary>
   /// Used by View. Specifies whether "Reboot app" strip should be displayed.
@@ -75,9 +75,9 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
     }
   }
 
-  public ICommand ResetAll { get; protected set; }
+  public ICommand ResetAll { get; private set; }
 
-  protected virtual void ConfigurationEntry_PropertyChanged(object sender, PropertyChangedEventArgs e)
+  private void ConfigurationEntry_PropertyChanged(object sender, PropertyChangedEventArgs e)
   {
     if (e.PropertyName.Equals("RequiresApplicationReboot", StringComparison.OrdinalIgnoreCase))
     {
@@ -86,7 +86,7 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  private void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -95,12 +95,12 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
     }
   }
 
-  protected virtual void RebootAppExecute(object o)
+  private void RebootAppExecute(object o)
   {
     LifecycleObserver.RestartApp(new[] { StringConstants.OpenConfigDialogStartupKey });
   }
 
-  protected virtual void ResetAllExecute(object o)
+  private void ResetAllExecute(object o)
   {
     foreach (ConfigurationEntryBaseVM configurationEntry in ConfigurationEntries)
     {
@@ -111,7 +111,7 @@ public class ConfigurationControlVM : IConfigurationControlVM, INotifyPropertyCh
     }
   }
 
-  protected void SubscribeToEntriesEvents(IEnumerable<ConfigurationEntryBaseVM> configurationEntries)
+  private void SubscribeToEntriesEvents(IEnumerable<ConfigurationEntryBaseVM> configurationEntries)
   {
     foreach (ConfigurationEntryBaseVM configurationEntry in configurationEntries)
     {

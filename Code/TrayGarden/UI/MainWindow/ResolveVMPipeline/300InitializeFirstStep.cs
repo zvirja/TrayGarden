@@ -16,14 +16,14 @@ public class InitializeFirstStep : IPipelineProcessor<GetMainVMPipelineArgs>
   public string ShortName { get; set; }
 
   [UsedImplicitly]
-  public virtual void Process(GetMainVMPipelineArgs args)
+  public void Process(GetMainVMPipelineArgs args)
   {
     Assert.IsNotNull(args.ResultVM, "Result VM can't be null");
     Assert.IsNotNull(args.PlantsConfigVM, "PlantsConfig VM can't be null");
     args.ResultVM.ReplaceInitialState(GetInitialStep(args));
   }
 
-  protected virtual WindowStepState GetInitialStep(GetMainVMPipelineArgs args)
+  private WindowStepState GetInitialStep(GetMainVMPipelineArgs args)
   {
     var step = new WindowStepState(
       GlobalTitle.GetValueOrDefault("Tray Garden -- Plants configuration"),

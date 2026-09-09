@@ -32,7 +32,7 @@ public class StringOptionUserSetting : TypedUserSetting<string>, IStringOptionUs
     }
   }
 
-  protected virtual bool IsValidStringOptionValue(string value)
+  private bool IsValidStringOptionValue(string value)
   {
     List<string> possibleOptions = Metadata.AdditionalParams as List<string> ?? new List<string>();
     return possibleOptions.Any(x => x.Equals(value, StringComparison.OrdinalIgnoreCase));

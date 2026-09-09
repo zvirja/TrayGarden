@@ -51,7 +51,7 @@ public class TextDisplayOptions
 
   public TextWrapping Wrapping { get; set; }
 
-  protected void ValidateBrushWithException(Brush brush)
+  private void ValidateBrushWithException(Brush brush)
   {
     if (brush != null && !brush.IsFrozen)
     {

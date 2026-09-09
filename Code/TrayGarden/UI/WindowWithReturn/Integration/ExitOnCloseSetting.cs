@@ -13,12 +13,12 @@ public class ExitOnCloseSetting : IPipelineProcessor<GetApplicationConfigStepArg
     "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
 
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetConfigurationEntry());
   }
 
-  protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
+  private ConfigurationEntryBaseVM GetConfigurationEntry()
   {
     return new BoolConfigurationEntryVM(new ExitOnClosePlayer("Exit on close", SettingDescription));
   }

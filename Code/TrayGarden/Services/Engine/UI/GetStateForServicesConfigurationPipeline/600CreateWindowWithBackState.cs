@@ -17,7 +17,7 @@ public class CreateWindowWithBackState : IPipelineProcessor<GetStateForServicesC
   public string ShortName { get; set; } = "services config";
 
   [UsedImplicitly]
-  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  public void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
     Assert.IsNotNull(args.ConfigConstructInfo.ResultControlVM, "args.ConfigurationVM");
     WindowWithBackStateConstructInfo stateConstructInfo = args.StateConstructInfo;

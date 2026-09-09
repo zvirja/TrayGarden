@@ -25,7 +25,7 @@ public class PlayerForDoubleRSMediator : TypedConfigurationPlayer<double>
     }
   }
 
-  protected DoubleSettingMediator Mediator { get; set; }
+  private DoubleSettingMediator Mediator { get; set; }
 
   public override void Reset()
   {

@@ -7,7 +7,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 [UsedImplicitly]
 public class ServiceForPlantWithEnablingVM : ServiceForPlantVMBase
 {
-  protected bool _isEnabled;
+  private bool _isEnabled;
 
   public ServiceForPlantWithEnablingVM(IUIManager uiManager, [NotNull] string serviceName, [NotNull] string description)
     : base(uiManager, serviceName, description)
@@ -37,7 +37,7 @@ public class ServiceForPlantWithEnablingVM : ServiceForPlantVMBase
     }
   }
 
-  protected virtual void OnIsEnabledChanged(bool newvalue)
+  protected void OnIsEnabledChanged(bool newvalue)
   {
     ServiceForPlantEnabledChanged handler = IsEnabledChanged;
     if (handler != null)

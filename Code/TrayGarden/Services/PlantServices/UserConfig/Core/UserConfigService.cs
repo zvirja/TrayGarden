@@ -25,7 +25,7 @@ public class UserConfigService : PlantServiceBase<UserConfigServicePlantBox>
     InitializePlantInternal(plantEx);
   }
 
-  protected virtual void InitializePlantInternal(IPlantEx plantEx)
+  private void InitializePlantInternal(IPlantEx plantEx)
   {
     _pipelineRunner.Run(new InitPlantUCPipelineArg(LuggageName, plantEx));
   }

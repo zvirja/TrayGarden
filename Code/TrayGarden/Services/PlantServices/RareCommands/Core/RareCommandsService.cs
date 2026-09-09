@@ -27,7 +27,7 @@ public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
     InitializePlantInternal(plantEx);
   }
 
-  protected virtual void InitializePlantInternal(IPlantEx plantEx)
+  private void InitializePlantInternal(IPlantEx plantEx)
   {
     var pipelineArgs = new InitPlantRareCommandsArgs(plantEx);
     _pipelineRunner.Run(pipelineArgs);

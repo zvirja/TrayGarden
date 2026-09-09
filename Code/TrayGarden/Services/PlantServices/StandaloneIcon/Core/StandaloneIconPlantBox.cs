@@ -11,7 +11,7 @@ public class StandaloneIconPlantBox : ServicePlantBoxBase
 
   public NotifyIcon NotifyIcon { get; set; }
 
-  public virtual void FixNIVisibility()
+  public void FixNIVisibility()
   {
     if (RelatedPlantEx.IsEnabled)
     {
@@ -23,7 +23,7 @@ public class StandaloneIconPlantBox : ServicePlantBoxBase
     }
   }
 
-  protected virtual void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
+  private void StandaloneIconPlantBox_IsEnabledChanged(ServicePlantBoxBase sender, bool newvalue)
   {
     FixNIVisibility();
   }

@@ -16,7 +16,7 @@ public class MenuEntriesAppender : IMenuEntriesAppender
 
   public List<ExtendedToolStripMenuItem> OutputItems { get; set; }
 
-  public virtual void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler, IDynamicStateProvider dynamicStateProvider = null)
+  public void AppentMenuStripItem(string text, Icon icon, EventHandler clickHandler, IDynamicStateProvider dynamicStateProvider = null)
   {
     if (text.IsNullOrEmpty() || icon == null || clickHandler == null)
     {

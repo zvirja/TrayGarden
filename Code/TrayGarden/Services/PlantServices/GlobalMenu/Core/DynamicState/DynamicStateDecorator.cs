@@ -24,28 +24,28 @@ public class DynamicStateDecorator : IDynamicStateDecorator
     }
   }
 
-  protected virtual void SetToHighState(ToolStripMenuItem menuItem)
+  private void SetToHighState(ToolStripMenuItem menuItem)
   {
     menuItem.ForeColor = Color.Black;
     menuItem.Font = new Font(menuItem.Font, menuItem.Font.Style | FontStyle.Bold);
     menuItem.Enabled = true;
   }
 
-  protected virtual void SetToIrrelevantState(ToolStripMenuItem menuItem)
+  private void SetToIrrelevantState(ToolStripMenuItem menuItem)
   {
     menuItem.ForeColor = Color.Black;
     menuItem.Font = new Font(menuItem.Font, menuItem.Font.Style & ~FontStyle.Bold);
     menuItem.Enabled = false;
   }
 
-  protected virtual void SetToLowState(ToolStripMenuItem menuItem)
+  private void SetToLowState(ToolStripMenuItem menuItem)
   {
     menuItem.ForeColor = Color.DarkGray;
     menuItem.Font = new Font(menuItem.Font, menuItem.Font.Style & ~FontStyle.Bold);
     menuItem.Enabled = true;
   }
 
-  protected virtual void SetToNormalState(ToolStripMenuItem menuItem)
+  private void SetToNormalState(ToolStripMenuItem menuItem)
   {
     menuItem.ForeColor = Color.Black;
     menuItem.Font = new Font(menuItem.Font, menuItem.Font.Style & ~FontStyle.Bold);

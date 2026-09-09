@@ -14,7 +14,7 @@ public class CreateConfigurationVM : IPipelineProcessor<GetStateForServicesConfi
     "This window allows to enable or disable the particular plant service. Pay attention that some services cannot be disabled. You have to restart application to apply changes";
 
   [UsedImplicitly]
-  public virtual void Process([NotNull] GetStateForServicesConfigurationPipelineArgs args)
+  public void Process([NotNull] GetStateForServicesConfigurationPipelineArgs args)
   {
     ConfigurationControlConstructInfo configConstructInfo = args.ConfigConstructInfo;
     Assert.ArgumentNotNull(configConstructInfo.ConfigurationEntries, "args.ConfigConstructInfo.ConfigurationEntries");

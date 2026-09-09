@@ -23,7 +23,7 @@ public class PlantServiceConfigurator(IResourcesManager resourcesManager, IPipel
   public string Description { get; set; } = "Configure service";
 
   [UsedImplicitly]
-  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  public void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
     //Find setting, related to UserConfiguration service
     var entryRelatedToService =
@@ -33,12 +33,12 @@ public class PlantServiceConfigurator(IResourcesManager resourcesManager, IPipel
     FillPlayerWithConfigAction(entryRelatedToService.RealPlayer);
   }
 
-  protected virtual void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
+  private void FillPlayerWithConfigAction(IConfigurationPlayer realPlayer)
   {
     realPlayer.AdditionalActions.Add(GetConfigurationAction());
   }
 
-  protected virtual IConfigurationEntryAction GetConfigurationAction()
+  private IConfigurationEntryAction GetConfigurationAction()
   {
     var configureIcon = resourcesManager.GetIconResource("configureV1", null);
     Assert.IsNotNull(configureIcon, "Resolved image cannot be null");
@@ -46,7 +46,7 @@ public class PlantServiceConfigurator(IResourcesManager resourcesManager, IPipel
     return new SimpleConfigurationEntryAction(imageSource, ShowConfigurationWindow, true, null, Description);
   }
 
-  protected virtual void ShowConfigurationWindow(object obj)
+  private void ShowConfigurationWindow(object obj)
   {
     var stepArgs = new UNConfigurationStepArgs();
     pipelineRunner.Run(stepArgs);

@@ -54,7 +54,7 @@ public class ActionNotificationVM : SpecializedNotificationVMBase, IActionNotifi
 
   public ICommand SubmitCommand { get; set; }
 
-  protected virtual void OnSubmit(object o)
+  private void OnSubmit(object o)
   {
     base.SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
   }

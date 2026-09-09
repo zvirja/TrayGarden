@@ -8,14 +8,14 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 [UsedImplicitly]
 public class TuneWindowProperties : IPipelineProcessor<UNConfigurationStepArgs>
 {
-  protected string GlobalTitle { get; set; } = "Tray Garden -- User notifications properties";
+  private string GlobalTitle { get; set; } = "Tray Garden -- User notifications properties";
 
-  protected string Header { get; set; } = "User notifications properties";
+  private string Header { get; set; } = "User notifications properties";
 
-  protected string ShortName { get; set; } = "UserNotificationsProp";
+  private string ShortName { get; set; } = "UserNotificationsProp";
 
   [UsedImplicitly]
-  public virtual void Process(UNConfigurationStepArgs args)
+  public void Process(UNConfigurationStepArgs args)
   {
     WindowWithBackStateConstructInfo constructInfo = args.StateConstructInfo;
     constructInfo.Header = Header;
@@ -24,7 +24,7 @@ public class TuneWindowProperties : IPipelineProcessor<UNConfigurationStepArgs>
     constructInfo.ContentVM = GetContentVM(args);
   }
 
-  protected virtual object GetContentVM(UNConfigurationStepArgs args)
+  private object GetContentVM(UNConfigurationStepArgs args)
   {
     return args.ConfigurationConstructInfo.ResultControlVM;
   }

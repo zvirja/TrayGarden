@@ -85,42 +85,42 @@ public class XmlHelper
     return innerNode;
   }
 
-  public virtual string GetAttributeValue(string attributeName)
+  public string GetAttributeValue(string attributeName)
   {
     return GetAttributeValue(ParentNode, attributeName);
   }
 
-  public virtual bool GetBoolValue(string nodePath)
+  public bool GetBoolValue(string nodePath)
   {
     return GetBoolValue(ParentNode, nodePath);
   }
 
-  public virtual int GetIntValue(string nodePath)
+  public int GetIntValue(string nodePath)
   {
     return GetIntValue(ParentNode, nodePath);
   }
 
-  public virtual string GetName()
+  public string GetName()
   {
     return GetStringValue("name");
   }
 
-  public virtual string GetStringValue(string nodePath)
+  public string GetStringValue(string nodePath)
   {
     return GetStringValue(ParentNode, nodePath);
   }
 
-  public virtual List<string> GetStringsList(string nodePath)
+  public List<string> GetStringsList(string nodePath)
   {
     return GetStringsList(ParentNode, nodePath);
   }
 
-  public virtual XmlNodeList SmartlySelectNodes(string xpath)
+  public XmlNodeList SmartlySelectNodes(string xpath)
   {
     return SmartlySelectNodes(ParentNode, xpath);
   }
 
-  public virtual XmlNode SmartlySelectSingleNode(string xpath)
+  public XmlNode SmartlySelectSingleNode(string xpath)
   {
     return SmartlySelectSingleNode(ParentNode, xpath);
   }

@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 public class ProvidePlantWithSteward : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantUCPipelineArg args)
+  public void Process(InitPlantUCPipelineArg args)
   {
     Assert.IsNotNull(args.PersonalSettingsSteward, "Steward cannot be null");
     args.Workhorse.StoreAndFillPersonalSettingsSteward(args.PersonalSettingsSteward);

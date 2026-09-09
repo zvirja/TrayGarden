@@ -11,7 +11,7 @@ namespace TrayGarden.Plants.Pipeline;
 public class ValidatePlant : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitializePlantArgs args)
+  public void Process(InitializePlantArgs args)
   {
     IPlant plant = args.IPlantObject;
     if (plant.Description.IsNullOrEmpty() || plant.HumanSupportingName.IsNullOrEmpty())

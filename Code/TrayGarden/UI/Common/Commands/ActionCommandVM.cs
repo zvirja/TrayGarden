@@ -10,7 +10,7 @@ public class ActionCommandVM
     Title = title;
   }
 
-  public ICommand Command { get; protected set; }
+  public ICommand Command { get; private set; }
 
-  public string Title { get; protected set; }
+  public string Title { get; private set; }
 }

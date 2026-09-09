@@ -27,5 +27,5 @@ public abstract class BaseSettingMediator
     }
   }
 
-  protected Func<ISettingsBox> SettingsBoxResolver { get; set; }
+  private Func<ISettingsBox> SettingsBoxResolver { get; set; }
 }

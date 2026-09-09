@@ -43,7 +43,7 @@ public class WindowStepState
     StateSpecificHelpActions = stateSpecificHelpActions ?? new List<ActionCommandVM>();
   }
 
-  protected WindowStepState()
+  private WindowStepState()
   {
   }
 

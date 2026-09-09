@@ -12,7 +12,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff;
 [UsedImplicitly]
 public class ServiceForPlantDataTemplateSelector : IDataTemplateSelector
 {
-  public virtual DataTemplate SelectTemplate(object item, DependencyObject container)
+  public DataTemplate SelectTemplate(object item, DependencyObject container)
   {
     var asFrameworkElement = container as FrameworkElement;
     Assert.IsNotNull(asFrameworkElement, "Strange.. passed dependency object isn't framework element");
@@ -28,12 +28,12 @@ public class ServiceForPlantDataTemplateSelector : IDataTemplateSelector
              : null);
   }
 
-  protected virtual DataTemplate FindResource(FrameworkElement container, string key)
+  private DataTemplate FindResource(FrameworkElement container, string key)
   {
     return container.TryFindResource(key) as DataTemplate;
   }
 
-  protected virtual string GetResourceKey(object vmItem)
+  private string GetResourceKey(object vmItem)
   {
     if (vmItem is ServiceForPlantActionPerformVM)
     {
@@ -46,7 +46,7 @@ public class ServiceForPlantDataTemplateSelector : IDataTemplateSelector
     return null;
   }
 
-  protected virtual DataTemplate TryResolveFromResources(object item, FrameworkElement container)
+  private DataTemplate TryResolveFromResources(object item, FrameworkElement container)
   {
     var c = container.Resources.Count;
     return null;

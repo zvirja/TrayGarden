@@ -8,7 +8,7 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 public class Processor : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  public void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
   }
 }

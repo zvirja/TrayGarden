@@ -8,7 +8,7 @@ namespace TrayGarden.Plants.Pipeline;
 public class ResolvePlantSettingBox : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitializePlantArgs args)
+  public void Process(InitializePlantArgs args)
   {
     args.PlantSettingsBox = args.RootSettingsBox.GetSubBox(args.PlantID);
   }

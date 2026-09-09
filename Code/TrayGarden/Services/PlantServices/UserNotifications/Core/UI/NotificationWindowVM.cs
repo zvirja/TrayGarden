@@ -16,11 +16,11 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI;
 
 public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResultProvider
 {
-  protected bool isAlive;
+  private bool isAlive;
 
-  protected string permanentCloseDescription;
+  private string permanentCloseDescription;
 
-  protected PositionSize positionAndSize;
+  private PositionSize positionAndSize;
 
   public NotificationWindowVM(
     [NotNull] PositionSize actualPositionAndSize,
@@ -48,7 +48,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   public ICommand CloseCommand { get; set; }
 
-  public virtual TimeSpan DelayBeforeForceClosing
+  public TimeSpan DelayBeforeForceClosing
   {
     get
     {
@@ -56,7 +56,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual TimeSpan DelayBeforeForceFading
+  public TimeSpan DelayBeforeForceFading
   {
     get
     {
@@ -68,7 +68,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual TimeSpan DelayBeforeNormalClosing
+  public TimeSpan DelayBeforeNormalClosing
   {
     get
     {
@@ -76,7 +76,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual TimeSpan DelayBeforeNormalFading
+  public TimeSpan DelayBeforeNormalFading
   {
     get
     {
@@ -88,7 +88,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual bool DisplayPermanentlyCloseButton
+  public bool DisplayPermanentlyCloseButton
   {
     get
     {
@@ -96,7 +96,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual Duration ForceFadingDuration
+  public Duration ForceFadingDuration
   {
     get
     {
@@ -109,7 +109,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   }
 
   [UsedImplicitly]
-  public virtual bool IsAlive
+  public bool IsAlive
   {
     get
     {
@@ -130,7 +130,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   public IResultProvider NestedNotificationVM { get; set; }
 
-  public virtual Duration NormalFadingDuration
+  public Duration NormalFadingDuration
   {
     get
     {
@@ -144,7 +144,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
 
   public ICommand PermanentCloseCommand { get; set; }
 
-  public virtual string PermanentCloseDescription
+  public string PermanentCloseDescription
   {
     get
     {
@@ -161,7 +161,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public virtual PositionSize PositionAndSize
+  public PositionSize PositionAndSize
   {
     get
     {
@@ -178,9 +178,9 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  public NotificationResult Result { get; protected set; }
+  public NotificationResult Result { get; private set; }
 
-  public virtual void Dispose()
+  public void Dispose()
   {
     //Check whether this result was accepted. Otherwise no sense to inform listeners that we received it.
     bool arrivedOnTime = SetResultIfStillNeed(new NotificationResult(ResultCode.NoReaction));
@@ -195,24 +195,24 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  protected virtual void FireFireworkWeHaveResult()
+  private void FireFireworkWeHaveResult()
   {
     OnResultObtained(Result);
   }
 
-  protected string GetPermanentCloseDescription(string originator)
+  private string GetPermanentCloseDescription(string originator)
   {
     return UserNotificationsConfiguration.PermanentCloseDescriptionPattern.Value.FormatWith(originator);
   }
 
-  protected virtual void OnCloseCommandExecute(object o)
+  private void OnCloseCommandExecute(object o)
   {
     SetResultIfStillNeed(new NotificationResult(ResultCode.Close));
     IsAlive = false;
     FireFireworkWeHaveResult();
   }
 
-  protected virtual void OnPermanentlyCloseExecute(object obj)
+  private void OnPermanentlyCloseExecute(object obj)
   {
     SetResultIfStillNeed(new NotificationResult(ResultCode.PermanentlyClose));
     IsAlive = false;
@@ -220,7 +220,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  private void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -229,7 +229,7 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  protected virtual void OnResultObtained(NotificationResult result)
+  private void OnResultObtained(NotificationResult result)
   {
     EventHandler<ResultObtainedEventArgs> handler = ResultObtained;
     if (handler != null)
@@ -238,19 +238,19 @@ public class NotificationWindowVM : INotifyPropertyChanged, IDisposable, IResult
     }
   }
 
-  protected virtual void OnResultObtainedFromNestedNotification(object sender, ResultObtainedEventArgs e)
+  private void OnResultObtainedFromNestedNotification(object sender, ResultObtainedEventArgs e)
   {
     SetResultIfStillNeed(e.Result);
     IsAlive = false;
     FireFireworkWeHaveResult();
   }
 
-  protected virtual void PositionAndSizeOnChanged()
+  private void PositionAndSizeOnChanged()
   {
     OnPropertyChanged("PositionAndSize");
   }
 
-  protected virtual bool SetResultIfStillNeed(NotificationResult result)
+  private bool SetResultIfStillNeed(NotificationResult result)
   {
     if (Result.Code != ResultCode.Unspecified)
     {

@@ -57,12 +57,12 @@ public class AutorunHelper : IAutorunHelper
     }
   }
 
-  protected virtual RegistryKey GetAppropriateKey()
+  private RegistryKey GetAppropriateKey()
   {
     return Registry.CurrentUser.OpenSubKey(KeyPath, true);
   }
 
-  protected virtual string GetExecutablePath()
+  private string GetExecutablePath()
   {
     return System.Diagnostics.Process.GetCurrentProcess().MainModule!.FileName;
   }

@@ -32,7 +32,7 @@ public class NotificationDisplayTask
 
   public Func<NotificationDisplayTask, bool, bool> TaskDiscardHandler { get; set; }
 
-  public virtual bool AbortDisplayTask(bool onlyIfNotDisplayedYet)
+  public bool AbortDisplayTask(bool onlyIfNotDisplayedYet)
   {
     bool successfullyDiscarded = DiscardUsingHandler(onlyIfNotDisplayedYet);
     if (!successfullyDiscarded)
@@ -46,13 +46,13 @@ public class NotificationDisplayTask
     return true;
   }
 
-  public virtual void SetResult(NotificationResult result)
+  public void SetResult(NotificationResult result)
   {
     ObtainedResult = result;
     ResultWaitHandle.Set();
   }
 
-  protected virtual bool DiscardUsingHandler(bool onlyIfNotDisplayedYet)
+  private bool DiscardUsingHandler(bool onlyIfNotDisplayedYet)
   {
     if (TaskDiscardHandler == null)
     {

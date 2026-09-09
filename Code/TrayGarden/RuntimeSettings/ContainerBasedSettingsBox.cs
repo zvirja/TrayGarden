@@ -14,13 +14,13 @@ public class ContainerBasedSettingsBox : ISettingsBox
 
   public event Action OnSaving;
 
-  protected ISettingsBox ParentBox { get; set; }
+  private ISettingsBox ParentBox { get; set; }
 
-  protected Dictionary<string, ContainerBasedSettingsBox> SubBoxes { get; set; }
+  private Dictionary<string, ContainerBasedSettingsBox> SubBoxes { get; set; }
 
-  protected IContainer UnderlyingContainer { get; set; }
+  private IContainer UnderlyingContainer { get; set; }
 
-  public virtual string this[string settingName]
+  public string this[string settingName]
   {
     get
     {
@@ -36,7 +36,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
     }
   }
 
-  public virtual bool GetBool(string settingName, bool fallbackValue)
+  public bool GetBool(string settingName, bool fallbackValue)
   {
     bool value;
     return TryGetBool(settingName, out value) ? value : fallbackValue;
@@ -48,19 +48,19 @@ public class ContainerBasedSettingsBox : ISettingsBox
     return TryGetDouble(settingName, out value) ? value : fallbackValue;
   }
 
-  public virtual int GetInt(string settingName, int fallbackValue)
+  public int GetInt(string settingName, int fallbackValue)
   {
     int value;
     return TryGetInt(settingName, out value) ? value : fallbackValue;
   }
 
-  public virtual string GetString(string settingName, string fallbackValue)
+  public string GetString(string settingName, string fallbackValue)
   {
     var value = this[settingName];
     return value ?? fallbackValue;
   }
 
-  public virtual ISettingsBox GetSubBox(string boxName)
+  public ISettingsBox GetSubBox(string boxName)
   {
     var boxNameUppercased = boxName.ToLowerInvariant();
     if (SubBoxes.ContainsKey(boxNameUppercased))
@@ -75,12 +75,12 @@ public class ContainerBasedSettingsBox : ISettingsBox
     return newBox;
   }
 
-  public virtual void Initialize(IContainer container)
+  public void Initialize(IContainer container)
   {
     UnderlyingContainer = container;
   }
 
-  public virtual void Save()
+  public void Save()
   {
     CallOnSaving();
     if (ParentBox != null)
@@ -89,7 +89,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
     }
   }
 
-  public virtual void SetBool(string settingName, bool value)
+  public void SetBool(string settingName, bool value)
   {
     this[settingName] = value.ToString(CultureInfo.InvariantCulture);
   }
@@ -99,17 +99,17 @@ public class ContainerBasedSettingsBox : ISettingsBox
     this[settingName] = value.ToString(CultureInfo.InvariantCulture);
   }
 
-  public virtual void SetInt(string settingName, int value)
+  public void SetInt(string settingName, int value)
   {
     this[settingName] = value.ToString(CultureInfo.InvariantCulture);
   }
 
-  public virtual void SetString(string settingName, string settingValue)
+  public void SetString(string settingName, string settingValue)
   {
     this[settingName] = settingValue;
   }
 
-  public virtual bool TryGetBool(string settingName, out bool value)
+  public bool TryGetBool(string settingName, out bool value)
   {
     if (bool.TryParse(this[settingName], out value))
     {
@@ -127,7 +127,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
     return false;
   }
 
-  public virtual bool TryGetInt(string settingName, out int value)
+  public bool TryGetInt(string settingName, out int value)
   {
     if (int.TryParse(this[settingName], out value))
     {
@@ -136,7 +136,7 @@ public class ContainerBasedSettingsBox : ISettingsBox
     return false;
   }
 
-  protected virtual void CallOnSaving()
+  private void CallOnSaving()
   {
     Action handler = OnSaving;
     if (handler != null)

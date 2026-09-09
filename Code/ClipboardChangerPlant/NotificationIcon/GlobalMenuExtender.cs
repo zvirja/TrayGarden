@@ -22,12 +22,12 @@ public class GlobalMenuExtender : TrayGarden.Reception.Services.IExtendsGlobalMe
     return true;
   }
 
-  protected virtual void HandleClipboard(object sender, EventArgs e)
+  private void HandleClipboard(object sender, EventArgs e)
   {
     Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(false, false, null, true);
   }
 
-  protected virtual void ShortUrl(object sender, EventArgs eventArgs)
+  private void ShortUrl(object sender, EventArgs eventArgs)
   {
     Factory.ActualFactory.GetRequestProcessManager().ProcessRequest(true, false, null, true);
   }

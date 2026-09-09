@@ -76,7 +76,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   public string TrayIconResourceName { get; set; }
 
-  protected NotifyIcon GlobalNotifyIcon { get; set; }
+  private NotifyIcon GlobalNotifyIcon { get; set; }
 
   public override void InformClosingStage()
   {
@@ -121,7 +121,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     InitializePlantFromPipeline(plantEx);
   }
 
-  protected virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
+  private ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes)
   {
     Assert.IsNotNull(ContextMenuBuilder, "Builder cannot be null, something is wrong");
     ContextMenuBuilder.ConfigureContextItemOnClick = ConfigureContextItemOnClick;
@@ -130,12 +130,12 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     return ContextMenuBuilder.BuildContextMenu(plantBoxes, stateWatcher);
   }
 
-  protected virtual void ConfigureContextItemOnClick(object sender, EventArgs eventArgs)
+  private void ConfigureContextItemOnClick(object sender, EventArgs eventArgs)
   {
     OpenConfigurationWindow();
   }
 
-  protected virtual void CreateNotifyIcon()
+  private void CreateNotifyIcon()
   {
     GlobalNotifyIcon = new NotifyIcon { Visible = false };
     GlobalNotifyIcon.Text = IconText;
@@ -143,13 +143,13 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     GlobalNotifyIcon.MouseClick += GlobalNotifyIcon_MouseClick;
   }
 
-  protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)
+  private void ExitContextItemOnClick(object sender, EventArgs eventArgs)
   {
     Log.For(this).Information("Tray 'Exit Garden' clicked. Calling Application.Shutdown().");
     Application.Current.Shutdown();
   }
 
-  protected virtual Icon GenerateIcon()
+  private Icon GenerateIcon()
   {
     var newIcon = new Bitmap(32, 32);
     var rand = new Random();
@@ -165,7 +165,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     return Icon.FromHandle(iconHandle);
   }
 
-  protected virtual Icon GetIcon()
+  private Icon GetIcon()
   {
     Icon iconResource = _resourcesManager.GetIconResource(TrayIconResourceName, null);
     if (iconResource != null)
@@ -175,7 +175,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     return GenerateIcon();
   }
 
-  protected virtual void GlobalNotifyIcon_MouseClick(object sender, MouseEventArgs e)
+  private void GlobalNotifyIcon_MouseClick(object sender, MouseEventArgs e)
   {
     if (e.Button == MouseButtons.Left)
     {
@@ -183,14 +183,14 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     }
   }
 
-  protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
+  private void InitializePlantFromPipeline(IPlantEx plantEx)
   {
     INotifyIconChangerMaster globalNotifyIconChanger = _notifyIconChangerFactory.Create();
     globalNotifyIconChanger.Initialize(GlobalNotifyIcon);
     _pipelineRunner.Run(new InitPlantGMArgs(plantEx, LuggageName, globalNotifyIconChanger));
   }
 
-  protected virtual void OpenConfigurationWindow()
+  private void OpenConfigurationWindow()
   {
     _mainWindowDisplayer.PopupMainWindow();
   }

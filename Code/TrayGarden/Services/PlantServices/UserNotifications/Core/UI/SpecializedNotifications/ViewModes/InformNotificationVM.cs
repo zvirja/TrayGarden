@@ -18,13 +18,13 @@ public class InformNotificationVM : SpecializedNotificationVMBase, IInformNotifi
     TextDisplayFont = new TextDisplayOptions(Brushes.DimGray, 20.0) { Margins = new Thickness(7) };
   }
 
-  public ICommand OnTextClick { get; protected set; }
+  public ICommand OnTextClick { get; private set; }
 
   public TextDisplayOptions TextDisplayFont { get; set; }
 
   public string TextToDisplay { get; set; }
 
-  protected virtual void OnTextClicked(object obj)
+  private void OnTextClicked(object obj)
   {
     SetResultNotifyInterestedMen(new NotificationResult(ResultCode.OK));
   }

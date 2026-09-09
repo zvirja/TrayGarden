@@ -24,7 +24,7 @@ public class AssignVisibleText : IPipelineProcessor<GetApplicationConfigStepArgs
   public string ShortName { get; set; }
 
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     args.ConfigurationConstructInfo.ConfigurationDescription = ConfigurationDescription;
     var stepInfo = args.StepConstructInfo;

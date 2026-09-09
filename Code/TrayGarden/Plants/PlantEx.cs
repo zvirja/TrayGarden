@@ -18,7 +18,7 @@ public class PlantEx : IPlantEx
 
   public event PlantEnabledChangedEvent EnabledChanged;
 
-  public string ID { get; protected set; }
+  public string ID { get; private set; }
 
   public bool IsEnabled
   {
@@ -35,22 +35,22 @@ public class PlantEx : IPlantEx
     }
   }
 
-  public ISettingsBox MySettingsBox { get; protected set; }
+  public ISettingsBox MySettingsBox { get; private set; }
 
-  public IPlant Plant { get; protected set; }
+  public IPlant Plant { get; private set; }
 
-  public List<object> Workhorses { get; protected set; }
+  public List<object> Workhorses { get; private set; }
 
-  protected Dictionary<string, object> Cloakroom { get; set; }
+  private Dictionary<string, object> Cloakroom { get; set; }
 
-  protected bool Initialized { get; set; }
+  private bool Initialized { get; set; }
 
   public T GetFirstWorkhorseOfType<T>()
   {
     return (T)Workhorses.FirstOrDefault(x => x is T);
   }
 
-  public virtual object GetLuggage(string name)
+  public object GetLuggage(string name)
   {
     AssertInitialized();
     if (!Cloakroom.ContainsKey(name))
@@ -60,19 +60,19 @@ public class PlantEx : IPlantEx
     return Cloakroom[name];
   }
 
-  public virtual T GetLuggage<T>(string name) where T : class
+  public T GetLuggage<T>(string name) where T : class
   {
     AssertInitialized();
     return GetLuggage(name) as T;
   }
 
-  public virtual bool HasLuggage(string name)
+  public bool HasLuggage(string name)
   {
     AssertInitialized();
     return Cloakroom.ContainsKey(name);
   }
 
-  public virtual void Initialize(
+  public void Initialize(
     [NotNull] IPlant plant,
     [NotNull] List<object> workhorses,
     [NotNull] string id,
@@ -89,13 +89,13 @@ public class PlantEx : IPlantEx
     Initialized = true;
   }
 
-  public virtual void PutLuggage(string name, object luggage)
+  public void PutLuggage(string name, object luggage)
   {
     AssertInitialized();
     Cloakroom[name] = luggage;
   }
 
-  protected virtual void AssertInitialized()
+  private void AssertInitialized()
   {
     if (!Initialized)
     {
@@ -103,7 +103,7 @@ public class PlantEx : IPlantEx
     }
   }
 
-  protected virtual void OnEnabledChanged(IPlantEx plantEx, bool newValue)
+  private void OnEnabledChanged(IPlantEx plantEx, bool newValue)
   {
     PlantEnabledChangedEvent handler = EnabledChanged;
     if (handler != null)

@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 public class CreateNotifyIcon : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     StandaloneIconPlantBox siBox = args.SIBox;
     ResolveIAdvanced(args);
@@ -30,7 +30,7 @@ public class CreateNotifyIcon : IPipelineProcessor<InitPlantSIArgs>
     }
   }
 
-  protected virtual void ResolveIAdvanced(InitPlantSIArgs args)
+  private void ResolveIAdvanced(InitPlantSIArgs args)
   {
     var asAdvanced = args.PlantEx.GetFirstWorkhorseOfType<IAdvancedStandaloneIcon>();
     if (asAdvanced != null)
@@ -39,7 +39,7 @@ public class CreateNotifyIcon : IPipelineProcessor<InitPlantSIArgs>
     }
   }
 
-  protected virtual void ResolveISimple(InitPlantSIArgs args)
+  private void ResolveISimple(InitPlantSIArgs args)
   {
     var asSimple = args.PlantEx.GetFirstWorkhorseOfType<IStandaloneIcon>();
     if (asSimple == null)

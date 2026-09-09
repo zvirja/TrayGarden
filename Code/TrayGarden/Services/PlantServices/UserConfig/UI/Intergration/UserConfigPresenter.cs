@@ -30,7 +30,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     ServiceDescription = "This service allows to configure user settings for plant";
   }
 
-  protected virtual ICommand GetCommand(object plantEx)
+  private ICommand GetCommand(object plantEx)
   {
     var relayCommand = new RelayCommand(RunServiceForPlant, true);
     return new CommandProxyForCustomParam(relayCommand, plantEx);
@@ -50,7 +50,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     return new ServiceForPlantActionPerformVM(UIManager, ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
   }
 
-  protected virtual void RunServiceForPlant(object argument)
+  private void RunServiceForPlant(object argument)
   {
     var userConfigServicePlantBox = argument as UserConfigServicePlantBox;
     Assert.IsNotNull(userConfigServicePlantBox, "Wrong argument. Shouldn't be null");

@@ -41,7 +41,7 @@ public class ActionConfigurationEntry : ConfigurationEntryBaseVM
     }
   }
 
-  protected new IActionConfigurationPlayer RealPlayer { get; set; }
+  private new IActionConfigurationPlayer RealPlayer { get; set; }
 
   protected override void OnUnderlyingSettingValueChanged()
   {

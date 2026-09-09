@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 public class ResolveWorkhorse : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantUCPipelineArg args)
+  public void Process(InitPlantUCPipelineArg args)
   {
     var appropriateWorkhorse = args.RelatedPlant.GetFirstWorkhorseOfType<IUserConfiguration>();
     if (appropriateWorkhorse == null)

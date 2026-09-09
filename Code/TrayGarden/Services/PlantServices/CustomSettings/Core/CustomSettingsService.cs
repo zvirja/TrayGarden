@@ -21,7 +21,7 @@ public class CustomSettingsService : PlantServiceBase<ClipboardObserverPlantBox>
     SetCustomSettingsBox(plantEx);
   }
 
-  protected virtual void SetCustomSettingsBox(IPlantEx plantEx)
+  private void SetCustomSettingsBox(IPlantEx plantEx)
   {
     var asExpected = plantEx.GetFirstWorkhorseOfType<IGetCustomSettingsStorage>();
     if (asExpected == null)

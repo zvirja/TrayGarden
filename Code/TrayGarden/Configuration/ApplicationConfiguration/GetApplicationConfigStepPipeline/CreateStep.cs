@@ -11,7 +11,7 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfig
 public class CreateStep : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     Assert.IsNotNull(args.StepConstructInfo.ContentVM != null, "args.StepConstructInfo.ContentVM is not null");
     WindowWithBackStateConstructInfo stepInfo = args.StepConstructInfo;

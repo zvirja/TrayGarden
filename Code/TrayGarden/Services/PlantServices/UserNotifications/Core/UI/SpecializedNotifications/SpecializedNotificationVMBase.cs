@@ -10,14 +10,14 @@ public class SpecializedNotificationVMBase : IResultProvider, ISelfViewResolver
 {
   public event EventHandler<ResultObtainedEventArgs> ResultObtained;
 
-  public NotificationResult Result { get; protected set; }
+  public NotificationResult Result { get; private set; }
 
-  public virtual Control GetViewToPresentMe()
+  public Control GetViewToPresentMe()
   {
     return null;
   }
 
-  protected virtual void OnResultObtained(NotificationResult result)
+  private void OnResultObtained(NotificationResult result)
   {
     EventHandler<ResultObtainedEventArgs> handler = ResultObtained;
     if (handler != null)
@@ -26,7 +26,7 @@ public class SpecializedNotificationVMBase : IResultProvider, ISelfViewResolver
     }
   }
 
-  protected virtual void SetResultNotifyInterestedMen(NotificationResult result)
+  protected void SetResultNotifyInterestedMen(NotificationResult result)
   {
     Result = result;
     OnResultObtained(Result);

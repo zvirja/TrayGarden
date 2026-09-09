@@ -16,7 +16,7 @@ public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelinePro
   public string ExitEntryIconResName { get; set; } = "exitIconV1";
 
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     var contextMenu = args.SIBox.NotifyIcon.ContextMenuStrip ?? new ContextMenuStrip();
     var asContextMenuExtendable = args.PlantEx.GetFirstWorkhorseOfType<IExtendContextMenu>();
@@ -28,7 +28,7 @@ public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelinePro
     args.SIBox.NotifyIcon.ContextMenuStrip = contextMenu;
   }
 
-  protected virtual void DrawInstanceIndependentContextMenu(ContextMenuStrip contextMenu, InitPlantSIArgs args)
+  private void DrawInstanceIndependentContextMenu(ContextMenuStrip contextMenu, InitPlantSIArgs args)
   {
     /*
     ToolStripItem closeComponent = contextMenu.Items.Add("Hide plant");
@@ -49,7 +49,7 @@ public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelinePro
     exitGardenEntry.Click += args.ExitGardenClick;
   }
 
-  protected virtual void DrawInstanceSpecificContextMenu(ContextMenuStrip contextMenu, IExtendContextMenu workInstance)
+  private void DrawInstanceSpecificContextMenu(ContextMenuStrip contextMenu, IExtendContextMenu workInstance)
   {
     List<ToolStripMenuItem> contextMenuStrips = workInstance.GetStripsToAdd();
     if (contextMenuStrips == null || contextMenuStrips.Count == 0)

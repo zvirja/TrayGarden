@@ -24,14 +24,14 @@ public class RareCommandWrapper : ICommand
 
   public event EventHandler CanExecuteChanged;
 
-  protected IRareCommand RareCommand { get; set; }
+  private IRareCommand RareCommand { get; set; }
 
-  public virtual bool CanExecute(object parameter)
+  public bool CanExecute(object parameter)
   {
     return true;
   }
 
-  public virtual void Execute(object parameter)
+  public void Execute(object parameter)
   {
     try
     {

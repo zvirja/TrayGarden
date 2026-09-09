@@ -17,7 +17,7 @@ public class CreateStepInfo : IPipelineProcessor<GetUCStepPipelineArgs>
   public string ShortName { get; set; } = "user settings";
 
   [UsedImplicitly]
-  public virtual void Process(GetUCStepPipelineArgs args)
+  public void Process(GetUCStepPipelineArgs args)
   {
     Assert.IsNotNull(args.ConfigurationConstructInfo.ResultControlVM, "args.ConfigurationConstructInfo.ResultControlVM");
     WindowWithBackStateConstructInfo stateInfo = args.StateConstructInfo;
@@ -30,7 +30,7 @@ public class CreateStepInfo : IPipelineProcessor<GetUCStepPipelineArgs>
       stateInfo.StateSpecificHelpActions);
   }
 
-  protected virtual string GetGlobalTitle(GetUCStepPipelineArgs args)
+  private string GetGlobalTitle(GetUCStepPipelineArgs args)
   {
     var globalTitle = args.StateConstructInfo.GlobalTitle ?? GlobalTitle;
     return globalTitle.Replace("#plantName", args.UCServicePlantBox.RelatedPlantEx.Plant.HumanSupportingName);

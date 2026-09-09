@@ -12,7 +12,7 @@ namespace TrayGarden.Plants.Pipeline;
 public class ResolveWorkhorses : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitializePlantArgs args)
+  public void Process(InitializePlantArgs args)
   {
     var workhorses = new List<object> { args.PlantObject };
     var asExpected = args.PlantObject as IServicesDelegation;

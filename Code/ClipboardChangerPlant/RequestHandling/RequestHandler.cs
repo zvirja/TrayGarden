@@ -13,7 +13,7 @@ public class RequestHandler : INeedCongurationNode
 {
   protected XmlHelper ConfigurationHelper;
 
-  public virtual Icon DefaultHandlerIcon
+  public Icon DefaultHandlerIcon
   {
     get
     {
@@ -21,7 +21,7 @@ public class RequestHandler : INeedCongurationNode
     }
   }
 
-  public virtual bool IsShorterEnabled
+  public bool IsShorterEnabled
   {
     get
     {
@@ -31,7 +31,7 @@ public class RequestHandler : INeedCongurationNode
 
   public string Name { get; set; }
 
-  public virtual string[] RegularExpressionsToMatch
+  public string[] RegularExpressionsToMatch
   {
     get
     {
@@ -46,7 +46,7 @@ public class RequestHandler : INeedCongurationNode
     return RegularExpressionsToMatch.Any(matchRegularExpression => Regex.Match(inputValue, matchRegularExpression).Success);
   }
 
-  public virtual bool PostExecute(string operableUrl, bool isClipboardRequest)
+  public bool PostExecute(string operableUrl, bool isClipboardRequest)
   {
     return true;
   }
@@ -65,11 +65,11 @@ public class RequestHandler : INeedCongurationNode
     return true;
   }
 
-  public virtual void PreInit()
+  public void PreInit()
   {
   }
 
-  public virtual void SetConfigurationNode(XmlNode configurationNode)
+  public void SetConfigurationNode(XmlNode configurationNode)
   {
     ConfigurationHelper = new XmlHelper(configurationNode);
   }

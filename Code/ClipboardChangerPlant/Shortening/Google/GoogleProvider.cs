@@ -20,7 +20,7 @@ public class GoogleProvider : ShortenerProvider
     return !string.IsNullOrEmpty(shortedUrl);
   }
 
-  protected string ShortUrl(string longUrl)
+  private string ShortUrl(string longUrl)
   {
     var requestObj = new RequestObject(longUrl);
     var postContent = SerializationHelper.SerializeToString(requestObj);

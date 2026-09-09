@@ -12,7 +12,7 @@ namespace TrayGarden.Plants.Pipeline;
 public class InitializePlant : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitializePlantArgs args)
+  public void Process(InitializePlantArgs args)
   {
     IPlant plant = args.IPlantObject;
     try

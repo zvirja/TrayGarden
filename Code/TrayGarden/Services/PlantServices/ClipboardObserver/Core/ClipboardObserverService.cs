@@ -24,13 +24,13 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// -1 - last value was less than limit, lastKnownClipboardValue should be checked;
   /// -2 - last value was null.
   /// </summary>
-  protected volatile int lastKnownClipboardLengthOrSpecial;
+  private volatile int lastKnownClipboardLengthOrSpecial;
 
-  protected volatile string lastKnownClipboardValue;
+  private volatile string lastKnownClipboardValue;
 
-  protected volatile bool supressNextEvent;
+  private volatile bool supressNextEvent;
 
-  protected object timerLock = new object();
+  private object timerLock = new object();
 
   public ClipboardObserverService(IRuntimeSettingsManager runtimeSettingsManager, IGardenbed gardenbed)
     : base(runtimeSettingsManager, "Clipboard Observer", "ClipboardObserverService")
@@ -63,19 +63,19 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
 
   public int MaxAllowedTextLength { get; set; }
 
-  protected System.Threading.Timer ClipboardPostponedReactTimer { get; set; }
+  private System.Threading.Timer ClipboardPostponedReactTimer { get; set; }
 
-  protected Thread ClipboardWorkingThread { get; set; }
+  private Thread ClipboardWorkingThread { get; set; }
 
-  protected IGardenbed Gardenbed { get; set; }
+  private IGardenbed Gardenbed { get; set; }
 
-  protected ClipboardMonitor Monitor { get; set; }
+  private ClipboardMonitor Monitor { get; set; }
 
-  protected IClipboardProvider SelfProvider { get; set; }
+  private IClipboardProvider SelfProvider { get; set; }
 
-  protected Queue<Action> ThreadQueue { get; set; }
+  private Queue<Action> ThreadQueue { get; set; }
 
-  public virtual string GetClipboardValue(bool disableSizeCheck)
+  public string GetClipboardValue(bool disableSizeCheck)
   {
     string value = string.Empty;
     var awaiter = new ManualResetEventSlim(false);
@@ -122,7 +122,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     InitializePlantWithLuggage(plantEx);
   }
 
-  public virtual void SetClipboardValue(string newValue, bool silent)
+  public void SetClipboardValue(string newValue, bool silent)
   {
     PostToClipboardThread(
       delegate
@@ -136,7 +136,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// This is a worker thread for clipboard.
   /// Clipboard works should be performed only from STA thread, so I run a dedicated thread.
   /// </summary>
-  protected virtual void CheckThreadLoop()
+  private void CheckThreadLoop()
   {
     while (true)
     {
@@ -171,7 +171,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     }
   }
 
-  protected virtual void InformNewClipboardValue(string newValue)
+  private void InformNewClipboardValue(string newValue)
   {
     List<IPlantEx> enabledPlants = Gardenbed.GetEnabledPlants();
     foreach (IPlantEx enabledPlant in enabledPlants)
@@ -184,13 +184,13 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     }
   }
 
-  protected virtual void InitializeClipboardWorkingThread()
+  private void InitializeClipboardWorkingThread()
   {
     ClipboardWorkingThread = new Thread(CheckThreadLoop) { IsBackground = true };
     ClipboardWorkingThread.SetApartmentState(ApartmentState.STA);
   }
 
-  protected virtual void InitializePlantWithLuggage(IPlantEx plant)
+  private void InitializePlantWithLuggage(IPlantEx plant)
   {
     var asClipboardWorksPerformer = plant.GetFirstWorkhorseOfType<IClipboardWorks>();
     if (asClipboardWorksPerformer != null)
@@ -217,7 +217,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// </summary>
   /// <param name="value"></param>
   /// <returns></returns>
-  protected virtual bool IsNewClipboardValue(string value)
+  private bool IsNewClipboardValue(string value)
   {
     //this is an initial state, no clipboard updates before
     if (lastKnownClipboardLengthOrSpecial == 0)
@@ -241,7 +241,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// Used to prevent duplicate firings.
   /// </summary>
   /// <param name="value"></param>
-  protected virtual void NoteNewClipboardValue(string value)
+  private void NoteNewClipboardValue(string value)
   {
     //Special case. Special values are set.
     if (value.IsNullOrEmpty())
@@ -270,7 +270,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// </summary>
   /// <param name="sender"></param>
   /// <param name="e"></param>
-  protected virtual void OnClipboardValueChanged(object sender, EventArgs e)
+  private void OnClipboardValueChanged(object sender, EventArgs e)
   {
     //This code starts timer again. If countdown is already started, it's reset
     ClipboardPostponedReactTimer.Change(BufferTimeBeforeReact, Timeout.Infinite);
@@ -281,7 +281,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   /// Method is called by the PostponedReactTimer.
   /// </summary>
   /// <param name="dummy"></param>
-  protected virtual void OnClipboardValueChangedHandler(object dummy)
+  private void OnClipboardValueChangedHandler(object dummy)
   {
     PostToClipboardThread(
       delegate
@@ -310,7 +310,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
       });
   }
 
-  protected void PostToClipboardThread(Action method)
+  private void PostToClipboardThread(Action method)
   {
     lock (ThreadQueue)
     {

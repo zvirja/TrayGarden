@@ -17,13 +17,13 @@ public class ClipboardChanger : IPlant, IServicesDelegation
       "This plant listen clipboard and replaces links. \r\nFor instance it shorts all http://www.* like links and resolve direct links for Clip2Net service.";
   }
 
-  public static ClipboardChanger ActualPlant { get; protected set; }
+  public static ClipboardChanger ActualPlant { get; private set; }
 
-  public string Description { get; protected set; }
+  public string Description { get; private set; }
 
-  public string HumanSupportingName { get; protected set; }
+  public string HumanSupportingName { get; private set; }
 
-  public virtual List<object> GetServiceDelegates()
+  public List<object> GetServiceDelegates()
   {
     var result = new List<object>();
     result.Add(NotifyIconManager.ActualManager);
@@ -34,13 +34,13 @@ public class ClipboardChanger : IPlant, IServicesDelegation
     return result;
   }
 
-  public virtual void Initialize()
+  public void Initialize()
   {
     ActualPlant = this;
     AppEngine.ActualEngine.PreInit();
   }
 
-  public virtual void PostServicesInitialize()
+  public void PostServicesInitialize()
   {
     AppEngine.ActualEngine.PostInit();
   }

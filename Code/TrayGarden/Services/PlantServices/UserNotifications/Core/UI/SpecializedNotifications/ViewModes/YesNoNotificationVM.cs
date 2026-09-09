@@ -50,12 +50,12 @@ public class YesNoNotificationVM : SpecializedNotificationVMBase, IYesNoNotifica
 
   public string YesButtonText { get; set; }
 
-  protected virtual void OnNoAction(object o)
+  private void OnNoAction(object o)
   {
     SetResultNotifyInterestedMen(new NotificationResult(ResultCode.No));
   }
 
-  protected virtual void OnYesAction(object o)
+  private void OnYesAction(object o)
   {
     SetResultNotifyInterestedMen(new NotificationResult(ResultCode.Yes));
   }

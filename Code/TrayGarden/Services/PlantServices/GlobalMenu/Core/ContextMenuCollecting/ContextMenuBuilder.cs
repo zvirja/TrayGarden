@@ -32,7 +32,7 @@ public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<Tra
 
   public bool ItalicMainMenuEntries => _cfg.ItalicMainMenuEntries;
 
-  public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
+  public ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
   {
     var contextMenuStrip = new ContextMenuStrip();
     contextMenuStrip.AutoSize = true;
@@ -44,7 +44,7 @@ public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<Tra
     return contextMenuStrip;
   }
 
-  protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
+  private void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
   {
     var configureItem = contextMenuStrip.Items.Add("Configure");
     Icon iconResource = resourcesManager.GetIconResource(ConfigureIconResourceName, null);
@@ -63,7 +63,7 @@ public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<Tra
     contextMenuStrip.Items.Add("-");
   }
 
-  protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
+  private void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
   {
     var exitItem = contextMenuStrip.Items.Add("Exit Garden");
     Icon iconResource = resourcesManager.GetIconResource(ExitIconResourceName, null);
@@ -81,7 +81,7 @@ public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<Tra
     };
   }
 
-  protected virtual void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip, IDynamicStateWatcher dynamicStateWatcher)
+  private void EnumeratePlantBoxes(List<GlobalMenuPlantBox> plantBoxes, ContextMenuStrip menuStrip, IDynamicStateWatcher dynamicStateWatcher)
   {
     foreach (GlobalMenuPlantBox globalMenuPlantBox in plantBoxes)
     {
@@ -100,7 +100,7 @@ public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<Tra
     }
   }
 
-  protected virtual FontStyle GetMainMenuEntriesStyle()
+  private FontStyle GetMainMenuEntriesStyle()
   {
     FontStyle result = 0;
     if (BoldMainMenuEntries)

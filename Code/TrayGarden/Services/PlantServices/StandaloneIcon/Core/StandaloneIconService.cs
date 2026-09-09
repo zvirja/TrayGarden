@@ -61,7 +61,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
     InitializePlantFromPipeline(plantEx);
   }
 
-  protected void CloseComponentClick(object sender, EventArgs eventArgs)
+  private void CloseComponentClick(object sender, EventArgs eventArgs)
   {
     var toolStrip = sender as ToolStripItem;
     Assert.IsNotNull(toolStrip, "ToolStripItem expected");
@@ -70,13 +70,13 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
     siBox.IsEnabled = false;
   }
 
-  protected void ExitGardenClick(object sender, EventArgs eventArgs)
+  private void ExitGardenClick(object sender, EventArgs eventArgs)
   {
     Log.For(this).Information("Standalone icon 'Exit garden' clicked. Calling Application.Shutdown().");
     Application.Current.Shutdown();
   }
 
-  protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
+  private void InitializePlantFromPipeline(IPlantEx plantEx)
   {
     _pipelineRunner.Run(new InitPlantSIArgs(plantEx, LuggageName, CloseComponentClick, ExitGardenClick));
   }

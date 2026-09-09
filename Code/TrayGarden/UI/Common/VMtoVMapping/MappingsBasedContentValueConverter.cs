@@ -13,7 +13,7 @@ namespace TrayGarden.UI.Common.VMtoVMapping;
 [ValueConversion(typeof(object), typeof(Control))]
 public class MappingsBasedContentValueConverter : IMultiValueConverter
 {
-  public virtual object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
+  public object Convert(object[] value, Type targetType, object parameter, CultureInfo culture)
   {
     // return new TextBox(){Text = value[0].ToString()};
 
@@ -49,7 +49,7 @@ public class MappingsBasedContentValueConverter : IMultiValueConverter
     throw new NotSupportedException();
   }
 
-  protected virtual Control ResolveUsingSelfResolving(object viewModel)
+  private Control ResolveUsingSelfResolving(object viewModel)
   {
     var vmAsSelfResolver = viewModel as ISelfViewResolver;
     if (vmAsSelfResolver == null)

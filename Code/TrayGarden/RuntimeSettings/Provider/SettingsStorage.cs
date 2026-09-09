@@ -31,20 +31,20 @@ public class SettingsStorage : ISettingsStorage
     EnableDebuggingTraces = value.RuntimeSettings.Storage.EnableDebuggingTraces;
   }
 
-  public virtual bool EnableDebuggingTraces { get; set; }
+  public bool EnableDebuggingTraces { get; set; }
 
-  public virtual string FileName { get; set; }
+  public string FileName { get; set; }
 
-  public virtual bool UseLocalFolder { get; set; }
+  public bool UseLocalFolder { get; set; }
 
-  protected IContainer ResolvedRootContainer { get; set; }
+  private IContainer ResolvedRootContainer { get; set; }
 
-  public virtual IContainer GetRootContainer()
+  public IContainer GetRootContainer()
   {
     return ResolvedRootContainer;
   }
 
-  public virtual void LoadSettings()
+  public void LoadSettings()
   {
     string storageFilePath = GetFilePath();
     Bucket rootBucket = DeserializeStorageFile(storageFilePath) ?? new Bucket();
@@ -52,7 +52,7 @@ public class SettingsStorage : ISettingsStorage
     ResolvedRootContainer = rootContainer;
   }
 
-  public virtual bool SaveSettings()
+  public bool SaveSettings()
   {
     Bucket rootBucket = BuildBucketFromContainer(ResolvedRootContainer);
     if (rootBucket == null)
@@ -63,7 +63,7 @@ public class SettingsStorage : ISettingsStorage
     return result;
   }
 
-  protected virtual Bucket BuildBucketFromContainer(IContainer rootContainer)
+  private Bucket BuildBucketFromContainer(IContainer rootContainer)
   {
     if (rootContainer == null)
     {
@@ -80,7 +80,7 @@ public class SettingsStorage : ISettingsStorage
     return bucket;
   }
 
-  protected virtual IContainer BuildContainerFromBucket(Bucket rootBucket)
+  private IContainer BuildContainerFromBucket(Bucket rootBucket)
   {
     Dictionary<string, string> settings = rootBucket.Settings.ToDictionary(
       settingPair => settingPair.Key,
@@ -92,7 +92,7 @@ public class SettingsStorage : ISettingsStorage
     return newContainer;
   }
 
-  protected virtual Bucket DeserializeStorageFile(string fileName)
+  private Bucket DeserializeStorageFile(string fileName)
   {
     try
     {
@@ -119,12 +119,12 @@ public class SettingsStorage : ISettingsStorage
     }
   }
 
-  protected virtual XmlSerializer GetBucketXmlSerializer()
+  private XmlSerializer GetBucketXmlSerializer()
   {
     return new XmlSerializer(typeof(Bucket));
   }
 
-  protected virtual string GetFilePath()
+  private string GetFilePath()
   {
     string folderName = null;
     if (!UseLocalFolder)
@@ -143,7 +143,7 @@ public class SettingsStorage : ISettingsStorage
     return Path.Combine(folderName, FileName);
   }
 
-  protected virtual bool SerializeToStorageFile(Bucket bucket)
+  private bool SerializeToStorageFile(Bucket bucket)
   {
     string filePath = GetFilePath();
     try
@@ -175,7 +175,7 @@ public class SettingsStorage : ISettingsStorage
     }
   }
 
-  protected virtual void TraceDebugStreamContent(Stream streamToTrace, string fileNameSuffix)
+  private void TraceDebugStreamContent(Stream streamToTrace, string fileNameSuffix)
   {
     try
     {

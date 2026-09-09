@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 public class ServiceForPlantActionPerformVM : ServiceForPlantVMBase
 {
-  protected ICommand _performServiceAction;
+  private ICommand _performServiceAction;
 
   public ServiceForPlantActionPerformVM(IUIManager uiManager, [NotNull] string serviceName, [NotNull] string description, [NotNull] ICommand action)
     : base(uiManager, serviceName, description)

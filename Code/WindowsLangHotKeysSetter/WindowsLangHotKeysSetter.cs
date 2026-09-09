@@ -32,7 +32,7 @@ public class WindowsLangHotKeysSetter : IPlant, IServicesDelegation
 
   }
 
-  public virtual List<object> GetServiceDelegates()
+  public List<object> GetServiceDelegates()
   {
     return new List<object>() { ParamsConfigurator.Instance, HotKeysCommandRunner.Instance, GlobalMenuOption.Instance };
   }

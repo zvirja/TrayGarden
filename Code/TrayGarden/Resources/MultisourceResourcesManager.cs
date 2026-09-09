@@ -13,7 +13,7 @@ namespace TrayGarden.Resources;
 [UsedImplicitly]
 public class MultisourceResourcesManager : IResourcesManager
 {
-  protected static object Lock = new object();
+  private static object Lock = new object();
 
   public MultisourceResourcesManager()
   {
@@ -24,21 +24,21 @@ public class MultisourceResourcesManager : IResourcesManager
 
   public List<ISource> Sources { get; set; }
 
-  protected Dictionary<string, object> ObjectsResourceCache { get; set; }
+  private Dictionary<string, object> ObjectsResourceCache { get; set; }
 
-  protected Dictionary<string, string> StringsResourceCache { get; set; }
+  private Dictionary<string, string> StringsResourceCache { get; set; }
 
-  public virtual Bitmap GetBitmapResource(string resourceName, Bitmap defaultValue)
+  public Bitmap GetBitmapResource(string resourceName, Bitmap defaultValue)
   {
     return GetObjectResource(resourceName, defaultValue);
   }
 
-  public virtual Icon GetIconResource(string resourceName, Icon defaultValue)
+  public Icon GetIconResource(string resourceName, Icon defaultValue)
   {
     return GetObjectResource(resourceName, defaultValue);
   }
 
-  public virtual T GetObjectResource<T>(string resourceName, T defaultValue) where T : class
+  public T GetObjectResource<T>(string resourceName, T defaultValue) where T : class
   {
     if (resourceName.IsNullOrEmpty())
     {
@@ -58,12 +58,12 @@ public class MultisourceResourcesManager : IResourcesManager
     return (resolvedValue as T) ?? defaultValue;
   }
 
-  public virtual Stream GetStream(string resourceName, Stream defaultValue)
+  public Stream GetStream(string resourceName, Stream defaultValue)
   {
     return ResoveStreamFromSources(resourceName) ?? defaultValue;
   }
 
-  public virtual string GetStringResource(string resourceName, string defaultValue)
+  public string GetStringResource(string resourceName, string defaultValue)
   {
     if (resourceName.IsNullOrEmpty())
     {
@@ -86,7 +86,7 @@ public class MultisourceResourcesManager : IResourcesManager
     return resolvedValue;
   }
 
-  protected virtual T ResolveFromResources<T>(Func<ResourceManager, T> resolver, T defaultValue) where T : class
+  private T ResolveFromResources<T>(Func<ResourceManager, T> resolver, T defaultValue) where T : class
   {
     var sourcesToRemove = new List<ISource>();
     T resolvedValue = null;
@@ -128,17 +128,17 @@ public class MultisourceResourcesManager : IResourcesManager
     return resolvedValue ?? defaultValue;
   }
 
-  protected virtual object ResoveObjectFromSources(string resourceName)
+  private object ResoveObjectFromSources(string resourceName)
   {
     return ResolveFromResources((rm) => rm.GetObject(resourceName), null);
   }
 
-  protected virtual Stream ResoveStreamFromSources(string resourceName)
+  private Stream ResoveStreamFromSources(string resourceName)
   {
     return ResolveFromResources((rm) => rm.GetStream(resourceName), null);
   }
 
-  protected virtual string ResoveStringFromSources(string resourceName)
+  private string ResoveStringFromSources(string resourceName)
   {
     return ResolveFromResources((rm) => rm.GetString(resourceName), null);
   }

@@ -15,7 +15,7 @@ public class ClipboardMonitor : Form
 
   public event EventHandler ClipboardValueChanged;
 
-  protected virtual void OnClipboardValueChanged()
+  private void OnClipboardValueChanged()
   {
     EventHandler handler = ClipboardValueChanged;
     if (handler != null)

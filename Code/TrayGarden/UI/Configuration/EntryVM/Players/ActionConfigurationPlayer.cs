@@ -18,9 +18,9 @@ public class ActionConfigurationPlayer : ConfigurationPlayerBase, IActionConfigu
     Action = action;
   }
 
-  public ICommand Action { get; protected set; }
+  public ICommand Action { get; private set; }
 
-  public string ActionTitle { get; protected set; }
+  public string ActionTitle { get; private set; }
 
   public override void Reset()
   {

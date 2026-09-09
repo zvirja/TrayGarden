@@ -13,7 +13,7 @@ namespace TrayGarden.Pipelines.Startup;
 public class SingleInstanceCheckAndHooks(ISingleInstanceMonitor monitor, IMainWindowDisplayer mainWindowDisplayer)
   : IPipelineProcessor<StartupArgs>
 {
-  protected SynchronizationContext UISynchronizationContext { get; set; }
+  private SynchronizationContext UISynchronizationContext { get; set; }
 
   [UsedImplicitly]
   public void Process(StartupArgs args)
@@ -33,7 +33,7 @@ public class SingleInstanceCheckAndHooks(ISingleInstanceMonitor monitor, IMainWi
     }
   }
 
-  protected virtual void OpenConfigurationWindow(object obj)
+  private void OpenConfigurationWindow(object obj)
   {
     mainWindowDisplayer.PopupMainWindow();
   }

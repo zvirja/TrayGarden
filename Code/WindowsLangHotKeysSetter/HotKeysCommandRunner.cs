@@ -12,19 +12,19 @@ public class HotKeysCommandRunner : TrayGarden.Reception.Services.IProvidesRareC
 {
   public static HotKeysCommandRunner Instance = new HotKeysCommandRunner();
 
-  public virtual List<IRareCommand> GetRareCommands()
+  public List<IRareCommand> GetRareCommands()
   {
     var result = new List<IRareCommand>();
     result.Add(GetExecuteCommand());
     return result;
   }
 
-  protected void DisplayResult(string message, bool isError)
+  private void DisplayResult(string message, bool isError)
   {
     GardenContext.UIManager.OKMessageBox("WindowsLangHotKeysSetter", message, isError ? MessageBoxImage.Error : MessageBoxImage.Information);
   }
 
-  protected IRareCommand GetExecuteCommand()
+  private IRareCommand GetExecuteCommand()
   {
     return new SimpleRareCommand("Set predefined hotkeys", "This command applies hotkeys from configuration (refer to the plant's settings) to Windows.", () => SetHotKeys(true));
   }

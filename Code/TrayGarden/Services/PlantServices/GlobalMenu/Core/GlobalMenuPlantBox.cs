@@ -55,7 +55,7 @@ public class GlobalMenuPlantBox : ServicePlantBoxBase
 
   public List<ToolStripItem> ToolStripMenuItems { get; set; }
 
-  public virtual void FixVisibility()
+  public void FixVisibility()
   {
     if (ToolStripMenuItems == null)
     {

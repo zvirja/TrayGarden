@@ -33,7 +33,7 @@ public class Gardenbed : IGardenbed
     Plants = new Dictionary<string, IPlantEx>();
   }
 
-  public virtual bool AutoDetectPlants
+  public bool AutoDetectPlants
   {
     get
     {
@@ -47,13 +47,13 @@ public class Gardenbed : IGardenbed
     }
   }
 
-  protected bool Initialized { get; set; }
+  private bool Initialized { get; set; }
 
-  protected ISettingsBox MySettingsBox { get; set; }
+  private ISettingsBox MySettingsBox { get; set; }
 
-  protected Dictionary<string, IPlantEx> Plants { get; set; }
+  private Dictionary<string, IPlantEx> Plants { get; set; }
 
-  protected ISettingsBox RootPlantsSettingsBox
+  private ISettingsBox RootPlantsSettingsBox
   {
     get
     {
@@ -61,19 +61,19 @@ public class Gardenbed : IGardenbed
     }
   }
 
-  public virtual List<IPlantEx> GetAllPlants()
+  public List<IPlantEx> GetAllPlants()
   {
     EnsureInitialized();
     return Plants.Select(x => x.Value).ToList();
   }
 
-  public virtual List<IPlantEx> GetEnabledPlants()
+  public List<IPlantEx> GetEnabledPlants()
   {
     EnsureInitialized();
     return Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
   }
 
-  public virtual void InformPostInitStage()
+  public void InformPostInitStage()
   {
     foreach (IPlantEx plantEx in GetAllPlants())
     {
@@ -81,12 +81,12 @@ public class Gardenbed : IGardenbed
     }
   }
 
-  protected virtual void EnsureSettingsBox()
+  private void EnsureSettingsBox()
   {
     MySettingsBox ??= _runtimeSettingsManager.SystemSettings.GetSubBox("Gargedbed");
   }
 
-  protected virtual void EnsureInitialized()
+  private void EnsureInitialized()
   {
     if (Initialized)
     {
@@ -106,7 +106,7 @@ public class Gardenbed : IGardenbed
     Initialized = true;
   }
 
-  protected virtual DirectoryInfo GetAutoIncludeDirectory()
+  private DirectoryInfo GetAutoIncludeDirectory()
   {
     string folderSetting = _plantsAutodetectFolder ?? string.Empty;
     string workingDirectory = DirectoryHelper.CurrentDirectory;
@@ -119,7 +119,7 @@ public class Gardenbed : IGardenbed
     return new DirectoryInfo(workingDirectory);
   }
 
-  protected virtual List<IPlant> GetAutoIncludePlants()
+  private List<IPlant> GetAutoIncludePlants()
   {
     var result = new List<IPlant>();
     if (!AutoDetectPlants)
@@ -149,7 +149,7 @@ public class Gardenbed : IGardenbed
     return result;
   }
 
-  protected virtual List<IPlant> GetPlantsFromAssemblyFile(FileInfo assemblyFileInfo)
+  private List<IPlant> GetPlantsFromAssemblyFile(FileInfo assemblyFileInfo)
   {
     try
     {
@@ -183,7 +183,7 @@ public class Gardenbed : IGardenbed
     }
   }
 
-  protected virtual IPlantEx ResolveIPlantEx(object plant)
+  private IPlantEx ResolveIPlantEx(object plant)
   {
     var args = new InitializePlantArgs(plant, RootPlantsSettingsBox);
     _pipelineRunner.Run(args);

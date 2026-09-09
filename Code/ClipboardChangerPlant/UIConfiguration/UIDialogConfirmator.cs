@@ -23,11 +23,11 @@ public class UIDialogConfirmator
     }
   }
 
-  protected IBoolUserSetting ConfirmationSetting { get; set; }
+  private IBoolUserSetting ConfirmationSetting { get; set; }
 
-  protected Func<IResultProvider> UIDialogConstructor { get; set; }
+  private Func<IResultProvider> UIDialogConstructor { get; set; }
 
-  public virtual bool? ConfirmThroughUI()
+  public bool? ConfirmThroughUI()
   {
     if (ConfirmationSetting == null)
     {
@@ -40,12 +40,12 @@ public class UIDialogConfirmator
     return GetConfirmationFromUIDialog();
   }
 
-  protected virtual IBoolUserSetting BuildConfirmationSetting(string name, string title)
+  private IBoolUserSetting BuildConfirmationSetting(string name, string title)
   {
     return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(name, title, true);
   }
 
-  protected virtual bool? GetConfirmationFromUIDialog()
+  private bool? GetConfirmationFromUIDialog()
   {
     IResultProvider dialog = UIDialogConstructor();
     if (dialog == null)

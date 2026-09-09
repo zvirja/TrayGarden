@@ -10,7 +10,7 @@ public class CreateViewModel(IRuntimeSettingsManager runtimeSettingsManager, IUI
   : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetMainVMPipelineArgs args)
+  public void Process(GetMainVMPipelineArgs args)
   {
     args.ResultVM = new WindowWithBackVM(runtimeSettingsManager, uiManager);
   }

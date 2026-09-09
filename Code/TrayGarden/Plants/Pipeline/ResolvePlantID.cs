@@ -8,7 +8,7 @@ namespace TrayGarden.Plants.Pipeline;
 public class ResolvePlantID : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitializePlantArgs args)
+  public void Process(InitializePlantArgs args)
   {
     args.PlantID = args.PlantObject.GetType().FullName;
   }

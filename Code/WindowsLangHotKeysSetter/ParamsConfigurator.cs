@@ -12,9 +12,9 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
 {
   public static ParamsConfigurator Instance = new ParamsConfigurator();
 
-  protected IStringUserSetting ConfiguredArgsSets { get; set; }
+  private IStringUserSetting ConfiguredArgsSets { get; set; }
 
-  protected IPersonalUserSettingsSteward PersonalSteward { get; set; }
+  private IPersonalUserSettingsSteward PersonalSteward { get; set; }
 
   public List<Tuple<UInt32, UInt32, UInt32, IntPtr>> GetArgsTuples()
   {
@@ -51,7 +51,7 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
     DeclareSettings();
   }
 
-  protected virtual void DeclareSettings()
+  private void DeclareSettings()
   {
     ConfiguredArgsSets = PersonalSteward.DeclareStringSetting(
       "ArgsSets",
@@ -61,7 +61,7 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
         .FormatWith(Environment.NewLine));
   }
 
-  protected Tuple<uint, uint, uint, IntPtr> ParseSet(string rawSet)
+  private Tuple<uint, uint, uint, IntPtr> ParseSet(string rawSet)
   {
     string[] rawArgs = rawSet.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
     if (rawArgs.Length != 4)

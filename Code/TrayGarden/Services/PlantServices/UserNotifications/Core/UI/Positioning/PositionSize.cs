@@ -4,13 +4,13 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positionin
 
 public class PositionSize
 {
-  protected double left;
+  private double left;
 
-  protected double mandatoryHeight;
+  private double mandatoryHeight;
 
-  protected double mandatoryWidth;
+  private double mandatoryWidth;
 
-  protected double top;
+  private double top;
 
   public PositionSize(double top, double left, double mandatoryWidth, double mandatoryHeight)
   {
@@ -78,7 +78,7 @@ public class PositionSize
     }
   }
 
-  protected virtual void OnChanged()
+  private void OnChanged()
   {
     Action handler = Changed;
     if (handler != null)

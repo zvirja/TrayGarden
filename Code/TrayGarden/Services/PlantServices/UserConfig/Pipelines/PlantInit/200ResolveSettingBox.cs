@@ -12,12 +12,12 @@ public class ResolveSettingBox : IPipelineProcessor<InitPlantUCPipelineArg>
   public string SettingBoxName { get; set; }
 
   [UsedImplicitly]
-  public virtual void Process(InitPlantUCPipelineArg args)
+  public void Process(InitPlantUCPipelineArg args)
   {
     args.SettingBox = args.RelatedPlant.MySettingsBox.GetSubBox(GetSettingName());
   }
 
-  protected virtual string GetSettingName()
+  private string GetSettingName()
   {
     if (SettingBoxName.NotNullNotEmpty())
     {

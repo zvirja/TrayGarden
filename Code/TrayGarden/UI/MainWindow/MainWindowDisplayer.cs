@@ -10,7 +10,7 @@ namespace TrayGarden.UI.MainWindow;
 public class MainWindowDisplayer(IWindowWithBack windowWithBack, IUIManager uiManager, IPipelineRunner pipelineRunner)
   : IMainWindowDisplayer
 {
-  public virtual void PopupMainWindow()
+  public void PopupMainWindow()
   {
     Assert.IsNotNull(windowWithBack, "Window with back wasn't resolved");
     if (windowWithBack.IsCurrentlyDisplayed)

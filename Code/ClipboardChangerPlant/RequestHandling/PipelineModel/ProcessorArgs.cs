@@ -12,7 +12,7 @@ public class ProcessorArgs
     OriginatorIsGlobalIcon = originatorIsGlobalIcon;
   }
 
-  public bool Aborted { get; protected set; }
+  public bool Aborted { get; private set; }
 
   public bool ClipboardEvent { get; set; }
 

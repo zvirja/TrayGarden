@@ -9,7 +9,7 @@ public class ServicePlantBoxBase
 
   public event ServicePlantBoxEnabledChanged IsEnabledChanged;
 
-  public virtual bool IsEnabled
+  public bool IsEnabled
   {
     get
     {
@@ -27,7 +27,7 @@ public class ServicePlantBoxBase
 
   public ISettingsBox SettingsBox { get; set; }
 
-  protected virtual void OnIsEnabledChanged(bool newValue)
+  private void OnIsEnabledChanged(bool newValue)
   {
     ServicePlantBoxEnabledChanged handler = IsEnabledChanged;
     if (handler != null)

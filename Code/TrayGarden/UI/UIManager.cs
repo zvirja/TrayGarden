@@ -6,94 +6,94 @@ namespace TrayGarden.UI;
 
 public class UIManager : IUIManager
 {
-  public virtual DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action)
+  public DispatcherOperation ExecuteActionOnUIThreadAsynchronously(Action action)
   {
     return PerformOnDispatcherAsync(action);
   }
 
-  public virtual void ExecuteActionOnUIThreadSynchronously(Action action)
+  public void ExecuteActionOnUIThreadSynchronously(Action action)
   {
     PerformActionOnDispatcher(action);
   }
 
-  public virtual void OKMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Information)
+  public void OKMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Information)
   {
     PerformActionOnDispatcher(() => MessageBox.Show(text, caption, MessageBoxButton.OK, image));
   }
 
-  public virtual bool? ShowDialog(Window window)
+  public bool? ShowDialog(Window window)
   {
     return ShowDialogInternal(window);
   }
 
-  public virtual void ShowWindow(Window window)
+  public void ShowWindow(Window window)
   {
     ShowWindowInternal(window);
   }
 
-  public virtual DispatcherOperation ShowWindowAsync(Window window)
+  public DispatcherOperation ShowWindowAsync(Window window)
   {
     return ShowWindowInternalAsync(window);
   }
 
-  public virtual bool YesNoMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Question)
+  public bool YesNoMessageBox(string caption, string text, MessageBoxImage image = MessageBoxImage.Question)
   {
     var result = PerformOnDispatcher(new Func<MessageBoxResult>(() => MessageBox.Show(text, caption, MessageBoxButton.YesNo, image)));
     return ((MessageBoxResult)result) == MessageBoxResult.Yes;
   }
 
-  protected virtual object PerformActionOnDispatcher(Action action)
+  private object PerformActionOnDispatcher(Action action)
   {
     return PerformOnDispatcher(action);
   }
 
-  protected virtual object PerformActionWithParamOnDispatcher(Action<object> action, object parameter)
+  private object PerformActionWithParamOnDispatcher(Action<object> action, object parameter)
   {
     return PerformOnDispatcher(action, parameter);
   }
 
-  protected virtual object PerformOnDispatcher(Delegate @delegate, object parameter)
+  private object PerformOnDispatcher(Delegate @delegate, object parameter)
   {
     return Application.Current.Dispatcher.Invoke(@delegate, DispatcherPriority.Input, parameter);
   }
 
-  protected virtual object PerformOnDispatcher(Delegate @delegate)
+  private object PerformOnDispatcher(Delegate @delegate)
   {
     return Application.Current.Dispatcher.Invoke(@delegate, DispatcherPriority.Input);
   }
 
-  protected virtual DispatcherOperation PerformOnDispatcherAsync(Delegate @delegate, object parameter)
+  private DispatcherOperation PerformOnDispatcherAsync(Delegate @delegate, object parameter)
   {
     return Application.Current.Dispatcher.BeginInvoke(@delegate, DispatcherPriority.Input, parameter);
   }
 
-  protected virtual DispatcherOperation PerformOnDispatcherAsync(Delegate @delegate)
+  private DispatcherOperation PerformOnDispatcherAsync(Delegate @delegate)
   {
     return Application.Current.Dispatcher.BeginInvoke(@delegate, DispatcherPriority.Input);
   }
 
-  protected virtual bool? ShowDialogInternal(Window window)
+  private bool? ShowDialogInternal(Window window)
   {
     PerformActionWithParamOnDispatcher(ShowPassedDialog, window);
     return window.DialogResult;
   }
 
-  protected virtual void ShowPassedDialog(object obj)
+  private void ShowPassedDialog(object obj)
   {
     ((Window)obj).ShowDialog();
   }
 
-  protected virtual void ShowPassedWindow(object obj)
+  private void ShowPassedWindow(object obj)
   {
     ((Window)obj).Show();
   }
 
-  protected virtual void ShowWindowInternal(Window window)
+  private void ShowWindowInternal(Window window)
   {
     PerformActionWithParamOnDispatcher(ShowPassedWindow, window);
   }
 
-  protected virtual DispatcherOperation ShowWindowInternalAsync(Window window)
+  private DispatcherOperation ShowWindowInternalAsync(Window window)
   {
     return PerformOnDispatcherAsync(new Action<object>(ShowPassedWindow), window);
   }

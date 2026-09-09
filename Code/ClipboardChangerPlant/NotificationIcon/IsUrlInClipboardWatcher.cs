@@ -15,14 +15,14 @@ public class IsUrlInClipboardWatcher : IDynamicStateProvider
 
   public event EventHandler RelevanceChanged;
 
-  public RelevanceLevel CurrentRelevanceLevel { get; protected set; }
+  public RelevanceLevel CurrentRelevanceLevel { get; private set; }
 
-  protected virtual bool IsValidUrl(string newValue)
+  private bool IsValidUrl(string newValue)
   {
     return newValue.StartsWith("http://") || newValue.StartsWith("https://");
   }
 
-  protected virtual void OnRelevanceChanged()
+  private void OnRelevanceChanged()
   {
     EventHandler handler = RelevanceChanged;
     if (handler != null)
@@ -31,7 +31,7 @@ public class IsUrlInClipboardWatcher : IDynamicStateProvider
     }
   }
 
-  protected virtual void ProviderOnClipboardValueUpdatedService(string newValue)
+  private void ProviderOnClipboardValueUpdatedService(string newValue)
   {
     if (IsValidUrl(newValue))
     {

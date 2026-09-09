@@ -11,7 +11,7 @@ public class TuneConfigurationProperties : IPipelineProcessor<UNConfigurationSte
   public string ConfigurationDescription { get; set; } = "This window allows to tune the User Nofications service properties";
 
   [UsedImplicitly]
-  public virtual void Process(UNConfigurationStepArgs args)
+  public void Process(UNConfigurationStepArgs args)
   {
     ConfigurationControlConstructInfo constructInfo = args.ConfigurationConstructInfo;
     constructInfo.AllowReboot = false;

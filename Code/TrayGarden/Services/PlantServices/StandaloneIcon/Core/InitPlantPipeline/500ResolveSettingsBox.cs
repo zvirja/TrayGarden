@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 public class ResolveSettingsBox : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     ISettingsBox settingsBox = args.SIBox.RelatedPlantEx.MySettingsBox.GetSubBox("StandaloneIconService");
     args.SIBox.SettingsBox = settingsBox;

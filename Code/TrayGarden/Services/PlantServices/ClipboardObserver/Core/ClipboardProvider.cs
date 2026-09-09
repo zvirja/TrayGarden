@@ -7,19 +7,19 @@ public class ClipboardProvider : IClipboardProvider
     Service = service;
   }
 
-  protected ClipboardObserverService Service { get; set; }
+  private ClipboardObserverService Service { get; set; }
 
-  public virtual string GetCurrentClipboardText()
+  public string GetCurrentClipboardText()
   {
     return Service.GetClipboardValue(false);
   }
 
-  public virtual string GetCurrentClipboardTextIgnoreSizeRestrictions()
+  public string GetCurrentClipboardTextIgnoreSizeRestrictions()
   {
     return Service.GetClipboardValue(true);
   }
 
-  public virtual void SetCurrentClipboardText(string newValue, bool silent)
+  public void SetCurrentClipboardText(string newValue, bool silent)
   {
     Service.SetClipboardValue(newValue, silent);
   }

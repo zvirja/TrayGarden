@@ -24,7 +24,7 @@ public class AppEngine
 
   public ProcessManager RequestProcessManager { get; set; }
 
-  public virtual void PostInit()
+  public void PostInit()
   {
     ClipboardManager.Provider.PostInit();
     RequestHandlerChief.PostInit();
@@ -36,7 +36,7 @@ public class AppEngine
     Task.Factory.StartNew(() => ClipboardManager.Provider.OnClipboardValueUpdatedService(ClipboardManager.GetValue()));
   }
 
-  public virtual void PreInit()
+  public void PreInit()
   {
     RequestHandlerChief.PreInit();
   }

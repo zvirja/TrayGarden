@@ -4,22 +4,22 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying
 
 public class FakeNotificationResultCourier : INotificationResultCourier
 {
-  public virtual bool DiscardIfNotDisplayedYet()
+  public bool DiscardIfNotDisplayedYet()
   {
     return false;
   }
 
-  public virtual bool DiscardNotificationInAnyCase()
+  public bool DiscardNotificationInAnyCase()
   {
     return false;
   }
 
-  public virtual NotificationResult GetResultWithWait()
+  public NotificationResult GetResultWithWait()
   {
     return new NotificationResult(ResultCode.Unspecified);
   }
 
-  public virtual bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
+  public bool TryGetResultDuringSpecifiedTime(int millisecondsToWait, out NotificationResult result)
   {
     result = GetResultWithWait();
     return true;

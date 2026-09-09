@@ -8,7 +8,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 public class ValidateAndAssignSIBox : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     if (!IsSIBoxValid(args.SIBox))
     {
@@ -19,7 +19,7 @@ public class ValidateAndAssignSIBox : IPipelineProcessor<InitPlantSIArgs>
     args.PlantEx.PutLuggage(args.LuggageName, args.SIBox);
   }
 
-  protected virtual bool IsSIBoxValid(StandaloneIconPlantBox box)
+  private bool IsSIBoxValid(StandaloneIconPlantBox box)
   {
     if (box == null)
     {

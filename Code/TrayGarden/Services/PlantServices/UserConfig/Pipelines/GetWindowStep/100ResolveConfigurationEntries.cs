@@ -17,7 +17,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
 public class ResolveConfigurationEntries : IPipelineProcessor<GetUCStepPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetUCStepPipelineArgs args)
+  public void Process(GetUCStepPipelineArgs args)
   {
     ConfigurationControlConstructInfo configurationConstructInfo = args.ConfigurationConstructInfo;
     if (configurationConstructInfo.ConfigurationEntries == null)
@@ -27,7 +27,7 @@ public class ResolveConfigurationEntries : IPipelineProcessor<GetUCStepPipelineA
     configurationConstructInfo.ConfigurationEntries.AddRange(GetSettingVMs(args.UCServicePlantBox));
   }
 
-  protected virtual ConfigurationEntryBaseVM GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
+  private ConfigurationEntryBaseVM GetConfigurationEntryVMForISetting(IUserSettingBase userSetting)
   {
     if (userSetting is IBoolUserSetting)
     {
@@ -52,7 +52,7 @@ public class ResolveConfigurationEntries : IPipelineProcessor<GetUCStepPipelineA
     return null;
   }
 
-  protected virtual IEnumerable<ConfigurationEntryBaseVM> GetSettingVMs(UserConfigServicePlantBox ucServicePlantBox)
+  private IEnumerable<ConfigurationEntryBaseVM> GetSettingVMs(UserConfigServicePlantBox ucServicePlantBox)
   {
     Dictionary<string, IUserSettingBase> userSettings = ucServicePlantBox.SettingsSteward.DefinedSettings;
     var result = new List<ConfigurationEntryBaseVM>();

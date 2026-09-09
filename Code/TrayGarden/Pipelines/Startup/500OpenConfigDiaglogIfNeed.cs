@@ -20,7 +20,7 @@ public class OpenConfigDiaglogIfNeed(IMainWindowDisplayer mainWindowDisplayer) :
     }
   }
 
-  protected virtual void SilentlyTryToOpenConfigurationWindow()
+  private void SilentlyTryToOpenConfigurationWindow()
   {
     mainWindowDisplayer.PopupMainWindow();
   }

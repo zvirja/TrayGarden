@@ -15,21 +15,21 @@ public class ResolvePlantsConfigVM(IGardenbed gardenbed, IPipelineRunner pipelin
   : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetMainVMPipelineArgs args)
+  public void Process(GetMainVMPipelineArgs args)
   {
     var plantsConfig = new PlantsConfigVM();
     plantsConfig.PlantVMs = new ObservableCollection<SinglePlantVM>(GetSinglePlantVMs());
     args.PlantsConfigVM = plantsConfig;
   }
 
-  protected virtual SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
+  private SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
   {
     var pipelineArgs = new ResolveSinglePlantVMPipelineArgs(plantEx);
     pipelineRunner.Run(pipelineArgs);
     return pipelineArgs.Aborted ? null : pipelineArgs.PlantVM;
   }
 
-  protected virtual List<SinglePlantVM> GetSinglePlantVMs()
+  private List<SinglePlantVM> GetSinglePlantVMs()
   {
     var result = new List<SinglePlantVM>();
     var plantExAll = gardenbed.GetAllPlants();

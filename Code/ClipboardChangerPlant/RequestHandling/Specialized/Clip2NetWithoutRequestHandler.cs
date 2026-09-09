@@ -64,13 +64,13 @@ public class Clip2NetWithoutRequestHandler : RequestHandlerWithUIConfirmation
     return revertDialog;
   }
 
-  protected virtual ImageSource GetUndoImage()
+  private ImageSource GetUndoImage()
   {
     var bitmap = Resources.undoImage48;
     return ImageHelper.GetBitmapImageFromBitmapThreadSafe(bitmap, ImageFormat.Png);
   }
 
-  protected virtual string ResolveAsXml(string inputValue)
+  private string ResolveAsXml(string inputValue)
   {
     var root = XElement.Parse(inputValue);
     var imgNode = root.Element("img");

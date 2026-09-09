@@ -9,7 +9,7 @@ public class TypedUserSettingChange<T> : UserSettingBaseChange
   {
   }
 
-  public T NewValue { get; protected set; }
+  public T NewValue { get; private set; }
 
-  public T OldValue { get; protected set; }
+  public T OldValue { get; private set; }
 }

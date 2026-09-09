@@ -9,9 +9,9 @@ namespace TrayGarden.UI.Common.VMtoVMapping;
 
 public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
 {
-  protected Type _acceptableViewModelType;
+  private Type _acceptableViewModelType;
 
-  protected Func<object, Control> _resoler;
+  private Func<object, Control> _resoler;
 
   public ViewModelToViewMappingResolverBased([NotNull] Type acceptableViewModelType, [NotNull] Func<object, Control> resolver)
 
@@ -22,19 +22,19 @@ public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
     _resoler = resolver;
   }
 
-  public virtual Type AcceptableViewModelType
+  public Type AcceptableViewModelType
   {
     get
     {
       return _acceptableViewModelType;
     }
-    protected set
+    private set
     {
       _acceptableViewModelType = value;
     }
   }
 
-  protected Func<object, Control> Resoler
+  private Func<object, Control> Resoler
   {
     get
     {
@@ -46,7 +46,7 @@ public class ViewModelToViewMappingResolverBased : IViewModelToViewMapping
     }
   }
 
-  public virtual Control GetControl(object contextVM)
+  public Control GetControl(object contextVM)
   {
     return Resoler(contextVM);
   }

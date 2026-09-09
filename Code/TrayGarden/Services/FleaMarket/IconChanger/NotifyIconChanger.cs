@@ -12,9 +12,9 @@ namespace TrayGarden.Services.FleaMarket.IconChanger;
 
 public class NotifyIconChanger : INotifyIconChangerMaster
 {
-  protected CancellationTokenSource _currentCancellationTokenSource;
+  private CancellationTokenSource _currentCancellationTokenSource;
 
-  protected Task _currentUpdateIconTask;
+  private Task _currentUpdateIconTask;
 
   public NotifyIconChanger()
   {
@@ -26,17 +26,17 @@ public class NotifyIconChanger : INotifyIconChangerMaster
 
   public bool IsEnabled { get; set; }
 
-  protected Icon BackIcon { get; set; }
+  private Icon BackIcon { get; set; }
 
-  protected Icon SuccessIcon { get; set; }
+  private Icon SuccessIcon { get; set; }
     
-  protected Icon FailedIcon { get; set; }
+  private Icon FailedIcon { get; set; }
 
-  protected bool Initialized { get; set; }
+  private bool Initialized { get; set; }
 
-  protected NotifyIcon OperableNIcon { get; set; }
+  private NotifyIcon OperableNIcon { get; set; }
 
-  public virtual void Initialize([NotNull] NotifyIcon operableNIcon)
+  public void Initialize([NotNull] NotifyIcon operableNIcon)
   {
     Assert.ArgumentNotNull(operableNIcon, "operableNIcon");
     OperableNIcon = operableNIcon;
@@ -56,7 +56,7 @@ public class NotifyIconChanger : INotifyIconChangerMaster
     SetIcon(FailedIcon, msTimeout == 0 ? DefaultDelayMsec : msTimeout);
   }
 
-  public virtual void SetIcon(Icon newIcon, int msTimeout)
+  public void SetIcon(Icon newIcon, int msTimeout)
   {
     AssertInitialized();
     if (!IsEnabled)
@@ -66,7 +66,7 @@ public class NotifyIconChanger : INotifyIconChangerMaster
     SetIconInternal(newIcon ?? BackIcon, BackIcon, msTimeout);
   }
 
-  public virtual void SetIcon(Icon newIcon)
+  public void SetIcon(Icon newIcon)
   {
     AssertInitialized();
     if (!IsEnabled)
@@ -76,7 +76,7 @@ public class NotifyIconChanger : INotifyIconChangerMaster
     SetIcon(newIcon, DefaultDelayMsec);
   }
 
-  protected virtual void AssertInitialized()
+  private void AssertInitialized()
   {
     if (!Initialized)
     {
@@ -84,7 +84,7 @@ public class NotifyIconChanger : INotifyIconChangerMaster
     }
   }
 
-  protected virtual void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
+  private void SetIconInternal(Icon newIcon, Icon backIcon, int msTimeout)
   {
     if (newIcon == null || backIcon == null)
     {

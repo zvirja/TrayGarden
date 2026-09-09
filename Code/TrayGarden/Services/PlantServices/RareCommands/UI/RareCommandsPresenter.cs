@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.RareCommands.UI;
 public class RareCommandsPresenter(IServicesSteward servicesSteward, IUIManager uiManager)
   : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
 {
-  public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
+  public void Process(ResolveSinglePlantVMPipelineArgs args)
   {
     var service = (RareCommandsService)servicesSteward.Services.FirstOrDefault(x => x.GetType().IsAssignableFrom(typeof(RareCommandsService)));
     if (service == null)
@@ -41,7 +41,7 @@ public class RareCommandsPresenter(IServicesSteward servicesSteward, IUIManager 
     }
   }
 
-  protected virtual List<ServiceForPlantVMBase> GetActionsVM(RareCommandsService serviceInstance, IPlantEx plantEx)
+  private List<ServiceForPlantVMBase> GetActionsVM(RareCommandsService serviceInstance, IPlantEx plantEx)
   {
     RareCommandsServicePlantBox luggage = serviceInstance.GetPlantLuggage(plantEx);
     List<IRareCommand> settings = luggage.RareCommands;
@@ -61,12 +61,12 @@ public class RareCommandsPresenter(IServicesSteward servicesSteward, IUIManager 
     return result;
   }
 
-  protected virtual ICommand GetCommandWrapper(IRareCommand rareCommand)
+  private ICommand GetCommandWrapper(IRareCommand rareCommand)
   {
     return new RareCommandWrapper(uiManager, rareCommand);
   }
 
-  protected virtual ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
+  private ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
   {
     return new ServiceForPlantActionPerformVM(uiManager, rareCommand.Title, rareCommand.Description, GetCommandWrapper(rareCommand));
   }

@@ -32,7 +32,7 @@ public abstract class ServicePresenterBase<TServiceType> : IPipelineProcessor<Re
   protected IUIManager UIManager { get; }
 
   [UsedImplicitly]
-  public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
+  public void Process(ResolveSinglePlantVMPipelineArgs args)
   {
     var serviceInstance =
       (TServiceType)(ServicesSteward.Services.FirstOrDefault(x => x.GetType() == typeof(TServiceType)));

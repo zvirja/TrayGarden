@@ -17,12 +17,12 @@ public class InjectApplicationConfigLink(IPipelineRunner pipelineRunner, IUIMana
   : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetMainVMPipelineArgs args)
+  public void Process(GetMainVMPipelineArgs args)
   {
     args.SuperAction = GetSuperAction();
   }
 
-  protected virtual void ConfigureApplication(object obj)
+  private void ConfigureApplication(object obj)
   {
     WindowStepState applicationConfigStep = GetStateFromPipeline();
     if (applicationConfigStep == null)
@@ -37,14 +37,14 @@ public class InjectApplicationConfigLink(IPipelineRunner pipelineRunner, IUIMana
     WindowWithBackVM.GoAheadWithBackIfPossible(applicationConfigStep);
   }
 
-  protected virtual WindowStepState GetStateFromPipeline()
+  private WindowStepState GetStateFromPipeline()
   {
     var args = new GetApplicationConfigStepArgs();
     pipelineRunner.Run(args);
     return args.Aborted ? null : args.Result as WindowStepState ?? args.StepConstructInfo.ResultState;
   }
 
-  protected virtual ActionCommandVM GetSuperAction()
+  private ActionCommandVM GetSuperAction()
   {
     return new ActionCommandVM(new RelayCommand(ConfigureApplication, true), "Configure application");
   }

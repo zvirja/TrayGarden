@@ -5,7 +5,7 @@ namespace ClipboardChangerPlant.RequestHandling.PipelineModel;
 
 public class Processor
 {
-  protected virtual Icon ErrorTrayIcon
+  protected Icon ErrorTrayIcon
   {
     get
     {
@@ -13,7 +13,7 @@ public class Processor
     }
   }
 
-  protected virtual Icon NotFoundTrayIcon
+  protected Icon NotFoundTrayIcon
   {
     get
     {
@@ -21,7 +21,7 @@ public class Processor
     }
   }
 
-  protected virtual Icon SuccessTrayIcon
+  protected Icon SuccessTrayIcon
   {
     get
     {
@@ -33,13 +33,13 @@ public class Processor
   {
   }
 
-  protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
+  protected void HandleErrorAndAbortPipeline(ProcessorArgs args, Icon errorIcon)
   {
     args.CurrentNotifyIconChangerClient.SetIcon(errorIcon);
     args.Abort();
   }
 
-  protected virtual void HandleErrorAndAbortPipeline(ProcessorArgs args)
+  private void HandleErrorAndAbortPipeline(ProcessorArgs args)
   {
     HandleErrorAndAbortPipeline(args, ErrorTrayIcon);
   }

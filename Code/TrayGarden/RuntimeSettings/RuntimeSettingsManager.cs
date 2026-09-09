@@ -28,7 +28,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     _autoSaveIntervalSeconds = options.Value.RuntimeSettings.AutoSaveIntervalSeconds;
   }
 
-  public virtual ISettingsBox OtherSettings
+  public ISettingsBox OtherSettings
   {
     get
     {
@@ -36,7 +36,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
   }
 
-  public virtual ISettingsBox SystemSettings
+  public ISettingsBox SystemSettings
   {
     get
     {
@@ -44,7 +44,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
   }
 
-  protected ISettingsBox RootBox
+  private ISettingsBox RootBox
   {
     get
     {
@@ -53,14 +53,14 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
   }
 
-  protected Timer TimerForAutosave { get; set; }
+  private Timer TimerForAutosave { get; set; }
 
-  public virtual bool SaveNow(bool force)
+  public bool SaveNow(bool force)
   {
     return SaveSettingsInternal(force);
   }
 
-  protected virtual void EnsureInitialized()
+  private void EnsureInitialized()
   {
     if (_initialized)
     {
@@ -85,7 +85,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
   }
 
-  protected virtual ISettingsBox GetRootBox(IContainer container)
+  private ISettingsBox GetRootBox(IContainer container)
   {
     var rootBox = new ContainerBasedSettingsBox();
     rootBox.Initialize(container);
@@ -93,12 +93,12 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     return rootBox;
   }
 
-  protected virtual void RootBoxSave()
+  private void RootBoxSave()
   {
     SaveSettingsInternal(false);
   }
 
-  protected virtual bool SaveSettingsInternal(bool force)
+  private bool SaveSettingsInternal(bool force)
   {
     if (!force && (BulkSettingsUpdate.CurrentValue == BulkUpdateState.Enabled))
     {
@@ -110,7 +110,7 @@ public class RuntimeSettingsManager : IRuntimeSettingsManager
     }
   }
 
-  protected virtual void TimerForAutosave_Elapsed(object sender, ElapsedEventArgs e)
+  private void TimerForAutosave_Elapsed(object sender, ElapsedEventArgs e)
   {
     SaveSettingsInternal(true);
   }

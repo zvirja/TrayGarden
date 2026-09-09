@@ -52,7 +52,7 @@ public class Clip2NetWithRequestHandler : Clip2NetWithoutRequestHandler
     return validContent;
   }
 
-  protected virtual string GetBody(string url)
+  private string GetBody(string url)
   {
     var request = WebRequest.Create(url);
     var response = request.GetResponse();

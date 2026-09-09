@@ -10,11 +10,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 public class SinglePlantVM : INotifyPropertyChanged
 {
-  protected string _description;
+  private string _description;
 
-  protected string _name;
+  private string _name;
 
-  protected ObservableCollection<ServiceForPlantVMBase> _servicesVM;
+  private ObservableCollection<ServiceForPlantVMBase> _servicesVM;
 
   public SinglePlantVM()
   {
@@ -90,7 +90,7 @@ public class SinglePlantVM : INotifyPropertyChanged
 
   public IPlantEx UnderlyingPlant { get; set; }
 
-  public virtual void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
+  public void InitPlantVMWithPlantEx([NotNull] IPlantEx underlyingPlant)
   {
     Assert.ArgumentNotNull(underlyingPlant, "underlyingPlant");
     UnderlyingPlant = underlyingPlant;
@@ -100,7 +100,7 @@ public class SinglePlantVM : INotifyPropertyChanged
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  private void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -109,7 +109,7 @@ public class SinglePlantVM : INotifyPropertyChanged
     }
   }
 
-  protected virtual void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+  private void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
   {
     OnPropertyChanged("ServicesVM");
   }

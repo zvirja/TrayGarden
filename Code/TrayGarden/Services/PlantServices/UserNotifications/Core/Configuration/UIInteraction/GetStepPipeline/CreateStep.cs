@@ -9,7 +9,7 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 public class CreateStep : IPipelineProcessor<UNConfigurationStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(UNConfigurationStepArgs args)
+  public void Process(UNConfigurationStepArgs args)
   {
     var constructInfo = args.StateConstructInfo;
     constructInfo.ResultState = new WindowStepState(

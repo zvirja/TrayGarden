@@ -30,7 +30,7 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
     InitializePlantInternal(plantEx);
   }
 
-  protected virtual void InitializePlantInternal(IPlantEx plant)
+  private void InitializePlantInternal(IPlantEx plant)
   {
     var workhorse = plant.GetFirstWorkhorseOfType<IGetPowerOfUserNotifications>();
     if (workhorse == null)

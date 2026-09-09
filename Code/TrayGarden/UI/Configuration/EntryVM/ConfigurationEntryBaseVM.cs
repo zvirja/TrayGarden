@@ -33,7 +33,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
     }
   }
 
-  public virtual bool AllowEditing
+  public bool AllowEditing
   {
     get
     {
@@ -52,7 +52,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   //Be aware that this property is redefined in derived types (to reflect more specific player).
   public IConfigurationPlayer RealPlayer { get; set; }
 
-  public virtual bool RequiresApplicationReboot
+  public bool RequiresApplicationReboot
   {
     get
     {
@@ -64,7 +64,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
 
   public string RestoreDefaultValueTooltip { get; set; }
 
-  public virtual string SettingDescription
+  public string SettingDescription
   {
     get
     {
@@ -72,7 +72,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
     }
   }
 
-  public virtual string SettingName
+  public string SettingName
   {
     get
     {
@@ -81,7 +81,7 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  protected void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -92,12 +92,12 @@ public abstract class ConfigurationEntryBaseVM : INotifyPropertyChanged
 
   protected abstract void OnUnderlyingSettingValueChanged();
 
-  protected virtual void RealPlayer_RequiresApplicationRebootChanged()
+  private void RealPlayer_RequiresApplicationRebootChanged()
   {
     OnPropertyChanged("RequiresApplicationReboot");
   }
 
-  protected virtual void ResetValue(object o)
+  private void ResetValue(object o)
   {
     if (RealPlayer.SupportsReset && AllowEditing)
     {

@@ -26,9 +26,9 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
 
   public Dictionary<string, IUserSettingBase> DefinedSettings { get; set; }
 
-  protected IUserSettingsBuilder SettingsBuilder { get; set; }
+  private IUserSettingsBuilder SettingsBuilder { get; set; }
 
-  public virtual IBoolUserSetting DeclareBoolSetting(
+  public IBoolUserSetting DeclareBoolSetting(
     string name,
     string title,
     bool defaultValue,
@@ -48,7 +48,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return userSetting;
   }
 
-  public virtual IDoubleUserSetting DeclareDoubleSetting(
+  public IDoubleUserSetting DeclareDoubleSetting(
     string name,
     string title,
     double defaultValue,
@@ -68,7 +68,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return userSetting;
   }
 
-  public virtual IIntUserSetting DeclareIntSetting(
+  public IIntUserSetting DeclareIntSetting(
     string name,
     string title,
     int defaultValue,
@@ -88,7 +88,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return userSetting;
   }
 
-  public virtual IStringOptionUserSetting DeclareStringOptionSetting(
+  public IStringOptionUserSetting DeclareStringOptionSetting(
     string name,
     string title,
     string defaultValue,
@@ -109,7 +109,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return userSetting;
   }
 
-  public virtual IStringUserSetting DeclareStringSetting(
+  public IStringUserSetting DeclareStringSetting(
     string name,
     string title,
     string defaultValue,
@@ -129,12 +129,12 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return userSetting;
   }
 
-  public virtual List<TSetting> GetAllUserSettingsOfType<TSetting>() where TSetting : IUserSettingBase
+  public List<TSetting> GetAllUserSettingsOfType<TSetting>() where TSetting : IUserSettingBase
   {
     return DefinedSettings.Select(x => x.Value).OfType<TSetting>().ToList();
   }
 
-  public virtual TSetting GetUserSettingOfType<TSetting>(string name) where TSetting : IUserSettingBase
+  public TSetting GetUserSettingOfType<TSetting>(string name) where TSetting : IUserSettingBase
   {
     if (!DefinedSettings.ContainsKey(name))
     {
@@ -144,7 +144,7 @@ public class PersonalUserSettingsSteward : IPersonalUserSettingsSteward
     return presentValue is TSetting ? (TSetting)presentValue : default(TSetting);
   }
 
-  protected virtual void RegisterSetting(IUserSettingBase newSetting)
+  private void RegisterSetting(IUserSettingBase newSetting)
   {
     if (DefinedSettings.ContainsKey(newSetting.Name))
     {

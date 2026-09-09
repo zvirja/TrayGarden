@@ -36,11 +36,11 @@ public class SimpleConfigurationEntryAction : IConfigurationEntryAction
 
   public ImageSource LabelImage { get; set; }
 
-  protected object CustomParam { get; set; }
+  private object CustomParam { get; set; }
 
-  protected Action<object> StoredAction { get; set; }
+  private Action<object> StoredAction { get; set; }
 
-  protected virtual void ExecuteAction(object o)
+  private void ExecuteAction(object o)
   {
     StoredAction(CustomParam);
   }

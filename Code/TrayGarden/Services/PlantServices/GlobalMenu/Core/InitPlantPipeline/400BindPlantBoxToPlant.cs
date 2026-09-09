@@ -8,7 +8,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
 public class BindPlantBoxToPlant : IPipelineProcessor<InitPlantGMArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantGMArgs args)
+  public void Process(InitPlantGMArgs args)
   {
     if (!(args.IsAdvancedMenuExtendingInUse || args.IsMenuExtendingInUse || args.IsNotifyIconChangerInUse))
     {

@@ -47,14 +47,14 @@ public class LifecycleObserver
     Services.GetRequiredService<IPipelineRunner>().Run(new RestartAppArgs(paramsToAdd));
   }
 
-  protected virtual void PopulateGardenContext()
+  private void PopulateGardenContext()
   {
     GardenContext.RuntimeSettings = Services.GetRequiredService<IRuntimeSettingsManager>();
     GardenContext.ServiceForPlantTemplateSelector = Services.GetRequiredService<IDataTemplateSelector>();
     GardenContext.UIManager = Services.GetRequiredService<IUIManager>();
   }
 
-  protected virtual void ApplicationExit(object sender, ExitEventArgs e)
+  private void ApplicationExit(object sender, ExitEventArgs e)
   {
     Log.For(this).Information("ApplicationExit. ExitCode: {ExitCode}", e.ApplicationExitCode);
     if (e.ApplicationExitCode != 0)
@@ -71,14 +71,14 @@ public class LifecycleObserver
     }
   }
 
-  protected Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
+  private Assembly CurrentDomainOnAssemblyResolve(object sender, ResolveEventArgs args)
   {
     var name = new AssemblyName(args.Name);
 
     return AppDomain.CurrentDomain.GetAssemblies().FirstOrDefault(x => x.GetName().Name == name.Name);
   }
 
-  protected virtual void NotifyStartupInternal(string[] args)
+  private void NotifyStartupInternal(string[] args)
   {
     try
     {
@@ -93,7 +93,7 @@ public class LifecycleObserver
     }
   }
 
-  protected virtual void SetAssembliesHook()
+  private void SetAssembliesHook()
   {
     AppDomain.CurrentDomain.AssemblyResolve += CurrentDomainOnAssemblyResolve;
   }

@@ -8,7 +8,7 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 public class InitializeGeneralSettings : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  public void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
     args.ConfigConstructInfo.EnableResetAllOption = true;
     args.ConfigConstructInfo.AllowReboot = true;

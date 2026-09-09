@@ -10,7 +10,7 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipelin
 public class AssignIconModifier(INotifyIconChangerFactory iconChangerFactory) : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantSIArgs args)
+  public void Process(InitPlantSIArgs args)
   {
     var asIconModifyRequirer = args.PlantEx.GetFirstWorkhorseOfType<INeedToModifyIcon>();
     if (asIconModifyRequirer == null)
@@ -20,7 +20,7 @@ public class AssignIconModifier(INotifyIconChangerFactory iconChangerFactory) : 
     AssignIconModifierToRequirer(args, asIconModifyRequirer);
   }
 
-  protected virtual void AssignIconModifierToRequirer(InitPlantSIArgs args, INeedToModifyIcon iconRequirer)
+  private void AssignIconModifierToRequirer(InitPlantSIArgs args, INeedToModifyIcon iconRequirer)
   {
     INotifyIconChangerMaster iconChanger = iconChangerFactory.Create();
     iconChanger.Initialize(args.SIBox.NotifyIcon);

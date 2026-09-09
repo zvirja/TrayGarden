@@ -15,9 +15,9 @@ public class ProcessManager : INeedCongurationNode
   private static readonly Lazy<ProcessManager> _actualProcessManager =
     new Lazy<ProcessManager>(() => Factory.ActualFactory.GetRequestProcessManager());
 
-  protected XmlHelper ConfigurationHelper;
+  private XmlHelper ConfigurationHelper;
 
-  protected List<Processor> Processors;
+  private List<Processor> Processors;
 
   public static ProcessManager ActualManager
   {
@@ -29,7 +29,7 @@ public class ProcessManager : INeedCongurationNode
 
   public string Name { get; set; }
 
-  public virtual void ProcessRequest(
+  public void ProcessRequest(
     bool onlyShorteningRequired,
     bool clipboardEvent,
     string predefinedClipboardValue,
@@ -54,7 +54,7 @@ public class ProcessManager : INeedCongurationNode
     }
   }
 
-  public virtual void SetConfigurationNode(XmlNode configurationNode)
+  public void SetConfigurationNode(XmlNode configurationNode)
   {
     ConfigurationHelper = new XmlHelper(configurationNode);
     var processors =

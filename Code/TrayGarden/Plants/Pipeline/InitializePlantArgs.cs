@@ -17,13 +17,13 @@ public class InitializePlantArgs : PipelineArgs
 
   public string PlantID { get; set; }
 
-  public object PlantObject { get; protected set; }
+  public object PlantObject { get; private set; }
 
   public ISettingsBox PlantSettingsBox { get; set; }
 
   public IPlantEx ResolvedPlantEx { get; set; }
 
-  public ISettingsBox RootSettingsBox { get; protected set; }
+  public ISettingsBox RootSettingsBox { get; private set; }
 
   public List<object> Workhorses { get; set; }
 }

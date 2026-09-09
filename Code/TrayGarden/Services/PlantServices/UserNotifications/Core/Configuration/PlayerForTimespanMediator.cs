@@ -25,7 +25,7 @@ public class PlayerForTimespanMediator : TypedConfigurationPlayer<int>
     }
   }
 
-  protected TimeSpanSettingMediator Mediator { get; set; }
+  private TimeSpanSettingMediator Mediator { get; set; }
 
   public override void Reset()
   {

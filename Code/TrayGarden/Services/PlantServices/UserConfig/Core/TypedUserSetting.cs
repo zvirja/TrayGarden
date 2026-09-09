@@ -10,11 +10,11 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Core;
 
 public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITypedUserSettingMaster<T>
 {
-  protected T currentValue;
+  private T currentValue;
 
   public new event EventHandler<TypedUserSettingChange<T>> ValueChanged;
 
-  public new virtual ITypedUserSettingMetadata<T> Metadata { get; set; }
+  public new ITypedUserSettingMetadata<T> Metadata { get; set; }
 
   public IUserSettingStorage<T> Storage { get; set; }
 
@@ -41,7 +41,7 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
     }
   }
 
-  protected bool ValueWasAlreadyPooled { get; set; }
+  private bool ValueWasAlreadyPooled { get; set; }
 
   public virtual void Initialize(
     [NotNull] ITypedUserSettingMetadata<T> typedMetadata,
@@ -61,7 +61,7 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
     Value = Metadata.DefaultValue;
   }
 
-  protected virtual void OnValueChanged(T oldValue, T newValue)
+  private void OnValueChanged(T oldValue, T newValue)
   {
     var args = new TypedUserSettingChange<T>(this, oldValue, newValue);
     base.OnValueChanged(args);
@@ -77,7 +77,7 @@ public class TypedUserSetting<T> : UserSettingBase, ITypedUserSetting<T>, ITyped
     return Storage.ReadValue(Name, Metadata.DefaultValue);
   }
 
-  protected virtual void PushValueToUnderlyingStorage(T value)
+  private void PushValueToUnderlyingStorage(T value)
   {
     Storage.WriteValue(Name, value);
   }

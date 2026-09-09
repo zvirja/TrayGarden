@@ -11,7 +11,7 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
 
 public class DynamicStateWatcher : IDynamicStateWatcher
 {
-  protected object lockObj = new object();
+  private object lockObj = new object();
 
   public DynamicStateWatcher(IDynamicStateDecorator menuEntryDecorator)
   {
@@ -19,11 +19,11 @@ public class DynamicStateWatcher : IDynamicStateWatcher
     EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
   }
 
-  protected HashSet<ExtendedToolStripMenuItem> EntriesToUpdate { get; set; }
+  private HashSet<ExtendedToolStripMenuItem> EntriesToUpdate { get; set; }
 
-  protected IDynamicStateDecorator MenuEntryDecorator { get; set; }
+  private IDynamicStateDecorator MenuEntryDecorator { get; set; }
 
-  public virtual void AddStipToWatch(ExtendedToolStripMenuItem menuItem)
+  public void AddStipToWatch(ExtendedToolStripMenuItem menuItem)
   {
     IDynamicStateProvider stateProvider = menuItem.DynamicStateProvider;
     if (stateProvider == null)
@@ -34,12 +34,12 @@ public class DynamicStateWatcher : IDynamicStateWatcher
     EnqueStripForPendingUpdate(menuItem);
   }
 
-  public virtual void BindToMenuStrip(ContextMenuStrip menuStrip)
+  public void BindToMenuStrip(ContextMenuStrip menuStrip)
   {
     menuStrip.Opening += MenuStripOnOpening;
   }
 
-  protected virtual void EnqueStripForPendingUpdate(ExtendedToolStripMenuItem menuItem)
+  private void EnqueStripForPendingUpdate(ExtendedToolStripMenuItem menuItem)
   {
     lock (lockObj)
     {
@@ -47,7 +47,7 @@ public class DynamicStateWatcher : IDynamicStateWatcher
     }
   }
 
-  protected virtual void MenuStripOnOpening(object sender, CancelEventArgs cancelEventArgs)
+  private void MenuStripOnOpening(object sender, CancelEventArgs cancelEventArgs)
   {
     if (EntriesToUpdate.Count == 0)
     {

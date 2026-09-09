@@ -21,9 +21,9 @@ public class StringOptionConfigurationEntryVM : TypedConfigurationEntryVM<string
     }
   }
 
-  protected new IStringOptionConfigurationPlayer RealPlayer { get; set; }
+  private new IStringOptionConfigurationPlayer RealPlayer { get; set; }
 
-  protected virtual List<string> GetAllPossibleOptions()
+  private List<string> GetAllPossibleOptions()
   {
     return RealPlayer.Options;
   }

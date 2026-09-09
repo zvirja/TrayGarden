@@ -12,12 +12,12 @@ public class AddRunAtStartupSetting(IAutorunHelper autorunHelper) : IPipelinePro
   public string Description { get; set; } = "Configures whether start the app at the Windows startup";
 
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetConfigurationEntry());
   }
 
-  protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
+  private ConfigurationEntryBaseVM GetConfigurationEntry()
   {
     var player = new AutorunPlayer(autorunHelper, "Run at startup", Description);
     return new BoolConfigurationEntryVM(player);

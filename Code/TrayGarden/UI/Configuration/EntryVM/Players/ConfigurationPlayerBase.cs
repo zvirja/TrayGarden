@@ -26,35 +26,35 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
 
   public event Action ValueChanged;
 
-  public virtual List<IConfigurationEntryAction> AdditionalActions
+  public List<IConfigurationEntryAction> AdditionalActions
   {
     get
     {
       return additionalActions;
     }
-    protected set
+    private set
     {
       additionalActions = value;
     }
   }
 
-  public virtual bool HideReset { get; protected set; }
+  public bool HideReset { get; private set; }
 
-  public bool ReadOnly { get; protected set; }
+  public bool ReadOnly { get; private set; }
 
   public virtual bool RequiresApplicationReboot { get; protected set; }
 
   public virtual string SettingDescription { get; protected set; }
 
-  public string SettingName { get; protected set; }
+  public string SettingName { get; private set; }
 
-  public virtual bool SupportsReset
+  public bool SupportsReset
   {
     get
     {
       return supportsReset;
     }
-    protected set
+    private set
     {
       supportsReset = value;
     }
@@ -62,7 +62,7 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
 
   public abstract void Reset();
 
-  protected virtual void OnRequiresApplicationRebootChanged()
+  protected void OnRequiresApplicationRebootChanged()
   {
     Action handler = RequiresApplicationRebootChanged;
     if (handler != null)
@@ -71,7 +71,7 @@ public abstract class ConfigurationPlayerBase : IConfigurationPlayer
     }
   }
 
-  protected virtual void OnValueChanged()
+  protected void OnValueChanged()
   {
     Action handler = ValueChanged;
     if (handler != null)

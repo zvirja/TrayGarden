@@ -15,7 +15,7 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
 public class AddResetAllHelpAction : IPipelineProcessor<GetUCStepPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetUCStepPipelineArgs args)
+  public void Process(GetUCStepPipelineArgs args)
   {
     ConfigurationControlVM contentVM = args.ConfigurationConstructInfo.ResultControlVM;
     Assert.IsNotNull(contentVM, "Content VM can't be null at this stage");

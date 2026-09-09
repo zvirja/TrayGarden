@@ -25,7 +25,7 @@ public class PlayerForIntRSMediator : TypedConfigurationPlayer<int>
     }
   }
 
-  protected IntSettingMediator Mediator { get; set; }
+  private IntSettingMediator Mediator { get; set; }
 
   public override void Reset()
   {

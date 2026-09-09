@@ -12,7 +12,7 @@ namespace ClipboardChangerPlant.Clipboard;
 [UsedImplicitly]
 public class ClipboardProvider : IClipboardWorks, IClipboardListener
 {
-  protected static readonly string ListenClipboardSettingName = "Listen the clipboard";
+  private static readonly string ListenClipboardSettingName = "Listen the clipboard";
 
   /// <summary>
   /// This event is raised even if update is initiated internally and actually hasn't been updated yet.
@@ -24,7 +24,7 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
 
   public IClipboardProvider ActualProvider { get; set; }
 
-  protected bool ListenClipboad
+  private bool ListenClipboad
   {
     get
     {
@@ -32,14 +32,14 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
     }
   }
 
-  protected IBoolUserSetting ListenClipoardSetting { get; set; }
+  private IBoolUserSetting ListenClipoardSetting { get; set; }
 
-  public virtual string GetValue()
+  public string GetValue()
   {
     return ActualProvider.GetCurrentClipboardText();
   }
 
-  public virtual void OnClipboardTextChanged(string newClipboardValue)
+  public void OnClipboardTextChanged(string newClipboardValue)
   {
     if (ListenClipboad)
     {
@@ -48,7 +48,7 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
     }
   }
 
-  public virtual void OnClipboardValueUpdatedService(string newValue)
+  public void OnClipboardValueUpdatedService(string newValue)
   {
     Action<string> handler = ClipboardValueUpdatedService;
     if (handler != null)
@@ -57,12 +57,12 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
     }
   }
 
-  public virtual void PostInit()
+  public void PostInit()
   {
     ListenClipoardSetting = UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting("listenTheClipboard", ListenClipboardSettingName, true);
   }
 
-  public virtual void SetValue(string value, bool silent)
+  public void SetValue(string value, bool silent)
   {
     if (silent)
     {
@@ -71,12 +71,12 @@ public class ClipboardProvider : IClipboardWorks, IClipboardListener
     ActualProvider.SetCurrentClipboardText(value, silent);
   }
 
-  public virtual void StoreClipboardValueProvider(IClipboardProvider provider)
+  public void StoreClipboardValueProvider(IClipboardProvider provider)
   {
     ActualProvider = provider;
   }
 
-  protected virtual void OnOnClipboardValueChanged(string newValue)
+  private void OnOnClipboardValueChanged(string newValue)
   {
     Action<string> handler = OnClipboardValueChanged;
     if (handler != null)

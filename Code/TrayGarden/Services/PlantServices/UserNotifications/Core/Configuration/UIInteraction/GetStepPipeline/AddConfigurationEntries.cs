@@ -13,13 +13,13 @@ namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration
 public class AddConfigurationEntries : IPipelineProcessor<UNConfigurationStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(UNConfigurationStepArgs args)
+  public void Process(UNConfigurationStepArgs args)
   {
     ConfigurationControlConstructInfo constructInfo = args.ConfigurationConstructInfo;
     AddEntries(constructInfo.ConfigurationEntries);
   }
 
-  protected virtual void AddEntries(List<ConfigurationEntryBaseVM> output)
+  private void AddEntries(List<ConfigurationEntryBaseVM> output)
   {
     output.Add(
       new BoolConfigurationEntryVM(

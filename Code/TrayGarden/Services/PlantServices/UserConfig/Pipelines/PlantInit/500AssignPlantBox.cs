@@ -9,13 +9,13 @@ namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 public class AssignPlantBox : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
-  public virtual void Process(InitPlantUCPipelineArg args)
+  public void Process(InitPlantUCPipelineArg args)
   {
     UserConfigServicePlantBox userConfigServicePlantBox = CreatePlantBox(args);
     args.RelatedPlant.PutLuggage(args.LuggageName, userConfigServicePlantBox);
   }
 
-  protected virtual UserConfigServicePlantBox CreatePlantBox(InitPlantUCPipelineArg args)
+  private UserConfigServicePlantBox CreatePlantBox(InitPlantUCPipelineArg args)
   {
     var plantBox = new UserConfigServicePlantBox();
     plantBox.RelatedPlantEx = args.RelatedPlant;

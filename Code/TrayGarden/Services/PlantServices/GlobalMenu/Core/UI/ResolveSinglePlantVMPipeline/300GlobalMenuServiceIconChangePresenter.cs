@@ -18,7 +18,7 @@ public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalM
     ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";
   }
 
-  protected static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
+  private static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)
   {
     var expectedLuggage = sender.Luggage as GlobalMenuPlantBox;
     Assert.IsNotNull(expectedLuggage, "Luggage is null or wrong type");

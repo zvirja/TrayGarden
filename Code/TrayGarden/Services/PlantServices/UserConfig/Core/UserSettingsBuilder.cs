@@ -15,7 +15,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
 
   private ISettingsBox UnderlyingBox { get; set; }
 
-  public virtual IBoolUserSetting BuildBoolSetting(
+  public IBoolUserSetting BuildBoolSetting(
     string settingName,
     string settingTitle,
     bool defaultValue,
@@ -40,7 +40,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return setting;
   }
 
-  public virtual IDoubleUserSetting BuildDoubleSetting(
+  public IDoubleUserSetting BuildDoubleSetting(
     string settingName,
     string settingTitle,
     double defaultValue,
@@ -65,7 +65,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return setting;
   }
 
-  public virtual IIntUserSetting BuildIntSetting(
+  public IIntUserSetting BuildIntSetting(
     string settingName,
     string settingTitle,
     int defaultValue,
@@ -90,7 +90,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return setting;
   }
 
-  public virtual IStringOptionUserSetting BuildStringOptionSetting(
+  public IStringOptionUserSetting BuildStringOptionSetting(
     string settingName,
     string settingTitle,
     string defaultValue,
@@ -115,7 +115,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return setting;
   }
 
-  public virtual IStringUserSetting BuildStringSetting(
+  public IStringUserSetting BuildStringSetting(
     string settingName,
     string settingTitle,
     string defaultValue,
@@ -140,7 +140,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return setting;
   }
 
-  protected virtual ITypedUserSettingMetadata<T> BuildMetadata<T>(
+  private ITypedUserSettingMetadata<T> BuildMetadata<T>(
     string name,
     string title,
     T defaultValue,
@@ -153,7 +153,7 @@ public class UserSettingsBuilder : IUserSettingsBuilder
     return cleanInstance;
   }
 
-  protected virtual IUserSettingMetadataMaster<T> GetCleanMetadataInstance<T>()
+  private IUserSettingMetadataMaster<T> GetCleanMetadataInstance<T>()
   {
     return new UserSettingMetadata<T>();
   }

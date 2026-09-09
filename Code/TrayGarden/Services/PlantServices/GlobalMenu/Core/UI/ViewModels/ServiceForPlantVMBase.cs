@@ -12,11 +12,11 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 public class ServiceForPlantVMBase : INotifyPropertyChanged
 {
-  protected string _description;
+  private string _description;
 
-  protected string _serviceName;
+  private string _serviceName;
 
-  protected ICommand _showDescription;
+  private ICommand _showDescription;
 
   private readonly IUIManager _uiManager;
 
@@ -86,7 +86,7 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
   }
 
   [NotifyPropertyChangedInvocator]
-  protected virtual void OnPropertyChanged(string propertyName)
+  protected void OnPropertyChanged(string propertyName)
   {
     PropertyChangedEventHandler handler = PropertyChanged;
     if (handler != null)
@@ -95,7 +95,7 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
     }
   }
 
-  protected virtual void ShowDescriptionAction(object o)
+  private void ShowDescriptionAction(object o)
   {
     _uiManager.OKMessageBox(ServiceName, Description, MessageBoxImage.Question);
   }

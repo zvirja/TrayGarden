@@ -25,7 +25,7 @@ public class PlayerForBoolRSMediator : TypedConfigurationPlayer<bool>
     }
   }
 
-  protected BoolSettingMediator Mediator { get; set; }
+  private BoolSettingMediator Mediator { get; set; }
 
   public override void Reset()
   {

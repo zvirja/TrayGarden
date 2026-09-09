@@ -14,26 +14,26 @@ public class ServicesConfigurationInjectSAInjector(IPipelineRunner pipelineRunne
   : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetApplicationConfigStepArgs args)
+  public void Process(GetApplicationConfigStepArgs args)
   {
     args.StepConstructInfo.SuperAction = GetSuperAction();
   }
 
-  protected virtual void ConfigureServices(object o)
+  private void ConfigureServices(object o)
   {
     WindowStepState servicesConfigurationState = GetStateFromPipeline();
     Assert.IsNotNull(servicesConfigurationState, "Pipeline hasn't returned state object");
     WindowWithBackVM.GoAheadWithBackIfPossible(servicesConfigurationState);
   }
 
-  protected virtual WindowStepState GetStateFromPipeline()
+  private WindowStepState GetStateFromPipeline()
   {
     var pipelineArgs = new GetStateForServicesConfigurationPipelineArgs();
     pipelineRunner.Run(pipelineArgs);
     return pipelineArgs.Aborted ? null : pipelineArgs.StateConstructInfo.ResultState;
   }
 
-  protected virtual ActionCommandVM GetSuperAction()
+  private ActionCommandVM GetSuperAction()
   {
     return new ActionCommandVM(new RelayCommand(ConfigureServices, true), "Configure services");
   }

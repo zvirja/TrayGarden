@@ -8,7 +8,7 @@ public class ShortenerProvider : INeedCongurationNode
 {
   protected XmlHelper ConfigurationHelper;
 
-  public virtual string ApiKey
+  public string ApiKey
   {
     get
     {

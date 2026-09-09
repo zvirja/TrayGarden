@@ -9,7 +9,7 @@ namespace ClipboardChangerPlant.RequestHandling;
 
 public class RequestHandlerWithUIConfirmation : RequestHandler
 {
-  protected bool EnableConfirmation
+  private bool EnableConfirmation
   {
     get
     {
@@ -17,7 +17,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     }
   }
 
-  protected bool EnableReverting
+  private bool EnableReverting
   {
     get
     {
@@ -25,7 +25,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     }
   }
 
-  protected bool Enabled
+  private bool Enabled
   {
     get
     {
@@ -33,9 +33,9 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     }
   }
 
-  protected IBoolUserSetting EnabledSetting { get; set; }
+  private IBoolUserSetting EnabledSetting { get; set; }
 
-  protected UIDialogConfirmator ExecuteConfirmator { get; set; }
+  private UIDialogConfirmator ExecuteConfirmator { get; set; }
 
   protected UIDialogConfirmator RevertConfirmator { get; set; }
 
@@ -85,7 +85,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     return base.PreExecute(operableUrl, isClipboardRequest);
   }
 
-  protected virtual IBoolUserSetting DeclareEnabledSetting()
+  private IBoolUserSetting DeclareEnabledSetting()
   {
     string settingNameAndTitle = GetEnabledSettingName();
     return UIConfigurationManager.ActualManager.SettingsSteward.DeclareBoolSetting(settingNameAndTitle, settingNameAndTitle, true);
@@ -101,7 +101,7 @@ public class RequestHandlerWithUIConfirmation : RequestHandler
     return "Enable " + Name;
   }
 
-  protected virtual string GetExecuteConfirmatorSettingName()
+  private string GetExecuteConfirmatorSettingName()
   {
     return "Confirm {0} execution".FormatWith(Name);
   }

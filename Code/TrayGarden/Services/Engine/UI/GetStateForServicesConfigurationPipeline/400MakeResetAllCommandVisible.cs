@@ -13,7 +13,7 @@ namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline
 public class MakeResetAllCommandVisible : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
   [UsedImplicitly]
-  public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
+  public void Process(GetStateForServicesConfigurationPipelineArgs args)
   {
     Assert.IsNotNull(args.ConfigConstructInfo.ResultControlVM, "args.ConfigConstructInfo.ResultControlVM");
     var resetAllCommand = new ActionCommandVM(args.ConfigConstructInfo.ResultControlVM.ResetAll, "Restore to actual values");

@@ -10,7 +10,7 @@ namespace ClipboardChangerPlant.RequestHandling.Specialized;
 [UsedImplicitly]
 public class UrlShortenerWithConfirmation : RequestHandlerWithUIConfirmation
 {
-  protected string OperableUrlValue { get; set; }
+  private string OperableUrlValue { get; set; }
 
   public override bool PreExecute(string operableUrl, bool isClipboardRequest)
   {

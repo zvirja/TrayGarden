@@ -56,7 +56,7 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
    // InitializeComponent();*/
   }
 
-  public List<IViewModelToViewMapping> Mappings { get; protected set; }
+  public List<IViewModelToViewMapping> Mappings { get; private set; }
 
   public bool ReadyToBeClosed
   {
@@ -70,7 +70,7 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
     }
   }
 
-  public virtual List<IViewModelToViewMapping> GetMappings()
+  public List<IViewModelToViewMapping> GetMappings()
   {
     return Mappings
            ?? new List<IViewModelToViewMapping>()
@@ -87,14 +87,14 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
            };
   }
 
-  public virtual void PrepareAndDisplay(NotificationWindowVM viewModel)
+  public void PrepareAndDisplay(NotificationWindowVM viewModel)
   {
     DataContext = viewModel;
     InitializeComponent();
     Show();
   }
 
-  protected static void ReadyToBeClosedChanged(
+  private static void ReadyToBeClosedChanged(
     DependencyObject dependencyObject,
     DependencyPropertyChangedEventArgs dependencyPropertyChangedEventArgs)
   {
