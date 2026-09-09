@@ -1,9 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Windows.Input;
 
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration;
 using TrayGarden.UI.ForSimplerLife;
@@ -11,7 +12,7 @@ using TrayGarden.UI.ForSimplerLife;
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
 
 [UsedImplicitly]
-public class AddResetAllHelpAction
+public class AddResetAllHelpAction : IPipelineProcessor<GetUCStepPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetUCStepPipelineArgs args)

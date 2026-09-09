@@ -1,7 +1,8 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
@@ -9,7 +10,8 @@ using TrayGarden.UI.WindowWithReturn;
 namespace TrayGarden.Services.Engine.UI.Intergration;
 
 [UsedImplicitly]
-public class ServicesConfigurationInjectSAInjector
+public class ServicesConfigurationInjectSAInjector(IPipelineRunner pipelineRunner)
+  : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)
@@ -26,7 +28,9 @@ public class ServicesConfigurationInjectSAInjector
 
   protected virtual WindowStepState GetStateFromPipeline()
   {
-    return GetStateForServicesConfiguration.Run(new GetStateForServicesConfigurationPipelineArgs());
+    var pipelineArgs = new GetStateForServicesConfigurationPipelineArgs();
+    pipelineRunner.Run(pipelineArgs);
+    return pipelineArgs.Aborted ? null : pipelineArgs.StateConstructInfo.ResultState;
   }
 
   protected virtual ActionCommandVM GetSuperAction()

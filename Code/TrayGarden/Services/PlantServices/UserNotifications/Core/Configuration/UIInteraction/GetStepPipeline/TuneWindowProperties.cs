@@ -1,24 +1,18 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
 
 [UsedImplicitly]
-public class TuneWindowProperties
+public class TuneWindowProperties : IPipelineProcessor<UNConfigurationStepArgs>
 {
-  public TuneWindowProperties()
-  {
-    GlobalTitle = "Tray Garden -- User notifications properties";
-    Header = "User notifications properties";
-    ShortName = "UserNotificationsProp";
-  }
+  protected string GlobalTitle { get; set; } = "Tray Garden -- User notifications properties";
 
-  protected string GlobalTitle { get; set; }
+  protected string Header { get; set; } = "User notifications properties";
 
-  protected string Header { get; set; }
-
-  protected string ShortName { get; set; }
+  protected string ShortName { get; set; } = "UserNotificationsProp";
 
   [UsedImplicitly]
   public virtual void Process(UNConfigurationStepArgs args)

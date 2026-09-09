@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 
 [UsedImplicitly]
-public class AssignPlantBox
+public class AssignPlantBox : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantUCPipelineArg args)

@@ -1,4 +1,4 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
@@ -6,9 +6,12 @@ namespace TrayGarden.Configuration.ApplicationConfiguration.Autorun;
 
 public class AutorunPlayer : TypedConfigurationPlayer<bool>
 {
-  public AutorunPlayer([NotNull] string settingName, string settingDescription)
+  private readonly IAutorunHelper _autorunHelper;
+
+  public AutorunPlayer(IAutorunHelper autorunHelper, [NotNull] string settingName, string settingDescription)
     : base(settingName, false, false)
   {
+    _autorunHelper = autorunHelper;
     base.SettingDescription = settingDescription;
   }
 
@@ -16,11 +19,11 @@ public class AutorunPlayer : TypedConfigurationPlayer<bool>
   {
     get
     {
-      return ActualAppProperties.RunAtStartup;
+      return _autorunHelper.IsAddedToAutorun;
     }
     set
     {
-      ActualAppProperties.RunAtStartup = value;
+      _autorunHelper.SetNewAutorunValue(value);
       OnValueChanged();
     }
   }

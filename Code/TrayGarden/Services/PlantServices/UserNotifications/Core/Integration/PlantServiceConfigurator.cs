@@ -1,14 +1,15 @@
-﻿using System.Drawing.Imaging;
+using System.Drawing.Imaging;
 using System.Linq;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Resources;
 using TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 using TrayGarden.Services.Engine.UI.Intergration;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Configuration.EntryVM.ExtentedEntry;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 using TrayGarden.UI.WindowWithReturn;
@@ -16,14 +17,10 @@ using TrayGarden.UI.WindowWithReturn;
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Integration;
 
 [UsedImplicitly]
-public class PlantServiceConfigurator
+public class PlantServiceConfigurator(IResourcesManager resourcesManager, IPipelineRunner pipelineRunner)
+  : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
-  public PlantServiceConfigurator()
-  {
-    Description = "Configure service";
-  }
-
-  public string Description { get; set; }
+  public string Description { get; set; } = "Configure service";
 
   [UsedImplicitly]
   public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
@@ -43,7 +40,7 @@ public class PlantServiceConfigurator
 
   protected virtual IConfigurationEntryAction GetConfigurationAction()
   {
-    var configureIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource("configureV1", null);
+    var configureIcon = resourcesManager.GetIconResource("configureV1", null);
     Assert.IsNotNull(configureIcon, "Resolved image cannot be null");
     var imageSource = ImageHelper.GetBitmapImageFromBitmapThreadSafe(configureIcon.ToBitmap(), ImageFormat.Png);
     return new SimpleConfigurationEntryAction(imageSource, ShowConfigurationWindow, true, null, Description);
@@ -51,7 +48,8 @@ public class PlantServiceConfigurator
 
   protected virtual void ShowConfigurationWindow(object obj)
   {
-    WindowStepState windowStepState = UNConfigurationStepPipeline.Run();
-    WindowWithBackVM.GoAheadWithBackIfPossible(windowStepState);
+    var stepArgs = new UNConfigurationStepArgs();
+    pipelineRunner.Run(stepArgs);
+    WindowWithBackVM.GoAheadWithBackIfPossible(stepArgs.StateConstructInfo.ResultState);
   }
 }

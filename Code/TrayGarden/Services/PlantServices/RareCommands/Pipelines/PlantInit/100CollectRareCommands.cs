@@ -1,10 +1,11 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception.Services;
 
 namespace TrayGarden.Services.PlantServices.RareCommands.Pipelines.PlantInit;
 
-public class CollectRareCommands
+public class CollectRareCommands : IPipelineProcessor<InitPlantRareCommandsArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantRareCommandsArgs args)

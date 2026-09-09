@@ -1,8 +1,9 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces.TypeSpecific;
@@ -13,7 +14,7 @@ using TrayGarden.UI.ForSimplerLife;
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
 
 [UsedImplicitly]
-public class ResolveConfigurationEntries
+public class ResolveConfigurationEntries : IPipelineProcessor<GetUCStepPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetUCStepPipelineArgs args)

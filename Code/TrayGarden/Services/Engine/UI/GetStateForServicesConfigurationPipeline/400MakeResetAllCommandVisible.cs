@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 
 [UsedImplicitly]
-public class MakeResetAllCommandVisible
+public class MakeResetAllCommandVisible : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)

@@ -1,9 +1,11 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
+
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 
 [UsedImplicitly]
-public class AssignVisibleText
+public class AssignVisibleText : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   public AssignVisibleText()
   {

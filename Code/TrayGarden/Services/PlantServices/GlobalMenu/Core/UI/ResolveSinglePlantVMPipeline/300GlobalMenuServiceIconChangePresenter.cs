@@ -1,7 +1,8 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
+using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
@@ -9,7 +10,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 [UsedImplicitly]
 public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalMenuService>
 {
-  public GlobalMenuServiceIconChangePresenter()
+  public GlobalMenuServiceIconChangePresenter(IServicesSteward servicesSteward)
+    : base(servicesSteward)
   {
     ServiceName = "Changing of global icon";
     ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";

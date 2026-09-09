@@ -1,21 +1,17 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Configuration;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 
 [UsedImplicitly]
-public class CreateConfigurationVM
+public class CreateConfigurationVM : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
-  public CreateConfigurationVM()
-  {
-    ConfigurationDescription =
-      "This window allows to enable or disable the particular plant service. Pay attention that some services cannot be disabled. You have to restart application to apply changes";
-  }
-
-  public string ConfigurationDescription { get; set; }
+  public string ConfigurationDescription { get; set; } =
+    "This window allows to enable or disable the particular plant service. Pay attention that some services cannot be disabled. You have to restart application to apply changes";
 
   [UsedImplicitly]
   public virtual void Process([NotNull] GetStateForServicesConfigurationPipelineArgs args)

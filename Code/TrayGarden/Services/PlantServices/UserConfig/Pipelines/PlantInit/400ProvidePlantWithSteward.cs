@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 
 [UsedImplicitly]
-public class ProvidePlantWithSteward
+public class ProvidePlantWithSteward : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantUCPipelineArg args)

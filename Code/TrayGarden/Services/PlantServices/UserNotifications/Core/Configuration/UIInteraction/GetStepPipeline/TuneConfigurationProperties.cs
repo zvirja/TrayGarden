@@ -1,18 +1,14 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
 
 [UsedImplicitly]
-public class TuneConfigurationProperties
+public class TuneConfigurationProperties : IPipelineProcessor<UNConfigurationStepArgs>
 {
-  public TuneConfigurationProperties()
-  {
-    ConfigurationDescription = "This window allows to tune the User Nofications service properties";
-  }
-
-  public string ConfigurationDescription { get; set; }
+  public string ConfigurationDescription { get; set; } = "This window allows to tune the User Nofications service properties";
 
   [UsedImplicitly]
   public virtual void Process(UNConfigurationStepArgs args)

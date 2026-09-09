@@ -1,12 +1,13 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
 
 [UsedImplicitly]
-public class CreateContextMenuStrip
+public class CreateContextMenuStrip : IPipelineProcessor<InitPlantGMArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantGMArgs args)

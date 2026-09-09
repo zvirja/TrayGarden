@@ -1,16 +1,16 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Pipelines.Startup;
 
 [UsedImplicitly]
-public class GardenbedInformPostServicesInit
+public class GardenbedInformPostServicesInit(IGardenbed gardenbed) : IPipelineProcessor<StartupArgs>
 {
   [UsedImplicitly]
   public void Process(StartupArgs args)
   {
-    HatcherGuide<IGardenbed>.Instance.InformPostInitStage();
+    gardenbed.InformPostInitStage();
   }
 }

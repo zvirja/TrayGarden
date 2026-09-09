@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 
 [UsedImplicitly]
-public class ResolveSettingBox
+public class ResolveSettingBox : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
   public string SettingBoxName { get; set; }

@@ -9,7 +9,7 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
-using TrayGarden.TypesHatcher;
+using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 
@@ -32,9 +32,10 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
 
   protected object timerLock = new object();
 
-  public ClipboardObserverService()
-    : base("Clipboard Observer", "ClipboardObserverService")
+  public ClipboardObserverService(IRuntimeSettingsManager runtimeSettingsManager, IGardenbed gardenbed)
+    : base(runtimeSettingsManager, "Clipboard Observer", "ClipboardObserverService")
   {
+    Gardenbed = gardenbed;
     ServiceDescription = "Service monitors the clipboard and deliver change notifications to plants.";
     MaxAllowedTextLength = 100000;
     supressNextEvent = false;
@@ -112,7 +113,6 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
   public override void InformInitializeStage()
   {
     base.InformInitializeStage();
-    Gardenbed = HatcherGuide<IGardenbed>.Instance;
     InitializeClipboardWorkingThread();
   }
 

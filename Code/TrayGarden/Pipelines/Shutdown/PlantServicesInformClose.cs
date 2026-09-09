@@ -1,12 +1,12 @@
-﻿using TrayGarden.Services.Engine;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
+using TrayGarden.Services.Engine;
 
 namespace TrayGarden.Pipelines.Shutdown;
 
-public class PlantServicesInformClose
+public class PlantServicesInformClose(IServicesSteward servicesSteward) : IPipelineProcessor<ShutdownArgs>
 {
   public void Process(ShutdownArgs args)
   {
-    HatcherGuide<IServicesSteward>.Instance.InformClosingStage();
+    servicesSteward.InformClosingStage();
   }
 }

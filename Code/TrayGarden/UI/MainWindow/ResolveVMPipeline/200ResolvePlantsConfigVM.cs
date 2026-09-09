@@ -1,17 +1,18 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.UI.MainWindow.ResolveVMPipeline;
 
-public class ResolvePlantsConfigVM
+public class ResolvePlantsConfigVM(IGardenbed gardenbed, IPipelineRunner pipelineRunner)
+  : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetMainVMPipelineArgs args)
@@ -23,13 +24,15 @@ public class ResolvePlantsConfigVM
 
   protected virtual SinglePlantVM GetSinglePlantVM(IPlantEx plantEx)
   {
-    return ResolveSinglePlantVMPipelineRunner.Run(new ResolveSinglePlantVMPipelineArgs(plantEx));
+    var pipelineArgs = new ResolveSinglePlantVMPipelineArgs(plantEx);
+    pipelineRunner.Run(pipelineArgs);
+    return pipelineArgs.Aborted ? null : pipelineArgs.PlantVM;
   }
 
   protected virtual List<SinglePlantVM> GetSinglePlantVMs()
   {
     var result = new List<SinglePlantVM>();
-    var plantExAll = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+    var plantExAll = gardenbed.GetAllPlants();
     foreach (IPlantEx plantEx in plantExAll)
     {
       var resolvedPlantVM = GetSinglePlantVM(plantEx);

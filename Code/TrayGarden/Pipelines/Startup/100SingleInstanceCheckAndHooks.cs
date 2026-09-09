@@ -1,16 +1,17 @@
-﻿using System;
+using System;
 using System.Threading;
 using System.Windows;
 
 using JetBrains.Annotations;
 
 using TrayGarden.Helpers;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.MainWindow;
 
 namespace TrayGarden.Pipelines.Startup;
 
-public class SingleInstanceCheckAndHooks
+public class SingleInstanceCheckAndHooks(ISingleInstanceMonitor monitor, IMainWindowDisplayer mainWindowDisplayer)
+  : IPipelineProcessor<StartupArgs>
 {
   protected SynchronizationContext UISynchronizationContext { get; set; }
 
@@ -19,7 +20,6 @@ public class SingleInstanceCheckAndHooks
   {
     UISynchronizationContext = SynchronizationContext.Current;
 
-    var monitor = HatcherGuide<ISingleInstanceMonitor>.Instance;
     bool isFirstInstance = monitor.TryAcquireOwnershipNotifyIfFail();
     if (!isFirstInstance)
     {
@@ -35,6 +35,6 @@ public class SingleInstanceCheckAndHooks
 
   protected virtual void OpenConfigurationWindow(object obj)
   {
-    HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
+    mainWindowDisplayer.PopupMainWindow();
   }
 }

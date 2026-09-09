@@ -1,7 +1,8 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Plants;
+using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
@@ -10,7 +11,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 [UsedImplicitly]
 public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserverService>
 {
-  public ClipboardListenerPresenter()
+  public ClipboardListenerPresenter(IServicesSteward servicesSteward)
+    : base(servicesSteward)
   {
     ServiceName = "Clipboard listener";
     ServiceDescription = "If service is enabled, plant is enabled to listen clipboard events";

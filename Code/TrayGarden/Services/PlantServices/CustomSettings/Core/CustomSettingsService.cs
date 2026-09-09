@@ -10,8 +10,8 @@ namespace TrayGarden.Services.PlantServices.CustomSettings.Core;
 [UsedImplicitly]
 public class CustomSettingsService : PlantServiceBase<ClipboardObserverPlantBox>
 {
-  public CustomSettingsService()
-    : base("Custom settings", "CustomSettingsService")
+  public CustomSettingsService(IRuntimeSettingsManager runtimeSettingsManager)
+    : base(runtimeSettingsManager, "Custom settings", "CustomSettingsService")
   {
     ServiceDescription = "Service provides plants with settings storage. For plant internal usage.";
   }

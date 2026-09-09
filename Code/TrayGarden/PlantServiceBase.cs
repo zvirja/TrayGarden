@@ -1,7 +1,6 @@
 ﻿using System;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services;
 
@@ -14,8 +13,11 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
 
   protected ISettingsBox _serviceSettingsBox;
 
-  protected PlantServiceBase(string serviceName, string luggageName)
+  private readonly IRuntimeSettingsManager _runtimeSettingsManager;
+
+  protected PlantServiceBase(IRuntimeSettingsManager runtimeSettingsManager, string serviceName, string luggageName)
   {
+    _runtimeSettingsManager = runtimeSettingsManager;
     ServiceName = serviceName;
     LuggageName = luggageName;
   }
@@ -79,7 +81,7 @@ public abstract class PlantServiceBase<TPlantLuggageType> : IService
         return _serviceSettingsBox;
       }
       var key = GetType().Name;
-      var settingsRootBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox(AllServiceSettingsContainerName);
+      var settingsRootBox = _runtimeSettingsManager.SystemSettings.GetSubBox(AllServiceSettingsContainerName);
       _serviceSettingsBox = settingsRootBox.GetSubBox(key);
       return _serviceSettingsBox;
     }

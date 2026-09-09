@@ -1,12 +1,13 @@
 ﻿using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
+using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.IsEnabledObserver;
 
 internal class IsEnabledObserverService : PlantServiceBase<IsEnabledObserverPlantBox>
 {
-    public IsEnabledObserverService() 
-        : base("Is Enabled Info", nameof(IsEnabledObserverService))
+    public IsEnabledObserverService(IRuntimeSettingsManager runtimeSettingsManager)
+        : base(runtimeSettingsManager, "Is Enabled Info", nameof(IsEnabledObserverService))
     {
         ServiceDescription = "Provides plant with run time info if it's enabled";
     }

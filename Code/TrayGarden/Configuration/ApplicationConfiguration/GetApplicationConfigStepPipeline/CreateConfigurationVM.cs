@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.ForSimplerLife;
 
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 
 [UsedImplicitly]
-public class CreateConfigurationVM
+public class CreateConfigurationVM : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)

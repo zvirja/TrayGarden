@@ -1,26 +1,20 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.ForSimplerLife;
 using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 
 [UsedImplicitly]
-public class CreateWindowWithBackState
+public class CreateWindowWithBackState : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
-  public CreateWindowWithBackState()
-  {
-    GlobalTitle = "Tray Garden -- Services configuration";
-    ShortName = "services config";
-    Header = "Plant services configuration";
-  }
+  public string GlobalTitle { get; set; } = "Tray Garden -- Services configuration";
 
-  public string GlobalTitle { get; set; }
+  public string Header { get; set; } = "Plant services configuration";
 
-  public string Header { get; set; }
-
-  public string ShortName { get; set; }
+  public string ShortName { get; set; } = "services config";
 
   [UsedImplicitly]
   public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)

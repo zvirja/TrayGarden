@@ -4,19 +4,16 @@ using System.Windows.Forms;
 
 using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Resources;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
 [UsedImplicitly]
-public class BuildContextMenu
+public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelineProcessor<InitPlantSIArgs>
 {
-  public BuildContextMenu()
-  {
-    ExitEntryIconResName = "exitIconV1";
-  }
+  public string ExitEntryIconResName { get; set; } = "exitIconV1";
 
   public string ExitEntryIconResName { get; set; }
 

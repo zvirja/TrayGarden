@@ -1,14 +1,15 @@
-﻿using System;
+using System;
 using System.Linq;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Configuration;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.MainWindow;
 
 namespace TrayGarden.Pipelines.Startup;
 
-public class OpenConfigDiaglogIfNeed
+public class OpenConfigDiaglogIfNeed(IMainWindowDisplayer mainWindowDisplayer) : IPipelineProcessor<StartupArgs>
 {
   [UsedImplicitly]
   public void Process(StartupArgs args)
@@ -21,6 +22,6 @@ public class OpenConfigDiaglogIfNeed
 
   protected virtual void SilentlyTryToOpenConfigurationWindow()
   {
-    HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
+    mainWindowDisplayer.PopupMainWindow();
   }
 }

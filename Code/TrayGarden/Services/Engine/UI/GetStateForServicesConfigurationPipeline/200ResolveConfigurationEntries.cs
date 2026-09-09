@@ -1,14 +1,16 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using System.Linq;
+
 using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Services.Engine.UI.Intergration;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Configuration.EntryVM;
 
 namespace TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 
-public class ResolveConfigurationEntries
+public class ResolveConfigurationEntries(IServicesSteward servicesSteward)
+  : IPipelineProcessor<GetStateForServicesConfigurationPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetStateForServicesConfigurationPipelineArgs args)
@@ -18,7 +20,7 @@ public class ResolveConfigurationEntries
 
   protected virtual List<ConfigurationEntryBaseVM> GetConfigurationEntriesFromServices()
   {
-    List<IService> services = HatcherGuide<IServicesSteward>.Instance.Services;
+    List<IService> services = servicesSteward.Services;
     List<ConfigurationEntryBaseVM> result = services.Select(ResolveConfigurationEntry).ToList();
     return result;
   }

@@ -6,12 +6,13 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception.Services.StandaloneIcon;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
 [UsedImplicitly]
-public class CreateNotifyIcon
+public class CreateNotifyIcon : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantSIArgs args)

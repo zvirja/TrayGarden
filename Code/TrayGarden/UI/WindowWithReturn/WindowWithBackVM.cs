@@ -13,7 +13,6 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Helpers.ThreadSwitcher;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.Commands;
 
 namespace TrayGarden.UI.WindowWithReturn;
@@ -29,16 +28,22 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
 
   protected ObservableCollection<ActionCommandVM> _helpActions;
 
+  private readonly IRuntimeSettingsManager _runtimeSettingsManager;
+
+  private readonly IUIManager _uiManager;
+
   private Stack<WindowStepState> _steps;
 
-  public WindowWithBackVM()
+  public WindowWithBackVM(IRuntimeSettingsManager runtimeSettingsManager, IUIManager uiManager)
   {
+    _runtimeSettingsManager = runtimeSettingsManager;
+    _uiManager = uiManager;
     _backCommand = new RelayCommand(BackExecute, false);
     _helpActions = new ObservableCollection<ActionCommandVM>();
     _helpActions.CollectionChanged += HelpActions_CollectionChanged;
     _copyrightTitle = "Zvirja Inc (c)";
     _steps = new Stack<WindowStepState>();
-    SelfSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("WindowWithBackVMBase");
+    SelfSettingsBox = _runtimeSettingsManager.SystemSettings.GetSubBox("WindowWithBackVMBase");
 
     GoAheadTargets += GoAheadWithBack;
   }
@@ -304,7 +309,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     if (TimesEnterBulkUpdate == 1)
     {
       StackRawSwitcher<BulkUpdateState>.Exit();
-      HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(true);
+      _runtimeSettingsManager.SaveNow(true);
       TimesEnterBulkUpdate--;
     }
     else
@@ -426,7 +431,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
   {
     if (SizePozitionProvider == null)
     {
-      HatcherGuide<IUIManager>.Instance.OKMessageBox(
+      _uiManager.OKMessageBox(
         "Tray Garden -- Save position and size",
         "Unable to save position and size. Provider is empty.");
       Log.For(this).Warning("SizePozitionProvider of WindowWithBackVMBase is empty. Something is wrong");

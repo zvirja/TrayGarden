@@ -1,6 +1,7 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Plants;
+using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
@@ -8,7 +9,8 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 [UsedImplicitly]
 public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<GlobalMenuService>
 {
-  public GlobalMenuServiceMenuEmbeddingPresenter()
+  public GlobalMenuServiceMenuEmbeddingPresenter(IServicesSteward servicesSteward)
+    : base(servicesSteward)
   {
     ServiceName = "Embedding to global menu";
     ServiceDescription = "If service is enabled, plant is enabled to embed its row to global menu.";

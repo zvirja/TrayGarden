@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.RuntimeSettings;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
 [UsedImplicitly]
-public class ResolveSettingsBox
+public class ResolveSettingsBox : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantSIArgs args)

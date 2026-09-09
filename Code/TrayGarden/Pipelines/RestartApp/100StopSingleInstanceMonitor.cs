@@ -1,18 +1,18 @@
-﻿using System.Threading;
+using System.Threading;
 
 using JetBrains.Annotations;
 
 using TrayGarden.Helpers;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Pipelines.RestartApp;
 
-public class StopSingleInstanceMonitor
+public class StopSingleInstanceMonitor(ISingleInstanceMonitor monitor) : IPipelineProcessor<RestartAppArgs>
 {
   [UsedImplicitly]
   public virtual void Process(RestartAppArgs args)
   {
-    ManualResetEventSlim monitor = HatcherGuide<ISingleInstanceMonitor>.Instance.EnqueueMonitorDisabling();
-    monitor.Wait();
+    ManualResetEventSlim disablingMonitor = monitor.EnqueueMonitorDisabling();
+    disablingMonitor.Wait();
   }
 }

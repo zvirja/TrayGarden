@@ -1,19 +1,16 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Configuration.EntryVM;
 
 namespace TrayGarden.UI.WindowWithReturn.Integration;
 
 [UsedImplicitly]
-public class ExitOnCloseSetting
+public class ExitOnCloseSetting : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
-  public ExitOnCloseSetting()
-  {
-    SettingDescription = "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
-  }
-
-  public string SettingDescription { get; set; }
+  public string SettingDescription { get; set; } =
+    "If enabled, exit application if window closed, hide if minimized. Otherwise hide when closed.";
 
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)

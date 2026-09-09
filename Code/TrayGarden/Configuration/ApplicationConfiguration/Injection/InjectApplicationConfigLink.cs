@@ -1,10 +1,10 @@
-﻿using System.Windows;
+using System.Windows;
 
 using JetBrains.Annotations;
 
 using TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 using TrayGarden.Diagnostics;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.MainWindow.ResolveVMPipeline;
@@ -13,7 +13,8 @@ using TrayGarden.UI.WindowWithReturn;
 namespace TrayGarden.Configuration.ApplicationConfiguration.Injection;
 
 [UsedImplicitly]
-public class InjectApplicationConfigLink
+public class InjectApplicationConfigLink(IPipelineRunner pipelineRunner, IUIManager uiManager)
+  : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(GetMainVMPipelineArgs args)
@@ -26,7 +27,7 @@ public class InjectApplicationConfigLink
     WindowStepState applicationConfigStep = GetStateFromPipeline();
     if (applicationConfigStep == null)
     {
-      HatcherGuide<IUIManager>.Instance.OKMessageBox(
+      uiManager.OKMessageBox(
         "Application settings",
         "Something is wrong. Tell app developer that he is stupid and the pipeline didn't return proper step object.",
         MessageBoxImage.Error);
@@ -39,7 +40,7 @@ public class InjectApplicationConfigLink
   protected virtual WindowStepState GetStateFromPipeline()
   {
     var args = new GetApplicationConfigStepArgs();
-    GetApplicationConfigStep.Run(args);
+    pipelineRunner.Run(args);
     return args.Aborted ? null : args.Result as WindowStepState ?? args.StepConstructInfo.ResultState;
   }
 

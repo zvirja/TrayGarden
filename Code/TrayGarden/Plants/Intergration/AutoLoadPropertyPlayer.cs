@@ -1,15 +1,17 @@
 ﻿using JetBrains.Annotations;
 
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Configuration.EntryVM.Players;
 
 namespace TrayGarden.Plants.Intergration;
 
 public class AutoLoadPropertyPlayer : TypedConfigurationPlayer<bool>
 {
-  public AutoLoadPropertyPlayer([NotNull] string settingName, string settingDescription)
+  private readonly IGardenbed _gardenbed;
+
+  public AutoLoadPropertyPlayer(IGardenbed gardenbed, [NotNull] string settingName, string settingDescription)
     : base(settingName, false, false)
   {
+    _gardenbed = gardenbed;
     base.SettingDescription = settingDescription;
   }
 
@@ -17,11 +19,11 @@ public class AutoLoadPropertyPlayer : TypedConfigurationPlayer<bool>
   {
     get
     {
-      return HatcherGuide<IGardenbed>.Instance.AutoDetectPlants;
+      return _gardenbed.AutoDetectPlants;
     }
     set
     {
-      HatcherGuide<IGardenbed>.Instance.AutoDetectPlants = value;
+      _gardenbed.AutoDetectPlants = value;
     }
   }
 

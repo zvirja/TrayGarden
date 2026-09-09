@@ -1,5 +1,6 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
@@ -7,7 +8,7 @@ using TrayGarden.Services.PlantServices.UserConfig.Core.Interfaces;
 namespace TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 
 [UsedImplicitly]
-public class CreatePersonalSettingsSteward
+public class CreatePersonalSettingsSteward : IPipelineProcessor<InitPlantUCPipelineArg>
 {
   [UsedImplicitly]
   public IUserSettingsBuilder SettingsBuilder { get; set; }

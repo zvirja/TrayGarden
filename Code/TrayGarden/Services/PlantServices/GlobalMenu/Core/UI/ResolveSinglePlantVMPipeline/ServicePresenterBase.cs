@@ -1,21 +1,22 @@
-﻿using System.Linq;
+using System.Linq;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 
 [UsedImplicitly]
-public abstract class ServicePresenterBase<TServiceType>
+public abstract class ServicePresenterBase<TServiceType> : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
   where TServiceType : IService
 {
-  public ServicePresenterBase()
+  protected ServicePresenterBase(IServicesSteward servicesSteward)
   {
+    ServicesSteward = servicesSteward;
     ServiceName = typeof(TServiceType).Name;
     ServiceDescription = "<this service doesn't provide description>";
   }
@@ -24,11 +25,13 @@ public abstract class ServicePresenterBase<TServiceType>
 
   public string ServiceName { get; set; }
 
+  protected IServicesSteward ServicesSteward { get; }
+
   [UsedImplicitly]
   public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
   {
     var serviceInstance =
-      (TServiceType)(HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(x => x.GetType() == typeof(TServiceType)));
+      (TServiceType)(ServicesSteward.Services.FirstOrDefault(x => x.GetType() == typeof(TServiceType)));
     if (serviceInstance == null)
     {
       Log.For(this).Warning("Service of type '{ServiceType}' wasn't found", typeof(TServiceType));

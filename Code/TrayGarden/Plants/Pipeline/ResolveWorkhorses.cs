@@ -1,14 +1,15 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception;
 
 namespace TrayGarden.Plants.Pipeline;
 
 [UsedImplicitly]
-public class ResolveWorkhorses
+public class ResolveWorkhorses : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitializePlantArgs args)

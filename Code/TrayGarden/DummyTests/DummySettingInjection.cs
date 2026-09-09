@@ -1,7 +1,7 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.Configuration.EntryVM;
@@ -10,12 +10,12 @@ using TrayGarden.UI.Configuration.EntryVM.Players;
 namespace TrayGarden.DummyTests;
 
 [UsedImplicitly]
-public class DummySettingInjection
+public class DummySettingInjection(IUIManager uiManager) : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
   public virtual void Process(GetApplicationConfigStepArgs args)
   {
-#if(DEBUG)
-      args.ConfigurationConstructInfo.ConfigurationEntries.Add(this.GetActionConfigurationEntry());
+#if (DEBUG)
+    args.ConfigurationConstructInfo.ConfigurationEntries.Add(GetActionConfigurationEntry());
 #endif
   }
 
@@ -25,7 +25,7 @@ public class DummySettingInjection
       "Dummy setting",
       "Dummy action",
       new RelayCommand(
-        delegate(object obj) { HatcherGuide<IUIManager>.Instance.OKMessageBox("Dummy action", "Dummy action performed"); },
+        delegate(object obj) { uiManager.OKMessageBox("Dummy action", "Dummy action performed"); },
         true));
 
     return new ActionConfigurationEntry(realPlayer);

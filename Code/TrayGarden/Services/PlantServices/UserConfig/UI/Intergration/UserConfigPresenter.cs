@@ -1,13 +1,13 @@
-﻿using System.Windows;
+using System.Windows;
 using System.Windows.Input;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
-using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
+using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 using TrayGarden.UI.WindowWithReturn;
@@ -16,8 +16,15 @@ namespace TrayGarden.Services.PlantServices.UserConfig.UI.Intergration;
 
 public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
 {
-  public UserConfigPresenter()
+  private readonly IPipelineRunner _pipelineRunner;
+
+  private readonly IUIManager _uiManager;
+
+  public UserConfigPresenter(IServicesSteward servicesSteward, IPipelineRunner pipelineRunner, IUIManager uiManager)
+    : base(servicesSteward)
   {
+    _pipelineRunner = pipelineRunner;
+    _uiManager = uiManager;
     ServiceName = "Runtime user settings";
     ServiceDescription = "This service allows to configure user settings for plant";
   }
@@ -48,10 +55,10 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     Assert.IsNotNull(userConfigServicePlantBox, "Wrong argument. Shouldn't be null");
 
     var args = new GetUCStepPipelineArgs(userConfigServicePlantBox);
-    GetUCStepPipelineRunner.Run(args);
+    _pipelineRunner.Run(args);
     if (args.Aborted || args.StateConstructInfo.ResultState == null)
     {
-      HatcherGuide<IUIManager>.Instance.OKMessageBox(
+      _uiManager.OKMessageBox(
         "Plant configuration",
         "Plant configuration service wasn't able to resolve next step. Please contact dev",
         MessageBoxImage.Error);

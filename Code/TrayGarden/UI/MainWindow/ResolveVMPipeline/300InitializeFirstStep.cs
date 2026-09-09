@@ -1,12 +1,13 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.UI.MainWindow.ResolveVMPipeline;
 
-public class InitializeFirstStep
+public class InitializeFirstStep : IPipelineProcessor<GetMainVMPipelineArgs>
 {
   public string GlobalTitle { get; set; }
 

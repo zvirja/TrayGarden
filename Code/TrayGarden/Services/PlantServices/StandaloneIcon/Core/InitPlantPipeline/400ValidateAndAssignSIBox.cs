@@ -1,9 +1,11 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
+
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
 [UsedImplicitly]
-public class ValidateAndAssignSIBox
+public class ValidateAndAssignSIBox : IPipelineProcessor<InitPlantSIArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitPlantSIArgs args)

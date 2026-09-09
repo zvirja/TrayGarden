@@ -1,19 +1,15 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Configuration.ApplicationConfiguration.Autorun;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Configuration.EntryVM;
 
 namespace TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 
 [UsedImplicitly]
-public class AddRunAtStartupSetting
+public class AddRunAtStartupSetting(IAutorunHelper autorunHelper) : IPipelineProcessor<GetApplicationConfigStepArgs>
 {
-  public AddRunAtStartupSetting()
-  {
-    Description = "Configures whether start the app at the Windows startup";
-  }
-
-  public string Description { get; set; }
+  public string Description { get; set; } = "Configures whether start the app at the Windows startup";
 
   [UsedImplicitly]
   public virtual void Process(GetApplicationConfigStepArgs args)
@@ -23,7 +19,7 @@ public class AddRunAtStartupSetting
 
   protected virtual ConfigurationEntryBaseVM GetConfigurationEntry()
   {
-    var player = new AutorunPlayer("Run at startup", Description);
+    var player = new AutorunPlayer(autorunHelper, "Run at startup", Description);
     return new BoolConfigurationEntryVM(player);
   }
 }

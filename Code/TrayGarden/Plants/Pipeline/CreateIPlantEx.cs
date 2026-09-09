@@ -1,12 +1,14 @@
-﻿using System;
+using System;
+
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 
 namespace TrayGarden.Plants.Pipeline;
 
 [UsedImplicitly]
-public class CreateIPlantEx
+public class CreateIPlantEx : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitializePlantArgs args)

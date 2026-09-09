@@ -1,11 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
-using TrayGarden.TypesHatcher;
 
 using Application = System.Windows.Application;
 
@@ -13,16 +14,22 @@ namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core;
 
 public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
 {
-  public StandaloneIconService()
-    : base("Standalone icon", "StandaloneIconService")
+  private readonly IGardenbed _gardenbed;
+
+  private readonly IPipelineRunner _pipelineRunner;
+
+  public StandaloneIconService(IRuntimeSettingsManager runtimeSettingsManager, IGardenbed gardenbed, IPipelineRunner pipelineRunner)
+    : base(runtimeSettingsManager, "Standalone icon", "StandaloneIconService")
   {
+    _gardenbed = gardenbed;
+    _pipelineRunner = pipelineRunner;
     ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
   }
 
   public override void InformClosingStage()
   {
     base.InformClosingStage();
-    List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+    List<IPlantEx> allPlants = _gardenbed.GetAllPlants();
     foreach (IPlantEx plant in allPlants)
     {
       var siBox = GetPlantLuggage(plant);
@@ -36,7 +43,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   public override void InformDisplayStage()
   {
     base.InformDisplayStage();
-    List<IPlantEx> enabledPlants = HatcherGuide<IGardenbed>.Instance.GetEnabledPlants();
+    List<IPlantEx> enabledPlants = _gardenbed.GetEnabledPlants();
     foreach (IPlantEx enabledPlant in enabledPlants)
     {
       var siBox = GetPlantLuggage(enabledPlant);
@@ -70,7 +77,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
 
   protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
   {
-    InitPlantSIPipeline.Run(plantEx, LuggageName, CloseComponentClick, ExitGardenClick);
+    _pipelineRunner.Run(new InitPlantSIArgs(plantEx, LuggageName, CloseComponentClick, ExitGardenClick));
   }
 
   protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)

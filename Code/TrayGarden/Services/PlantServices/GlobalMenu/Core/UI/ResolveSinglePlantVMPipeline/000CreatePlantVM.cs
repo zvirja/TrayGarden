@@ -1,11 +1,12 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 
 [UsedImplicitly]
-public class CreatePlantVM
+public class CreatePlantVM : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
 {
   [UsedImplicitly]
   public virtual void Process(ResolveSinglePlantVMPipelineArgs args)

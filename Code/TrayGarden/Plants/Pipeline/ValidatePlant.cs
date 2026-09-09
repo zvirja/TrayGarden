@@ -1,13 +1,14 @@
-﻿using JetBrains.Annotations;
+using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Reception;
 
 namespace TrayGarden.Plants.Pipeline;
 
 [UsedImplicitly]
-public class ValidatePlant
+public class ValidatePlant : IPipelineProcessor<InitializePlantArgs>
 {
   [UsedImplicitly]
   public virtual void Process(InitializePlantArgs args)

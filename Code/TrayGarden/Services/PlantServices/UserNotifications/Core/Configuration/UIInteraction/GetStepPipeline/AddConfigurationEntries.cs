@@ -1,6 +1,8 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.Configuration.EntryVM;
 using TrayGarden.UI.Configuration.RuntimeSettingsIntegration;
 using TrayGarden.UI.ForSimplerLife;
@@ -8,7 +10,7 @@ using TrayGarden.UI.ForSimplerLife;
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
 
 [UsedImplicitly]
-public class AddConfigurationEntries
+public class AddConfigurationEntries : IPipelineProcessor<UNConfigurationStepArgs>
 {
   [UsedImplicitly]
   public virtual void Process(UNConfigurationStepArgs args)

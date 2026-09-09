@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
+
 using JetBrains.Annotations;
 
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.RareCommands.Pipelines.PlantInit;
 
 namespace TrayGarden.Services.PlantServices.RareCommands.Core;
@@ -9,9 +12,12 @@ namespace TrayGarden.Services.PlantServices.RareCommands.Core;
 [UsedImplicitly]
 public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
 {
-  public RareCommandsService()
-    : base("Rare Commands", "RareCommandsService")
+  private readonly IPipelineRunner _pipelineRunner;
+
+  public RareCommandsService(IRuntimeSettingsManager runtimeSettingsManager, IPipelineRunner pipelineRunner)
+    : base(runtimeSettingsManager, "Rare Commands", "RareCommandsService")
   {
+    _pipelineRunner = pipelineRunner;
     ServiceDescription = "This service allows to specify rare commands, which are available only thorough the main window.";
   }
 
@@ -23,7 +29,9 @@ public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
 
   protected virtual void InitializePlantInternal(IPlantEx plantEx)
   {
-    List<IRareCommand> relatedCommands = InitPlantRareCommands.RunPipelineGetCommands(plantEx);
+    var pipelineArgs = new InitPlantRareCommandsArgs(plantEx);
+    _pipelineRunner.Run(pipelineArgs);
+    List<IRareCommand> relatedCommands = pipelineArgs.CollectedCommands;
     if (relatedCommands != null)
     {
       var luggage = new RareCommandsServicePlantBox(relatedCommands);
