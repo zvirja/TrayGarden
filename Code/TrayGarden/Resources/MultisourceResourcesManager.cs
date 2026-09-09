@@ -112,7 +112,7 @@ public class MultisourceResourcesManager : IResourcesManager
       }
       catch (Exception ex)
       {
-        Log.Error("Can't read resource!", ex, this);
+        Log.For(this).Error(ex, "Can't read resource!");
       }
     }
 
@@ -121,7 +121,7 @@ public class MultisourceResourcesManager : IResourcesManager
       foreach (var source in sourcesToRemove)
       {
         Sources.Remove(source);
-        Log.Info("Resource source was removed: {0}".FormatWith(source.Source.BaseName), this);
+        Log.For(this).Information("Resource source was removed: {SourceBaseName}", source.Source.BaseName);
       }
     }
 

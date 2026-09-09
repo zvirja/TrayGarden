@@ -55,7 +55,7 @@ public class LifecycleObserver
     }
     catch (Exception ex)
     {
-      Log.Error("Error at startup", ex, this);
+      Log.For(this).Error(ex, "Error at startup");
       Application.Current.Shutdown(1);
     }
   }
@@ -67,7 +67,7 @@ public class LifecycleObserver
 
   private void Current_DispatcherUnhandledException(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
   {
-    Log.Error("Thrown exception wasn't catched. Application will be closed", e.Exception, typeof(Application));
+    Log.For(typeof(Application)).Error(e.Exception, "Thrown exception wasn't catched. Application will be closed");
     e.Handled = true;
     Application.Current.Shutdown(1);
   }

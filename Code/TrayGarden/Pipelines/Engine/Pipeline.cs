@@ -62,7 +62,7 @@ public class Pipeline : IPipeline
       }
       catch (Exception ex)
       {
-        Log.Error("Processor executing {0} error.".FormatWith(processor.ToString()), ex, this);
+        Log.For(this).Error(ex, "Processor executing {Processor} error.", processor.ToString());
         if (maskExceptions)
         {
           break;

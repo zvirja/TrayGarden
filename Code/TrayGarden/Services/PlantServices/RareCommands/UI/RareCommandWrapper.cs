@@ -37,7 +37,7 @@ public class RareCommandWrapper : ICommand
     }
     catch (Exception ex)
     {
-      Log.Error("Command {0} failed with exception. Delegate of type: {1}".FormatWith(RareCommand.Title, RareCommand.ActionToPerform.Method.Name), ex, this);
+      Log.For(this).Error(ex, "Command {CommandTitle} failed with exception. Delegate of type: {DelegateType}", RareCommand.Title, RareCommand.ActionToPerform.Method.Name);
       HatcherGuide<IUIManager>.Instance.OKMessageBox(
         "Command failed",
         "Command {0} failed with exception '{1}'".FormatWith(RareCommand.Title, ex.Message),

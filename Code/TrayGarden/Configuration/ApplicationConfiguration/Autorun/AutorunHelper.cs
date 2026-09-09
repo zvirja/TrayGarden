@@ -29,7 +29,7 @@ public class AutorunHelper : IAutorunHelper
       }
       catch (Exception ex)
       {
-        Log.Error("Unable to read startup properties", ex, this);
+        Log.For(this).Error(ex, "Unable to read startup properties");
         return false;
       }
     }
@@ -52,7 +52,7 @@ public class AutorunHelper : IAutorunHelper
     }
     catch (Exception ex)
     {
-      Log.Error("Unable to set autorun value", ex, this);
+      Log.For(this).Error(ex, "Unable to set autorun value");
       return false;
     }
   }

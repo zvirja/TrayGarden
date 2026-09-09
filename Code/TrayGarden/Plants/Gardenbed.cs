@@ -101,12 +101,12 @@ public class Gardenbed : IGardenbed
   {
     string folderSetting = Factory.Instance.GetStringSetting("Gardenbed.PlantsAutodetectFolder", string.Empty);
     string workingDirectory = DirectoryHelper.CurrentDirectory;
-    Log.Debug("Gardenbed. CurrentDirectory: {0}".FormatWith(workingDirectory), this);
+    Log.For(this).Debug("Gardenbed. CurrentDirectory: {WorkingDirectory}", workingDirectory);
     if (folderSetting.NotNullNotEmpty())
     {
       workingDirectory = Path.Combine(workingDirectory, folderSetting);
     }
-    Log.Info("Gardenbed. Lookup directory: {0}".FormatWith(workingDirectory), this);
+    Log.For(this).Information("Gardenbed. Lookup directory: {WorkingDirectory}", workingDirectory);
     return new DirectoryInfo(workingDirectory);
   }
 
@@ -150,26 +150,26 @@ public class Gardenbed : IGardenbed
       {
         return null;
       }
-      Log.Info("We have found a suitable types in '{0}' file".FormatWith(assemblyFileInfo.FullName), this);
+      Log.For(this).Information("We have found a suitable types in '{AssemblyFile}' file", assemblyFileInfo.FullName);
       var result = new List<IPlant>();
       foreach (Type candidate in candidates)
       {
         try
         {
           var instance = (IPlant)Activator.CreateInstance(candidate);
-          Log.Info("Plant of type '{0}' was successfully instantiated!".FormatWith(candidate.FullName), this);
+          Log.For(this).Information("Plant of type '{PlantType}' was successfully instantiated!", candidate.FullName);
           result.Add(instance);
         }
         catch (Exception ex)
         {
-          Log.Error("Unable to instantiate IPlant of type '{0}'".FormatWith(candidate.FullName), ex, this);
+          Log.For(this).Error(ex, "Unable to instantiate IPlant of type '{PlantType}'", candidate.FullName);
         }
       }
       return result;
     }
     catch (Exception ex)
     {
-      Log.Error("Unable to analyze file '{0}' for plants".FormatWith(assemblyFileInfo.FullName), ex, this);
+      Log.For(this).Error(ex, "Unable to analyze file '{AssemblyFile}' for plants", assemblyFileInfo.FullName);
       return null;
     }
   }

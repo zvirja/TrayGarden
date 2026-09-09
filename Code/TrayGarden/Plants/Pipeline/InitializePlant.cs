@@ -20,7 +20,7 @@ public class InitializePlant
     }
     catch (Exception ex)
     {
-      Log.Error("Unable to initialize plant {0}".FormatWith(plant.GetType()), ex, this);
+      Log.For(this).Error(ex, "Unable to initialize plant {PlantType}", plant.GetType());
       args.Abort();
     }
   }

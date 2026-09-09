@@ -31,7 +31,7 @@ public abstract class ServicePresenterBase<TServiceType>
       (TServiceType)(HatcherGuide<IServicesSteward>.Instance.Services.FirstOrDefault(x => x.GetType() == typeof(TServiceType)));
     if (serviceInstance == null)
     {
-      Log.Warn("Service of type '{0}' wasn't found".FormatWith(typeof(TServiceType)), this);
+      Log.For(this).Warning("Service of type '{ServiceType}' wasn't found", typeof(TServiceType));
       return;
     }
     if (!serviceInstance.IsActuallyEnabled)

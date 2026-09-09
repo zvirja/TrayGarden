@@ -65,7 +65,7 @@ public class ListAssigner : IContentAssigner
       }
       catch (Exception ex)
       {
-        Log.Error("Can't parce node value", ex, this);
+        Log.For(this).Error(ex, "Can't parce node value");
       }
     }
   }

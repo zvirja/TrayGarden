@@ -114,7 +114,7 @@ public class SettingsStorage : ISettingsStorage
     catch (Exception ex)
     {
       File.Delete(fileName);
-      Log.Warn("Failed to deserialize setting storage file {0}".FormatWith(fileName), this, ex);
+      Log.For(this).Warning(ex, "Failed to deserialize setting storage file {FileName}", fileName);
       return null;
     }
   }
@@ -170,7 +170,7 @@ public class SettingsStorage : ISettingsStorage
     }
     catch (Exception ex)
     {
-      Log.Error("Failed to save settings to file", ex, this);
+      Log.For(this).Error(ex, "Failed to save settings to file");
       return false;
     }
   }
@@ -197,7 +197,7 @@ public class SettingsStorage : ISettingsStorage
     }
     catch (Exception ex)
     {
-      Log.Error("Enable to perform trace logging for SettingsStorage", ex, this);
+      Log.For(this).Error(ex, "Enable to perform trace logging for SettingsStorage");
     }
   }
 }

@@ -87,7 +87,7 @@ public class ParamsConfigurator : TrayGarden.Reception.Services.IUserConfigurati
     }
     catch (Exception ex)
     {
-      Log.Error("WindowsLangHotKeysSetter. Unable to parse the args set: '{0}'".FormatWith(rawSet), ex, this);
+      Log.For(this).Error(ex, "WindowsLangHotKeysSetter. Unable to parse the args set: '{RawSet}'", rawSet);
     }
     return null;
   }

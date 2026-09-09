@@ -21,7 +21,7 @@ public class ResolverBasedObjectFactory : IObjectFactory
     {
       return GetInstanceResolver();
     }
-    Log.Warn("ResolverBasedObjectFactory GetObject() null returned", this);
+    Log.For(this).Warning("ResolverBasedObjectFactory GetObject() null returned");
     return null;
   }
 
@@ -31,7 +31,7 @@ public class ResolverBasedObjectFactory : IObjectFactory
     {
       return GetPurelyNewInstanceResolver();
     }
-    Log.Warn("ResolverBasedObjectFactory GetPurelyNewObject() null returned", this);
+    Log.For(this).Warning("ResolverBasedObjectFactory GetPurelyNewObject() null returned");
     return null;
   }
 }

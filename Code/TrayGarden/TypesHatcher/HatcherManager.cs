@@ -41,7 +41,7 @@ public class HatcherManager
     {
       return Mappings[keyInterface].GetPurelyNewObject();
     }
-    Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
+    Log.For(this).Warning("Hatcher. Can't resolve object {KeyInterface}", keyInterface.FullName);
     return null;
   }
 
@@ -55,7 +55,7 @@ public class HatcherManager
     {
       return Mappings[keyInterface].GetObject();
     }
-    Log.Warn("Hatcher. Can't resolve object {0}".FormatWith(keyInterface.FullName), this);
+    Log.For(this).Warning("Hatcher. Can't resolve object {KeyInterface}", keyInterface.FullName);
     return null;
   }
 
@@ -71,7 +71,7 @@ public class HatcherManager
       }
       else
       {
-        Log.Warn("Cannot validate mapping '{0}' for Hatcher".FormatWith(mapping.ToString()), this);
+        Log.For(this).Warning("Cannot validate mapping '{Mapping}' for Hatcher", mapping.ToString());
       }
     }
     Initialized = true;

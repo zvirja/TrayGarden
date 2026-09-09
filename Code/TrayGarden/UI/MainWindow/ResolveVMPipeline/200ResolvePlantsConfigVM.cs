@@ -35,7 +35,7 @@ public class ResolvePlantsConfigVM
       var resolvedPlantVM = GetSinglePlantVM(plantEx);
       if (resolvedPlantVM == null)
       {
-        Log.Warn("VM for plant wasn't resolved. Plant type: {0}".FormatWith(plantEx.Plant.GetType()), this);
+        Log.For(this).Warning("VM for plant wasn't resolved. Plant type: {PlantType}", plantEx.Plant.GetType());
       }
       else
       {

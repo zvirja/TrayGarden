@@ -19,7 +19,7 @@ public class CreateIPlantEx
     }
     catch (Exception ex)
     {
-      Log.Error("Can't initialize PlantEx", ex, this);
+      Log.For(this).Error(ex, "Can't initialize PlantEx");
     }
   }
 }

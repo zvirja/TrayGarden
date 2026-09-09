@@ -309,7 +309,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
     else
     {
-      Log.Warn("Invalid value of TimesEnterBulkUpdate setting: {0}. Should be 1".FormatWith(TimesEnterBulkUpdate + 1), this);
+      Log.For(this).Warning("Invalid value of TimesEnterBulkUpdate setting: {TimesEnterBulkUpdate}. Should be 1", TimesEnterBulkUpdate + 1);
     }
     GoAheadTargets -= GoAheadWithBack;
     ClearStepsStackWithDisposing();
@@ -429,7 +429,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
       HatcherGuide<IUIManager>.Instance.OKMessageBox(
         "Tray Garden -- Save position and size",
         "Unable to save position and size. Provider is empty.");
-      Log.Warn("SizePozitionProvider of WindowWithBackVMBase is empty. Something is wrong", this);
+      Log.For(this).Warning("SizePozitionProvider of WindowWithBackVMBase is empty. Something is wrong");
       return;
     }
     double top;

@@ -15,7 +15,7 @@ public class ValidatePlant
     IPlant plant = args.IPlantObject;
     if (plant.Description.IsNullOrEmpty() || plant.HumanSupportingName.IsNullOrEmpty())
     {
-      Log.Warn("Plant '{0}' doesn't provide correct name and description. It will be disabed".FormatWith(args.PlantID), this);
+      Log.For(this).Warning("Plant '{PlantID}' doesn't provide correct name and description. It will be disabed", args.PlantID);
       args.Abort();
       args.ResolvedPlantEx = null;
     }

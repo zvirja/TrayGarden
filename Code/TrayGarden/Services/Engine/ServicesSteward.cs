@@ -27,7 +27,7 @@ public class ServicesSteward : IServicesSteward
       }
       catch (Exception ex)
       {
-        Log.Error("Failed to close service {0}".FormatWith(service.GetType().FullName), ex, this);
+        Log.For(this).Error(ex, "Failed to close service {ServiceType}", service.GetType().FullName);
       }
     }
   }
@@ -45,12 +45,12 @@ public class ServicesSteward : IServicesSteward
         }
         else
         {
-          Log.Debug("service {0} skipped display initialize stage. It's disabled".FormatWith(service.ServiceName), this);
+          Log.For(this).Debug("service {ServiceName} skipped display initialize stage. It's disabled", service.ServiceName);
         }
       }
       catch (Exception ex)
       {
-        Log.Error("Failed to display service {0}".FormatWith(service.GetType().FullName), ex, this);
+        Log.For(this).Error(ex, "Failed to display service {ServiceType}", service.GetType().FullName);
       }
     }
   }
@@ -69,12 +69,12 @@ public class ServicesSteward : IServicesSteward
         }
         else
         {
-          Log.Debug("service {0} skipped initialize stage. It's disabled".FormatWith(service.ServiceName), this);
+          Log.For(this).Debug("service {ServiceName} skipped initialize stage. It's disabled", service.ServiceName);
         }
       }
       catch (Exception ex)
       {
-        Log.Error("Failed to init service {0}".FormatWith(service.GetType().FullName), ex, this);
+        Log.For(this).Error(ex, "Failed to init service {ServiceType}", service.GetType().FullName);
       }
     }
     var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
@@ -102,10 +102,11 @@ public class ServicesSteward : IServicesSteward
       }
       catch (Exception ex)
       {
-        Log.Error(
-          "Failed to init plant '{0}' with service {1}".FormatWith(plantEx.Plant.GetType().FullName, service.GetType().FullName),
+        Log.For(this).Error(
           ex,
-          this);
+          "Failed to init plant '{PlantType}' with service {ServiceType}",
+          plantEx.Plant.GetType().FullName,
+          service.GetType().FullName);
       }
     }
   }

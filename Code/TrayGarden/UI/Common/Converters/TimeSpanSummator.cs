@@ -18,7 +18,7 @@ public class TimeSpanSummator : IMultiValueConverter
     {
       if (!(timespanValue is TimeSpan))
       {
-        Log.Debug("TimeSpanSummator. Passed value type {0} isn't an expected TimeSpan".FormatWith(timespanValue.GetType().FullName), this);
+        Log.For(this).Debug("TimeSpanSummator. Passed value type {ValueType} isn't an expected TimeSpan", timespanValue.GetType().FullName);
         continue;
       }
       var convertedTimeSpan = (TimeSpan)timespanValue;

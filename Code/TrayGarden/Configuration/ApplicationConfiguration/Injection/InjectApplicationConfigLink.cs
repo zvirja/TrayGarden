@@ -30,7 +30,7 @@ public class InjectApplicationConfigLink
         "Application settings",
         "Something is wrong. Tell app developer that he is stupid and the pipeline didn't return proper step object.",
         MessageBoxImage.Error);
-      Log.Warn("GetApplicationConfigStep pipeline hasn't returned proper object", this);
+      Log.For(this).Warning("GetApplicationConfigStep pipeline hasn't returned proper object");
       return;
     }
     WindowWithBackVM.GoAheadWithBackIfPossible(applicationConfigStep);

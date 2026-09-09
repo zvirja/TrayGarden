@@ -70,13 +70,12 @@ public class MethodAssigner : IContentAssigner
     }
     catch (Exception ex)
     {
-      Log.Error(
-        "Can't properly assign content by method call. Instance: {0}, Method: {1}, Params: {2}".FormatWith(
-          instance,
-          methodInfo.Name,
-          string.Join(",", args.Select(x => x ?? "null"))),
+      Log.For(this).Error(
         ex,
-        this);
+        "Can't properly assign content by method call. Instance: {Instance}, Method: {Method}, Params: {Params}",
+        instance,
+        methodInfo.Name,
+        string.Join(",", args.Select(x => x ?? "null")));
     }
   }
 

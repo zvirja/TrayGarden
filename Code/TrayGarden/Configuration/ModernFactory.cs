@@ -29,7 +29,7 @@ public class ModernFactory : IFactory
     ObjectInfosCache = new Dictionary<object, ObjectInfo>();
     ParcerResolver = new ParcerResolver(this);
     ContentAssignersResolver = new ContentAssignersResolver();
-    Log.Debug("Modern factory object created", this);
+    Log.For(this).Debug("Modern factory object created");
   }
 
   public static ModernFactory ActualInstance
@@ -79,12 +79,11 @@ public class ModernFactory : IFactory
     var castedResult = result as T;
     if (result != null && castedResult == null)
     {
-      Log.Warn(
-        "GetObject(). Type, specified in config differs from required type. path:{0}, specified type:{1}, required type:{2}".FormatWith(
-          configurationPath,
-          result.GetType().FullName,
-          typeof(T).FullName),
-        this);
+      Log.For(this).Warning(
+        "GetObject(). Type, specified in config differs from required type. path:{ConfigurationPath}, specified type:{SpecifiedType}, required type:{RequiredType}",
+        configurationPath,
+        result.GetType().FullName,
+        typeof(T).FullName);
     }
     return castedResult;
   }
@@ -102,10 +101,11 @@ public class ModernFactory : IFactory
     var castedResult = result as T;
     if (result != null && castedResult == null)
     {
-      Log.Warn(
-        "GetPurelyNewObject(). Type, specified in config differs from required type. path:{0}, specified type:{1}, required type:{2}"
-          .FormatWith(configurationPath, result.GetType().FullName, typeof(T).FullName),
-        this);
+      Log.For(this).Warning(
+        "GetPurelyNewObject(). Type, specified in config differs from required type. path:{ConfigurationPath}, specified type:{SpecifiedType}, required type:{RequiredType}",
+        configurationPath,
+        result.GetType().FullName,
+        typeof(T).FullName);
     }
     return castedResult;
   }
@@ -189,11 +189,11 @@ public class ModernFactory : IFactory
     var mainSection = ConfigurationManager.GetSection("trayGarden") as SectionHandler;
     if (mainSection != null)
     {
-      Log.Info("ModernFactory from AppConfig resolved", typeof(ModernFactory));
+      Log.For(typeof(ModernFactory)).Information("ModernFactory from AppConfig resolved");
       return mainSection.XmlRepresentation;
     }
     var embeddedConfiguration = GetEmbeddedConfiguration();
-    Log.Info("ModernFactory from AppConfig resolved", typeof(ModernFactory));
+    Log.For(typeof(ModernFactory)).Information("ModernFactory from AppConfig resolved");
     return embeddedConfiguration;
   }
 
@@ -240,9 +240,10 @@ public class ModernFactory : IFactory
       }
       catch
       {
-        Log.Warn(
-          "Unable to assign content node. instance type:{0}, node name:{1}".FormatWith(instance.GetType().FullName, contentNode.Name),
-          this);
+        Log.For(this).Warning(
+          "Unable to assign content node. instance type:{InstanceType}, node name:{NodeName}",
+          instance.GetType().FullName,
+          contentNode.Name);
       }
     }
   }
@@ -272,7 +273,7 @@ public class ModernFactory : IFactory
     }
     catch (Exception ex)
     {
-      Log.Error("Expception during instance creation. ConfigurationNodeName: {0}".FormatWith(configurationNode.Name), ex, this);
+      Log.For(this).Error(ex, "Expception during instance creation. ConfigurationNodeName: {NodeName}", configurationNode.Name);
       return null;
     }
   }
@@ -334,7 +335,7 @@ public class ModernFactory : IFactory
     {
       return CreateSpecialTypeOf(objectConfigurationNode, out makeSingleton);
     }
-    Log.Warn("Unknown special prefix: {0}".FormatWith(specialPrefix), this);
+    Log.For(this).Warning("Unknown special prefix: {SpecialPrefix}", specialPrefix);
     return null;
   }
 
@@ -343,11 +344,10 @@ public class ModernFactory : IFactory
     makeSingleton = true;
     if (objectConfigurationNode.ChildNodes.Count != 0)
     {
-      Log.Warn(
-        "Pay attention to the following node. Because of typeOf: the content of node will be ignored:{0}{1}".FormatWith(
-          Environment.NewLine,
-          objectConfigurationNode.OuterXml),
-        this);
+      Log.For(this).Warning(
+        "Pay attention to the following node. Because of typeOf: the content of node will be ignored:{NewLine}{NodeXml}",
+        Environment.NewLine,
+        objectConfigurationNode.OuterXml);
     }
     string typeStr = XmlHelper.GetAttributeValue(objectConfigurationNode, "type");
     typeStr = typeStr.Substring(typeStr.IndexOf(":", StringComparison.OrdinalIgnoreCase) + 1);
@@ -431,7 +431,7 @@ public class ModernFactory : IFactory
     var settingsParentNode = XmlHelper.SmartlySelectSingleNode(XmlConfiguration, SettingsNodePath);
     if (settingsParentNode == null)
     {
-      Log.Warn("Unable to find settings node. Node path:{0}".FormatWith(SettingsNodePath), this);
+      Log.For(this).Warning("Unable to find settings node. Node path:{SettingsNodePath}", SettingsNodePath);
       return;
     }
     XmlNodeList settingNodes = settingsParentNode.ChildNodes;

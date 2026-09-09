@@ -22,7 +22,7 @@ public class Processor
     Invoker = ResolveInvoker(processorObject, argumentType);
     if (Invoker == null)
     {
-      Log.Warn("Can't initialize processor {0}".FormatWith(processorObject.GetType().FullName), this);
+      Log.For(this).Warning("Can't initialize processor {ProcessorType}", processorObject.GetType().FullName);
       return false;
     }
     Initialized = true;
@@ -54,11 +54,10 @@ public class Processor
     MethodInfo processMethod = processorObjType.GetMethod("Process");
     if (!ValidateProcessorObj(processMethod, argumentType))
     {
-      Log.Warn(
-        "The processor object {0} doesn't contain valid process method{{Process({1}) expected }}".FormatWith(
-          processMethod.GetType().FullName,
-          argumentType.FullName),
-        this);
+      Log.For(this).Warning(
+        "The processor object {ProcessMethodType} doesn't contain valid process method{{Process({ArgumentType}) expected }}",
+        processMethod.GetType().FullName,
+        argumentType.FullName);
       return null;
     }
     Type generalProcessInvokerType = typeof(Action<>);

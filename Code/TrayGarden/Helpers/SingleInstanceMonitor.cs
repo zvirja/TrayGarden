@@ -53,7 +53,7 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
       innerHandle.Set();
       return false;
     }
-    Log.Info("SingleInstanceMonitor: ownership acquired", this);
+    Log.For(this).Information("SingleInstanceMonitor: ownership acquired");
     StartAwaitingLoop();
     return true;
   }
@@ -68,14 +68,14 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
         innerHandle.WaitOne();
         if (disposed == -1)
         {
-          Log.Info("SingleInstanceMonitor: Event from foreign process received", this);
+          Log.For(this).Information("SingleInstanceMonitor: Event from foreign process received");
           NotifyAboutForeignEvent();
         }
         //this.disposed == 0. Disposing in progress.
         //Value cannot be 1, because while() condition cannot allow this.
         else
         {
-          Log.Info("SingleInstanceMonitor: disposing", this);
+          Log.For(this).Information("SingleInstanceMonitor: disposing");
           innerHandle.Close();
           disposed = 1;
           disposedWaitHandle.Set();
@@ -88,7 +88,7 @@ public class SingleInstanceMonitor : ISingleInstanceMonitor
     }
     catch (Exception ex)
     {
-      Log.Error("Unexpected error in SingleInstanceMonitor awaiting loop", ex, this);
+      Log.For(this).Error(ex, "Unexpected error in SingleInstanceMonitor awaiting loop");
     }
     finally
     {

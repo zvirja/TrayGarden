@@ -50,12 +50,12 @@ public class CreateNotifyIcon
     MouseEventHandler niClickHandler;
     if (!asSimple.GetIconInfo(out niTitle, out niIcon, out niClickHandler))
     {
-      Log.Warn("Plant inherints StandaloneIcon contract, but wouldn't like return notify icon", this);
+      Log.For(this).Warning("Plant inherints StandaloneIcon contract, but wouldn't like return notify icon");
       return;
     }
     if (niTitle.IsNullOrEmpty() || niIcon == null || niClickHandler == null)
     {
-      Log.Warn("Plant inherints StandaloneIcon contract, but return wrong data", this);
+      Log.For(this).Warning("Plant inherints StandaloneIcon contract, but return wrong data");
       return;
     }
     var notifyIcon = new NotifyIcon();

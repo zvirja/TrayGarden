@@ -38,7 +38,7 @@ public class MyAdminConfigService : PlantServiceBase<MyAdminConfigServicePlantBo
     }
     catch (Exception ex)
     {
-      Log.Warn("Unable to open admin config for {0}".FormatWith(assemblyLocation), this, ex);
+      Log.For(this).Warning(ex, "Unable to open admin config for {AssemblyLocation}", assemblyLocation);
     }
 
     asExpected.StoreModuleConfiguration(assemblyConfiguration);

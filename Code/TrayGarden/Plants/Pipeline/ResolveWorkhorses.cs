@@ -22,7 +22,7 @@ public class ResolveWorkhorses
       {
         workhorses.AddRange(workhorseCandidates);
       }
-      Log.Debug("Plant {0} supports service delegation".FormatWith(args.PlantObject.GetType().FullName), this);
+      Log.For(this).Debug("Plant {PlantType} supports service delegation", args.PlantObject.GetType().FullName);
     }
     args.Workhorses = workhorses;
   }

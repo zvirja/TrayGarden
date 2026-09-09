@@ -49,7 +49,7 @@ public class AssemblySource : ISource
       }
       catch (Exception ex)
       {
-        Log.Warn("Can't load assembly {0}".FormatWith(assemblyName), this, ex);
+        Log.For(this).Warning(ex, "Can't load assembly {AssemblyName}", assemblyName);
       }
     }
     return assembly;

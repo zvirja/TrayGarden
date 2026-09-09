@@ -162,11 +162,11 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
       }
       catch (ArgumentException ex)
       {
-        Log.Error("CheckThreadLoop() Of ClipboardObserverService produced wrong value", ex, this);
+        Log.For(this).Error(ex, "CheckThreadLoop() Of ClipboardObserverService produced wrong value");
       }
       catch (Exception ex)
       {
-        Log.Error("CheckThreadLoop() exception", ex, this);
+        Log.For(this).Error(ex, "CheckThreadLoop() exception");
       }
     }
   }

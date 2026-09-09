@@ -64,7 +64,7 @@ public class ResolveConfigurationEntries
       }
       else
       {
-        Log.Warn("Was unable to resolve UserSettingVM for {0} type".FormatWith(userSettingPair.Value.GetType().Name), this);
+        Log.For(this).Warning("Was unable to resolve UserSettingVM for {SettingType} type", userSettingPair.Value.GetType().Name);
       }
     }
     return result;
