@@ -383,11 +383,17 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     }
   }
 
+  protected virtual void CloseAppExecute(object o)
+  {
+    Log.For(this).Information("'Close app' help action invoked. Calling Application.Shutdown().");
+    Application.Current.Shutdown();
+  }
+
   protected virtual List<ActionCommandVM> GetHelpActions()
   {
     return new List<ActionCommandVM>()
     {
-      new ActionCommandVM(new RelayCommand(o => Application.Current.Shutdown(), true), "Close app"),
+      new ActionCommandVM(new RelayCommand(CloseAppExecute, true), "Close app"),
       new ActionCommandVM(new RelayCommand(SavePositionAndSize, true), "Save P&S")
     };
   }

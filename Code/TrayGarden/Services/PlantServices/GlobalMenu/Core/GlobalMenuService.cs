@@ -145,6 +145,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)
   {
+    Log.For(this).Information("Tray 'Exit Garden' clicked. Calling Application.Shutdown().");
     Application.Current.Shutdown();
   }
 

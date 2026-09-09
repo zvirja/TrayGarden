@@ -72,6 +72,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
 
   protected void ExitGardenClick(object sender, EventArgs eventArgs)
   {
+    Log.For(this).Information("Standalone icon 'Exit garden' clicked. Calling Application.Shutdown().");
     Application.Current.Shutdown();
   }
 

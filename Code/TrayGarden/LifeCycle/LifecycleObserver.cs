@@ -39,6 +39,11 @@ public class LifecycleObserver
 
   public static void RestartApp(string[] paramsToAdd)
   {
+    Log.For(typeof(LifecycleObserver)).Information(
+      "RestartApp requested. Extra params: {Params}. Call stack:{NewLine}{StackTrace}",
+      string.Join(" ", paramsToAdd),
+      Environment.NewLine,
+      Environment.StackTrace);
     Services.GetRequiredService<IPipelineRunner>().Run(new RestartAppArgs(paramsToAdd));
   }
 
@@ -51,9 +56,18 @@ public class LifecycleObserver
 
   protected virtual void ApplicationExit(object sender, ExitEventArgs e)
   {
-    if (e.ApplicationExitCode == 0)
+    Log.For(this).Information("ApplicationExit. ExitCode: {ExitCode}", e.ApplicationExitCode);
+    if (e.ApplicationExitCode != 0)
+    {
+      return;
+    }
+    try
     {
       Services.GetRequiredService<IPipelineRunner>().Run(new ShutdownArgs());
+    }
+    catch (Exception ex)
+    {
+      Log.For(this).Error(ex, "Shutdown pipeline failed");
     }
   }
 
