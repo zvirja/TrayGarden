@@ -32,8 +32,11 @@ public partial class App : Application
     builder.Services.AddSerilog((_, configuration) => configuration.ReadFrom.Configuration(builder.Configuration));
     builder.Services.AddGarden(builder.Configuration);
 
+    // The host is used purely as the configuration/logging/DI container.
+    // It is not Start()ed: there are no hosted services, and starting it would
+    // engage the console host lifetime, whose ProcessExit hook blocks shutdown
+    // for several seconds on a WPF app that exits through Application.Shutdown.
     _host = builder.Build();
-    _host.Start();
 
     System.Windows.Forms.Application.SetHighDpiMode(HighDpiMode.PerMonitorV2);
 
