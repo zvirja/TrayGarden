@@ -60,7 +60,7 @@ public class StorageOptions
 {
   public string FileName { get; set; } = "RuntimeSettings.xml";
 
-  public bool UseLocalFolder { get; set; } = true;
+  public bool UseLocalFolder { get; set; } = false;
 
   public bool EnableDebuggingTraces { get; set; }
 }
