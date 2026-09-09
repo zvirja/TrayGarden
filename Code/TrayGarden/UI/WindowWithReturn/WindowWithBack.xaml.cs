@@ -2,15 +2,19 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows;
 
 using JetBrains.Annotations;
 
+using Microsoft.Extensions.Options;
+
+using TrayGarden.Configuration;
+using TrayGarden.Configuration.Options;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Resources;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common.VMtoVMapping;
 
 namespace TrayGarden.UI.WindowWithReturn;
@@ -22,20 +26,18 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
 {
   protected static bool _exitOnClose;
 
-  /*protected MappingsBasedContentValueConverter ViewModelToViewConverter { get; set; }*/
+  private readonly IResourcesManager _resourcesManager;
 
   protected string iconResourceKey;
 
-  static WindowWithBack()
-  {
-    WindowWithBackSettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("windowWithBackSettingsBox");
-    _exitOnClose = WindowWithBackSettingsBox.GetBool("exitOnClose", false);
-  }
+  private static ISettingsBox WindowWithBackSettingsBoxLazy;
 
-  public WindowWithBack()
+  public WindowWithBack(IResourcesManager resourcesManager, IOptions<TrayGardenOptions> options, IEnumerable<IViewModelToViewMapping> mappings)
   {
+    _resourcesManager = resourcesManager;
+    Mappings = mappings.ToList();
     InitializeComponent();
-    IconResourceKey = "gardenIconV5";
+    IconResourceKey = options.Value.WindowWithBack.IconResourceKey;
     StateToRestore = WindowState;
     Hide();
     SetIcon();
@@ -45,7 +47,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
   {
     get
     {
-      return _exitOnClose;
+      return WindowWithBackSettingsBox.GetBool("exitOnClose", false);
     }
     set
     {
@@ -75,7 +77,14 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     }
   }
 
-  protected static ISettingsBox WindowWithBackSettingsBox { get; set; }
+  protected static ISettingsBox WindowWithBackSettingsBox
+  {
+    get
+    {
+      return WindowWithBackSettingsBoxLazy ??=
+        GardenContext.RuntimeSettings.SystemSettings.GetSubBox("windowWithBackSettingsBox");
+    }
+  }
 
   protected List<IViewModelToViewMapping> Mappings { get; set; }
 
@@ -96,12 +105,6 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
   public virtual List<IViewModelToViewMapping> GetMappings()
   {
     return Mappings ?? new List<IViewModelToViewMapping>();
-  }
-
-  public virtual void Initialize([NotNull] List<IViewModelToViewMapping> mvtovmappings)
-  {
-    Assert.ArgumentNotNull(mvtovmappings, "mvtovmappings");
-    Mappings = mvtovmappings;
   }
 
   public virtual void PrepareAndShow(WindowWithBackVM viewModel)
@@ -153,7 +156,7 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     {
       return;
     }
-    Icon resource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(IconResourceKey, null);
+    Icon resource = _resourcesManager.GetIconResource(IconResourceKey, null);
     if (resource == null)
     {
       return;

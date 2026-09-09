@@ -6,7 +6,9 @@ using System.Xml.Serialization;
 
 using JetBrains.Annotations;
 
-using TrayGarden.Configuration;
+using Microsoft.Extensions.Options;
+
+using TrayGarden.Configuration.Options;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 
@@ -15,11 +17,18 @@ namespace TrayGarden.RuntimeSettings.Provider;
 [UsedImplicitly]
 public class SettingsStorage : ISettingsStorage
 {
-  public SettingsStorage()
+  private readonly Func<IContainer> _containerFactory;
+
+  private readonly string _appDataFolderName;
+
+  public SettingsStorage(Func<IContainer> containerFactory, IOptions<TrayGardenOptions> options)
   {
-    FileName = "RuntimeSettings.xml";
-    UseLocalFolder = true;
-    EnableDebuggingTraces = false;
+    _containerFactory = containerFactory;
+    var value = options.Value;
+    _appDataFolderName = value.AppDataFolderName;
+    FileName = value.RuntimeSettings.Storage.FileName;
+    UseLocalFolder = value.RuntimeSettings.Storage.UseLocalFolder;
+    EnableDebuggingTraces = value.RuntimeSettings.Storage.EnableDebuggingTraces;
   }
 
   public virtual bool EnableDebuggingTraces { get; set; }
@@ -28,20 +37,11 @@ public class SettingsStorage : ISettingsStorage
 
   public virtual bool UseLocalFolder { get; set; }
 
-  protected IObjectFactory ContainerFactory { get; set; }
-
   protected IContainer ResolvedRootContainer { get; set; }
 
   public virtual IContainer GetRootContainer()
   {
     return ResolvedRootContainer;
-  }
-
-  [UsedImplicitly]
-  public void Initialize(IObjectFactory containerFactory)
-  {
-    Assert.ArgumentNotNull(containerFactory, "containerFactory");
-    ContainerFactory = containerFactory;
   }
 
   public virtual void LoadSettings()
@@ -86,7 +86,7 @@ public class SettingsStorage : ISettingsStorage
       settingPair => settingPair.Key,
       settingPair => settingPair.Value);
     var subcontainers = rootBucket.InnerBuckets.Select(BuildContainerFromBucket).ToList();
-    var newContainer = ContainerFactory.GetPurelyNewObject() as IContainer;
+    var newContainer = _containerFactory();
     Assert.IsNotNull(newContainer, "Wrong container factory");
     newContainer.InitializeFromCollections(rootBucket.Name, settings, subcontainers);
     return newContainer;
@@ -129,7 +129,7 @@ public class SettingsStorage : ISettingsStorage
     string folderName = null;
     if (!UseLocalFolder)
     {
-      folderName = Settings.ApplicationDataFolderName;
+      folderName = _appDataFolderName;
       if (!folderName.IsNullOrEmpty())
       {
         folderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), folderName);

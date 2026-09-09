@@ -1,8 +1,8 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 
+using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI.Common;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff;
@@ -11,7 +11,7 @@ public class ServiceForPlantDataTemplateSelectorProxy : DataTemplateSelector, ID
 {
   public override DataTemplate SelectTemplate(object item, DependencyObject container)
   {
-    var selector = HatcherGuide<IDataTemplateSelector>.Instance;
+    var selector = GardenContext.ServiceForPlantTemplateSelector;
     if (selector != null)
     {
       DataTemplate resolvedTemplate = selector.SelectTemplate(item, container);

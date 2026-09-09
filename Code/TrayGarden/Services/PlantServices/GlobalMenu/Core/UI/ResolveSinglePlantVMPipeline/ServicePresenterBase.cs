@@ -7,6 +7,7 @@ using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 
@@ -14,9 +15,10 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlan
 public abstract class ServicePresenterBase<TServiceType> : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
   where TServiceType : IService
 {
-  protected ServicePresenterBase(IServicesSteward servicesSteward)
+  protected ServicePresenterBase(IServicesSteward servicesSteward, IUIManager uiManager)
   {
     ServicesSteward = servicesSteward;
+    UIManager = uiManager;
     ServiceName = typeof(TServiceType).Name;
     ServiceDescription = "<this service doesn't provide description>";
   }
@@ -26,6 +28,8 @@ public abstract class ServicePresenterBase<TServiceType> : IPipelineProcessor<Re
   public string ServiceName { get; set; }
 
   protected IServicesSteward ServicesSteward { get; }
+
+  protected IUIManager UIManager { get; }
 
   [UsedImplicitly]
   public virtual void Process(ResolveSinglePlantVMPipelineArgs args)

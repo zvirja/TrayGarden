@@ -11,6 +11,4 @@ public interface IGardenbed
   List<IPlantEx> GetEnabledPlants();
 
   void InformPostInitStage();
-
-  void Initialize(List<object> plants);
 }

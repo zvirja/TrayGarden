@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
 using TrayGarden.Plants;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.Engine;
 
 [UsedImplicitly]
 public class ServicesSteward : IServicesSteward
 {
+  private readonly IGardenbed _gardenbed;
+
+  public ServicesSteward(IEnumerable<IService> services, IGardenbed gardenbed)
+  {
+    _gardenbed = gardenbed;
+    Services = services.ToList();
+    Initialized = true;
+  }
+
   public List<IService> Services { get; set; }
 
   protected bool Initialized { get; set; }
@@ -77,19 +86,11 @@ public class ServicesSteward : IServicesSteward
         Log.For(this).Error(ex, "Failed to init service {ServiceType}", service.GetType().FullName);
       }
     }
-    var plants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+    var plants = _gardenbed.GetAllPlants();
     foreach (IPlantEx plant in plants)
     {
       AquaintPlantWithServices(plant);
     }
-  }
-
-  [UsedImplicitly]
-  public void Initialize([NotNull] List<IService> services)
-  {
-    Assert.ArgumentNotNull(services, "services");
-    Services = services;
-    Initialized = true;
   }
 
   protected virtual void AquaintPlantWithServices(IPlantEx plantEx)

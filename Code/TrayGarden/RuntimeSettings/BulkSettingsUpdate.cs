@@ -1,5 +1,5 @@
-﻿using TrayGarden.Helpers.ThreadSwitcher;
-using TrayGarden.TypesHatcher;
+﻿using TrayGarden.Configuration;
+using TrayGarden.Helpers.ThreadSwitcher;
 
 namespace TrayGarden.RuntimeSettings;
 
@@ -23,6 +23,6 @@ public class BulkSettingsUpdate : Switcher<BulkUpdateState>
   public override void Dispose()
   {
     base.Dispose();
-    HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
+    GardenContext.RuntimeSettings.SaveNow(false);
   }
 }

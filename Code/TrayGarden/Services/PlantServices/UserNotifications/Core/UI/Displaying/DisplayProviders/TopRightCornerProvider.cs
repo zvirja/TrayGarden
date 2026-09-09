@@ -7,9 +7,9 @@ using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
+using TrayGarden.Services.PlantServices.UserNotifications.Core.UI;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Positioning;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying.DisplayProviders;
@@ -19,8 +19,14 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 {
   protected object Lock = new object();
 
-  public TopRightCornerProvider()
+  private readonly IUIManager _uiManager;
+
+  private readonly Func<INotificationWindow> _notificationWindowFactory;
+
+  public TopRightCornerProvider(IUIManager uiManager, Func<INotificationWindow> notificationWindowFactory)
   {
+    _uiManager = uiManager;
+    _notificationWindowFactory = notificationWindowFactory;
     QueuedTasks = new List<DisplayTaskBag>();
     DisplayedWaitForResultTasks = new List<DisplayTaskBag>();
   }
@@ -191,11 +197,10 @@ public class TopRightCornerProvider : IDisplayQueueProvider
 
   protected virtual void LastPreparationsAndVisualizeTask(DisplayTaskBag task)
   {
-    var uiManager = HatcherGuide<IUIManager>.Instance;
-    uiManager.ExecuteActionOnUIThreadAsynchronously(
+    _uiManager.ExecuteActionOnUIThreadAsynchronously(
       delegate
       {
-        var window = HatcherGuide<INotificationWindow>.CreateNewInstance();
+        var window = _notificationWindowFactory();
         task.WindowVM.ResultObtained += WindowVM_ResultObtained;
         window.PrepareAndDisplay(task.WindowVM);
       });

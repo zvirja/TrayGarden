@@ -1,27 +1,29 @@
-﻿using System.Windows;
+using System.Windows;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.UI.MainWindow.ResolveVMPipeline;
 using TrayGarden.UI.WindowWithReturn;
 
 namespace TrayGarden.UI.MainWindow;
 
-public class MainWindowDisplayer : IMainWindowDisplayer
+public class MainWindowDisplayer(IWindowWithBack windowWithBack, IUIManager uiManager, IPipelineRunner pipelineRunner)
+  : IMainWindowDisplayer
 {
   public virtual void PopupMainWindow()
   {
-    IWindowWithBack windowWithBack = HatcherGuide<IWindowWithBack>.Instance;
     Assert.IsNotNull(windowWithBack, "Window with back wasn't resolved");
     if (windowWithBack.IsCurrentlyDisplayed)
     {
       windowWithBack.BringToFront();
       return;
     }
-    WindowWithBackVM mainWindowVM = GetMainVMPipelineRunner.Run(new GetMainVMPipelineArgs());
+    var pipelineArgs = new GetMainVMPipelineArgs();
+    pipelineRunner.Run(pipelineArgs);
+    WindowWithBackVM mainWindowVM = pipelineArgs.Aborted ? null : pipelineArgs.ResultVM;
     if (mainWindowVM == null)
     {
-      HatcherGuide<IUIManager>.Instance.OKMessageBox(
+      uiManager.OKMessageBox(
         "Plant configuration",
         "We was unable to resolve main View Model. Please provide log files to developer",
         MessageBoxImage.Error);

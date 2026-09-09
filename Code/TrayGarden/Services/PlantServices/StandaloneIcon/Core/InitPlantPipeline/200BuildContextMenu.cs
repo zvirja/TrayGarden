@@ -15,8 +15,6 @@ public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelinePro
 {
   public string ExitEntryIconResName { get; set; } = "exitIconV1";
 
-  public string ExitEntryIconResName { get; set; }
-
   [UsedImplicitly]
   public virtual void Process(InitPlantSIArgs args)
   {
@@ -37,7 +35,7 @@ public class BuildContextMenu(IResourcesManager resourcesManager) : IPipelinePro
     closeComponent.Tag = args.SIBox;
     closeComponent.Click += args.CloseComponentClick;
 */
-    Icon exitIcon = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitEntryIconResName, null);
+    Icon exitIcon = resourcesManager.GetIconResource(ExitEntryIconResName, null);
     ToolStripItem exitGardenEntry;
     if (exitIcon != null)
     {

@@ -1,46 +1,42 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 using JetBrains.Annotations;
 
+using Microsoft.Extensions.Options;
+
+using TrayGarden.Configuration.Options;
 using TrayGarden.Resources;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 
 [UsedImplicitly]
-public class ContextMenuBuilder
+public class ContextMenuBuilder(IResourcesManager resourcesManager, IOptions<TrayGardenOptions> options)
 {
-  public ContextMenuBuilder()
-  {
-    ConfigureIconResourceName = "configureV1";
-    ExitIconResourceName = "exitIconV1";
-    BoldMainMenuEntries = true;
-    ItalicMainMenuEntries = true;
-  }
+  private readonly ContextMenuOptions _cfg = options.Value.GlobalMenu.ContextMenu;
 
-  public bool BoldMainMenuEntries { get; set; }
+  public bool BoldMainMenuEntries => _cfg.BoldMainMenuEntries;
 
   public EventHandler ConfigureContextItemOnClick { get; set; }
 
-  public string ConfigureIconResourceName { get; set; }
+  public string ConfigureIconResourceName => _cfg.ConfigureIconResourceName;
 
   public EventHandler ExitContextItemOnClick { get; set; }
 
-  public string ExitIconResourceName { get; set; }
+  public string ExitIconResourceName => _cfg.ExitIconResourceName;
 
-  public bool InsertDelimiterBetweenPlants { get; set; }
+  public bool InsertDelimiterBetweenPlants => _cfg.InsertDelimiterBetweenPlants;
 
-  public bool ItalicMainMenuEntries { get; set; }
+  public bool ItalicMainMenuEntries => _cfg.ItalicMainMenuEntries;
 
   public virtual ContextMenuStrip BuildContextMenu(List<GlobalMenuPlantBox> plantBoxes, IDynamicStateWatcher dynamicStateWatcher)
   {
     var contextMenuStrip = new ContextMenuStrip();
     contextMenuStrip.AutoSize = true;
-    
+
     BuildContextMenuPrefix(contextMenuStrip);
     EnumeratePlantBoxes(plantBoxes, contextMenuStrip, dynamicStateWatcher);
     BuildContextMenuSuffix(contextMenuStrip);
@@ -51,7 +47,7 @@ public class ContextMenuBuilder
   protected virtual void BuildContextMenuPrefix(ContextMenuStrip contextMenuStrip)
   {
     var configureItem = contextMenuStrip.Items.Add("Configure");
-    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ConfigureIconResourceName, null);
+    Icon iconResource = resourcesManager.GetIconResource(ConfigureIconResourceName, null);
     if (iconResource != null)
     {
       configureItem.Image = iconResource.ToBitmap();
@@ -70,7 +66,7 @@ public class ContextMenuBuilder
   protected virtual void BuildContextMenuSuffix(ContextMenuStrip contextMenuStrip)
   {
     var exitItem = contextMenuStrip.Items.Add("Exit Garden");
-    Icon iconResource = HatcherGuide<IResourcesManager>.Instance.GetIconResource(ExitIconResourceName, null);
+    Icon iconResource = resourcesManager.GetIconResource(ExitIconResourceName, null);
     if (iconResource != null)
     {
       exitItem.Image = iconResource.ToBitmap();

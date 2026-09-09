@@ -1,5 +1,7 @@
 ﻿using JetBrains.Annotations;
 
+using TrayGarden.UI;
+
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 [UsedImplicitly]
@@ -7,8 +9,8 @@ public class ServiceForPlantWithEnablingVM : ServiceForPlantVMBase
 {
   protected bool _isEnabled;
 
-  public ServiceForPlantWithEnablingVM([NotNull] string serviceName, [NotNull] string description)
-    : base(serviceName, description)
+  public ServiceForPlantWithEnablingVM(IUIManager uiManager, [NotNull] string serviceName, [NotNull] string description)
+    : base(uiManager, serviceName, description)
   {
   }
 

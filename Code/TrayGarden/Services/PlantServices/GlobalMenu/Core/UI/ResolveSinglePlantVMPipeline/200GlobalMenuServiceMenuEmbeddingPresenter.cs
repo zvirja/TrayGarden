@@ -3,14 +3,15 @@ using JetBrains.Annotations;
 using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 
 [UsedImplicitly]
 public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<GlobalMenuService>
 {
-  public GlobalMenuServiceMenuEmbeddingPresenter(IServicesSteward servicesSteward)
-    : base(servicesSteward)
+  public GlobalMenuServiceMenuEmbeddingPresenter(IServicesSteward servicesSteward, IUIManager uiManager)
+    : base(servicesSteward, uiManager)
   {
     ServiceName = "Embedding to global menu";
     ServiceDescription = "If service is enabled, plant is enabled to embed its row to global menu.";
@@ -23,6 +24,6 @@ public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<Glob
     {
       return null;
     }
-    return new ServiceForPlantWithEnablingPlantBoxBasedVM(ServiceName, ServiceDescription, luggage);
+    return new ServiceForPlantWithEnablingPlantBoxBasedVM(UIManager, ServiceName, ServiceDescription, luggage);
   }
 }

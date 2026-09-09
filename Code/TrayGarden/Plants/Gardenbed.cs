@@ -5,20 +5,31 @@ using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 
-using TrayGarden.Configuration;
+using Microsoft.Extensions.Options;
+
+using TrayGarden.Configuration.Options;
 using TrayGarden.Diagnostics;
 using TrayGarden.Helpers;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants.Pipeline;
 using TrayGarden.Reception;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Plants;
 
 public class Gardenbed : IGardenbed
 {
-  public Gardenbed()
+  private readonly IRuntimeSettingsManager _runtimeSettingsManager;
+
+  private readonly IPipelineRunner _pipelineRunner;
+
+  private readonly string _plantsAutodetectFolder;
+
+  public Gardenbed(IRuntimeSettingsManager runtimeSettingsManager, IPipelineRunner pipelineRunner, IOptions<TrayGardenOptions> options)
   {
+    _runtimeSettingsManager = runtimeSettingsManager;
+    _pipelineRunner = pipelineRunner;
+    _plantsAutodetectFolder = options.Value.PlantsAutodetectFolder;
     Plants = new Dictionary<string, IPlantEx>();
   }
 
@@ -26,10 +37,12 @@ public class Gardenbed : IGardenbed
   {
     get
     {
+      EnsureSettingsBox();
       return MySettingsBox.GetBool("autoDetectPlants", true);
     }
     set
     {
+      EnsureSettingsBox();
       MySettingsBox.SetBool("autoDetectPlants", value);
     }
   }
@@ -50,13 +63,13 @@ public class Gardenbed : IGardenbed
 
   public virtual List<IPlantEx> GetAllPlants()
   {
-    AssertInitialized();
+    EnsureInitialized();
     return Plants.Select(x => x.Value).ToList();
   }
 
   public virtual List<IPlantEx> GetEnabledPlants()
   {
-    AssertInitialized();
+    EnsureInitialized();
     return Plants.Select(x => x.Value).Where(x => x.IsEnabled).ToList();
   }
 
@@ -68,16 +81,21 @@ public class Gardenbed : IGardenbed
     }
   }
 
-  [UsedImplicitly]
-  public virtual void Initialize(List<object> permanentPlants)
+  protected virtual void EnsureSettingsBox()
   {
-    MySettingsBox = HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("Gargedbed");
-    if (permanentPlants == null)
+    MySettingsBox ??= _runtimeSettingsManager.SystemSettings.GetSubBox("Gargedbed");
+  }
+
+  protected virtual void EnsureInitialized()
+  {
+    if (Initialized)
     {
-      permanentPlants = new List<object>();
+      return;
     }
-    permanentPlants.AddRange(GetAutoIncludePlants());
-    foreach (object plant in permanentPlants)
+    EnsureSettingsBox();
+    var plants = new List<object>();
+    plants.AddRange(GetAutoIncludePlants());
+    foreach (object plant in plants)
     {
       IPlantEx resolvedPlantEx = ResolveIPlantEx(plant);
       if (resolvedPlantEx != null)
@@ -85,21 +103,12 @@ public class Gardenbed : IGardenbed
         Plants.Add(resolvedPlantEx.ID, resolvedPlantEx);
       }
     }
-    //HatcherGuide<IRuntimeSettingsManager>.Instance.SaveNow(false);
     Initialized = true;
-  }
-
-  protected virtual void AssertInitialized()
-  {
-    if (!Initialized)
-    {
-      throw new NonInitializedException();
-    }
   }
 
   protected virtual DirectoryInfo GetAutoIncludeDirectory()
   {
-    string folderSetting = Factory.Instance.GetStringSetting("Gardenbed.PlantsAutodetectFolder", string.Empty);
+    string folderSetting = _plantsAutodetectFolder ?? string.Empty;
     string workingDirectory = DirectoryHelper.CurrentDirectory;
     Log.For(this).Debug("Gardenbed. CurrentDirectory: {WorkingDirectory}", workingDirectory);
     if (folderSetting.NotNullNotEmpty())
@@ -176,7 +185,8 @@ public class Gardenbed : IGardenbed
 
   protected virtual IPlantEx ResolveIPlantEx(object plant)
   {
-    var newPlant = InitializePlantExPipeline.Run(plant, RootPlantsSettingsBox);
-    return newPlant;
+    var args = new InitializePlantArgs(plant, RootPlantsSettingsBox);
+    _pipelineRunner.Run(args);
+    return args.ResolvedPlantEx;
   }
 }

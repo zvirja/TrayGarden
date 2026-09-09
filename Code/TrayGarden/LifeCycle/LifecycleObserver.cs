@@ -1,40 +1,57 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using System.Windows;
 
+using Microsoft.Extensions.DependencyInjection;
+
+using TrayGarden.Configuration;
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Pipelines.RestartApp;
 using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
+using TrayGarden.Plants;
+using TrayGarden.RuntimeSettings;
+using TrayGarden.UI.Common;
 
 namespace TrayGarden.LifeCycle;
 
 public class LifecycleObserver
 {
-  protected static LifecycleObserver Observer { get; set; }
+  private static LifecycleObserver Observer { get; set; }
 
-  public static void NotifyStartup(string[] args)
+  private static IServiceProvider Services { get; set; }
+
+  public static void NotifyStartup(string[] args, IServiceProvider services)
   {
     if (Observer != null)
     {
       return;
     }
+    Services = services;
     Observer = new LifecycleObserver();
     Observer.SetAssembliesHook();
+    Observer.PopulateGardenContext();
     Observer.NotifyStartupInternal(args);
   }
 
   public static void RestartApp(string[] paramsToAdd)
   {
-    RestartAppPipeline.Run(paramsToAdd);
+    Services.GetRequiredService<IPipelineRunner>().Run(new RestartAppArgs(paramsToAdd));
+  }
+
+  protected virtual void PopulateGardenContext()
+  {
+    GardenContext.RuntimeSettings = Services.GetRequiredService<IRuntimeSettingsManager>();
+    GardenContext.ServiceForPlantTemplateSelector = Services.GetRequiredService<IDataTemplateSelector>();
   }
 
   protected virtual void ApplicationExit(object sender, ExitEventArgs e)
   {
     if (e.ApplicationExitCode == 0)
     {
-      ShutdownPipeline.Run();
+      Services.GetRequiredService<IPipelineRunner>().Run(new ShutdownArgs());
     }
   }
 
@@ -50,7 +67,7 @@ public class LifecycleObserver
     try
     {
       Application.Current.DispatcherUnhandledException += Current_DispatcherUnhandledException;
-      StartupPipeline.Run(args);
+      Services.GetRequiredService<IPipelineRunner>().Run(new StartupArgs(args), maskExceptions: false);
       Application.Current.Exit += ApplicationExit;
     }
     catch (Exception ex)

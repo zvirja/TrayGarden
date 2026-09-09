@@ -1,6 +1,6 @@
-﻿using TrayGarden.RuntimeSettings;
+﻿using TrayGarden.Configuration;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.RuntimeSettings.FastPropertyWrapper;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
 
@@ -75,7 +75,7 @@ public static class UserNotificationsConfiguration
         return _serviceSettingsBox;
       }
       _serviceSettingsBox =
-        HatcherGuide<IRuntimeSettingsManager>.Instance.SystemSettings.GetSubBox("PlantServices").GetSubBox(SettingsBoxName);
+        GardenContext.RuntimeSettings.SystemSettings.GetSubBox("PlantServices").GetSubBox(SettingsBoxName);
       return _serviceSettingsBox;
     }
   }

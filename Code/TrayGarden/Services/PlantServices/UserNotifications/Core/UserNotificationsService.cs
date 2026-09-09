@@ -42,7 +42,7 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
       RelatedPlantEx = plant,
       SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
     };
-    var lord = new LordOfNotifications(plantBox);
+    var lord = new LordOfNotifications(_userNotificationsGate, plantBox);
     plant.PutLuggage(LuggageName, plantBox);
     workhorse.StoreLordOfNotifications(lord);
   }

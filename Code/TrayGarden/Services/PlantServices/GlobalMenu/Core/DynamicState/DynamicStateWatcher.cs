@@ -13,6 +13,12 @@ public class DynamicStateWatcher : IDynamicStateWatcher
 {
   protected object lockObj = new object();
 
+  public DynamicStateWatcher(IDynamicStateDecorator menuEntryDecorator)
+  {
+    MenuEntryDecorator = menuEntryDecorator;
+    EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
+  }
+
   protected HashSet<ExtendedToolStripMenuItem> EntriesToUpdate { get; set; }
 
   protected IDynamicStateDecorator MenuEntryDecorator { get; set; }
@@ -31,13 +37,6 @@ public class DynamicStateWatcher : IDynamicStateWatcher
   public virtual void BindToMenuStrip(ContextMenuStrip menuStrip)
   {
     menuStrip.Opening += MenuStripOnOpening;
-  }
-
-  [UsedImplicitly]
-  public virtual void Initialize(IDynamicStateDecorator menuEntryDecorator)
-  {
-    MenuEntryDecorator = menuEntryDecorator;
-    EntriesToUpdate = new HashSet<ExtendedToolStripMenuItem>();
   }
 
   protected virtual void EnqueStripForPendingUpdate(ExtendedToolStripMenuItem menuItem)

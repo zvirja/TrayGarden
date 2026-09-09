@@ -2,12 +2,10 @@
 using System.Linq;
 using JetBrains.Annotations;
 
-using TrayGarden.Configuration;
-
 namespace TrayGarden.RuntimeSettings.Provider;
 
 [UsedImplicitly]
-public class Container : IContainer, ISupportPrototyping
+public class Container : IContainer
 {
   public Container()
   {
@@ -20,11 +18,6 @@ public class Container : IContainer, ISupportPrototyping
   protected Dictionary<string, IContainer> InnerContainers { get; set; }
 
   protected Dictionary<string, string> Settings { get; set; }
-
-  public object CreateNewInializedInstance()
-  {
-    return new Container();
-  }
 
   public virtual IContainer GetNamedSubContainer(string name)
   {

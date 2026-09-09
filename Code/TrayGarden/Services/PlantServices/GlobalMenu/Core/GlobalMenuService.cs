@@ -1,17 +1,22 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
 
 using JetBrains.Annotations;
 
+using Microsoft.Extensions.Options;
+
+using TrayGarden.Configuration.Options;
 using TrayGarden.Diagnostics;
+using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Resources;
+using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.DynamicState;
-using TrayGarden.TypesHatcher;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.InitPlantPipeline;
 using TrayGarden.UI.MainWindow;
 
 using Application = System.Windows.Application;
@@ -21,11 +26,39 @@ namespace TrayGarden.Services.PlantServices.GlobalMenu.Core;
 [UsedImplicitly]
 public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 {
-  public GlobalMenuService()
-    : base("Global Menu", "GlobalMenuService")
+  private readonly IGardenbed _gardenbed;
+
+  private readonly IResourcesManager _resourcesManager;
+
+  private readonly Func<IDynamicStateWatcher> _dynamicStateWatcherFactory;
+
+  private readonly Func<INotifyIconChangerMaster> _notifyIconChangerFactory;
+
+  private readonly IMainWindowDisplayer _mainWindowDisplayer;
+
+  private readonly IPipelineRunner _pipelineRunner;
+
+  public GlobalMenuService(
+    IRuntimeSettingsManager runtimeSettingsManager,
+    ContextMenuBuilder contextMenuBuilder,
+    IGardenbed gardenbed,
+    IResourcesManager resourcesManager,
+    Func<IDynamicStateWatcher> dynamicStateWatcherFactory,
+    Func<INotifyIconChangerMaster> notifyIconChangerFactory,
+    IMainWindowDisplayer mainWindowDisplayer,
+    IPipelineRunner pipelineRunner,
+    IOptions<TrayGardenOptions> options)
+    : base(runtimeSettingsManager, "Global Menu", "GlobalMenuService")
   {
+    _gardenbed = gardenbed;
+    _resourcesManager = resourcesManager;
+    _dynamicStateWatcherFactory = dynamicStateWatcherFactory;
+    _notifyIconChangerFactory = notifyIconChangerFactory;
+    _mainWindowDisplayer = mainWindowDisplayer;
+    _pipelineRunner = pipelineRunner;
+    ContextMenuBuilder = contextMenuBuilder;
     IconText = "Tray Garden";
-    TrayIconResourceName = "gardenIcon";
+    TrayIconResourceName = options.Value.GlobalMenu.TrayIconResourceName;
     ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
   }
 
@@ -45,11 +78,8 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   protected NotifyIcon GlobalNotifyIcon { get; set; }
 
-  protected bool Initialized { get; set; }
-
   public override void InformClosingStage()
   {
-    EnsureInitialized();
     base.InformClosingStage();
     if (GlobalNotifyIcon != null)
     {
@@ -59,10 +89,9 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   public override void InformDisplayStage()
   {
-    EnsureInitialized();
     base.InformDisplayStage();
     var plantBoxes = new List<GlobalMenuPlantBox>();
-    List<IPlantEx> allPlants = HatcherGuide<IGardenbed>.Instance.GetAllPlants();
+    List<IPlantEx> allPlants = _gardenbed.GetAllPlants();
     foreach (IPlantEx plant in allPlants)
     {
       GlobalMenuPlantBox luggage = GetPlantLuggage(plant);
@@ -82,22 +111,12 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   public override void InformInitializeStage()
   {
-    EnsureInitialized();
     base.InformInitializeStage();
     CreateNotifyIcon();
   }
 
-  [UsedImplicitly]
-  public virtual void Initialize([NotNull] ContextMenuBuilder builder)
-  {
-    Assert.ArgumentNotNull(builder, "builder");
-    ContextMenuBuilder = builder;
-    Initialized = true;
-  }
-
   public override void InitializePlant(IPlantEx plantEx)
   {
-    EnsureInitialized();
     base.InitializePlant(plantEx);
     InitializePlantFromPipeline(plantEx);
   }
@@ -107,7 +126,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     Assert.IsNotNull(ContextMenuBuilder, "Builder cannot be null, something is wrong");
     ContextMenuBuilder.ConfigureContextItemOnClick = ConfigureContextItemOnClick;
     ContextMenuBuilder.ExitContextItemOnClick = ExitContextItemOnClick;
-    IDynamicStateWatcher stateWatcher = HatcherGuide<IDynamicStateWatcher>.CreateNewInstance();
+    IDynamicStateWatcher stateWatcher = _dynamicStateWatcherFactory();
     return ContextMenuBuilder.BuildContextMenu(plantBoxes, stateWatcher);
   }
 
@@ -122,14 +141,6 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     GlobalNotifyIcon.Text = IconText;
     GlobalNotifyIcon.Icon = GetIcon();
     GlobalNotifyIcon.MouseClick += GlobalNotifyIcon_MouseClick;
-  }
-
-  protected virtual void EnsureInitialized()
-  {
-    if (!Initialized)
-    {
-      throw new NonInitializedException();
-    }
   }
 
   protected virtual void ExitContextItemOnClick(object sender, EventArgs eventArgs)
@@ -155,8 +166,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   protected virtual Icon GetIcon()
   {
-    IResourcesManager resourceManager = HatcherGuide<IResourcesManager>.Instance;
-    Icon iconResource = resourceManager.GetIconResource(TrayIconResourceName, null);
+    Icon iconResource = _resourcesManager.GetIconResource(TrayIconResourceName, null);
     if (iconResource != null)
     {
       return iconResource;
@@ -174,14 +184,14 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
 
   protected virtual void InitializePlantFromPipeline(IPlantEx plantEx)
   {
-    INotifyIconChangerMaster globalNotifyIconChanger = HatcherGuide<INotifyIconChangerMaster>.CreateNewInstance();
+    INotifyIconChangerMaster globalNotifyIconChanger = _notifyIconChangerFactory();
     globalNotifyIconChanger.Initialize(GlobalNotifyIcon);
-    InitPlantPipeline.InitPlantGMPipeline.Run(plantEx, LuggageName, globalNotifyIconChanger);
+    _pipelineRunner.Run(new InitPlantGMArgs(plantEx, LuggageName, globalNotifyIconChanger));
   }
 
   protected virtual void OpenConfigurationWindow()
   {
-    HatcherGuide<IMainWindowDisplayer>.Instance.PopupMainWindow();
+    _mainWindowDisplayer.PopupMainWindow();
   }
 
   protected override void PlantOnEnabledChanged(IPlantEx plantEx, bool newValue)

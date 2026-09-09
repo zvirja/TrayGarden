@@ -5,14 +5,15 @@ using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
+using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 
 [UsedImplicitly]
 public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserverService>
 {
-  public ClipboardListenerPresenter(IServicesSteward servicesSteward)
-    : base(servicesSteward)
+  public ClipboardListenerPresenter(IServicesSteward servicesSteward, IUIManager uiManager)
+    : base(servicesSteward, uiManager)
   {
     ServiceName = "Clipboard listener";
     ServiceDescription = "If service is enabled, plant is enabled to listen clipboard events";
@@ -27,7 +28,7 @@ public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserver
 
   protected override ServiceForPlantVMBase GetServiceVM(ClipboardObserverService serviceInstance, IPlantEx plantEx)
   {
-    var vm = new ServiceForPlantWithEnablingVM(ServiceName, ServiceDescription);
+    var vm = new ServiceForPlantWithEnablingVM(UIManager, ServiceName, ServiceDescription);
     vm.IsEnabledChanged += ViewModel_IsEnabledChanged;
     var plantBox = serviceInstance.GetPlantLuggage(plantEx);
     vm.Luggage = plantBox;

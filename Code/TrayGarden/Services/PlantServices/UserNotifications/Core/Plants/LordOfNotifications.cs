@@ -2,14 +2,16 @@
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.ResultDelivering;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Interfaces;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
-using TrayGarden.TypesHatcher;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
 
 public class LordOfNotifications : ILordOfNotifications
 {
-  public LordOfNotifications(UserNotificationsServicePlantBox relatedPlantBox)
+  private readonly IUserNotificationsGate _userNotificationsGate;
+
+  public LordOfNotifications(IUserNotificationsGate userNotificationsGate, UserNotificationsServicePlantBox relatedPlantBox)
   {
+    _userNotificationsGate = userNotificationsGate;
     RelatedPlantBox = relatedPlantBox;
   }
 
@@ -36,7 +38,7 @@ public class LordOfNotifications : ILordOfNotifications
     {
       return new FakeNotificationResultCourier();
     }
-    return HatcherGuide<IUserNotificationsGate>.Instance.EnqueueToShow(
+    return _userNotificationsGate.EnqueueToShow(
       notificationBlank,
       RelatedPlantBox.RelatedPlantEx.Plant.HumanSupportingName);
   }

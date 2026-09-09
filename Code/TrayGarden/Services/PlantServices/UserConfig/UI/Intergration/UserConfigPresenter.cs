@@ -5,6 +5,7 @@ using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
 using TrayGarden.Services.Engine;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
@@ -21,7 +22,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
   private readonly IUIManager _uiManager;
 
   public UserConfigPresenter(IServicesSteward servicesSteward, IPipelineRunner pipelineRunner, IUIManager uiManager)
-    : base(servicesSteward)
+    : base(servicesSteward, uiManager)
   {
     _pipelineRunner = pipelineRunner;
     _uiManager = uiManager;
@@ -46,7 +47,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     {
       return null;
     }
-    return new ServiceForPlantActionPerformVM(ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
+    return new ServiceForPlantActionPerformVM(UIManager, ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
   }
 
   protected virtual void RunServiceForPlant(object argument)

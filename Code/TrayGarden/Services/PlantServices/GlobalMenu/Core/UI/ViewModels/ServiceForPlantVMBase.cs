@@ -5,7 +5,6 @@ using System.Windows.Input;
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
-using TrayGarden.TypesHatcher;
 using TrayGarden.UI;
 using TrayGarden.UI.Common.Commands;
 
@@ -19,10 +18,13 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
 
   protected ICommand _showDescription;
 
-  public ServiceForPlantVMBase([NotNull] string serviceName, [NotNull] string description)
+  private readonly IUIManager _uiManager;
+
+  public ServiceForPlantVMBase(IUIManager uiManager, [NotNull] string serviceName, [NotNull] string description)
   {
     Assert.ArgumentNotNullOrEmpty(serviceName, "serviceName");
     Assert.ArgumentNotNullOrEmpty(description, "description");
+    _uiManager = uiManager;
     ServiceName = serviceName;
     Description = description;
     ShowDescription = new RelayCommand(ShowDescriptionAction, true);
@@ -95,6 +97,6 @@ public class ServiceForPlantVMBase : INotifyPropertyChanged
 
   protected virtual void ShowDescriptionAction(object o)
   {
-    HatcherGuide<IUIManager>.Instance.OKMessageBox(ServiceName, Description, MessageBoxImage.Question);
+    _uiManager.OKMessageBox(ServiceName, Description, MessageBoxImage.Question);
   }
 }

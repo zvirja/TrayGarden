@@ -8,10 +8,11 @@ using TrayGarden.Services.Engine;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ResolveSinglePlantVMPipeline;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 using TrayGarden.Services.PlantServices.RareCommands.Core;
+using TrayGarden.UI;
 
 namespace TrayGarden.Services.PlantServices.RareCommands.UI;
 
-public class RareCommandsPresenter(IServicesSteward servicesSteward)
+public class RareCommandsPresenter(IServicesSteward servicesSteward, IUIManager uiManager)
   : IPipelineProcessor<ResolveSinglePlantVMPipelineArgs>
 {
   public virtual void Process(ResolveSinglePlantVMPipelineArgs args)
@@ -62,11 +63,11 @@ public class RareCommandsPresenter(IServicesSteward servicesSteward)
 
   protected virtual ICommand GetCommandWrapper(IRareCommand rareCommand)
   {
-    return new RareCommandWrapper(rareCommand);
+    return new RareCommandWrapper(uiManager, rareCommand);
   }
 
   protected virtual ServiceForPlantVMBase GetRareCommandActionVM(IRareCommand rareCommand)
   {
-    return new ServiceForPlantActionPerformVM(rareCommand.Title, rareCommand.Description, GetCommandWrapper(rareCommand));
+    return new ServiceForPlantActionPerformVM(uiManager, rareCommand.Title, rareCommand.Description, GetCommandWrapper(rareCommand));
   }
 }

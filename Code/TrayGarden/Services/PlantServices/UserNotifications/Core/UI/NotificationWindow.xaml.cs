@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Data;
 
@@ -21,8 +22,9 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
     typeof(NotificationWindow),
     new PropertyMetadata(default(bool), ReadyToBeClosedChanged));
 
-  public NotificationWindow()
+  public NotificationWindow(IEnumerable<IViewModelToViewMapping> mappings)
   {
+    Mappings = mappings.ToList();
     SetBinding(ReadyToBeClosedProperty, new Binding("IsAlive") { Mode = BindingMode.OneWay, Converter = new BooleanNotConverter() });
 
     //Visibility = Visibility.Visible;
@@ -83,11 +85,6 @@ public partial class NotificationWindow : Window, INotificationWindow, IVMtoVMap
                typeof(YesNoNotificationVM),
                o => new YesNoNotification() { DataContext = o }),
            };
-  }
-
-  public virtual void Initialize(List<IViewModelToViewMapping> mappings)
-  {
-    Mappings = mappings;
   }
 
   public virtual void PrepareAndDisplay(NotificationWindowVM viewModel)

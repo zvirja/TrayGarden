@@ -1,16 +1,19 @@
 ﻿using System;
 using JetBrains.Annotations;
 
+using TrayGarden.UI;
+
 namespace TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels;
 
 [UsedImplicitly]
 public class ServiceForPlantWithEnablingPlantBoxBasedVM : ServiceForPlantWithEnablingVM, IDisposable
 {
   public ServiceForPlantWithEnablingPlantBoxBasedVM(
+    IUIManager uiManager,
     [NotNull] string serviceName,
     [NotNull] string description,
     ServicePlantBoxBase plantBox)
-    : base(serviceName, description)
+    : base(uiManager, serviceName, description)
   {
     AssignedPlantBox = plantBox;
     AssignedPlantBox.IsEnabledChanged += AssignedPlantBox_IsEnabledChanged;
