@@ -13,6 +13,7 @@ using TrayGarden.Pipelines.Shutdown;
 using TrayGarden.Pipelines.Startup;
 using TrayGarden.Plants;
 using TrayGarden.RuntimeSettings;
+using TrayGarden.UI;
 using TrayGarden.UI.Common;
 
 namespace TrayGarden.LifeCycle;
@@ -45,6 +46,7 @@ public class LifecycleObserver
   {
     GardenContext.RuntimeSettings = Services.GetRequiredService<IRuntimeSettingsManager>();
     GardenContext.ServiceForPlantTemplateSelector = Services.GetRequiredService<IDataTemplateSelector>();
+    GardenContext.UIManager = Services.GetRequiredService<IUIManager>();
   }
 
   protected virtual void ApplicationExit(object sender, ExitEventArgs e)

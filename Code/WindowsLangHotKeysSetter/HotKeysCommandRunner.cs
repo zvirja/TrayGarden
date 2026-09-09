@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Windows;
 
+using TrayGarden.Configuration;
 using TrayGarden.Services.PlantServices.RareCommands.Core;
-using TrayGarden.TypesHatcher;
-using TrayGarden.UI;
 
 namespace WindowsLangHotKeysSetter;
 
@@ -22,7 +21,7 @@ public class HotKeysCommandRunner : TrayGarden.Reception.Services.IProvidesRareC
 
   protected void DisplayResult(string message, bool isError)
   {
-    HatcherGuide<IUIManager>.Instance.OKMessageBox("WindowsLangHotKeysSetter", message, isError ? MessageBoxImage.Error : MessageBoxImage.Information);
+    GardenContext.UIManager.OKMessageBox("WindowsLangHotKeysSetter", message, isError ? MessageBoxImage.Error : MessageBoxImage.Information);
   }
 
   protected IRareCommand GetExecuteCommand()
