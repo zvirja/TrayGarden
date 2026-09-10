@@ -21,6 +21,8 @@ internal sealed class WrappedWindow
 
   public bool IsHidden => Exists && !PInvoke.IsWindowVisible(_hWnd);
 
+  public bool IsForeground => Exists && PInvoke.GetForegroundWindow() == _hWnd;
+
   public void Wrap(HWND hWnd)
   {
     _hWnd = hWnd;
@@ -43,6 +45,15 @@ internal sealed class WrappedWindow
     }
 
     PInvoke.ShowWindow(_hWnd, SHOW_WINDOW_CMD.SW_SHOW);
+    BringToFront();
+  }
+
+  public void BringToFront()
+  {
+    if (!Exists)
+    {
+      return;
+    }
 
     var style = (WINDOW_STYLE)(uint)PInvoke.GetWindowLong(_hWnd, WINDOW_LONG_PTR_INDEX.GWL_STYLE);
     if ((style & WINDOW_STYLE.WS_MINIMIZE) != 0)

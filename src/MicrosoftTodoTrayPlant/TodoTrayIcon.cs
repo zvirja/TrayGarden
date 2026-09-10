@@ -21,7 +21,7 @@ public class TodoTrayIcon : IStandaloneIcon, IExtendContextMenu
   public List<ToolStripMenuItem> GetStripsToAdd()
   {
     var showHide = new ToolStripMenuItem("Toggle ToDo");
-    showHide.Click += (_, _) => WrapperController.Instance.ToggleVisibility();
+    showHide.Click += (_, _) => WrapperController.Instance.ToggleShown();
 
     var closeApp = new ToolStripMenuItem("Quit ToDo");
     closeApp.Click += (_, _) => WrapperController.Instance.CloseTarget();
@@ -33,7 +33,7 @@ public class TodoTrayIcon : IStandaloneIcon, IExtendContextMenu
   {
     if (e.Button == MouseButtons.Left)
     {
-      WrapperController.Instance.ToggleVisibility();
+      WrapperController.Instance.ToggleShown();
     }
   }
 }

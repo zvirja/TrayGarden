@@ -4,11 +4,12 @@ using System.Windows;
 
 using TrayGarden.Reception;
 using TrayGarden.Reception.Services;
+using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 using TrayGarden.Services.PlantServices.IsEnabledObserver;
 
 namespace MicrosoftTodoTrayPlant;
 
-public class Plant : IPlant, IServicesDelegation, IIsEnabledObserver
+public class Plant : IPlant, IServicesDelegation, IIsEnabledObserver, IExtendsGlobalMenu
 {
   private IPlantEnabledInfo _isEnabledInfo;
 
@@ -37,6 +38,15 @@ public class Plant : IPlant, IServicesDelegation, IIsEnabledObserver
   public List<object> GetServiceDelegates()
   {
     return [TodoTrayIcon.Instance, PlantConfiguration.Instance];
+  }
+
+  public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
+  {
+    menuAppender.AppentMenuStripItem(
+      "Toggle Microsoft To Do",
+      PlantResources.LoadTrayIcon(),
+      (_, _) => WrapperController.Instance.ToggleShown());
+    return true;
   }
 
   public void ConsumeIsEnabledInfo(IPlantEnabledInfo plantEnabledInfo)

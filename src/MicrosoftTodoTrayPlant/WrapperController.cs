@@ -98,6 +98,41 @@ internal sealed class WrapperController
       switch (_state)
       {
         case WrapperState.Visible:
+          if (_wrapped.IsForeground)
+          {
+            HideWindow();
+          }
+          else
+          {
+            _wrapped.BringToFront();
+          }
+
+          break;
+        case WrapperState.Hidden:
+          ShowWindowNow();
+          break;
+        case WrapperState.Launching:
+          break;
+        default:
+          LaunchAndWrap();
+          break;
+      }
+    });
+  }
+
+  /// <summary>
+  /// "Toggle" entry in the application's global menu: a plain hidden / shown toggle. Unlike
+  /// <see cref="ToggleVisibility"/> it never brings an already-visible window to the front first -
+  /// this menu is invoked from the tray, so the wrapped window is never the foreground window and
+  /// the foreground check in <see cref="ToggleVisibility"/> would make hiding impossible from here.
+  /// </summary>
+  public void ToggleShown()
+  {
+    Dispatch(() =>
+    {
+      switch (_state)
+      {
+        case WrapperState.Visible:
           HideWindow();
           break;
         case WrapperState.Hidden:
