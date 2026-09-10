@@ -5,6 +5,7 @@
   <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />
   <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
   <Project Path="TrayGarden/TrayGarden.csproj" />
+  <Project Path="TrayGarden.Publish/TrayGarden.Publish.csproj" />
   <Project Path="WindowsLangHotKeysSetter/WindowsLangHotKeysSetter.csproj" />
   <Project Path="../build/_build.csproj">
     <Build Project="false" />

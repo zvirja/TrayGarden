@@ -1,4 +1,3 @@
-using System.Linq;
 using Fallout.Common;
 using Fallout.Common.IO;
 using Fallout.Solutions;
@@ -16,6 +15,8 @@ class Build : FalloutBuild
 
     [Solution]
     readonly Solution Solution;
+
+    const string PublishProjectName = "TrayGarden.Publish";
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / ".artifacts";
@@ -48,13 +49,11 @@ class Build : FalloutBuild
         .DependsOn(Clean, Compile)
         .Executes(() =>
         {
-            Solution.GetAllProjects("*")
-                .Where(project => project.Path != BuildProjectFile)
-                .ForEach(project => DotNetPublish(s => s
-                    .SetProject(project)
-                    .SetConfiguration(Configuration)
-                    .EnableNoBuild()
-                    .SetOutput(ArtifactsDirectory)));
+            DotNetPublish(s => s
+                .SetProject(Solution.GetProject(PublishProjectName))
+                .SetConfiguration(Configuration)
+                .EnableNoBuild()
+                .SetOutput(ArtifactsDirectory));
         });
 
 }
