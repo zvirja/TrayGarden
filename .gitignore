@@ -11,7 +11,6 @@
 [Dd]ebug/
 [Rr]elease/
 x64/
-build/
 [Bb]in/
 [Oo]bj/
 
@@ -19,8 +18,9 @@ build/
 [Tt]est[Rr]esult*/
 [Bb]uild[Ll]og.*
 
-# Custom build script results
-Output_*/
+# Fallout build
+.artifacts/
+.fallout/temp/
 
 *_i.c
 *_p.c

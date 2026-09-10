@@ -20,10 +20,10 @@ public class TodoTrayIcon : IStandaloneIcon, IExtendContextMenu
 
   public List<ToolStripMenuItem> GetStripsToAdd()
   {
-    var showHide = new ToolStripMenuItem("Show / hide To Do");
+    var showHide = new ToolStripMenuItem("Toggle ToDo");
     showHide.Click += (_, _) => WrapperController.Instance.ToggleVisibility();
 
-    var closeApp = new ToolStripMenuItem("Quit To Do");
+    var closeApp = new ToolStripMenuItem("Quit ToDo");
     closeApp.Click += (_, _) => WrapperController.Instance.CloseTarget();
 
     return new List<ToolStripMenuItem> { showHide, closeApp };

@@ -6,8 +6,6 @@
     <UseWindowsForms>true</UseWindowsForms>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 
-    <UseCommonOutputDirectory>true</UseCommonOutputDirectory>
-    <OutDir>$(SolutionDir)..\Output\$(Configuration)</OutDir>
   </PropertyGroup>
 
   <ItemGroup>

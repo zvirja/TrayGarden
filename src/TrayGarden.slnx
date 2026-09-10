@@ -1,4 +1,4 @@
-<Solution>
+﻿<Solution>
   <Project Path="ClipboardChangerPlant/ClipboardChangerPlant.csproj" />
   <Project Path="MicrosoftTodoTrayPlant/MicrosoftTodoTrayPlant.csproj" />
   <Project Path="CluedInAuthTokenPlant/CluedInAuthTokenPlant.csproj" />
@@ -6,4 +6,7 @@
   <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
   <Project Path="TrayGarden/TrayGarden.csproj" />
   <Project Path="WindowsLangHotKeysSetter/WindowsLangHotKeysSetter.csproj" />
+  <Project Path="../build/_build.csproj">
+    <Build Project="false" />
+  </Project>
 </Solution>

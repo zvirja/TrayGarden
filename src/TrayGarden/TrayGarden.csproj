@@ -4,9 +4,6 @@
     <TargetFramework>net10.0-windows</TargetFramework>
     <UseWPF>true</UseWPF>
     <UseWindowsForms>true</UseWindowsForms>
-    
-    <OutDir>$(SolutionDir)..\Output\$(Configuration)</OutDir>
-    
     <ApplicationIcon>Resources\gardenIconV5.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
