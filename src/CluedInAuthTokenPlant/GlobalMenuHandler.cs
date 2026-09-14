@@ -6,6 +6,7 @@ using System.Text;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using TrayGarden.Diagnostics;
 using TrayGarden.Reception.Services;
 using TrayGarden.Services.FleaMarket.IconChanger;
 using TrayGarden.Services.PlantServices.ClipboardObserver.Core;
@@ -37,12 +38,13 @@ public class GlobalMenuHandler : IExtendsGlobalMenu, IChangesGlobalIcon, IClipbo
             ClipboardProvider.SetCurrentClipboardText(token, silent: true);
             GlobalIconChanger.NotifySuccess();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.For(this).Error(ex, "Failed to copy CluedIn JWT token.");
             GlobalIconChanger.NotifyFailed();
         }
     }
-    
+
     private async void OnCopyTokenOrganizationClick(object sender, EventArgs e)
     {
         try
@@ -56,8 +58,9 @@ public class GlobalMenuHandler : IExtendsGlobalMenu, IChangesGlobalIcon, IClipbo
             ClipboardProvider.SetCurrentClipboardText(orgId, silent: true);
             GlobalIconChanger.NotifySuccess();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
+            Log.For(this).Error(ex, "Failed to copy CluedIn Organization ID.");
             GlobalIconChanger.NotifyFailed();
         }
     }

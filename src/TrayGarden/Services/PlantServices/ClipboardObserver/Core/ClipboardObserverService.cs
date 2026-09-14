@@ -124,12 +124,31 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
 
   public void SetClipboardValue(string newValue, bool silent)
   {
+    var awaiter = new ManualResetEventSlim(false);
+    Exception capturedException = null;
     PostToClipboardThread(
       delegate
       {
-        supressNextEvent = silent;
-        Clipboard.SetText(newValue);
+        try
+        {
+          supressNextEvent = silent;
+          Clipboard.SetText(newValue);
+        }
+        catch (Exception ex)
+        {
+          capturedException = ex;
+        }
+        finally
+        {
+          awaiter.Set();
+        }
       });
+    awaiter.Wait();
+
+    if (capturedException != null)
+    {
+      throw new InvalidOperationException("Failed to set clipboard value", capturedException);
+    }
   }
 
   /// <summary>
