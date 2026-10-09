@@ -1,11 +1,11 @@
-﻿using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
+using TrayGarden.Services.PlantServices.UserNotifications.Core;
 
 namespace TrayGarden.Reception.Services;
 
 /// <summary>
-/// This service allows plant to create the notification windows, visible to user
+/// This service allows plant to show Windows toast notifications.
 /// </summary>
 public interface IGetPowerOfUserNotifications
 {
-  void StoreLordOfNotifications(ILordOfNotifications lordOfNotifications);
+  void StoreNotifier(IUserNotifier notifier);
 }

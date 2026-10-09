@@ -12,7 +12,7 @@ public class UserNotificationsPresenter : ServicePresenterBase<UserNotifications
     : base(servicesSteward, uiManager)
   {
     ServiceName = "User notifications";
-    ServiceDescription = "If service is enabled, plant is able to display the popup notification windows";
+    ServiceDescription = "If service is enabled, plant is able to display the Windows toast notifications";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(UserNotificationsService serviceInstance, IPlantEx plantEx)

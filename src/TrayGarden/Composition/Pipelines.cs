@@ -18,7 +18,6 @@ using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 using TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
 using TrayGarden.Services.PlantServices.UserConfig.Pipelines.PlantInit;
 using TrayGarden.Services.PlantServices.UserConfig.UI.Intergration;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
 using TrayGarden.Services.PlantServices.UserNotifications.Core.Integration;
 using TrayGarden.UI.MainWindow.ResolveVMPipeline;
 using TrayGarden.UI.WindowWithReturn.Integration;
@@ -26,9 +25,6 @@ using TrayGarden.UI.WindowWithReturn.Integration;
 using AppConfigStep = TrayGarden.Configuration.ApplicationConfiguration.GetApplicationConfigStepPipeline;
 using ServicesConfigStep = TrayGarden.Services.Engine.UI.GetStateForServicesConfigurationPipeline;
 using UserConfigWindowStep = TrayGarden.Services.PlantServices.UserConfig.Pipelines.GetWindowStep;
-using UserNotificationsConfigStep =
-  TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration.UIInteraction.GetStepPipeline;
-
 namespace TrayGarden.Composition;
 
 /// <summary>
@@ -115,7 +111,6 @@ public static class Pipelines
     services.AddPipeline<GetStateForServicesConfigurationPipelineArgs>()
       .Add<InitializeGeneralSettings>()
       .Add<ServicesConfigStep.ResolveConfigurationEntries>()
-      .Add<PlantServiceConfigurator>()
       .Add<ServicesConfigStep.CreateConfigurationVM>()
       .Add<MakeResetAllCommandVisible>()
       .Add<CreateWindowWithBackState>();
@@ -129,13 +124,6 @@ public static class Pipelines
       .Add<ExitOnCloseSetting>()
       .Add<DummySettingInjection>()
       .Add<AppConfigStep.CreateStep>();
-
-    services.AddPipeline<UNConfigurationStepArgs>()
-      .Add<TuneConfigurationProperties>()
-      .Add<TuneWindowProperties>()
-      .Add<AddConfigurationEntries>()
-      .Add<CreateConfigurationControl>()
-      .Add<UserNotificationsConfigStep.CreateStep>();
 
     return services;
   }

@@ -27,11 +27,6 @@ using TrayGarden.Services.PlantServices.RareCommands.Core;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Core;
 using TrayGarden.Services.PlantServices.UserConfig.Core;
 using TrayGarden.Services.PlantServices.UserNotifications.Core;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying.DisplayProviders;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.Controls;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.SpecializedNotifications.ViewModes;
 using TrayGarden.UI;
 using TrayGarden.UI.Common;
 using TrayGarden.UI.Common.VMtoVMapping;
@@ -124,9 +119,7 @@ public static class GardenRegistration
     services.AddSingleton<Configuration.ApplicationConfiguration.Autorun.IAutorunHelper,
       Configuration.ApplicationConfiguration.Autorun.AutorunHelper>();
 
-    services.AddSingleton<TopRightCornerProvider>();
-    services.AddSingleton<IDisplayQueueProvider>(sp => sp.GetRequiredService<TopRightCornerProvider>());
-    services.AddSingleton<IUserNotificationsGate, UserNotificationsGate>();
+    services.AddSingleton<IToastGate, ToastGate>();
 
     services.AddSingleton<IDataTemplateSelector, ServiceForPlantDataTemplateSelector>();
   }
@@ -138,9 +131,6 @@ public static class GardenRegistration
 
     services.AddTransient<PlantConfig>();
     services.AddTransient<ConfigurationControl>();
-    services.AddTransient<InformNotification>();
-    services.AddTransient<ActionNotification>();
-    services.AddTransient<YesNoNotification>();
 
     services.AddSingleton<IWindowWithBack>(sp => new WindowWithBack(
       sp.GetRequiredService<IResourcesManager>(),
@@ -150,14 +140,5 @@ public static class GardenRegistration
         new ViewModelToViewMappingFactoryBased(typeof(PlantsConfigVM), typeof(PlantConfig), sp),
         new ViewModelToViewMappingFactoryBased(typeof(ConfigurationControlVM), typeof(ConfigurationControl), sp)
       }));
-
-    services.AddTransient<INotificationWindow>(sp => new NotificationWindow(
-      new IViewModelToViewMapping[]
-      {
-        new ViewModelToViewMappingFactoryBased(typeof(InformNotificationVM), typeof(InformNotification), sp),
-        new ViewModelToViewMappingFactoryBased(typeof(ActionNotificationVM), typeof(ActionNotification), sp),
-        new ViewModelToViewMappingFactoryBased(typeof(YesNoNotificationVM), typeof(YesNoNotification), sp)
-      }));
-    services.AddSingleton<INotificationWindowFactory, NotificationWindowFactory>();
   }
 }

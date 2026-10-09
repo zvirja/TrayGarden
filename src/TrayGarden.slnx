@@ -1,5 +1,4 @@
 ﻿<Solution>
-  <Project Path="ClipboardChangerPlant/ClipboardChangerPlant.csproj" />
   <Project Path="MicrosoftTodoTrayPlant/MicrosoftTodoTrayPlant.csproj" />
   <Project Path="CluedInAuthTokenPlant/CluedInAuthTokenPlant.csproj" />
   <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />

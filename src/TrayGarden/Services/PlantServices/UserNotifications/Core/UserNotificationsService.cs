@@ -1,27 +1,24 @@
 using TrayGarden.Plants;
 using TrayGarden.Reception.Services;
 using TrayGarden.RuntimeSettings;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.Configuration;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.Plants;
-using TrayGarden.Services.PlantServices.UserNotifications.Core.UI.Displaying;
 
 namespace TrayGarden.Services.PlantServices.UserNotifications.Core;
 
 public class UserNotificationsService : PlantServiceBase<UserNotificationsServicePlantBox>
 {
-  private readonly IUserNotificationsGate _userNotificationsGate;
+  private readonly IToastGate _toastGate;
 
-  public UserNotificationsService(IRuntimeSettingsManager runtimeSettingsManager, IUserNotificationsGate userNotificationsGate)
-    : base(runtimeSettingsManager, "User notifications", UserNotificationsConfiguration.SettingsBoxName)
+  public UserNotificationsService(IRuntimeSettingsManager runtimeSettingsManager, IToastGate toastGate)
+    : base(runtimeSettingsManager, "User notifications", "UserNotificationsService")
   {
-    _userNotificationsGate = userNotificationsGate;
-    ServiceDescription = "This service allows plants to show their custom pop-up notifications.";
+    _toastGate = toastGate;
+    ServiceDescription = "This service allows plants to show their Windows toast notifications.";
   }
 
   public override void InformClosingStage()
   {
     base.InformClosingStage();
-    _userNotificationsGate.DiscardAllTasks();
+    _toastGate.DiscardAll();
   }
 
   public override void InitializePlant(IPlantEx plantEx)
@@ -42,8 +39,8 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
       RelatedPlantEx = plant,
       SettingsBox = plant.MySettingsBox.GetSubBox(LuggageName)
     };
-    var lord = new LordOfNotifications(_userNotificationsGate, plantBox);
+    var notifier = new PlantNotifier(_toastGate, plantBox);
     plant.PutLuggage(LuggageName, plantBox);
-    workhorse.StoreLordOfNotifications(lord);
+    workhorse.StoreNotifier(notifier);
   }
 }
