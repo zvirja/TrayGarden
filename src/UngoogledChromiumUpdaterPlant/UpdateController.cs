@@ -14,6 +14,7 @@ using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.Services.PlantServices.GlobalMenu.Core.ContextMenuCollecting;
 using TrayGarden.Services.PlantServices.IsEnabledObserver;
 using TrayGarden.Services.PlantServices.RareCommands.Core;
+using TrayGarden.Services.PlantServices.UserNotifications.Core;
 
 using Application = System.Windows.Application;
 using MessageBoxImage = System.Windows.MessageBoxImage;
@@ -21,15 +22,18 @@ using MessageBoxImage = System.Windows.MessageBoxImage;
 namespace UngoogledChromiumUpdaterPlant;
 
 /// <summary>
-/// Checks for a new release, downloads it ahead of time and only then exposes the tray icon that installs it.
+/// Checks for a new release and downloads it ahead of time. A downloaded update is installed right away while Chromium is
+/// not running; otherwise a toast offers it and the tray icon installs it on click.
 /// </summary>
 public sealed class UpdateController : IAdvancedStandaloneIcon,
                                        INotifyIconVisibilityControl,
                                        IIsEnabledObserver,
                                        IExtendsGlobalMenu,
-                                       IProvidesRareCommands
+                                       IProvidesRareCommands,
+                                       IGetPowerOfUserNotifications
 {
   private const string DialogCaption = "Ungoogled Chromium updater";
+  private const string InstallNowId = "install";
 
   private static readonly TimeSpan RetryDelay = TimeSpan.FromMinutes(30);
   private static readonly TimeSpan ExitTimeout = TimeSpan.FromSeconds(30);
@@ -37,6 +41,8 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   private readonly SemaphoreSlim _checkGate = new(1, 1);
   private NotifyIcon _notifyIcon;
   private IPlantEnabledInfo _enabledInfo;
+  private IUserNotifier _notifier;
+  private string _offeredTag;
   private CancellationTokenSource _loopCts;
   private StagedUpdate _staged;
   private IconState _iconState;
@@ -65,6 +71,11 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   {
     _enabledInfo = plantEnabledInfo;
     _enabledInfo.IsEnabledChanged += (_, _) => ApplyEnabledState();
+  }
+
+  public void StoreNotifier(IUserNotifier notifier)
+  {
+    _notifier = notifier;
   }
 
   public bool FillProvidedContextMenuBuilder(IMenuEntriesAppender menuAppender)
@@ -150,6 +161,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
       try
       {
         await CheckOnceAsync(cancellationToken);
+        await HandleReadyUpdateAsync();
         delay = PlantConfiguration.Instance.ResolveCheckInterval();
       }
       catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
@@ -188,6 +200,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     try
     {
       await CheckOnceAsync(CancellationToken.None, check => _ = Task.Run(() => Report(check.Describe(), check.Installed == null)));
+      await HandleReadyUpdateAsync();
     }
     catch (Exception exception)
     {
@@ -206,13 +219,67 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     };
   }
 
-  private async Task InstallAndReportAsync()
+  private async Task InstallAndReportAsync(WhenRunning whenRunning)
   {
-    string error = await InstallAsync();
+    string error = await InstallAsync(whenRunning);
     if (error != null)
     {
       Report(error, true);
     }
+  }
+
+  /// <summary>
+  /// Installs a downloaded update without asking while Chromium is not running, so nothing is ever closed behind the user's
+  /// back. While it is running, offers the install once per release through a toast; the tray icon remains as the fallback.
+  /// </summary>
+  private async Task HandleReadyUpdateAsync()
+  {
+    InstalledChromium installed = InstalledChromium.TryDetect();
+    if (_staged == null || _installing || _iconState != IconState.Ready || installed == null)
+    {
+      return;
+    }
+
+    string tag = _staged.Tag;
+    if (ChromiumCloser.IsRunning(installed))
+    {
+      if (_offeredTag != tag)
+      {
+        _offeredTag = tag;
+        _ = OfferInstallAsync(tag);
+      }
+
+      return;
+    }
+
+    string error = await InstallAsync(WhenRunning.Skip);
+    if (error != null)
+    {
+      Notify("Ungoogled Chromium update failed", error);
+    }
+  }
+
+  private async Task OfferInstallAsync(string tag)
+  {
+    if (_notifier == null)
+    {
+      return;
+    }
+
+    string answer = await _notifier.ShowAsync(
+      new Toast(
+        "Ungoogled Chromium update downloaded",
+        $"{tag} is ready. Installing closes Chromium.",
+        [new ToastButton(InstallNowId, "Install now"), new ToastButton("later", "Later")]));
+    if (answer == InstallNowId)
+    {
+      await InstallAndReportAsync(WhenRunning.Close);
+    }
+  }
+
+  private void Notify(string title, string body)
+  {
+    _ = _notifier?.ShowAsync(new Toast(title, body));
   }
 
   private static void Report(string message, bool isError)
@@ -345,20 +412,20 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   {
     if (e.Button == MouseButtons.Left)
     {
-      _ = InstallAndReportAsync();
+      _ = InstallAndReportAsync(WhenRunning.Ask);
     }
   }
 
   private ContextMenuStrip CreateContextMenu()
   {
     var menu = new ContextMenuStrip();
-    menu.Items.Add("Install update", null, (_, _) => _ = InstallAndReportAsync());
+    menu.Items.Add("Install update", null, (_, _) => _ = InstallAndReportAsync(WhenRunning.Ask));
     menu.Items.Add("Check now", null, (_, _) => _ = CheckNowAsync());
     return menu;
   }
 
   /// <returns>An error message, or null when the update succeeded, was declined or there was nothing to install.</returns>
-  private async Task<string> InstallAsync()
+  private async Task<string> InstallAsync(WhenRunning whenRunning)
   {
     StagedUpdate staged = _staged;
     if (staged == null || _installing || _iconState != IconState.Ready)
@@ -382,7 +449,12 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
       }
 
       bool wasRunning = ChromiumCloser.IsRunning(installed);
-      if (wasRunning)
+      if (wasRunning && whenRunning == WhenRunning.Skip)
+      {
+        return null;
+      }
+
+      if (wasRunning && whenRunning == WhenRunning.Ask)
       {
         DialogResult answer = MessageBox.Show(
           $"Chromium is running. Close it and install {staged.Tag}?",
@@ -468,6 +540,13 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   private static void OnUiThread(Action action)
   {
     Application.Current?.Dispatcher.BeginInvoke(action);
+  }
+
+  private enum WhenRunning
+  {
+    Skip,
+    Ask,
+    Close
   }
 
   private enum IconState

@@ -6,7 +6,7 @@ namespace UngoogledChromiumUpdaterPlant;
 
 public class Plant : IPlant, IServicesDelegation
 {
-  public string Description => "Downloads new Ungoogled Chromium releases in the background and shows a tray icon that installs the update.";
+  public string Description => "Downloads new Ungoogled Chromium releases in the background and installs them while Chromium is not running; otherwise shows a tray icon that installs the update.";
 
   public string HumanSupportingName => "Ungoogled Chromium updater";
 
