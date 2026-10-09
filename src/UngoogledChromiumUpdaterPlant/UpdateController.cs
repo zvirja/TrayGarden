@@ -93,7 +93,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     [
       new SimpleRareCommand(
         "Check now",
-        "Looks for a new Ungoogled Chromium release and tells right away whether one is available. A new release is then downloaded in the background and the tray icon appears to track it and to install it.",
+        "Looks for a new Ungoogled Chromium release and shows a toast right away saying whether one is available. A new release is then downloaded in the background and the tray icon appears to track it and to install it.",
         () => _ = CheckNowAsync())
     ];
   }
@@ -193,19 +193,19 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   {
     if (_checkGate.CurrentCount == 0 || _installing)
     {
-      Report(DescribeBusyState(), false);
+      ReportCheck(DescribeBusyState());
       return;
     }
 
     try
     {
-      await CheckOnceAsync(CancellationToken.None, check => _ = Task.Run(() => Report(check.Describe(), check.Installed == null)));
+      await CheckOnceAsync(CancellationToken.None, check => ReportCheck(check.Describe()));
       await HandleReadyUpdateAsync();
     }
     catch (Exception exception)
     {
       Log.For(this).Warning(exception, "Manual Ungoogled Chromium update check failed");
-      Report($"Update check failed: {exception.Message}", true);
+      ReportCheck($"Update check failed: {exception.Message}");
     }
   }
 
@@ -280,6 +280,17 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   private void Notify(string title, string body)
   {
     _ = _notifier?.ShowAsync(new Toast(title, body));
+  }
+
+  private void ReportCheck(string message)
+  {
+    if (_notifier == null)
+    {
+      Report(message, false);
+      return;
+    }
+
+    Notify(DialogCaption, message);
   }
 
   private static void Report(string message, bool isError)

@@ -127,7 +127,7 @@ public static class UpdateStaging
   private static async Task<bool> IsValidAsync(string path, ReleaseInfo release, CancellationToken cancellationToken)
   {
     var info = new FileInfo(path);
-    if (!info.Exists || info.Length != release.Size)
+    if (!info.Exists || (release.Size > 0 && info.Length != release.Size))
     {
       return false;
     }
