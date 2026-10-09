@@ -290,7 +290,8 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
       return;
     }
 
-    Notify(DialogCaption, message);
+    // The toast already carries the plant name as attribution, so the title must say something different.
+    Notify("Update check", message);
   }
 
   private static void Report(string message, bool isError)
@@ -588,7 +589,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
 
       if (!UpdateAvailable)
       {
-        return $"Ungoogled Chromium is up to date.{Environment.NewLine}(installed {Installed.Version}, latest {Release.ChromiumVersion})";
+        return $"Chromium is up to date.{Environment.NewLine}(installed {Installed.Version}, latest {Release.ChromiumVersion})";
       }
 
       string next = AlreadyDownloaded
