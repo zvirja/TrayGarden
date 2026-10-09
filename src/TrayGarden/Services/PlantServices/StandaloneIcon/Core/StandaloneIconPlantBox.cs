@@ -1,5 +1,7 @@
 ﻿using System.Windows.Forms;
 
+using TrayGarden.Reception.Services.StandaloneIcon;
+
 namespace TrayGarden.Services.PlantServices.StandaloneIcon.Core;
 
 public class StandaloneIconPlantBox : ServicePlantBoxBase
@@ -15,7 +17,8 @@ public class StandaloneIconPlantBox : ServicePlantBoxBase
   {
     if (RelatedPlantEx.IsEnabled)
     {
-      NotifyIcon.Visible = IsEnabled;
+      var visibilityControl = RelatedPlantEx.GetFirstWorkhorseOfType<INotifyIconVisibilityControl>();
+      NotifyIcon.Visible = IsEnabled && (visibilityControl == null || visibilityControl.IsIconVisible);
     }
     else
     {

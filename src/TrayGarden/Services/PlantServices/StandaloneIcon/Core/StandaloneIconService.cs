@@ -5,6 +5,7 @@ using System.Windows.Forms;
 using TrayGarden.Diagnostics;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants;
+using TrayGarden.Reception.Services.StandaloneIcon;
 using TrayGarden.RuntimeSettings;
 using TrayGarden.Services.PlantServices.StandaloneIcon.Core.InitPlantPipeline;
 
@@ -59,6 +60,19 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   {
     base.InitializePlant(plantEx);
     InitializePlantFromPipeline(plantEx);
+    SubscribeToVisibilityControl(plantEx);
+  }
+
+  private void SubscribeToVisibilityControl(IPlantEx plantEx)
+  {
+    var siBox = GetPlantLuggage(plantEx);
+    var visibilityControl = plantEx.GetFirstWorkhorseOfType<INotifyIconVisibilityControl>();
+    if (siBox == null || visibilityControl == null)
+    {
+      return;
+    }
+
+    visibilityControl.IsIconVisibleChanged += (_, _) => Application.Current?.Dispatcher.BeginInvoke(siBox.FixNIVisibility);
   }
 
   private void CloseComponentClick(object sender, EventArgs eventArgs)
