@@ -45,6 +45,10 @@ internal class KeyboardHookProcessingForm : Form
   [DllImport("user32.dll", SetLastError = true)]
   private static extern int GetWindowLong(IntPtr hWnd, int nIndex);
 
+  [DllImport("user32.dll")]
+  [return: MarshalAs(UnmanagedType.Bool)]
+  private static extern bool IsZoomed(IntPtr hWnd);
+
 
   [DllImport("user32.dll", SetLastError = true)]
   [return: MarshalAs(UnmanagedType.Bool)]
@@ -76,15 +80,24 @@ internal class KeyboardHookProcessingForm : Form
     }
 
 
+    var maximizeMode = PlantConfiguration.Instance.MaximizeMode.Value;
+    var shouldMaximizeOnActivate = maximizeMode is PlantConfiguration.MaximizeModes.OnShow or PlantConfiguration.MaximizeModes.OnShowOrNormal;
+
     var isMinimizedNow = (GetWindowLong(targetAppWindow, GWL_STYLE) & WS_MINIMIZE) != 0;
     var foregroundWindow = GetForegroundWindow();
 
     if (foregroundWindow == targetAppWindow)
     {
-      // If we are hiding this window - try to switch to the previous one.
-      if (isMinimizedNow)
+      if (maximizeMode == PlantConfiguration.MaximizeModes.OnShowOrNormal && !isMinimizedNow && !IsZoomed(targetAppWindow))
       {
-        ShowWindow(targetAppWindow, PlantConfiguration.Instance.ShowMaximized.Value ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
+        // Window is shown but not maximized yet (e.g. just restored by the user) - maximize it first,
+        // so the next press has a maximized/minimized pair to cycle between.
+        ShowWindow(targetAppWindow, WindowShowStyle.ShowMaximized);
+      }
+      // If we are hiding this window - try to switch to the previous one.
+      else if (isMinimizedNow)
+      {
+        ShowWindow(targetAppWindow, shouldMaximizeOnActivate ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
       }
       else
       {
@@ -101,7 +114,7 @@ internal class KeyboardHookProcessingForm : Form
       //Make the app window active. Store the current active window.
       _lastForegroundWindow = GetForegroundWindow();
 
-      ShowWindow(targetAppWindow, PlantConfiguration.Instance.ShowMaximized.Value ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
+      ShowWindow(targetAppWindow, shouldMaximizeOnActivate ? WindowShowStyle.ShowMaximized : WindowShowStyle.Restore);
       SetForegroundWindow(targetAppWindow);
     }
   }
