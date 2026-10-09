@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Net.Http.Json;
 using System.Text;
+using System.Text.Json;
 using System.Text.Json.Nodes;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -91,8 +92,21 @@ public class GlobalMenuHandler : IExtendsGlobalMenu, IChangesGlobalIcon, IClipbo
                 })
         );
 
-        var responseObj = await response.Content.ReadFromJsonAsync<AuthResponse>();
-        
+        var responseBody = await response.Content.ReadAsStringAsync();
+
+        if (!response.IsSuccessStatusCode)
+        {
+            throw new InvalidOperationException(
+                $"Auth request failed with status {(int)response.StatusCode} ({response.StatusCode}): {responseBody}");
+        }
+
+        var responseObj = JsonSerializer.Deserialize<AuthResponse>(responseBody);
+
+        if (string.IsNullOrEmpty(responseObj?.Token))
+        {
+            throw new InvalidOperationException($"Auth response did not contain an access token: {responseBody}");
+        }
+
         return responseObj.Token;
     }
     
