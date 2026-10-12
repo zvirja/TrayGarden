@@ -14,7 +14,7 @@ public class GlobalMenuServiceMenuEmbeddingPresenter : ServicePresenterBase<Glob
     : base(servicesSteward, uiManager)
   {
     ServiceName = "Embedding to global menu";
-    ServiceDescription = "If service is enabled, plant is enabled to embed its row to global menu.";
+    ServiceDescription = "Embed a row into the global menu";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(GlobalMenuService serviceInstance, IPlantEx plantEx)

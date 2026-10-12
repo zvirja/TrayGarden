@@ -20,7 +20,7 @@ public abstract class ServicePresenterBase<TServiceType> : IPipelineProcessor<Re
     ServicesSteward = servicesSteward;
     UIManager = uiManager;
     ServiceName = typeof(TServiceType).Name;
-    ServiceDescription = "<this service doesn't provide description>";
+    ServiceDescription = "<no description>";
   }
 
   public string ServiceDescription { get; set; }

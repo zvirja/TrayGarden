@@ -1,5 +1,8 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Linq;
 using JetBrains.Annotations;
 
 using TrayGarden.Diagnostics;
@@ -83,10 +86,29 @@ public class SinglePlantVM : INotifyPropertyChanged
       {
         return;
       }
+      if (_servicesVM != null)
+      {
+        _servicesVM.CollectionChanged -= ServicesVM_CollectionChanged;
+      }
       _servicesVM = value;
-      OnPropertyChanged("ServicesVM");
+      if (_servicesVM != null)
+      {
+        _servicesVM.CollectionChanged += ServicesVM_CollectionChanged;
+      }
+      OnServicesChanged();
     }
   }
+
+  public IEnumerable<ServiceForPlantWithEnablingVM> ToggleServices => ServicesVM.OfType<ServiceForPlantWithEnablingVM>().ToList();
+
+  public bool HasToggleServices => ServicesVM.OfType<ServiceForPlantWithEnablingVM>().Any();
+
+  public ServiceForPlantUserSettingsVM SettingsService => ServicesVM.OfType<ServiceForPlantUserSettingsVM>().FirstOrDefault();
+
+  public bool HasRareCommands => RareCommands.Any();
+
+  public IEnumerable<ServiceForPlantActionPerformVM> RareCommands =>
+    ServicesVM.OfType<ServiceForPlantActionPerformVM>().Where(x => x is not ServiceForPlantUserSettingsVM).ToList();
 
   public IPlantEx UnderlyingPlant { get; set; }
 
@@ -109,8 +131,23 @@ public class SinglePlantVM : INotifyPropertyChanged
     }
   }
 
-  private void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+  private void OnServicesChanged()
   {
     OnPropertyChanged("ServicesVM");
+    OnPropertyChanged("ToggleServices");
+    OnPropertyChanged("HasToggleServices");
+    OnPropertyChanged("SettingsService");
+    OnPropertyChanged("RareCommands");
+    OnPropertyChanged("HasRareCommands");
+  }
+
+  private void ServicesVM_CollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+  {
+    OnServicesChanged();
+  }
+
+  private void UnderlyingPlant_EnabledChanged(IPlantEx plantEx, bool newValue)
+  {
+    OnServicesChanged();
   }
 }

@@ -41,7 +41,7 @@ public class WindowWithBackVM : INotifyPropertyChanged, IDisposable
     _backCommand = new RelayCommand(BackExecute, false);
     _helpActions = new ObservableCollection<ActionCommandVM>();
     _helpActions.CollectionChanged += HelpActions_CollectionChanged;
-    _copyrightTitle = "Zvirja Inc (c)";
+    _copyrightTitle = "@zvirja";
     _steps = new Stack<WindowStepState>();
     SelfSettingsBox = _runtimeSettingsManager.SystemSettings.GetSubBox("WindowWithBackVMBase");
 

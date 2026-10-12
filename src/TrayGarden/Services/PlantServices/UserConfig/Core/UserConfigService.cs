@@ -16,7 +16,7 @@ public class UserConfigService : PlantServiceBase<UserConfigServicePlantBox>
     : base(runtimeSettingsManager, "User Config", "UserConfigService")
   {
     _pipelineRunner = pipelineRunner;
-    ServiceDescription = "Service provides plant with user-configurable settings. These settings may be configured through UI.";
+    ServiceDescription = "Provide user-configurable plant settings, editable through UI";
   }
 
   public override void InitializePlant(IPlantEx plantEx)

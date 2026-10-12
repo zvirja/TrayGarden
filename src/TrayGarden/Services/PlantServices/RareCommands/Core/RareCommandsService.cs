@@ -18,7 +18,7 @@ public class RareCommandsService : PlantServiceBase<RareCommandsServicePlantBox>
     : base(runtimeSettingsManager, "Rare Commands", "RareCommandsService")
   {
     _pipelineRunner = pipelineRunner;
-    ServiceDescription = "This service allows to specify rare commands, which are available only thorough the main window.";
+    ServiceDescription = "Provide rare commands, available only through the main window";
   }
 
   public override void InitializePlant(IPlantEx plantEx)

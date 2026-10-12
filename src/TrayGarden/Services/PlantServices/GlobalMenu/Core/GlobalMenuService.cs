@@ -59,7 +59,7 @@ public class GlobalMenuService : PlantServiceBase<GlobalMenuPlantBox>
     ContextMenuBuilder = contextMenuBuilder;
     IconText = "Tray Garden";
     TrayIconResourceName = options.Value.GlobalMenu.TrayIconResourceName;
-    ServiceDescription = "Service displays the main tray icon. May provide plants with ability to embed their own context menu entries. This service cannot be disabled";
+    ServiceDescription = "Display the main tray icon and let plants embed their own context menu entries. Cannot be disabled";
   }
 
   public override bool CanBeDisabled

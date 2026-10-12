@@ -1,27 +1,45 @@
-﻿<UserControl x:Class="TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views.PlantConfig"
+<UserControl x:Class="TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Views.PlantConfig"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:viewModels="clr-namespace:TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.ViewModels"
-             xmlns:stuff="clr-namespace:TrayGarden.Services.PlantServices.GlobalMenu.Core.UI.Stuff"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
              d:DesignHeight="300" d:DesignWidth="500">
     <UserControl.Resources>
-        <Style x:Key="ServiceInsidePlantBorder" TargetType="Border">
-            <Setter Property="BorderThickness" Value="1" />
-            <Setter Property="BorderBrush" Value="LightSeaGreen" />
-            <Setter Property="Margin" Value="5" />
+        <Style x:Key="HeaderIconButton" TargetType="Button" BasedOn="{StaticResource LinkButton}">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="Margin" Value="4 0" />
+            <Setter Property="Padding" Value="4" />
+            <Setter Property="Foreground" Value="#444444" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Foreground" Value="Black" />
+                </Trigger>
+            </Style.Triggers>
         </Style>
-        <Style x:Key="DescriptionButton" TargetType="Button" BasedOn="{StaticResource LinkButton}">
-            <Setter Property="Margin" Value="30 0 0 0"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Command" Value="{Binding Path=ShowDescription}" />
-            <Setter Property="Content" Value="Description" />
-            <Setter Property="FontSize" Value="14" />
+        <Style x:Key="HeaderIconToggle" TargetType="ToggleButton">
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="Margin" Value="4 0" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ToggleButton">
+                        <Border x:Name="border" CornerRadius="3" Padding="4" Background="Transparent">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#22000000" />
+                            </Trigger>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="border" Property="Background" Value="#33000000" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
-        <stuff:ServiceForPlantDataTemplateSelectorProxy x:Key="ServiceForPlantDataTemplateSelectorProxy" />
         <DataTemplate x:Key="SinglePlant">
 
             <Border CornerRadius="2" BorderBrush="DarkOliveGreen" BorderThickness="2" Margin="5">
@@ -58,77 +76,96 @@
                     </ToggleButton>
 
                     <Grid x:Name="PlantServicesGrid" Grid.Column="1" Margin="5" IsEnabled="{Binding ElementName=ButtonContainerForCheckBox, Path=IsChecked}">
+                        <Grid.Style>
+                            <Style TargetType="Grid">
+                                <Style.Triggers>
+                                    <Trigger Property="IsEnabled" Value="False">
+                                        <Setter Property="Opacity" Value="0.4" />
+                                    </Trigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Grid.Style>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition Height="Auto" />
                             <RowDefinition />
                         </Grid.RowDefinitions>
-                        <TextBlock FontSize="20" Padding="30 0" Text="{Binding Path=Name}" />
+
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <TextBlock FontSize="20" Padding="30 0" VerticalAlignment="Center" Text="{Binding Path=Name}" />
+
+                            <ToggleButton x:Name="ServicesToggle" Grid.Column="1"
+                                          Content="🧰" ToolTip="Services"
+                                          IsHitTestVisible="{Binding ElementName=ServicesPopup, Path=IsOpen, Converter={StaticResource BooleanNotConverter}}">
+                                <ToggleButton.Style>
+                                    <Style TargetType="ToggleButton" BasedOn="{StaticResource HeaderIconToggle}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=HasToggleServices}" Value="False">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </ToggleButton.Style>
+                            </ToggleButton>
+                            <Popup x:Name="ServicesPopup" PlacementTarget="{Binding ElementName=ServicesToggle}" Placement="Bottom"
+                                   StaysOpen="False" AllowsTransparency="True"
+                                   IsOpen="{Binding ElementName=ServicesToggle, Path=IsChecked, Mode=TwoWay}">
+                                <Border Background="White" BorderBrush="Gray" BorderThickness="1" CornerRadius="3" Padding="8 6">
+                                    <ItemsControl ItemsSource="{Binding Path=ToggleServices}">
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <CheckBox IsChecked="{Binding Path=IsEnabled}" Margin="0 3" VerticalContentAlignment="Center"
+                                                          FontSize="16" Cursor="Hand" Content="{Binding Path=ServiceName}"
+                                                          ToolTip="{Binding Path=Description}" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+                                </Border>
+                            </Popup>
+
+                            <Button Grid.Column="2" Content="🛠️" ToolTip="{Binding Path=SettingsService.Description}"
+                                    Command="{Binding Path=SettingsService.PerformServiceAction}">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource HeaderIconButton}">
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding Path=SettingsService}" Value="{x:Null}">
+                                                <Setter Property="Visibility" Value="Collapsed" />
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
+                            </Button>
+                        </Grid>
+
                         <TextBlock Grid.Row="1" TextWrapping="Wrap" FontSize="14" Foreground="#808080" Text="{Binding Path=Description}" />
-                        <Separator Grid.Row="2"/>
-                        <ItemsControl Grid.Row="3" ItemsSource="{Binding Path=ServicesVM}" ItemTemplateSelector="{StaticResource ServiceForPlantDataTemplateSelectorProxy}" >
-                            <ItemsControl.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel></StackPanel>
-                                </ItemsPanelTemplate>
-                            </ItemsControl.ItemsPanel>
-                            <ItemsControl.Resources>
-                                <DataTemplate x:Key="ServiceForPlantWithEnabling" DataType="{x:Type viewModels:ServiceForPlantWithEnablingVM}">
-                                    <!--<Border Style="{StaticResource ServiceInsidePlantBorder}" >-->
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <CheckBox IsChecked="{Binding Path=IsEnabled}" Margin="10 2" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Cursor="Hand" Content="{Binding Path=ServiceName}" />
-                                            <Button Grid.Column="1" Style="{StaticResource DescriptionButton}" />
-                                        </Grid>
-                                        <Separator />
-                                    </StackPanel>
-                                    <!--</Border>-->
+                        <StackPanel Grid.Row="2" Grid.RowSpan="2">
+                            <StackPanel.Style>
+                                <Style TargetType="StackPanel">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Path=HasRareCommands}" Value="False">
+                                            <Setter Property="Visibility" Value="Collapsed" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </StackPanel.Style>
+                            <Separator />
+                        <ItemsControl ItemsSource="{Binding Path=RareCommands}">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <Button Margin="30 2" Style="{StaticResource LinkButton}" HorizontalAlignment="Left"
+                                            Content="{Binding Path=ServiceName}" ContentStringFormat="▶  {0}"
+                                            ToolTip="{Binding Path=Description}"
+                                            Command="{Binding Path=PerformServiceAction}" />
                                 </DataTemplate>
-                                <DataTemplate x:Key="ServiceForPlantActionPerform" DataType="{x:Type viewModels:ServiceForPlantActionPerformVM}">
-                                    <!--<Border Style="{StaticResource ServiceInsidePlantBorder}" >-->
-                                    <StackPanel>
-                                        <Grid>
-                                            <Grid.ColumnDefinitions>
-                                                <ColumnDefinition Width="*" />
-                                                <ColumnDefinition Width="Auto" />
-                                            </Grid.ColumnDefinitions>
-                                            <Button Margin="30 2" Style="{StaticResource LinkButton}" HorizontalAlignment="Left" Content="{Binding Path=ServiceName}" Command="{Binding Path=PerformServiceAction}" />
-                                            <Button Grid.Column="1" Style="{StaticResource DescriptionButton}" />
-                                        </Grid>
-                                        <Separator />
-                                    </StackPanel>
-                                    <!--</Border>-->
-                                </DataTemplate>
-                                <DataTemplate x:Key="DefaultMode" DataType="{x:Type viewModels:ServiceForPlantVMBase}">
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal">
-                                            <TextBlock Margin="5 0" VerticalAlignment="Center" HorizontalAlignment="Center">View for VM wasn't found. Service name:</TextBlock>
-                                            <TextBlock Text="{Binding Path=ServiceName}"/>
-                                        </StackPanel>
-                                        <Separator />
-                                    </StackPanel>
-                                </DataTemplate>
-                            </ItemsControl.Resources>
+                            </ItemsControl.ItemTemplate>
                         </ItemsControl>
-                        <!--  <StackPanel Grid.Row="2">
-                            <Border Style="{StaticResource ServiceInsidePlantBorder}" >
-                                <StackPanel Orientation="Horizontal">
-                                    <CheckBox Margin="10" VerticalAlignment="Center" VerticalContentAlignment="Center" FontSize="16" Cursor="Hand">Embedded menu</CheckBox>
-                                    <Button Margin="30 0 0 0" HorizontalAlignment="Center" Style="{StaticResource LinkButton}" Command="{Binding Path=ShowDescription}">Description</Button>
-                                </StackPanel>
-                            </Border>
-                            <Border Style="{StaticResource ServiceInsidePlantBorder}" >
-                                <StackPanel Orientation="Horizontal">
-                                    <Button Margin="30 10" Style="{StaticResource LinkButton}" HorizontalAlignment="Left">Open user settings</Button>
-                                    <Button Margin="30 0 0 0" HorizontalAlignment="Center" Style="{StaticResource LinkButton}" Command="{Binding Path=ShowDescription}">Description</Button>
-                                </StackPanel>
-                            </Border>
-                        </StackPanel>-->
+                        </StackPanel>
                     </Grid>
                 </Grid>
             </Border>

@@ -16,7 +16,7 @@ public class ClipboardListenerPresenter : ServicePresenterBase<ClipboardObserver
     : base(servicesSteward, uiManager)
   {
     ServiceName = "Clipboard listener";
-    ServiceDescription = "If service is enabled, plant is enabled to listen clipboard events";
+    ServiceDescription = "Listen to clipboard events";
   }
 
   public static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)

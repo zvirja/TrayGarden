@@ -9,7 +9,7 @@ internal class IsEnabledObserverService : PlantServiceBase<IsEnabledObserverPlan
     public IsEnabledObserverService(IRuntimeSettingsManager runtimeSettingsManager)
         : base(runtimeSettingsManager, "Is Enabled Info", nameof(IsEnabledObserverService))
     {
-        ServiceDescription = "Provides plant with run time info if it's enabled";
+        ServiceDescription = "Tell the plant at run time whether it's enabled";
     }
 
     public override bool CanBeDisabled => false;

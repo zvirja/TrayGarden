@@ -27,7 +27,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     _pipelineRunner = pipelineRunner;
     _uiManager = uiManager;
     ServiceName = "Runtime user settings";
-    ServiceDescription = "This service allows to configure user settings for plant";
+    ServiceDescription = "Open plant settings";
   }
 
   private ICommand GetCommand(object plantEx)
@@ -47,7 +47,7 @@ public class UserConfigPresenter : ServicePresenterBase<UserConfigService>
     {
       return null;
     }
-    return new ServiceForPlantActionPerformVM(UIManager, ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
+    return new ServiceForPlantUserSettingsVM(UIManager, ServiceName, ServiceDescription, GetCommand(userConfigServicePlantBox));
   }
 
   private void RunServiceForPlant(object argument)

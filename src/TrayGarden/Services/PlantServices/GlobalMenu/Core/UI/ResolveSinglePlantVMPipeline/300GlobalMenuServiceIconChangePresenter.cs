@@ -15,7 +15,7 @@ public class GlobalMenuServiceIconChangePresenter : ServicePresenterBase<GlobalM
     : base(servicesSteward, uiManager)
   {
     ServiceName = "Changing of global icon";
-    ServiceDescription = "If service is enabled, plant is enabled to change the global tray icon.";
+    ServiceDescription = "Change the global tray icon";
   }
 
   private static void ViewModel_IsEnabledChanged(ServiceForPlantWithEnablingVM sender, bool newValue)

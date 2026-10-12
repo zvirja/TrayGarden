@@ -12,7 +12,7 @@ public class StandaloneIconServicePresenter : ServicePresenterBase<StandaloneIco
     : base(servicesSteward, uiManager)
   {
     ServiceName = "Standalone tray icon";
-    ServiceDescription = "If service is enabled, plant is enabled to show the standalone icon in the system tray.";
+    ServiceDescription = "Show a standalone icon in the system tray";
   }
 
   protected override ServiceForPlantVMBase GetServiceVM(StandaloneIconService serviceInstance, IPlantEx plantEx)

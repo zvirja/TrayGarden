@@ -24,7 +24,7 @@ public class StandaloneIconService : PlantServiceBase<StandaloneIconPlantBox>
   {
     _gardenbed = gardenbed;
     _pipelineRunner = pipelineRunner;
-    ServiceDescription = "Service provides plants with ability to host their own standalone tray icons.";
+    ServiceDescription = "Host standalone tray icons for plants";
   }
 
   public override void InformClosingStage()

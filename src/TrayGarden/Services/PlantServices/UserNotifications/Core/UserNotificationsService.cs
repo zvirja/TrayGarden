@@ -12,7 +12,7 @@ public class UserNotificationsService : PlantServiceBase<UserNotificationsServic
     : base(runtimeSettingsManager, "User notifications", "UserNotificationsService")
   {
     _toastGate = toastGate;
-    ServiceDescription = "This service allows plants to show their Windows toast notifications.";
+    ServiceDescription = "Show Windows toast notifications from plants";
   }
 
   public override void InformClosingStage()

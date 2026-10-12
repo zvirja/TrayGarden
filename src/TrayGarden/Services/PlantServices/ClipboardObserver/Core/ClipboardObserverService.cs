@@ -36,7 +36,7 @@ public class ClipboardObserverService : PlantServiceBase<ClipboardObserverPlantB
     : base(runtimeSettingsManager, "Clipboard Observer", "ClipboardObserverService")
   {
     Gardenbed = gardenbed;
-    ServiceDescription = "Service monitors the clipboard and deliver change notifications to plants.";
+    ServiceDescription = "Monitor the clipboard and notify plants about changes";
     MaxAllowedTextLength = 100000;
     supressNextEvent = false;
     SelfProvider = new ClipboardProvider(this);

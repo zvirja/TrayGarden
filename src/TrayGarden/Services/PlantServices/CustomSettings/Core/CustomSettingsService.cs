@@ -13,7 +13,7 @@ public class CustomSettingsService : PlantServiceBase<ClipboardObserverPlantBox>
   public CustomSettingsService(IRuntimeSettingsManager runtimeSettingsManager)
     : base(runtimeSettingsManager, "Custom settings", "CustomSettingsService")
   {
-    ServiceDescription = "Service provides plants with settings storage. For plant internal usage.";
+    ServiceDescription = "Store plant settings. For plant internal usage";
   }
 
   public override void InitializePlant(IPlantEx plantEx)

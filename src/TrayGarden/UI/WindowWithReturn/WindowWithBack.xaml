@@ -96,14 +96,14 @@
             </StackPanel>
 
             <TextBlock 
-                Text="{Binding Path=CopyrightTitle,TargetNullValue='Zvirja Inc (c)', FallbackValue='Zvirja Inc (c)'}"
-                Grid.Column="2" 
-                VerticalAlignment="Center" 
-                HorizontalAlignment="Center" 
-                FontSize="15" 
-                FontWeight="Bold" 
+                Text="{Binding Path=CopyrightTitle,TargetNullValue='@zvirja', FallbackValue='@zvirja'}"
+                Grid.Column="2"
+                VerticalAlignment="Center"
+                HorizontalAlignment="Center"
+                FontSize="15"
+                FontWeight="Bold"
                 Foreground="DarkGreen" />
-           
+
         </Grid>
     </Grid>
 </Window>
