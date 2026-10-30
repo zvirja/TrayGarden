@@ -10,6 +10,8 @@
 
   <ItemGroup>
     <ProjectReference Include="..\*\*.csproj" Exclude="..\$(MSBuildProjectName)\$(MSBuildProjectName).csproj" />
+    <Content Include="..\TrayGarden\bin\$(Configuration)\$(TargetFramework)\TrayGarden.runtimeconfig.json" Link="TrayGarden.runtimeconfig.json" CopyToPublishDirectory="PreserveNewest" />
+    <Content Include="..\TrayGarden\bin\$(Configuration)\$(TargetFramework)\TrayGarden.deps.json" Link="TrayGarden.deps.json" CopyToPublishDirectory="PreserveNewest" />
   </ItemGroup>
 
 </Project>

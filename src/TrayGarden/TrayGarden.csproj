@@ -6,6 +6,7 @@
     <ApplicationIcon>Resources\gardenIconV5.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
     <PackageReference Include="CommunityToolkit.WinUI.Notifications" Version="7.1.2" />
     <PackageReference Include="Serilog" Version="4.3.1" />
     <PackageReference Include="Serilog.Settings.Configuration" Version="10.0.0" />

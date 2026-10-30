@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Library</OutputType>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>true</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="DevDashboard.Agent" Version="0.1.0.96" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TrayGarden\TrayGarden.csproj" />
+  </ItemGroup>
+</Project>

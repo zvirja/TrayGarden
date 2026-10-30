@@ -1,6 +1,7 @@
 ﻿<Solution>
   <Project Path="MicrosoftTodoTrayPlant/MicrosoftTodoTrayPlant.csproj" />
   <Project Path="CluedInAuthTokenPlant/CluedInAuthTokenPlant.csproj" />
+  <Project Path="DevDashboardAgentPlant/DevDashboardAgentPlant.csproj" />
   <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />
   <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
   <Project Path="TrayGarden/TrayGarden.csproj" />
