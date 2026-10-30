@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <FrameworkReference Include="Microsoft.AspNetCore.App" />
-    <PackageReference Include="DevDashboard.Agent" Version="0.1.0.96" />
+    <PackageReference Include="DevDashboard.Agent" Version="0.1.0.97" />
   </ItemGroup>
 
   <ItemGroup>
