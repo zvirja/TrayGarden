@@ -120,7 +120,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     }
 
     _staged = new StagedUpdate(pending.Tag, pending.ChromiumVersion, pending.Path);
-    SetIconState(IconState.Ready, installed.ExePath, $"Ungoogled Chromium {pending.Tag} is ready - click to install");
+    SetIconState(IconState.Ready, installed.ExePath, "Ungoogled Chromium update is ready - click to install");
   }
 
   private void ApplyEnabledState()
@@ -214,7 +214,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     return _iconState switch
     {
       IconState.Installing => "Ungoogled Chromium is being updated right now.",
-      IconState.Ready => $"Ungoogled Chromium {_staged?.Tag} is downloaded. Click the tray icon to install it.",
+      IconState.Ready => "Ungoogled Chromium update is downloaded. Click the tray icon to install it.",
       _ => "An update check or download is already in progress. Watch the tray icon."
     };
   }
@@ -246,7 +246,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
       if (_offeredTag != tag)
       {
         _offeredTag = tag;
-        _ = OfferInstallAsync(tag);
+        _ = OfferInstallAsync();
       }
 
       return;
@@ -259,7 +259,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     }
   }
 
-  private async Task OfferInstallAsync(string tag)
+  private async Task OfferInstallAsync()
   {
     if (_notifier == null)
     {
@@ -269,7 +269,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
     string answer = await _notifier.ShowAsync(
       new Toast(
         "Ungoogled Chromium update downloaded",
-        $"{tag} is ready. Installing closes Chromium.",
+        "An update is ready. Installing closes Chromium.",
         [new ToastButton(InstallNowId, "Install now"), new ToastButton("later", "Later")]));
     if (answer == InstallNowId)
     {
@@ -332,7 +332,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
         return;
       }
 
-      SetIconState(IconState.Downloading, installed.ExePath, $"Downloading Ungoogled Chromium {release.Tag}...");
+      SetIconState(IconState.Downloading, installed.ExePath, "Downloading Ungoogled Chromium update...");
       onDetermined?.Invoke(new CheckResult(installed, release, false));
       string installerPath;
       try
@@ -357,7 +357,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   private void PublishStaged(StagedUpdate staged, InstalledChromium installed)
   {
     _staged = staged;
-    SetIconState(IconState.Ready, installed.ExePath, $"Ungoogled Chromium {staged.Tag} is ready - click to install");
+    SetIconState(IconState.Ready, installed.ExePath, "Ungoogled Chromium update is ready - click to install");
   }
 
   private void ClearStaged()
@@ -375,7 +375,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
   {
     if (_staged != null)
     {
-      SetIconState(IconState.Ready, installed.ExePath, $"Ungoogled Chromium {_staged.Tag} is ready - click to install");
+      SetIconState(IconState.Ready, installed.ExePath, "Ungoogled Chromium update is ready - click to install");
     }
     else
     {
@@ -469,7 +469,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
       if (wasRunning && whenRunning == WhenRunning.Ask)
       {
         DialogResult answer = MessageBox.Show(
-          $"Chromium is running. Close it and install {staged.Tag}?",
+          "Chromium is running. Close it and install the update?",
           DialogCaption,
           MessageBoxButtons.YesNo,
           MessageBoxIcon.Question);
@@ -479,7 +479,7 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
         }
       }
 
-      SetIconState(IconState.Installing, installed.ExePath, $"Installing Ungoogled Chromium {staged.Tag}...");
+      SetIconState(IconState.Installing, installed.ExePath, "Installing Ungoogled Chromium update...");
       if (wasRunning)
       {
         if (!await ChromiumCloser.ExitGracefullyAsync(installed, ExitTimeout))
@@ -589,13 +589,13 @@ public sealed class UpdateController : IAdvancedStandaloneIcon,
 
       if (!UpdateAvailable)
       {
-        return $"Chromium is up to date.{Environment.NewLine}(installed {Installed.Version}, latest {Release.ChromiumVersion})";
+        return "Chromium is up to date.";
       }
 
       string next = AlreadyDownloaded
         ? "It is already downloaded: click the tray icon to install it."
         : "It is being downloaded: watch the tray icon, then click it to install.";
-      return $"Update available: {Release.Tag}.{Environment.NewLine}(installed {Installed.Version}){Environment.NewLine}{next}";
+      return $"Update available.{Environment.NewLine}{next}";
     }
   }
 }
