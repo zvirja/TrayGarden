@@ -6,7 +6,6 @@ public class TrayGardenOptions
 
   public string AppDataFolderName { get; set; } = "TrayGarden";
 
-  public string PlantsAutodetectFolder { get; set; } = "";
 
   public GlobalMenuOptions GlobalMenu { get; set; } = new();
 

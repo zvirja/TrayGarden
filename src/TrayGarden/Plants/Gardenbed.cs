@@ -1,15 +1,12 @@
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Reflection;
 using JetBrains.Annotations;
 
-using Microsoft.Extensions.Options;
+using Microsoft.Extensions.DependencyModel;
 
-using TrayGarden.Configuration.Options;
 using TrayGarden.Diagnostics;
-using TrayGarden.Helpers;
 using TrayGarden.Pipelines.Engine;
 using TrayGarden.Plants.Pipeline;
 using TrayGarden.Reception;
@@ -23,13 +20,11 @@ public class Gardenbed : IGardenbed
 
   private readonly IPipelineRunner _pipelineRunner;
 
-  private readonly string _plantsAutodetectFolder;
 
-  public Gardenbed(IRuntimeSettingsManager runtimeSettingsManager, IPipelineRunner pipelineRunner, IOptions<TrayGardenOptions> options)
+  public Gardenbed(IRuntimeSettingsManager runtimeSettingsManager, IPipelineRunner pipelineRunner)
   {
     _runtimeSettingsManager = runtimeSettingsManager;
     _pipelineRunner = pipelineRunner;
-    _plantsAutodetectFolder = options.Value.PlantsAutodetectFolder;
     Plants = new Dictionary<string, IPlantEx>();
   }
 
@@ -106,19 +101,6 @@ public class Gardenbed : IGardenbed
     Initialized = true;
   }
 
-  private DirectoryInfo GetAutoIncludeDirectory()
-  {
-    string folderSetting = _plantsAutodetectFolder ?? string.Empty;
-    string workingDirectory = DirectoryHelper.CurrentDirectory;
-    Log.For(this).Debug("Gardenbed. CurrentDirectory: {WorkingDirectory}", workingDirectory);
-    if (folderSetting.NotNullNotEmpty())
-    {
-      workingDirectory = Path.Combine(workingDirectory, folderSetting);
-    }
-    Log.For(this).Information("Gardenbed. Lookup directory: {WorkingDirectory}", workingDirectory);
-    return new DirectoryInfo(workingDirectory);
-  }
-
   private List<IPlant> GetAutoIncludePlants()
   {
     var result = new List<IPlant>();
@@ -126,21 +108,10 @@ public class Gardenbed : IGardenbed
     {
       return result;
     }
-    DirectoryInfo autoincludeDirectory = GetAutoIncludeDirectory();
-    if (!autoincludeDirectory.Exists)
+
+    foreach (Assembly assembly in GetReferencedProjectAssemblies())
     {
-      return result;
-    }
-    FileInfo[] assembliesFileInfos = autoincludeDirectory.GetFiles("*.dll", SearchOption.TopDirectoryOnly);
-    foreach (FileInfo assemblyFileInfo in assembliesFileInfos)
-    {
-      // We do not want to load entry assembly one more time, as it's already loaded
-      if (string.Equals(assemblyFileInfo.FullName, Assembly.GetEntryAssembly()?.Location))
-      {
-        continue;
-      }
-        
-      List<IPlant> plantsInAssembly = GetPlantsFromAssemblyFile(assemblyFileInfo);
+      List<IPlant> plantsInAssembly = GetPlantsFromAssembly(assembly);
       if (plantsInAssembly != null && plantsInAssembly.Count > 0)
       {
         result.AddRange(plantsInAssembly);
@@ -149,17 +120,50 @@ public class Gardenbed : IGardenbed
     return result;
   }
 
-  private List<IPlant> GetPlantsFromAssemblyFile(FileInfo assemblyFileInfo)
+  /// <summary>
+  /// Plants are the project references of the host executable: its dependency manifest marks them as "project" libraries.
+  /// </summary>
+  private IEnumerable<Assembly> GetReferencedProjectAssemblies()
+  {
+    Assembly hostAssembly = Assembly.GetEntryAssembly();
+    DependencyContext context = hostAssembly != null ? DependencyContext.Load(hostAssembly) : null;
+    if (context == null)
+    {
+      Log.For(this).Warning("Gardenbed. Dependency manifest is not available, no plants will be discovered");
+      yield break;
+    }
+
+    Assembly coreAssembly = typeof(IPlant).Assembly;
+    foreach (RuntimeLibrary library in context.RuntimeLibraries.Where(x => x.Type == "project"))
+    {
+      Assembly assembly;
+      try
+      {
+        assembly = Assembly.Load(new AssemblyName(library.Name));
+      }
+      catch (Exception ex)
+      {
+        Log.For(this).Error(ex, "Unable to load project assembly '{Assembly}'", library.Name);
+        continue;
+      }
+
+      if (assembly != coreAssembly && assembly != hostAssembly)
+      {
+        yield return assembly;
+      }
+    }
+  }
+
+  private List<IPlant> GetPlantsFromAssembly(Assembly assembly)
   {
     try
     {
-      Assembly assembly = Assembly.LoadFile(assemblyFileInfo.FullName);
-      var candidates = assembly.GetTypes().Where(x => typeof(IPlant).IsAssignableFrom(x));
-      if (!candidates.Any())
+      var candidates = assembly.GetTypes().Where(x => !x.IsAbstract && !x.IsInterface && typeof(IPlant).IsAssignableFrom(x)).ToList();
+      if (candidates.Count == 0)
       {
         return null;
       }
-      Log.For(this).Information("We have found a suitable types in '{AssemblyFile}' file", assemblyFileInfo.FullName);
+      Log.For(this).Information("We have found a suitable types in '{Assembly}' assembly", assembly.FullName);
       var result = new List<IPlant>();
       foreach (Type candidate in candidates)
       {
@@ -178,7 +182,7 @@ public class Gardenbed : IGardenbed
     }
     catch (Exception ex)
     {
-      Log.For(this).Error(ex, "Unable to analyze file '{AssemblyFile}' for plants", assemblyFileInfo.FullName);
+      Log.For(this).Error(ex, "Unable to analyze assembly '{Assembly}' for plants", assembly.FullName);
       return null;
     }
   }

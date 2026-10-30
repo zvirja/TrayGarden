@@ -5,7 +5,7 @@
   <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />
   <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
   <Project Path="TrayGarden/TrayGarden.csproj" />
-  <Project Path="TrayGarden.Publish/TrayGarden.Publish.csproj" />
+  <Project Path="TrayGarden.Host/TrayGarden.Host.csproj" />
   <Project Path="UngoogledChromiumUpdaterPlant/UngoogledChromiumUpdaterPlant.csproj" />
   <Project Path="WindowsLangHotKeysSetter/WindowsLangHotKeysSetter.csproj" />
   <Project Path="../build/_build.csproj">

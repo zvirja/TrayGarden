@@ -16,7 +16,7 @@ class Build : FalloutBuild
     [Solution]
     readonly Solution Solution;
 
-    const string PublishProjectName = "TrayGarden.Publish";
+    const string PublishProjectName = "TrayGarden.Host";
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath ArtifactsDirectory => RootDirectory / ".artifacts";
