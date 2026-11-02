@@ -23,9 +23,7 @@ public class PlantConfiguration : IUserConfiguration
 
   public IIntUserSetting DeadlineSeconds { get; private set; }
 
-  public IBoolUserSetting AllowBranchWrites { get; private set; }
-
-  public IEnumerable<IUserSettingBase> RestartingSettings => [Port, BindAddress, AllowedRoots, GitPath, DeadlineSeconds, AllowBranchWrites];
+  public IEnumerable<IUserSettingBase> RestartingSettings => [Port, BindAddress, AllowedRoots, GitPath, DeadlineSeconds];
 
   public string[] ResolveAllowedRoots()
   {
@@ -60,11 +58,6 @@ public class PlantConfiguration : IUserConfiguration
       "Request deadline (seconds)",
       20,
       "Maximum time per request, from 1 to 120 seconds. Increase this for folders with many or large repositories, or for fetches over a slow link.");
-    AllowBranchWrites = personalSettingsSteward.DeclareBoolSetting(
-      "AllowBranchWrites",
-      "Allow branch changes",
-      false,
-      "Lets the dashboard add worktrees and create or delete local and remote branches. Without it such requests are refused. Changing it restarts a running agent.");
     DisplayName = personalSettingsSteward.DeclareStringSetting(
       "DisplayName",
       "Display name",

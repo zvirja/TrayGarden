@@ -132,7 +132,6 @@ public sealed class AgentController : IIsEnabledObserver,
         AllowedRoots = config.ResolveAllowedRoots(),
         CredentialFile = AgentCertificate.CredentialFile,
         GitPath = string.IsNullOrWhiteSpace(config.GitPath.Value) ? null : config.GitPath.Value.Trim(),
-        AllowBranchWrites = config.AllowBranchWrites.Value,
         Deadline = TimeSpan.FromSeconds(config.DeadlineSeconds.Value)
       });
 
