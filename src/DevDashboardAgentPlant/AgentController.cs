@@ -77,7 +77,8 @@ public sealed class AgentController : IIsEnabledObserver,
 
   public void Start()
   {
-    Application.Current.Exit += (_, _) => ApplyAsync(forceStop: true).GetAwaiter().GetResult();
+    // Exit is raised after the dispatcher stops pumping, so blocking on awaits that capture the UI context would hang the process.
+    Application.Current.Exit += (_, _) => Task.Run(() => ApplyAsync(forceStop: true)).GetAwaiter().GetResult();
     foreach (var setting in PlantConfiguration.Instance.RestartingSettings)
     {
       setting.ValueChanged += (_, _) => _ = ApplyAsync(restart: true);
