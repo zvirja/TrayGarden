@@ -1,6 +1,6 @@
 @echo off
 call "%~dp0build.cmd" Publish --configuration Release %*
-if errorlevel 1 (
+if %errorlevel% neq 0 (
   pause
   exit /b 1
 )
