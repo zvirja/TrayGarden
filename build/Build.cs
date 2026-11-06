@@ -32,10 +32,7 @@ class Build : FalloutBuild
     Target Restore => _ => _
         .Executes(() =>
         {
-            DotNetRestore(s => s
-                .SetProjectFile(Solution)
-                .EnableForce()
-                .EnableNoCache());
+            DotNetRestore(s => s.SetProjectFile(Solution));
         });
 
     Target Compile => _ => _

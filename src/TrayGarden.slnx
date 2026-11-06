@@ -1,13 +1,11 @@
 ﻿<Solution>
   <Project Path="MicrosoftTodoTrayPlant/MicrosoftTodoTrayPlant.csproj" />
   <Project Path="CluedInAuthTokenPlant/CluedInAuthTokenPlant.csproj" />
-  <Project Path="DevDashboardAgentPlant/DevDashboardAgentPlant.csproj" />
   <Project Path="SmallApplicationLauncher/SmallApplicationLauncher.csproj" />
   <Project Path="ToggleMainWindowShortcut/ToggleMainWindowShortcut.csproj" />
   <Project Path="TrayGarden/TrayGarden.csproj" />
   <Project Path="TrayGarden.Host/TrayGarden.Host.csproj" />
   <Project Path="UngoogledChromiumUpdaterPlant/UngoogledChromiumUpdaterPlant.csproj" />
-  <Project Path="DevDashboardPlant/DevDashboardPlant.csproj" />
   <Project Path="WindowsLangHotKeysSetter/WindowsLangHotKeysSetter.csproj" />
   <Project Path="../build/_build.csproj">
     <Build Project="false" />

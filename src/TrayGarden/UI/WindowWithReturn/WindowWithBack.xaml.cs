@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Windows;
+using System.Windows.Interop;
+using System.Windows.Threading;
 
 using JetBrains.Annotations;
 
@@ -114,9 +117,34 @@ public partial class WindowWithBack : Window, IVMtoVMappingsSource, IWindowWithB
     viewModel.SizePozitionProvider = SizePozitionProvider;
     viewModel.PrepareToShow();
     SetSizeAndPos(viewModel);
+    bool hwndExisted = new WindowInteropHelper(this).Handle != IntPtr.Zero;
     Show();
     WindowState = StateToRestore;
+    Log.For(this).Information("Shown. HwndExisted={HwndExisted} IsActive={IsActive} ForegroundIsSelf={ForegroundIsSelf}", hwndExisted, IsActive, IsForegroundSelf());
+    Dispatcher.BeginInvoke(
+      DispatcherPriority.Background,
+      () => Log.For(this).Information("Shown (idle). IsActive={IsActive} ForegroundIsSelf={ForegroundIsSelf}", IsActive, IsForegroundSelf()));
   }
+
+  protected override void OnActivated(EventArgs e)
+  {
+    Log.For(this).Information("Activated. ForegroundIsSelf={ForegroundIsSelf}", IsForegroundSelf());
+    base.OnActivated(e);
+  }
+
+  protected override void OnDeactivated(EventArgs e)
+  {
+    Log.For(this).Information("Deactivated. Foreground=0x{Foreground:X} IsVisible={IsVisible}", GetForegroundWindow().ToInt64(), IsVisible);
+    base.OnDeactivated(e);
+  }
+
+  private bool IsForegroundSelf()
+  {
+    return GetForegroundWindow() == new WindowInteropHelper(this).Handle;
+  }
+
+  [DllImport("user32.dll")]
+  private static extern IntPtr GetForegroundWindow();
 
   private void CleanupAndDisposeDataContext()
   {
